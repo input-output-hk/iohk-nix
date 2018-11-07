@@ -2,11 +2,14 @@
 , forceDontCheck
 , enableProfiling
 , enablePhaseMetrics
+, enableHaddockHydra
 , enableBenchmarks
+, enableSplitCheck
 , fasterBuild
 , enableDebugging
 , filter
 , requiredOverlay
+, pkgsGenerated
 }:
 
 with pkgs.lib;
@@ -16,23 +19,27 @@ let
   ghc = pkgs.haskell.compiler.ghc822;
 
   # This will yield a set of haskell packages, based on the given compiler.
-  kgsBase = ((import ../pkgs { inherit pkgs; }).override {
+  pkgsBase = ((import pkgsGenerated { inherit pkgs; }).override {
     inherit ghc;
   });
 
   # Overlay logic for *haskell* packages.
-  requiredOverlay    = import requiredOverlay             { inherit pkgs enableProfiling; };
-  benchmarkOverlay   = import ./overlays/benchmark.nix    { inherit pkgs filter; };
-  debugOverlay       = import ./overlays/debug.nix        { inherit pkgs; };
-  fasterBuildOverlay = import ./overlays/faster-build.nix { inherit pkgs filter; };
-  dontCheckOverlay   = import ./overlays/dont-check.nix   { inherit pkgs; };
-  metricOverlay      = import ./overlays/metric.nix       { inherit pkgs; };
+  requiredOverlay'    = import requiredOverlay              { inherit pkgs enableProfiling; };
+  benchmarkOverlay    = import ./overlays/benchmark.nix     { inherit pkgs filter; };
+  debugOverlay        = import ./overlays/debug.nix         { inherit pkgs; };
+  fasterBuildOverlay  = import ./overlays/faster-build.nix  { inherit pkgs filter; };
+  dontCheckOverlay    = import ./overlays/dont-check.nix    { inherit pkgs; };
+  metricOverlay       = import ./overlays/metric.nix        { inherit pkgs; };
+  haddockHydraOverlay = import ./overlays/haddock-hydra.nix { inherit pkgs filter; };
+  splitCheckOverlay   = import ./overlays/split-check.nix   { inherit pkgs filter; };
 
-  activeOverlays = [ requiredOverlay ]
+  activeOverlays = [ requiredOverlay' ]
       ++ optional enablePhaseMetrics metricOverlay
       ++ optional enableBenchmarks benchmarkOverlay
       ++ optional enableDebugging debugOverlay
       ++ optional forceDontCheck dontCheckOverlay
+      ++ optional forceDontCheck splitCheckOverlay
+      ++ optional forceDontCheck haddockHydraOverlay
       ++ optional fasterBuild fasterBuildOverlay;
 
 in

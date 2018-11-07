@@ -3,7 +3,7 @@
 
 { pkgs, filter }:
 
-with import ../../lib.nix;
+with pkgs.lib;
 
 self: super: {
   mkDerivation = args: super.mkDerivation (args // optionalAttrs (filter args.pname) {

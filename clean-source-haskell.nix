@@ -1,5 +1,6 @@
-src:
-  if (builtins.typeOf src) == "path"
+pkgs: src:
+  let lib = pkgs.lib;
+  in if (builtins.typeOf src) == "path"
     then lib.cleanSourceWith {
       filter = with pkgs.stdenv;
         name: type: let baseName = baseNameOf (toString name); in ! (

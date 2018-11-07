@@ -1,6 +1,9 @@
-{ pkgs, filter }:
+let
+  isBenchmark = args: !((args.isExecutable or false) || (args.isLibrary or true));
 
-with import ../../lib.nix;
+in { pkgs, filter }:
+
+with pkgs.lib;
 
 self: super: {
   mkDerivation = args: super.mkDerivation (args // optionalAttrs (filter args.pname) {
