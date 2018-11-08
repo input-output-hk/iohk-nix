@@ -8,9 +8,9 @@ self: super: {
       postInstall = ''
         ${args.postInstall or ""}
         mkdir -pv $doc/nix-support
-        tar -czvf $doc/${args.pname}-docs.tar.gz -C $doc/share/doc/html .
-        echo "file binary-dist $doc/${args.pname}-docs.tar.gz" >> $doc/nix-support/hydra-build-products
-        echo "report ${args.pname}-docs.html $doc/share/doc/html index.html" >> $doc/nix-support/hydra-build-products
+        tar -czvf $doc/${args.pname}-${args.version}-docs.tar.gz -C $doc/share/doc/${args.pname}-${args.version}/html .
+        echo "file binary-dist $doc/${args.pname}-${args.version}-docs.tar.gz" >> $doc/nix-support/hydra-build-products
+        echo "report ${args.pname}-${args.version}-docs.html $doc/share/doc/${args.pname}-${args.version}/html index.html" >> $doc/nix-support/hydra-build-products
       '';
     });
   }
