@@ -1,9 +1,8 @@
-pkgs: src:
-  let lib = pkgs.lib;
-  in if (builtins.typeOf src) == "path"
+{ lib }: src:
+  if (builtins.typeOf src) == "path"
     then lib.cleanSourceWith {
-      filter = with pkgs.stdenv;
-        name: type: let baseName = baseNameOf (toString name); in ! (
+      filter = name: type:
+        let baseName = baseNameOf (toString name); in ! (
           # Filter out cabal build products.
           baseName == "dist" || baseName == "dist-newstyle" ||
           baseName == "cabal.project.local" ||
