@@ -10,13 +10,12 @@
 , filter
 , requiredOverlay
 , pkgsGenerated
+, ghc ? pkgs.haskell.compiler.ghc822
 }:
 
 with pkgs.lib;
 
 let
-  # the GHC we are using
-  ghc = pkgs.haskell.compiler.ghc822;
 
   # This will yield a set of haskell packages, based on the given compiler.
   pkgsBase = ((import pkgsGenerated { inherit pkgs; }).override {
