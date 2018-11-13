@@ -37,8 +37,8 @@ let
       ++ optional enableBenchmarks benchmarkOverlay
       ++ optional enableDebugging debugOverlay
       ++ optional forceDontCheck dontCheckOverlay
-      ++ optional forceDontCheck splitCheckOverlay
-      ++ optional forceDontCheck haddockHydraOverlay
+      ++ optional enableSplitCheck splitCheckOverlay
+      ++ optional enableHaddockHydra haddockHydraOverlay
       ++ optional fasterBuild fasterBuildOverlay;
 
 in
