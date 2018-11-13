@@ -23,8 +23,9 @@ let
   });
 
   # Overlay logic for *haskell* packages.
-  requiredOverlay'    = import requiredOverlay              { inherit pkgs enableProfiling; };
+  requiredOverlay'    = import requiredOverlay              { inherit pkgs ; };
   benchmarkOverlay    = import ./overlays/benchmark.nix     { inherit pkgs filter; };
+  profilingOverlay    = import ./overlays/profile.nix       { inherit pkgs filter; };
   debugOverlay        = import ./overlays/debug.nix         { inherit pkgs; };
   fasterBuildOverlay  = import ./overlays/faster-build.nix  { inherit pkgs filter; };
   dontCheckOverlay    = import ./overlays/dont-check.nix    { inherit pkgs; };
@@ -33,6 +34,7 @@ let
   splitCheckOverlay   = import ./overlays/split-check.nix   { inherit pkgs filter; };
 
   activeOverlays = [ requiredOverlay' ]
+      ++ optional enableProfiling profilingOverlay
       ++ optional enablePhaseMetrics metricOverlay
       ++ optional enableBenchmarks benchmarkOverlay
       ++ optional enableDebugging debugOverlay
