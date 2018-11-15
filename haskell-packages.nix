@@ -11,6 +11,7 @@
 , requiredOverlay
 , customOverlays ? []
 , pkgsGenerated
+, filterOverrides ? {}
 , ghc ? pkgs.haskell.compiler.ghc822
 }:
 
@@ -25,14 +26,34 @@ let
 
   # Overlay logic for *haskell* packages.
   requiredOverlay'    = import requiredOverlay              { inherit pkgs ; };
-  benchmarkOverlay    = import ./overlays/benchmark.nix     { inherit pkgs filter; };
-  profilingOverlay    = import ./overlays/profile.nix       { inherit pkgs filter; };
+  benchmarkOverlay    = import ./overlays/benchmark.nix     {
+    inherit pkgs;
+    filter = if builtins.hasAttr "benchmark" filterOverrides
+      then filterOverrides.benchmark else filter;
+  };
+  profilingOverlay    = import ./overlays/profile.nix       {
+    inherit pkgs;
+    filter = if builtins.hasAttr "profiling" filterOverrides
+      then filterOverrides.profiling else filter;
+  };
   debugOverlay        = import ./overlays/debug.nix         { inherit pkgs; };
-  fasterBuildOverlay  = import ./overlays/faster-build.nix  { inherit pkgs filter; };
+  fasterBuildOverlay  = import ./overlays/faster-build.nix  {
+    inherit pkgs;
+    filter = if builtins.hasAttr "fasterBuild" filterOverrides
+      then filterOverrides.fasterBuild else filter;
+  };
   dontCheckOverlay    = import ./overlays/dont-check.nix    { inherit pkgs; };
   metricOverlay       = import ./overlays/metric.nix        { inherit pkgs; };
-  haddockHydraOverlay = import ./overlays/haddock-hydra.nix { inherit pkgs filter; };
-  splitCheckOverlay   = import ./overlays/split-check.nix   { inherit pkgs filter; };
+  haddockHydraOverlay = import ./overlays/haddock-hydra.nix {
+    inherit pkgs;
+    filter = if builtins.hasAttr "haddock" filterOverrides
+      then filterOverrides.haddock else filter;
+  };
+  splitCheckOverlay   = import ./overlays/split-check.nix   {
+    inherit pkgs;
+    filter = if builtins.hasAttr "splitCheck" filterOverrides
+      then filterOverrides.splitCheck else filter;
+  };
 
   activeOverlays = [ requiredOverlay' ]
       ++ optional enableProfiling profilingOverlay

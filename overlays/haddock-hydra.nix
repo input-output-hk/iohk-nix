@@ -4,8 +4,8 @@ with pkgs.lib;
 
 self: super: {
     mkDerivation = args: super.mkDerivation (args // optionalAttrs (filter args.pname) {
-      doHaddock = true;
-      postInstall = ''
+      doHaddock = args.isLibrary or false;
+      postInstall = optionalString (args.isLibrary or false) ''
         ${args.postInstall or ""}
         mkdir -pv $doc/nix-support
         tar -czvf $doc/${args.pname}-${args.version}-docs.tar.gz -C $doc/share/doc/${args.pname}-${args.version}/html .
