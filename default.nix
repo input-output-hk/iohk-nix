@@ -34,8 +34,8 @@ let
   extraLib = self: super: {
     lib = super.lib.extend (lib:_: {
       inherit (commonLib) cleanSourceHaskell;
-      getPackages = import ./get-packages.nix { inherit lib; };
-      commitIdFromGitRepo = import ./commit-id.nix { inherit lib; };
+      getPackages = commonLib.pkgs.callPackage ./get-packages.nix {};
+      commitIdFromGitRepo = commonLib.pkgs.callPackage ./commit-id.nix {};
     });
   };
 
