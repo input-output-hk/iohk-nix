@@ -1,4 +1,4 @@
-pkgs: src:
+{ pkgs }: src:
   let lib = pkgs.lib;
   in if (builtins.typeOf src) == "path"
     then lib.cleanSourceWith {
