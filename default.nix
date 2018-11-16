@@ -32,7 +32,7 @@ let
 
   # Overlay which adds more functions to pkgs.lib
   extraLib = self: super: {
-    lib = super.lib.extend (lib:_: {
+    lib = super.lib.extend (lib: _: {
       inherit (commonLib) cleanSourceHaskell;
       getPackages = commonLib.pkgs.callPackage ./get-packages.nix {};
       commitIdFromGitRepo = commonLib.pkgs.callPackage ./commit-id.nix {};
