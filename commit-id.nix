@@ -45,7 +45,7 @@ let
       readCommitFromRefFile (gitDir + "/" + commonDir) refFile;
 
   # .git may be a file containing a pointer to the worktree
-  readCommitFromWorkTreeFile = path: 
+  readCommitFromWorkTreeFile = path:
     let
       fileContent = readFile path;
       matchGitDir = match ("^gitdir:[ \t]*([^\n]*).*") fileContent;
