@@ -38,6 +38,6 @@ let
   };
 
 in {
-  inherit tests;
-  inherit (commonLib) pkgs jemallocOverlay haskellPackages fetchNixpkgs maybeEnv cleanSourceHaskell getPkgs nixpkgs commitIdFromGitRepo getPackages;
+  inherit tests jemallocOverlay;
+  inherit (commonLib) pkgs haskellPackages fetchNixpkgs maybeEnv cleanSourceHaskell getPkgs nixpkgs commitIdFromGitRepo getPackages;
 }
