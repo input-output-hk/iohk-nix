@@ -36,7 +36,7 @@ let
       then filterOverrides.benchmark else filter;
   };
   profilingOverlay    = import ./overlays/profile.nix       {
-    inherit pkgs;
+    inherit pkgs enableProfiling;
     filter = if builtins.hasAttr "profiling" filterOverrides
       then filterOverrides.profiling else filter;
   };
@@ -60,7 +60,7 @@ let
   };
 
   activeOverlays = [ requiredOverlay' ]
-      ++ optional enableProfiling profilingOverlay
+      ++ [profilingOverlay]
       ++ optional enablePhaseMetrics metricOverlay
       ++ optional enableBenchmarks benchmarkOverlay
       ++ optional enableDebugging debugOverlay
