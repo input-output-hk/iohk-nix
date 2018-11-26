@@ -36,8 +36,11 @@ let
 
   tests = {
     hlint = ./tests/hlint.nix;
+    hlintScript = ./tests/hlint-script.nix;
     shellcheck = ./tests/shellcheck.nix;
+    shellcheckScript = ./tests/shellcheck-script.nix;
     stylishHaskell = ./tests/stylish-haskell.nix;
+    stylishHaskellScript = ./tests/stylish-haskell-script.nix;
   };
 
 in {
