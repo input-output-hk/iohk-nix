@@ -19,7 +19,10 @@ let
     fetchNixpkgs = import ./fetch-nixpkgs.nix;
     # equivalent of <nixpkgs> but pinned instead of system
     nixpkgs = fetchNixpkgs nixpkgsJson;
-    getPkgs = { args ? {}, extraOverlays ? [] }: import (fetchNixpkgs nixpkgsJson) ({
+    getPkgs = let
+      system' = system;
+      config' = config;
+    in { args ? {}, extraOverlays ? [], system ? system', config ? config' }: import (fetchNixpkgs nixpkgsJson) ({
       overlays = [ jemallocOverlay ] ++ extraOverlays;
       inherit config system;
     } // args);
