@@ -33,6 +33,15 @@ let
     haskellPackages = import ./haskell-packages.nix;
     commitIdFromGitRepo = pkgs.callPackage ./commit-id.nix {};
   };
+  nix-tools = rec {
+    # Programs for generating nix haskell package sets from cabal and
+    # stack.yaml files.
+    package = commonLib.pkgs.callPackage ./nix-tools.nix {};
+    # Script to invoke nix-tools stack-to-nix on a repo.
+    regeneratePackages =  commonLib.pkgs.callPackage ./nix-tools-regenerate.nix {
+      nix-tools = package;
+    };
+  };
 
   tests = {
     hlint = ./tests/hlint.nix;
@@ -41,6 +50,6 @@ let
   };
 
 in {
-  inherit tests jemallocOverlay;
+  inherit tests nix-tools jemallocOverlay;
   inherit (commonLib) pkgs haskellPackages fetchNixpkgs maybeEnv cleanSourceHaskell getPkgs nixpkgs commitIdFromGitRepo getPackages;
 }
