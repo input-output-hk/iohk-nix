@@ -44,6 +44,7 @@ let
     haskellPackages = import ./haskell-packages.nix;
     commitIdFromGitRepo = pkgs.callPackage ./commit-id.nix {};
   };
+
   nix-tools = rec {
     # Programs for generating nix haskell package sets from cabal and
     # stack.yaml files.
@@ -51,8 +52,14 @@ let
       pkgs = commonLib.pkgsDefault;
     };
     # Script to invoke nix-tools stack-to-nix on a repo.
-    regeneratePackages =  commonLib.pkgsDefault.callPackage ./nix-tools-regenerate.nix {
+    regeneratePackages = commonLib.pkgsDefault.callPackage ./nix-tools-regenerate.nix {
       nix-tools = package;
+    };
+  };
+
+  stack2nix = rec {
+    regeneratePackages = {hackageSnapshot}: commonLib.pkgsDefault.callPackage ./stack2nix-regenerate.nix {
+      inherit hackageSnapshot;
     };
   };
 
@@ -63,6 +70,6 @@ let
   };
 
 in {
-  inherit tests nix-tools jemallocOverlay;
+  inherit tests nix-tools stack2nix jemallocOverlay;
   inherit (commonLib) pkgs haskellPackages fetchNixpkgs maybeEnv cleanSourceHaskell getPkgs nixpkgs commitIdFromGitRepo getPackages;
 }
