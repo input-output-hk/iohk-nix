@@ -1,10 +1,11 @@
 # A script for generating the nix haskell package set based on stackage,
 # using the common convention for repo layout.
 
-{ lib, stdenv, path, writeScript, nix-tools, coreutils, nix, nix-prefetch-git }:
+{ lib, stdenv, path, writeScript, nix-tools, coreutils, gawk
+, nix, nix-prefetch-scripts }:
 
 let
-  deps = [ nix-tools coreutils nix nix-prefetch-git ];
+  deps = [ nix-tools coreutils gawk nix nix-prefetch-scripts ];
 
 in
   writeScript "nix-tools-regenerate" ''
@@ -21,6 +22,8 @@ in
     export NIX_PATH=nixpkgs=${path}
 
     dest=nix/.stack-pkgs.nix
+
+    mkdir -p "$(dirname "$dest")"
 
     function cleanup {
       rm -f "$dest.new"
