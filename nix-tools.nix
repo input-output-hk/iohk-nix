@@ -6,8 +6,8 @@ let
   src = pkgs.fetchFromGitHub {
     owner = "angerman";
     repo = "nix-tools";
-    rev = "d4e4b74d539fee8e580e1531637db67053b62676";
-    sha256 = "1y7rm6ds14hii97q34h1mdjfhk0mx2jxiyd295vsnncf3lvcrfn6";
+    rev = "11186ed3b8109b98b38bcd0e33a9530e59868510";
+    sha256 = "1s26nk24iqzbmzixwv7sgm982kbzqgprn5snrhzzxya2zvyhzp4i";
   };
   nix-tools = import src { inherit pkgs; };
 in
