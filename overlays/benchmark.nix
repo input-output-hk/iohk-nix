@@ -1,5 +1,10 @@
 let
-  isBenchmark = args: !((args.isExecutable or false) || (args.isLibrary or true));
+  # The Haskell generic builder falls back to checking 'isExecutable' if 'isLibrary' 
+  # is not provided. Tools like cabal2nix therefore often don't provide 'isLibrary', so
+  # we need to mimic that logic here.
+  isExecutable = args: args.isExecutable or false;
+  isLibrary = args: args.isLibrary or (!(isExecutable args));
+  isBenchmark = args: !((isExecutable args) || (isLibrary args));
 
 in { pkgs, filter }:
 
