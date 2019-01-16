@@ -20,6 +20,7 @@ let
     fetchNixpkgs = import ./fetch-nixpkgs.nix;
     # equivalent of <nixpkgs> but pinned instead of system
     nixpkgs = fetchNixpkgs nixpkgsJson;
+    pkgsDefault = import (fetchNixpkgs nixpkgsJsonDefault) {};
     getPkgs = let
       system' = system;
       config' = config;
@@ -38,9 +39,11 @@ let
   nix-tools = rec {
     # Programs for generating nix haskell package sets from cabal and
     # stack.yaml files.
-    package = commonLib.pkgs.callPackage ./nix-tools.nix {};
+    package = commonLib.pkgsDefault.callPackage ./nix-tools.nix {
+      pkgs = commonLib.pkgsDefault;
+    };
     # Script to invoke nix-tools stack-to-nix on a repo.
-    regeneratePackages =  commonLib.pkgs.callPackage ./nix-tools-regenerate.nix {
+    regeneratePackages =  commonLib.pkgsDefault.callPackage ./nix-tools-regenerate.nix {
       nix-tools = package;
     };
   };
