@@ -1,5 +1,6 @@
 { config ? {}
 , system ? builtins.currentSystem
+, crossSystem ? null
 # Set application for getting a specific application nixkgs-src.json
 , application ? ""
 # Override nixpkgs-src.json to a file in your repo
@@ -22,9 +23,10 @@ let
     getPkgs = let
       system' = system;
       config' = config;
-    in { args ? {}, extraOverlays ? [], system ? system', config ? config' }: import (fetchNixpkgs nixpkgsJson) ({
+      crossSystem' = crossSystem;
+    in { args ? {}, extraOverlays ? [], system ? system', config ? config', crossSystem ? crossSystem' }: import (fetchNixpkgs nixpkgsJson) ({
       overlays = [ jemallocOverlay ] ++ extraOverlays;
-      inherit config system;
+      inherit config system crossSystem;
     } // args);
     pkgs = getPkgs {};
     getPackages = pkgs.callPackage ./get-packages.nix {};
