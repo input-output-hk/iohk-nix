@@ -1,4 +1,5 @@
-{ config ? {}
+{ globalConfig ? import ./config.nix
+, config ? {}
 , system ? builtins.currentSystem
 , crossSystem ? null
 # Set application for getting a specific application nixkgs-src.json
@@ -23,12 +24,19 @@ let
     pkgsDefault = import (fetchNixpkgs nixpkgsJsonDefault) {};
     getPkgs = let
       system' = system;
+      globalConfig' = globalConfig;
       config' = config;
       crossSystem' = crossSystem;
-    in { args ? {}, extraOverlays ? [], system ? system', config ? config', crossSystem ? crossSystem' }: import (fetchNixpkgs nixpkgsJson) ({
-      overlays = [ jemallocOverlay ] ++ extraOverlays;
-      inherit config system crossSystem;
-    } // args);
+    in { args ? {}
+       , extraOverlays ? []
+       , system ? system'
+       , globalConfig ? globalConfig'
+       , config ? config'
+       , crossSystem ? crossSystem' }: import (fetchNixpkgs nixpkgsJson) ({
+          overlays = [ jemallocOverlay ] ++ extraOverlays;
+          config = globalConfig // config;
+          inherit system crossSystem;
+          } // args);
     pkgs = getPkgs {};
     getPackages = pkgs.callPackage ./get-packages.nix {};
     maybeEnv = import ./maybe-env.nix;
