@@ -27,10 +27,11 @@
          ++ lib.optional (builtins.compareVersions drv.version "8.6" == -1) ./patches/ghc/lowercase-8.4.2.patch
          ++ lib.optional (builtins.compareVersions drv.version "8.6" == -1) ./patches/ghc/cabal-exe-ext-8.4.2.patch
          ++ lib.optional (builtins.compareVersions drv.version "8.6" == -1) ./patches/ghc/ghc-8.4.3-Cabal2201-SMP-test-fix.patch
+         ++ lib.optional (builtins.compareVersions drv.version "8.6" == -1) ./patches/ghc/outputtable-assert-8.4.patch
+         ++ lib.optional (builtins.compareVersions drv.version "8.5" ==  1) ./patches/ghc/outputtable-assert-8.6.patch
          ++ [
           ./patches/ghc/lowercase-8.6.patch
           ./patches/ghc/dll-loader-8.4.2.patch
-          ./patches/ghc/outputtable-assert-8.4.2.patch
           ./patches/ghc/0001-Stop-the-linker-panic.patch
           ./patches/ghc/ghc-8.4.3-Cabal2201-no-hackage-tests.patch
           ./patches/ghc/ghc-8.4.3-Cabal2201-allow-test-wrapper.patch
