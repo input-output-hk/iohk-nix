@@ -55,6 +55,11 @@ let
     regeneratePackages = commonLib.pkgsDefault.callPackage ./nix-tools-regenerate.nix {
       nix-tools = package;
     };
+    # default and release templates that abstract
+    # over the details for CI.
+    default-nix = import ./nix-tools-default.nix (commonLib // { inherit nix-tools; });
+    release-nix = import ./nix-tools-release.nix (commonLib // { inherit nix-tools; });
+    iohk-module = import ./nix-tools-iohk-module.nix commonLib;
   };
 
   stack2nix = rec {

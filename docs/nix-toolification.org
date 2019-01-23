@@ -126,8 +126,8 @@ in rec {
   haskell = import (overrideWith "haskell"
                     (pkgs.fetchFromGitHub { owner  = "angerman";
                                             repo   = "haskell.nix";
-                                            rev    = "3a6c2f823d0db6ac6730dcf78076fd5d904fba85";
-                                            sha256 = "1cv4kw2mfk8d3ck7z5vf8380489z5128638jk919am4iqq5g8k5w";
+                                            rev    = "ed456599a3a52592ffede765e9d12a953b77d606";
+                                            sha256 = "0w7dg50y30zm7k5ilw0mhkggzhmzpb7x8cl2b82iizvscx6xffzc";
                                             name   = "haskell-lib-source"; }))
                    hackage;
 
