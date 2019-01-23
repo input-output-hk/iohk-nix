@@ -29,6 +29,9 @@
          ++ lib.optional (builtins.compareVersions drv.version "8.6" == -1) ./patches/ghc/ghc-8.4.3-Cabal2201-SMP-test-fix.patch
          ++ lib.optional (builtins.compareVersions drv.version "8.6" == -1) ./patches/ghc/outputtable-assert-8.4.patch
          ++ lib.optional (builtins.compareVersions drv.version "8.5" ==  1) ./patches/ghc/outputtable-assert-8.6.patch
+         # this might be fixed in 8.6.4 (if a release is cut), or 8.8
+         ++ lib.optional (builtins.compareVersions drv.version "8.5" ==  1
+                       && builtins.compareVersions drv.version "8.8" == -1) ./patches/ghc/MR148--T16104-GhcPlugins.patch
          ++ [
           ./patches/ghc/lowercase-8.6.patch
           ./patches/ghc/dll-loader-8.4.2.patch
@@ -37,6 +40,7 @@
           ./patches/ghc/ghc-8.4.3-Cabal2201-allow-test-wrapper.patch
           ./patches/ghc/ghc-8.4.3-Cabal2201-response-file-support.patch
           ./patches/ghc/MR95--ghc-pkg-deadlock-fix.patch
+          ./patches/ghc/MR196--ghc-pkg-shut-up.patch
          ];
         postPatch = (drv.postPath or "") + ''
         autoreconf
