@@ -12,7 +12,6 @@
 , customOverlays ? []
 , pkgsGenerated
 , filterOverrides ? {}
-, ghc ? pkgs.haskell.compiler.ghc822
 }:
 
 with pkgs.lib;
@@ -21,12 +20,9 @@ let
 
   # This will yield a set of haskell packages, based on the given compiler.
   # if pkgsGenerated is already evaluated, we use it, otherwise we callPackage
-  pkgsBase = let
-    attrBool = builtins.isAttrs pkgsGenerated;
-    pkgsGen = if attrBool then pkgsGenerated else (import pkgsGenerated { inherit pkgs; });
-  in pkgsGen.override {
-    inherit ghc;
-  };
+  pkgsBase = 
+    let attrBool = builtins.isAttrs pkgsGenerated; 
+    in if attrBool then pkgsGenerated else (import pkgsGenerated { inherit pkgs; });
 
   # Overlay logic for *haskell* packages.
   requiredOverlay'    = import requiredOverlay              { inherit pkgs ; };
