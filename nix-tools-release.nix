@@ -49,7 +49,7 @@ let
         (lib.mapAttrs (_: (lib.mapAttrs (_: (lib.mapAttrs' (n: v: lib.nameValuePair (lib.systems.examples.mingwW64.config + "-" + n) v)))))
           mapped-pkgs-mingw32);
 
-in fix (self: (builtins.removeAttrs packageSet ["nix-tools"]) // mapped-pkgs-all
+in fix (self: (builtins.removeAttrs packageSet ["nix-tools" "_lib"]) // mapped-pkgs-all
 // {
 #  forceNewEval = pkgs.writeText "forceNewEval" chain.rev;
 
