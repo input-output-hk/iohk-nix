@@ -2,7 +2,6 @@ commonLib: # the iohk-nix commonLib
 { packages ? []
 , required-name ? "required"
 , required-targets ? (jobsets: [])
-, other-packages ? {}
 , config ? {}
 , package-set-path # usually import ./. {}
 }:
@@ -50,7 +49,7 @@ let
         (lib.mapAttrs (_: (lib.mapAttrs (_: (lib.mapAttrs' (n: v: lib.nameValuePair (lib.systems.examples.mingwW64.config + "-" + n) v)))))
           mapped-pkgs-mingw32);
 
-in fix (self: other-packages // mapped-pkgs-all
+in fix (self: (builtins.removeAttrs packageSet ["nix-tools"]) // mapped-pkgs-all
 // {
 #  forceNewEval = pkgs.writeText "forceNewEval" chain.rev;
 
