@@ -1,6 +1,7 @@
 commonLib: # the iohk-nix commonLib
 { packages ? []
 , required-name ? "required"
+, required-targets ? (jobsets: [])
 , other-packages ? {}
 , config ? {}
 , package-set-path # usually import ./. {}
@@ -55,11 +56,7 @@ in fix (self: other-packages // mapped-pkgs-all
 
   required = pkgs.lib.hydraJob (pkgs.releaseTools.aggregate {
     name = required-name;
-    constituents = with self;
-      [ # forceNewEval
-        mapped-pkgs-all
-        other-packages
-      ];
+    constituents = required-targets self;
   });
 
 })
