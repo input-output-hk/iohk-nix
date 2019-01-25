@@ -60,6 +60,7 @@ let
     default-nix = import ./nix-tools-default.nix (commonLib // { inherit nix-tools; });
     release-nix = import ./nix-tools-release.nix (commonLib // { inherit nix-tools; });
     iohk-module = import ./nix-tools-iohk-module.nix commonLib;
+    iohk-overlay = import ./nix-tools-iohk-overlay.nix commonLib;
   };
 
   stack2nix = rec {
