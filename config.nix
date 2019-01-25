@@ -39,6 +39,7 @@
           ./patches/ghc/ghc-8.4.3-Cabal2201-no-hackage-tests.patch
           ./patches/ghc/ghc-8.4.3-Cabal2201-allow-test-wrapper.patch
           ./patches/ghc/ghc-8.4.3-Cabal2201-response-file-support.patch
+          ./patches/ghc/ghc-8.6-Cabal-fix-datadir.patch
           ./patches/ghc/MR95--ghc-pkg-deadlock-fix.patch
           ./patches/ghc/MR196--ghc-pkg-shut-up.patch
          ];
