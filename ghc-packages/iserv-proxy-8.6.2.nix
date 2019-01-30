@@ -33,4 +33,4 @@
           };
         };
       };
-    } // rec { src = pkgs.fetchurl { url = http://releases.mobilehaskell.org/ghc-packages/iserv-proxy-8.6.2.tar.gz; sha256 = "1jg7klpz0518ppymxvsag9qwlczkymik7pz1lvyg5ml2lxh5nvgm"; }; }
+    } // rec { src = pkgs.fetchurl { url = http://releases.mobilehaskell.org/ghc-packages/iserv-proxy-8.6.2.tar.gz; sha256 = "1vadi0p5gydn15p2m723qmw17ivbcz3k0gik4975a23hmbfzxrcp"; }; }

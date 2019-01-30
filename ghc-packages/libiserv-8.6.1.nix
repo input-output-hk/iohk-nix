@@ -30,4 +30,4 @@
           ]) ++ (pkgs.lib).optional (!system.isWindows) (hsPkgs.unix);
         };
       };
-    } // rec { src = pkgs.fetchurl { url = http://releases.mobilehaskell.org/ghc-packages/libiserv-8.6.1.tar.gz; sha256 = "0lx3jnrn8bsfn1nxzwik9xqqnx09q3gwrylkhx7kgb2n23rzrabx"; }; }
+    } // rec { src = pkgs.fetchurl { url = http://releases.mobilehaskell.org/ghc-packages/libiserv-8.6.1.tar.gz; sha256 = "0g9b8bdw3fcw9yhl7nirzpby06600vg38ih9mr0793a0vbkf7j6q"; }; }

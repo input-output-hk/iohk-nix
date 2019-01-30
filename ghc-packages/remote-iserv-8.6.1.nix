@@ -19,4 +19,4 @@
         "remote-iserv" = { depends = [ (hsPkgs.base) (hsPkgs.libiserv) ]; };
         };
       };
-    } // rec { src = pkgs.fetchurl { url = http://releases.mobilehaskell.org/ghc-packages/remote-iserv-8.6.1.tar.gz; sha256 = "0k91ksqxpqjljsxy8m6aiy68v2gfv28jmr1i7xlvz5vmw8maj9x9"; }; }
+    } // rec { src = pkgs.fetchurl { url = http://releases.mobilehaskell.org/ghc-packages/remote-iserv-8.6.1.tar.gz; sha256 = "1xdl1cghq697s4ifp96zl3gcsq3h4vvldx4qqg5q1l4q9ail622h"; }; }
