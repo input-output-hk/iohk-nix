@@ -45,7 +45,7 @@ let
   # thus someone on macOS will be able to build the .x86_64-darwin cross expressions, while
   # someone on linux will be able to build the .x86_64-linux ones.  As hydra is running on
   # linux, this should also only present CI with the .x86_64-linux targets.
-  mapped-pkgs-mingw32 = mapTestOnCross lib.systems.examples.mingwW64 (nix-tools-pkgs builtins.currentSystem);
+  mapped-pkgs-mingw32 = mapTestOnCross lib.systems.examples.mingwW64 (nix-tools-pkgs [ builtins.currentSystem ]);
 
   mapped-pkgs-all
     = lib.recursiveUpdate
