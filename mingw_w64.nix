@@ -22,6 +22,7 @@ let
     "-opti" "127.0.0.1" "-opti" "$PORT"
     # TODO: this should be automatically injected based on the extraLibrary.
     "-L${mingw_w64_pthreads}/lib"
+    "-L${mingw_w64_pthreads}/bin"
     "-L${gmp}/lib"
   ];
   preBuild = ''

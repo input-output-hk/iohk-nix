@@ -33,6 +33,28 @@ let
         } // { doCrossCheck = true; };
 in {
   packages = {
+    # This needs true, otherwise we miss most of the interesting
+    # modules.
+    ghci.flags.ghci = true;
+
+    # this needs to be true to expose module
+    #  Message.Remote
+    # as needed by libiserv.
+    libiserv.flags.network = true;
+
+    # libiserv has a bit too restrictive boundaries.
+    # as such it won't build with newer network libraries.
+    # to avoid that we use doExactConfig, which forces cabal
+    # to forgoe its solver and just take the libraries it's
+    # provided with.
+    ghci.components.library.doExactConfig = true;
+    libiserv.components.library.doExactConfig = true;
+    # same for iserv-proxy
+    iserv-proxy.components.exes.iserv-proxy.doExactConfig = true;
+    remote-iserv.components.exes.remote-iserv.doExactConfig = true;
+
+    #ghci.components.library.doExactConfig = true;
+
     # clock hasn't had a release since 2016(!) that is for three(3) years
     # now.
     clock.patches              = [ ({ version, revision }: (if version == "0.7.2" then ./patches/clock-0.7.2.patch else null)) ];
@@ -46,5 +68,6 @@ in {
   } // lib.optionalAttrs nixpkgs.stdenv.hostPlatform.isWindows {
     hedgehog               = withTH;
     cardano-crypto-wrapper = withTH;
+    cardano-chain          = withTH;
   };
 }
