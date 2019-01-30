@@ -58,7 +58,7 @@ in fix (self: (builtins.removeAttrs packageSet ["nix-tools" "_lib"]) // mapped-p
   forceNewEval = pkgs.writeText "forceNewEval" rev;
   required = pkgs.lib.hydraJob (pkgs.releaseTools.aggregate {
     name = required-name;
-    constituents = [ forceNewEval ] ++ required-targets self;
+    constituents = [ self.forceNewEval ] ++ required-targets self;
   });
 
 })
