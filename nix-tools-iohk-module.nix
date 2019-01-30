@@ -13,7 +13,7 @@
 commonLib:
 # we need nixpkgs as this will be the properly configured one
 # the one that gives us the right host and target platforms.
-nixpkgs:
+{ nixpkgs, th-packages ? [] }:
 { pkgs, buildModules, config, lib, ... }:
 let
         withTH = import ./mingw_w64.nix {
@@ -65,9 +65,5 @@ in {
     streaming-commons.patches  = [ ./patches/streaming-commons-0.2.0.0.patch ];
     x509-system.patches        = [ ./patches/x509-system-1.6.6.patch ];
     file-embed-lzma.patches    = [ ./patches/file-embed-lzma-0.patch ];
-  } // lib.optionalAttrs nixpkgs.stdenv.hostPlatform.isWindows {
-    hedgehog               = withTH;
-    cardano-crypto-wrapper = withTH;
-    cardano-chain          = withTH;
-  };
+  } // lib.optionalAttrs nixpkgs.stdenv.hostPlatform.isWindows (builtins.listToAttrs (map (pkg: { name = pkg; value = withTH; }) th-packages));
 }
