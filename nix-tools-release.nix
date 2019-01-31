@@ -29,9 +29,14 @@ let
     nix-tools.libs =
       mapAttrs (_: _: supportedSystems)
         (filterAttrs (n: v: builtins.elem n packages && v != null) packageSet.nix-tools.libs);
+    # aggreated exes
     nix-tools.exes =
-      mapAttrs (_: mapAttrs (_: _: supportedSystems))
+      mapAttrs (_: _: supportedSystems)
         (filterAttrs (n: v: builtins.elem n packages && v != null) packageSet.nix-tools.exes);
+    # component exes exposed
+    nix-tools.cexes =
+      mapAttrs (_: mapAttrs (_: _: supportedSystems))
+        (filterAttrs (n: v: builtins.elem n packages && v != null) packageSet.nix-tools.cexes);
     nix-tools.tests =
       mapAttrs (_: mapAttrs (_: _: supportedSystems))
         (filterAttrs (n: v: builtins.elem n packages && v != null) packageSet.nix-tools.tests);
