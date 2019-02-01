@@ -4,7 +4,7 @@
 { pkgs }:
 let
   src = pkgs.fetchFromGitHub {
-    owner = "angerman";
+    owner = "input-output-hk";
     repo = "nix-tools";
     rev = "11186ed3b8109b98b38bcd0e33a9530e59868510";
     sha256 = "1s26nk24iqzbmzixwv7sgm982kbzqgprn5snrhzzxya2zvyhzp4i";
