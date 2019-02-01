@@ -18,7 +18,9 @@ in
     #
 
     set -euo pipefail
-    export PATH=${lib.makeBinPath deps}
+    # See https://github.com/NixOS/nixpkgs/pull/47676 for why we add /usr/bin to
+    # the PATH on darwin. The security-tool in nixpkgs is broken on macOS Mojave.
+    export PATH=${(lib.makeBinPath deps) + lib.optionalString stdenv.isDarwin ":/usr/bin"}
     export NIX_PATH=nixpkgs=${path}
 
     dest=nix/.stack-pkgs.nix
