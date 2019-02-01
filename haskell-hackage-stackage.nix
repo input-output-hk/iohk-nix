@@ -14,8 +14,8 @@ in rec {
   hackage = import (overrideWith "hackage"
                     (pkgs.fetchFromGitHub { owner  = "input-output-hk";
                                             repo   = "hackage.nix";
-                                            rev    = "d4ef2536554d78c6adf368816a4476bc909fcd96";
-                                            sha256 = "15siby9iwgi8bhkj83q1djvg6b6n4gj08n7yy66ccjck7fw4hbr8";
+                                            rev    = "1bee48237cb87d9ad6432a9ddb7777f858674400";
+                                            sha256 = "0sllxmffrcvcq63wlvz64s0i0ls2249vwix645899k6xh159z5pj";
                                             name   = "hackage-exprs-source"; }))
                    ;
   # a different haskell infrastructure
@@ -31,8 +31,8 @@ in rec {
   stackage = import (overrideWith "stackage"
                      (pkgs.fetchFromGitHub { owner  = "input-output-hk";
                                              repo   = "stackage.nix";
-                                             rev    = "f58d5b78e7a40260c6142c79e52c2bf3ae9876b9";
-                                             sha256 = "1nd9lfm016rlhw3133488f8v8x3lbxrld422gw8gcjhhfls3civn";
+                                             rev    = "5ccfc7662469843768a5c4924d91faafbe5824e1";
+                                             sha256 = "1zwasyscqn4751i10165imwj4715hh5arwmccqkpvpn9bnb6c5ck";
                                              name   = "stackage-snapshot-source"; }))
                    ;
 }
