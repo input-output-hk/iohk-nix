@@ -3,6 +3,9 @@ let commonLib = (import ./. {}); in
 , config ? {}
 , pkgs ? commonLib.getPkgs { inherit system config; }
 
+# this is passed in by hydra to provide us with the revision
+, iohk-nix ? { outPath = ./.; rev = "abcdef" }
+
 , scrubJobs ? true
 , supportedSystems ? [ "x86_64-linux" "x86_64-darwin" ]
 , nixpkgsArgs ? {
