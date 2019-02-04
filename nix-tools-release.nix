@@ -5,7 +5,7 @@ commonLib: # the iohk-nix commonLib
 , config ? {}
 # information hydra passes in about the current
 # package under evaluation.
-, _this { outPath = ./.; rev ? "abcdef"; }
+, _this ? { outPath = ./.; rev = "abcdef"; }
 , package-set-path # usually ./.
 }:
 { system ? builtins.currentSystem
