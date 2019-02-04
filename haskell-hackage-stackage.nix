@@ -1,7 +1,10 @@
 { pkgs }:
 let
   # overriding logic so we can pass -I to nix, and overide the
-  # relevant import.
+  # relevant import. That is if we want to override for example
+  # `hackage`, we can simply provide -I hackage=/path/to/hackage.nix
+  # and have nix use that instead of the one we reference here.
+  # Same for haskell and stackage.
   overrideWith = override: default:
    let
      try = builtins.tryEval (builtins.findFile builtins.nixPath override);

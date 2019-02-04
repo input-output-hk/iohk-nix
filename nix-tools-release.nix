@@ -3,8 +3,10 @@ commonLib: # the iohk-nix commonLib
 , required-name ? "required"
 , required-targets ? (jobsets: [])
 , config ? {}
-, rev ? "abcdef"
-, package-set-path # usually import ./. {}
+# information hydra passes in about the current
+# package under evaluation.
+, _this { outPath = ./.; rev ? "abcdef"; }
+, package-set-path # usually ./.
 }:
 { system ? builtins.currentSystem
 , pkgs ? commonLib.getPkgs { inherit system config; }
@@ -24,6 +26,10 @@ let
 
   traceId = x: builtins.trace (builtins.deepSeq x x) x;
 
+  # we only pass an empty argument set {} as a dummy here as
+  # we are interested in extracting the nix-tools node and
+  # generate the necessary input for the mapTestOn / mapTestOnCross
+  # calls here.
   packageSet = import package-set-path {};
   nix-tools-pkgs = supportedSystems: {
     nix-tools.libs =
@@ -49,7 +55,9 @@ let
   # we use builtins.currentSystem here as that will evaluate to whatever the evaluator runs on.
   # thus someone on macOS will be able to build the .x86_64-darwin cross expressions, while
   # someone on linux will be able to build the .x86_64-linux ones.  As hydra is running on
-  # linux, this should also only present CI with the .x86_64-linux targets.
+  # linux, this should also only present CI with the .x86_64-linux targets.  This currently only
+  # applies to mingw32 as that is our only cross compliation target for now.  We may later
+  # add muslc/ghcjs/wasm, and other targets as needed.
   mapped-pkgs-mingw32 = mapTestOnCross lib.systems.examples.mingwW64 (nix-tools-pkgs [ builtins.currentSystem ]);
 
   mapped-pkgs-all
@@ -60,7 +68,7 @@ let
 
 in fix (self: (builtins.removeAttrs packageSet ["nix-tools" "_lib"]) // mapped-pkgs-all
 // {
-  forceNewEval = pkgs.writeText "forceNewEval" rev;
+  forceNewEval = pkgs.writeText "forceNewEval" _this.rev;
   required = pkgs.lib.hydraJob (pkgs.releaseTools.aggregate {
     name = required-name;
     constituents = [ self.forceNewEval ] ++ required-targets self;

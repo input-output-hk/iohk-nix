@@ -1,3 +1,16 @@
+# This file contains the necessary overrides per ghc
+# version. Thus the ghcXXX here are just keys to
+# look up the relevant additional package definitions
+# per GHC version.
+#
+# This is supposed to be used in the pkgs.nix file
+# as
+# pkgSet = haskell.mkPkgSet {
+#   ...
+#   pkg-def-overlays = [ iohk-overlay.${compiler} ];
+#   ...
+# };
+#
 commonLib:
 let
   ghc84 = hackage: {
@@ -6,7 +19,6 @@ let
     Win32 = hackage.Win32."2.6.2.0".revisions.default;
   };
   ghc86 = hackage: {
-    hsc2hs = hackage.hsc2hs."0.68.4".revisions.default;
     # stackage beautifully omitts the Win32 pkg
     Win32 = hackage.Win32."2.6.2.0".revisions.default;
   };

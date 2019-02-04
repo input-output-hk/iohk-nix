@@ -1,6 +1,6 @@
-commonLib: # the iohk-nix commonLib, that provides access to the pinned packages
-pkgs-path: # the path to th local pkgs.nix file for nix-tools that imports all
-           # haskell specific data.
+commonLib:           # the iohk-nix commonLib, that provides access to the pinned packages
+nix-tools-pkgs-path: # the path to the local pkgs.nix file for nix-tools that imports all
+                     # haskell specific data.
 
 { system ? builtins.currentSystem
 , crossSystem ? null
@@ -8,7 +8,7 @@ pkgs-path: # the path to th local pkgs.nix file for nix-tools that imports all
 , pkgs ? commonLib.getPkgs { inherit system crossSystem config; }
 }:
 with builtins; with pkgs.lib;
-let  nix-tools = import pkgs-path {
+let  nix-tools = import nix-tools-pkgs-path {
   inherit pkgs;
   # the iohk-module contains cross compilation specific patches
   inherit (commonLib.nix-tools) iohk-module iohk-overlay;

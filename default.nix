@@ -59,7 +59,16 @@ let
     # over the details for CI.
     default-nix = import ./nix-tools-default.nix (commonLib // { inherit nix-tools; });
     release-nix = import ./nix-tools-release.nix (commonLib // { inherit nix-tools; });
+
+    # default iohk module and overlay to be used in the pkgs.nix file of the
+    # project.  The module will provide the necessary default overrides for
+    # packages (patches) to work properly in cross compiled settings.
     iohk-module = import ./nix-tools-iohk-module.nix commonLib;
+    # The overlay provides the necessary extra packages that might be missing
+    # from generated plans (mostly from stackage snapshot) as well as patches
+    # to align the packages downloaded from hackage with what GHC ships as those
+    # packages.  That a package of a given version on hackage is identical to
+    # the package that ghc ships with the same version is not a given!
     iohk-overlay = import ./nix-tools-iohk-overlay.nix commonLib;
   };
 

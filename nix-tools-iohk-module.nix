@@ -13,24 +13,32 @@
 commonLib:
 # we need nixpkgs as this will be the properly configured one
 # the one that gives us the right host and target platforms.
-{ nixpkgs, th-packages ? [] }:
+{ nixpkgs
+# The packages which need TH, for these we will setup the
+# template haskell runner (via wine for windows) and pass
+# -fexternal-interpreter to ghc.
+, th-packages ? []
+}:
 { pkgs, buildModules, config, lib, ... }:
 let
-        withTH = import ./mingw_w64.nix {
-          inherit (commonLib.pkgs) stdenv lib writeScriptBin;
-          wine = pkgs.buildPackages.winePackages.minimal;
-          inherit (pkgs.windows) mingw_w64_pthreads;
-          inherit (pkgs) gmp;
-          # iserv-proxy needs to come from the buildPackages, as it needs to run on the
-          # build host.
-          inherit (config.hsPkgs.buildPackages.iserv-proxy.components.exes) iserv-proxy;
-          # remote-iserv however needs to come from the regular packages as it has to
-          # run on the target host.
-          inherit (config.hsPkgs.remote-iserv.components.exes) remote-iserv;
-          # we need to use openssl.bin here, because the .dll's are in the .bin expression.
-          extra-test-libs = [ pkgs.rocksdb pkgs.openssl.bin ];
-
-        } // { doCrossCheck = true; };
+  withTH = import ./mingw_w64.nix {
+    inherit (commonLib.pkgs) stdenv lib writeScriptBin;
+    wine = pkgs.buildPackages.winePackages.minimal;
+    inherit (pkgs.windows) mingw_w64_pthreads;
+    inherit (pkgs) gmp;
+    # iserv-proxy needs to come from the buildPackages, as it needs to run on the
+    # build host.
+    inherit (config.hsPkgs.buildPackages.iserv-proxy.components.exes) iserv-proxy;
+    # remote-iserv however needs to come from the regular packages as it has to
+    # run on the target host.
+    inherit (config.hsPkgs.remote-iserv.components.exes) remote-iserv;
+    # we need to use openssl.bin here, because the .dll's are in the .bin expression.
+    extra-test-libs = [ pkgs.rocksdb pkgs.openssl.bin ];
+  } // {
+    # we can perform testing of cross compiled test-suites by using wine.
+    # Therfore let's enable doCrossCheck here!
+    doCrossCheck = true;
+  };
 in {
   packages = {
     # This needs true, otherwise we miss most of the interesting
@@ -52,8 +60,6 @@ in {
     # same for iserv-proxy
     iserv-proxy.components.exes.iserv-proxy.doExactConfig = true;
     remote-iserv.components.exes.remote-iserv.doExactConfig = true;
-
-    #ghci.components.library.doExactConfig = true;
 
     # clock hasn't had a release since 2016(!) that is for three(3) years
     # now.
