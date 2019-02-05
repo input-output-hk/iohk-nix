@@ -10,15 +10,15 @@
 
 let
   # Default nixpkgs-src.json to use
-  nixpkgsJsonDefault = ./nixpkgs-pins/default-nixpkgs-src.json;
+  nixpkgsJsonDefault = ./pins/default-nixpkgs-src.json;
   nixpkgsJson = if (nixpkgsJsonOverride != "") then nixpkgsJsonOverride else
     (if (application != "") then (getNixpkgsJson application) else nixpkgsJsonDefault);
 
-  getNixpkgsJson = application: ./nixpkgs-pins + "/${application}-nixpkgs-src.json";
+  getNixpkgsJson = application: ./pins + "/${application}-nixpkgs-src.json";
   jemallocOverlay = import ./overlays/jemalloc.nix;
 
   commonLib = rec {
-    fetchNixpkgs = import ./fetch-nixpkgs.nix;
+    fetchNixpkgs = import ./fetch-tarball-with-override.nix "custom_nixpkgs";
     # equivalent of <nixpkgs> but pinned instead of system
     nixpkgs = fetchNixpkgs nixpkgsJson;
     pkgsDefault = import (fetchNixpkgs nixpkgsJsonDefault) {};
