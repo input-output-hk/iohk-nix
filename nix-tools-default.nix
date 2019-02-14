@@ -11,8 +11,7 @@ with builtins; with pkgs.lib;
 let  nix-tools = import nix-tools-pkgs-path {
   inherit pkgs;
   # the iohk-module contains cross compilation specific patches
-  inherit (commonLib.nix-tools) iohk-module iohk-overlay;
-  inherit (import ./haskell-hackage-stackage.nix { inherit pkgs; }) haskell hackage stackage;
+  inherit (commonLib.nix-tools) haskell iohk-module iohk-overlay;
 };
 in {
     _lib = commonLib;
