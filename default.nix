@@ -48,7 +48,9 @@ let
   nix-tools = rec {
     # Programs for generating nix haskell package sets from cabal and
     # stack.yaml files.
-    package = commonLib.pkgsDefault.callPackage ./nix-tools.nix {
+    package = haskell.nix-tools;
+    # A different haskell infrastructure
+    haskell = commonLib.pkgsDefault.callPackage ./haskell.nix {
       pkgs = commonLib.pkgsDefault;
     };
     # Script to invoke nix-tools stack-to-nix on a repo.

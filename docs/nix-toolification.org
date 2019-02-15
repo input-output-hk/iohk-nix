@@ -23,7 +23,7 @@ we will rely on [[https://github.com/angerman/hackage.nix][hackage.nix]] to prov
 from hackage.  When using stackage, we will also need [[https://github.com/angerman/stackage.nix][stackage.nix]] to
 provide the lts and nightly stackage snapshots as nix expressions.
 
-~haskell.nix~ provides the central ~mkNewPkgSet~ function which will
+~haskell.nix~ provides the central ~mkPkgSet~ function which will
 construct a set of derivation for use in nix.
 
 To construct a new package set, we will need a copy of [[https://github.com/nixos/nixpkgs][nixpkgs]] to
@@ -100,7 +100,7 @@ nix-prefetch --unpack https://github.com/input-output-hk/iohk-nix/archive/$REV.t
 
 As we will need access to the nix-tools runtime, we will pull pinned
 version of ~haskell.nix~, ~hackage.nix~ and ~stackage.nix~. To do this
-we will us the ~nix/haskell-hackage-stackage.nix~ file:
+we will us the ~nix/haskell.nix~ file:
 
 #+BEGIN_EXAMPLE
 { pkgs }:
@@ -115,36 +115,20 @@ let
    else
      default;
 in rec {
-  hackage = import (overrideWith "hackage"
-                    (pkgs.fetchFromGitHub { owner  = "input-output-hk";
-                                            repo   = "hackage.nix";
-                                            rev    = "d4ef2536554d78c6adf368816a4476bc909fcd96";
-                                            sha256 = "15siby9iwgi8bhkj83q1djvg6b6n4gj08n7yy66ccjck7fw4hbr8";
-                                            name   = "hackage-exprs-source"; }))
-                   ;
   # a different haskell infrastructure
   haskell = import (overrideWith "haskell"
                     (pkgs.fetchFromGitHub { owner  = "input-output-hk";
                                             repo   = "haskell.nix";
-                                            rev    = "ed456599a3a52592ffede765e9d12a953b77d606";
-                                            sha256 = "0w7dg50y30zm7k5ilw0mhkggzhmzpb7x8cl2b82iizvscx6xffzc";
+                                            rev    = "3584345a9ab001d1867e972a1a20b4406cbffd68";
+                                            sha256 = "08pzfvspfl5nvn5szy7bv3rbwymjgmbdm1ac571c64fzhrwf5ghw";
                                             name   = "haskell-lib-source"; }))
-                   hackage;
-
-  # the set of all stackage snapshots
-  stackage = import (overrideWith "stackage"
-                     (pkgs.fetchFromGitHub { owner  = "input-output-hk";
-                                             repo   = "stackage.nix";
-                                             rev    = "f58d5b78e7a40260c6142c79e52c2bf3ae9876b9";
-                                             sha256 = "1nd9lfm016rlhw3133488f8v8x3lbxrld422gw8gcjhhfls3civn";
-                                             name   = "stackage-snapshot-source"; }))
-                   ;
+                   { inherit pkgs };
 }
 #+END_EXAMPLE
 
 With this in place we can build our package set in ~nix/pkgs.nix~
 
-**** For a *stackage* project
+**** For a *Stack* project
 
 #+BEGIN_EXAMPLE
 { args ? { config = import ./config.nix; }
@@ -155,10 +139,7 @@ let
 in
 let
 
-  inherit (import ./haskell-hackage-stackage.nix { inherit pkgs; }) haskell hackage stackage;
-
-  # our packages
-  stack-pkgs = import ./.stack-pkgs.nix;
+  haskell = import ./haskell.nix { inherit pkgs; };
 
   # Build the packageset with module support.
   # We can essentially override anything in the modules
@@ -167,15 +148,12 @@ let
   #  packages.cbors.patches = [ ./one.patch ];
   #  packages.cbors.flags.optimize-gmp = false;
   #
-  pkgSet = haskell.mkNewPkgSet {
-    inherit pkgs;
-    pkg-def = stackage.${stack-pkgs.resolver};
+  pkgSet = haskell.mkStackPkgSet {
+    # Our packages
+    stack-pkgs = import ./.stack-pkgs.nix;
     # The overlay allows extension or restriction of the set of
-    # packages we are interested in. By using the stack-pkgs.overlay
-    # we restrict our package set to the ones provided in stack.yaml.
-    pkg-def-overlays = [
-      stack-pkgs.overlay
-    ];
+    # packages we are interested in.
+    pkg-def-overlays = [ ];
     # package customizations
     modules = [ ];
   };
@@ -194,7 +172,7 @@ let
 in
 let
 
-  inherit (import ./haskell-hackage-stackage.nix { inherit pkgs; }) haskell hackage stackage;
+  haskell = import ./haskell.nix { inherit pkgs; };
 
   # Build the packageset with module support.
   # We can essentially override anything in the modules
@@ -203,8 +181,7 @@ let
   #  packages.cbors.patches = [ ./one.patch ];
   #  packages.cbors.flags.optimize-gmp = false;
   #
-  pkgSet = haskell.mkNewPkgSet {
-    inherit pkgs;
+  pkgSet = haskell.mkPkgSet {
     pkg-def = ./plan.nix;
     # The overlay allows extension or restriction of the set of
     # packages we are interested in. By using the stack-pkgs.overlay
@@ -300,10 +277,10 @@ cabal-to-nix https://github.com/$owner/$repo.git $revision > nix/$repo.nix
 and then added to the ~nix/pkgs.nix~ file in the ~pkg-def-overlays~
 section:
 #+BEGIN_EXAMPLE
-  pkgSet = haskell.mkNewPkgSet {
-    inherit pkgs;
-    pkg-def = ./plan.nix;
-    pkg-def-ovrlays = [
+  pkg-def = ./plan.nix;
+  pkgSet = haskell.mkPkgSet {
+    inherit pkg-def;
+    pkg-def-overlays = [
      { pkg-a = ./pkg-a.nix;
        pkg-b = ./pkg-b.nix;
        pkg-c = ./pkg-c.nix; }
@@ -316,7 +293,7 @@ NOTE: due to some issues with [[https://mail.haskell.org/pipermail/ghc-devs/2019
 following lines in the ~pkgSet~ as well:
 #+BEGIN_EXAMPLE
     # package customizations
-    modules = [ haskell.ghcHackagePatches.${(stack-pkgs.overlay hackage).compiler.nix-name} ];
+    modules = [ haskell.ghcHackagePatches.${(pkg-def haskell.hackage).compiler.nix-name} ];
 #+END_EXAMPLE
 
 *** Building the ~release.nix~
