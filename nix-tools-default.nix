@@ -9,9 +9,14 @@ nix-tools-pkgs-path: # the path to the local pkgs.nix file for nix-tools that im
 }:
 with builtins; with pkgs.lib;
 let  nix-tools = import nix-tools-pkgs-path {
+  haskell = commonLib.nix-tools.haskell {
+    # We need to pass `pkgs` here, otherwise we loose all
+    # config customizations that are essential.
+    inherit pkgs;
+  };
   inherit pkgs;
   # the iohk-module contains cross compilation specific patches
-  inherit (commonLib.nix-tools) haskell iohk-module iohk-overlay;
+  inherit (commonLib.nix-tools) iohk-module iohk-overlay;
 };
 in {
     _lib = commonLib;
