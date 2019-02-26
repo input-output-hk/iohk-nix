@@ -50,11 +50,7 @@ let
     # stack.yaml files.
     package = haskell.nix-tools;
     # A different haskell infrastructure
-    haskell = commonLib.pkgsDefault.callPackage ./haskell.nix {
-      # We need to pass `pkgs` here, otherwise we loose all
-      # config customizations that are essential.
-      pkgs = commonLib.pkgs;
-    };
+    haskell = commonLib.pkgsDefault.callPackage ./haskell.nix;
     # Script to invoke nix-tools stack-to-nix on a repo.
     regeneratePackages = commonLib.pkgsDefault.callPackage ./nix-tools-regenerate.nix {
       nix-tools = package;
