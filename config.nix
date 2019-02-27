@@ -34,8 +34,8 @@
          # this might be fixed in 8.6.4 (if a release is cut), or 8.8
          ++ lib.optional (builtins.compareVersions drv.version "8.5" ==  1
                        && builtins.compareVersions drv.version "8.8" == -1) ./patches/ghc/MR148--T16104-GhcPlugins.patch
+         ++ lib.optional (builtins.compareVersions drv.version "8.5" ==  1) ./patches/ghc/iserv-proxy-cleanup.patch
          ++ [
-          ./patches/ghc/iserv-proxy-cleanup.patch
           ./patches/ghc/lowercase-8.6.patch
           ./patches/ghc/dll-loader-8.4.2.patch
           ./patches/ghc/0001-Stop-the-linker-panic.patch
