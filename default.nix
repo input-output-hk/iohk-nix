@@ -43,6 +43,7 @@ let
     cleanSourceHaskell = pkgs.callPackage ./clean-source-haskell.nix {};
     haskellPackages = import ./haskell-packages.nix;
     commitIdFromGitRepo = pkgs.callPackage ./commit-id.nix {};
+    cache-s3 = pkgsDefault.callPackage ./cache-s3.nix {};
   };
 
   nix-tools = rec {
@@ -88,5 +89,5 @@ let
 
 in {
   inherit tests nix-tools stack2nix jemallocOverlay;
-  inherit (commonLib) pkgs haskellPackages fetchNixpkgs maybeEnv cleanSourceHaskell getPkgs nixpkgs commitIdFromGitRepo getPackages;
+  inherit (commonLib) pkgs haskellPackages fetchNixpkgs maybeEnv cleanSourceHaskell getPkgs nixpkgs commitIdFromGitRepo getPackages cache-s3;
 }
