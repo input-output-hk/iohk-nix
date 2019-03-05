@@ -43,7 +43,7 @@ let
     cleanSourceHaskell = pkgs.callPackage ./clean-source-haskell.nix {};
     haskellPackages = import ./haskell-packages.nix;
     commitIdFromGitRepo = pkgs.callPackage ./commit-id.nix {};
-    cache-s3 = pkgsDefault.callPackage ./cache-s3.nix {};
+    cache-s3 = pkgsDefault.callPackage ./pkgs/cache-s3.nix {};
   };
 
   nix-tools = rec {
