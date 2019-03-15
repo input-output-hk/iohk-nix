@@ -151,9 +151,9 @@ let
   pkgSet = haskell.mkStackPkgSet {
     # Our packages
     stack-pkgs = import ./.stack-pkgs.nix;
-    # The overlay allows extension or restriction of the set of
+    # The extras allow extension or restriction of the set of
     # packages we are interested in.
-    pkg-def-overlays = [ ];
+    pkg-def-extras = [ ];
     # package customizations
     modules = [ ];
   };
@@ -183,10 +183,10 @@ let
   #
   pkgSet = haskell.mkPkgSet {
     pkg-def = ./plan.nix;
-    # The overlay allows extension or restriction of the set of
-    # packages we are interested in. By using the stack-pkgs.overlay
+    # The extras allow extension or restriction of the set of
+    # packages we are interested in. By using the stack-pkgs.extras
     # we restrict our package set to the ones provided in stack.yaml.
-    pkg-def-overlays = [ ];
+    pkg-def-extras = [ ];
     # package customizations
     modules = [ ];
   };
@@ -274,13 +274,13 @@ If there are additional source package specified in the
 cabal-to-nix https://github.com/$owner/$repo.git $revision > nix/$repo.nix
 #+END_SRC
 
-and then added to the ~nix/pkgs.nix~ file in the ~pkg-def-overlays~
+and then added to the ~nix/pkgs.nix~ file in the ~pkg-def-extras~
 section:
 #+BEGIN_EXAMPLE
   pkg-def = ./plan.nix;
   pkgSet = haskell.mkPkgSet {
     inherit pkg-def;
-    pkg-def-overlays = [
+    pkg-def-extras = [
      { pkg-a = ./pkg-a.nix;
        pkg-b = ./pkg-b.nix;
        pkg-c = ./pkg-c.nix; }

@@ -7,7 +7,7 @@
 # as
 # pkgSet = haskell.mkPkgSet {
 #   ...
-#   pkg-def-overlays = [ iohk-overlay.${compiler} ];
+#   pkg-def-extras = [ iohk-extras.${compiler} ];
 #   ...
 # };
 #
