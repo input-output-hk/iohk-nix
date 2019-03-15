@@ -44,6 +44,8 @@ in {
     # This needs true, otherwise we miss most of the interesting
     # modules.
     ghci.flags.ghci = true;
+    # I hope we can apply this globally.
+    ghc.flags.ghci = true;
 
     # this needs to be true to expose module
     #  Message.Remote
