@@ -16,7 +16,7 @@ let  nix-tools = import nix-tools-pkgs-path {
   };
   inherit pkgs;
   # the iohk-module contains cross compilation specific patches
-  inherit (commonLib.nix-tools) iohk-module iohk-overlay;
+  inherit (commonLib.nix-tools) iohk-module iohk-extras;
 };
 in {
     _lib = commonLib;

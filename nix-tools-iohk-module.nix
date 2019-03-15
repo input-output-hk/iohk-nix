@@ -6,7 +6,7 @@
 # `modules` setion:
 # Example:
 #    modules = [
-#      haskell.ghcHackagePatches.${(stack-pkgs.overlay hackage).compiler.nix-name}
+#      haskell.ghcHackagePatches.${(stack-pkgs.extras hackage).compiler.nix-name}
 #      iohk-module
 #    ];
 #
