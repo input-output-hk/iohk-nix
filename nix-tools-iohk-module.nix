@@ -11,17 +11,10 @@
 #    ];
 #
 commonLib:
-# we need nixpkgs as this will be the properly configured one
-# the one that gives us the right host and target platforms.
-{ nixpkgs
-# The packages which need TH, for these we will setup the
-# template haskell runner (via wine for windows) and pass
-# -fexternal-interpreter to ghc.
-, th-packages ? []
-}:
 { pkgs, buildModules, config, lib, ... }:
 let
   withTH = import ./mingw_w64.nix {
+    inherit (pkgs.stdenv) hostPlatform;
     inherit (commonLib.pkgs) stdenv lib writeScriptBin;
     wine = pkgs.buildPackages.winePackages.minimal;
     inherit (pkgs.windows) mingw_w64_pthreads;
@@ -37,7 +30,7 @@ let
   } // {
     # we can perform testing of cross compiled test-suites by using wine.
     # Therfore let's enable doCrossCheck here!
-    doCrossCheck = true;
+    doCrossCheck = pkgs.stdenv.hostPlatform.isWindows;
   };
 in {
   packages = {
@@ -71,5 +64,26 @@ in {
     streaming-commons.patches  = [ ./patches/streaming-commons-0.2.0.0.patch ];
     x509-system.patches        = [ ./patches/x509-system-1.6.6.patch ];
     file-embed-lzma.patches    = [ ./patches/file-embed-lzma-0.patch ];
-  } // lib.optionalAttrs nixpkgs.stdenv.hostPlatform.isWindows (builtins.listToAttrs (map (pkg: { name = pkg; value = withTH; }) th-packages));
-}
+
+    # Set all of these to [], as these form the
+    # dependency graph of the libiserv, iserv-proxy, and iserv-remote
+    # packages.  Subsequently we do not want the defaults that `withTH`
+    # `-fexternal-interpreter` would install here.  That would ultimately
+    # result in cyclic dependencies as it injects `remote-iserv` and
+    # `iserv-proxy` as a dependency into every package.
+    bytestring.setupBuildFlags = [];
+    containers.setupBuildFlags = [];
+    binary.setupBuildFlags = [];
+    filepath.setupBuildFlags = [];
+    time.setupBuildFlags = [];
+    Win32.setupBuildFlags = [];
+    libiserv.setupBuildFlags = [];
+    remote-iserv.setupBuildFlags = [];
+    directory.setupBuildFlags = [];
+    ghc-boot.setupBuildFlags = [];
+    transformers.setupBuildFlags = [];
+    ghci.setupBuildFlags = [];
+    network.setupBuildFlags = [];
+
+  };
+} // withTH
