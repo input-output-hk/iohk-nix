@@ -3,10 +3,10 @@
 
 stdenv.mkDerivation rec {
   name = "cache-s3-${version}";
-  version = "v0.1.6";
+  version = "v0.1.7";
   src = fetchurl {
     url = "https://github.com/fpco/cache-s3/releases/download/${version}/cache-s3-${version}-linux-x86_64.tar.gz";
-    sha256 = "01qm6mg11g6kq3sfnnj1civmda35mbfmp1fym5yvqwbdsmqd0b19";
+    sha256 = "1fg2j5px88kmjv1knlvjlkfp2bv379vw47qf1262i3aamysz5kqp";
   };
   libPath = stdenv.lib.makeLibraryPath [
     stdenv.cc.cc.lib
