@@ -29,6 +29,9 @@
          ++ lib.optional (builtins.compareVersions drv.version "8.6" == -1) ./patches/ghc/cabal-exe-ext-8.4.2.patch
          ++ lib.optional (builtins.compareVersions drv.version "8.6" == -1) ./patches/ghc/ghc-8.4.3-Cabal2201-SMP-test-fix.patch
          ++ lib.optional (builtins.compareVersions drv.version "8.6" == -1) ./patches/ghc/outputtable-assert-8.4.patch
+         ++ lib.optional (builtins.compareVersions drv.version "8.6" == -1) ./patches/ghc/ghc-8.4.4-reinstallable-lib-ghc.patch
+         ++ lib.optional (builtins.compareVersions drv.version "8.6.3" == 0) ./patches/ghc/ghc-8.6.3-reinstallable-lib-ghc.patch
+         ++ lib.optional (builtins.compareVersions drv.version "8.6.4" == 0) ./patches/ghc/ghc-8.6.4-reinstallable-lib-ghc.patch
          ++ lib.optional (builtins.compareVersions drv.version "8.5" ==  1) ./patches/ghc/outputtable-assert-8.6.patch
          ++ lib.optional (builtins.compareVersions drv.version "8.5" ==  1) ./patches/ghc/mistuke-ghc-err_clean_up_error_handler-8ab1a89af89848f1713e6849f189de66c0ed7898.diff
          # this might be fixed in 8.6.4 (if a release is cut), or 8.8
