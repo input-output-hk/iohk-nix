@@ -69,7 +69,7 @@ in {
     # nix calles this package crypto
     cryptonite-openssl.patches = [ ({ version, revision }: if version == "0.7" then ./patches/cryptonite-openssl-0.7.patch else null) ];
 
-    conduit.patches            = [ ./patches/conduit-1.3.0.2.patch ];
+    conduit.patches            = [ ({ version, revision }: if builtins.compareVersions version "1.3.1.1" < 0 then ./patches/conduit-1.3.0.2.patch else null) ];
     streaming-commons.patches  = [ ./patches/streaming-commons-0.2.0.0.patch ];
     x509-system.patches        = [ ./patches/x509-system-1.6.6.patch ];
     file-embed-lzma.patches    = [ ./patches/file-embed-lzma-0.patch ];
