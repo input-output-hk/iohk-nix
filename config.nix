@@ -41,6 +41,7 @@
          ++ lib.optional (builtins.compareVersions drv.version "8.5" ==  1) ./patches/ghc/iserv-proxy-cleanup.patch
          ++ lib.optional (builtins.compareVersions drv.version "8.2" ==  1) ./patches/ghc/MR545--ghc-pkg-databases.patch
          ++ [
+          ./patches/ghc/ghc-add-keepCAFs-to-rts.patch
           ./patches/ghc/lowercase-8.6.patch
           ./patches/ghc/dll-loader-8.4.2.patch
           ./patches/ghc/0001-Stop-the-linker-panic.patch
