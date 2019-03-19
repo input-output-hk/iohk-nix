@@ -29,7 +29,8 @@
          ++ lib.optional (builtins.compareVersions drv.version "8.6" == -1) ./patches/ghc/cabal-exe-ext-8.4.2.patch
          ++ lib.optional (builtins.compareVersions drv.version "8.6" == -1) ./patches/ghc/ghc-8.4.3-Cabal2201-SMP-test-fix.patch
          ++ lib.optional (builtins.compareVersions drv.version "8.6" == -1) ./patches/ghc/outputtable-assert-8.4.patch
-         ++ lib.optional (builtins.compareVersions drv.version "8.6" == -1) ./patches/ghc/ghc-8.4.4-reinstallable-lib-ghc.patch
+         ++ lib.optional (builtins.compareVersions drv.version "8.4.3" == 1
+                       && builtins.compareVersions drv.version "8.6" == -1) ./patches/ghc/ghc-8.4.4-reinstallable-lib-ghc.patch
          ++ lib.optional (builtins.compareVersions drv.version "8.6.3" == 0) ./patches/ghc/ghc-8.6.3-reinstallable-lib-ghc.patch
          ++ lib.optional (builtins.compareVersions drv.version "8.6.4" == 0) ./patches/ghc/ghc-8.6.4-reinstallable-lib-ghc.patch
          ++ lib.optional (builtins.compareVersions drv.version "8.5" ==  1) ./patches/ghc/outputtable-assert-8.6.patch
