@@ -1,11 +1,11 @@
 # A script for generating the nix haskell package set based on stackage,
 # using the common convention for repo layout.
 
-{ lib, stdenv, path, writeScript, nix-tools, coreutils, gawk
+{ lib, stdenv, path, writeScript, nix-tools, coreutils, findutils, gawk
 , nix, nix-prefetch-scripts }:
 
 let
-  deps = [ nix-tools coreutils gawk nix nix-prefetch-scripts ];
+  deps = [ nix-tools coreutils gawk nix nix-prefetch-scripts findutils ];
 
 in
   writeScript "nix-tools-regenerate" ''
@@ -23,17 +23,24 @@ in
     export PATH=${(lib.makeBinPath deps) + lib.optionalString stdenv.isDarwin ":/usr/bin"}
     export NIX_PATH=nixpkgs=${path}
 
-    dest=nix/.stack-pkgs.nix
-
-    mkdir -p "$(dirname "$dest")"
+    tmp_dest=".stack-to-nix.tmp"
+    mkdir -p "$tmp_dest"
 
     function cleanup {
-      rm -f "$dest.new"
+      rm -rf "$tmp_dest"
     }
     trap cleanup EXIT
 
-    stack-to-nix -o nix stack.yaml > "$dest.new"
-    mv "$dest.new" "$dest"
+    stack-to-nix --output "$tmp_dest/.stack.nix"
+    (
+      cd $tmp_dest/.stack.nix
+      mv pkgs.nix default.nix
+    )
 
-    echo "Wrote $dest"
+    generated_files="$(cd "$tmp_dest"; find .stack.nix)"
+
+    cp -rlf $tmp_dest/.stack.nix nix/
+
+    echo "Generated files in nix directory:"
+    echo "$generated_files"
   ''
