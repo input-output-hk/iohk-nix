@@ -91,7 +91,7 @@
     haskell = lib.recursiveUpdate ps.haskell {
       compiler.ghc842 = (ps.haskell.compiler.ghc842.override ghcPkgOverrides).overrideAttrs ghcDrvOverrides;
       compiler.ghc843 = (ps.haskell.compiler.ghc843.override ghcPkgOverrides).overrideAttrs ghcDrvOverrides;
-      compiler.ghc844 = (ps.haskell.compiler.ghc844.override ghcPkgOverrides).overrideAttrs ghcDrvOverrides;
+      compiler.ghc844 = if ps.stdenv.targetPlatform.isGhcjs then ps.haskell.compiler.ghc844 else (ps.haskell.compiler.ghc844.override ghcPkgOverrides).overrideAttrs ghcDrvOverrides;
       compiler.ghc861 = (ps.haskell.compiler.ghc861.override ghcPkgOverrides).overrideAttrs ghcDrvOverrides;
       compiler.ghc862 = (ps.haskell.compiler.ghc862.override ghcPkgOverrides).overrideAttrs ghcDrvOverrides;
       compiler.ghc863 = (ps.haskell.compiler.ghc863.override ghcPkgOverrides).overrideAttrs ghcDrvOverrides;

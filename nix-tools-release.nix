@@ -60,11 +60,13 @@ let
   # add muslc/ghcjs/wasm, and other targets as needed.
   mapped-pkgs-mingw32 = mapTestOnCross lib.systems.examples.mingwW64 (nix-tools-pkgs [ builtins.currentSystem ]);
 
+  mapped-pkgs-ghcjs = mapTestOnCross lib.systems.examples.ghcjs (nix-tools-pkgs [ builtins.currentSystem ]);
+
   mapped-pkgs-all
     = lib.recursiveUpdate
         (mapped-pkgs)
-        (lib.mapAttrs (_: (lib.mapAttrs (_: (lib.mapAttrs' (n: v: lib.nameValuePair (lib.systems.examples.mingwW64.config + "-" + n) v)))))
-          mapped-pkgs-mingw32);
+        (lib.mapAttrs (_: (lib.mapAttrs (_: (lib.mapAttrs' (n: v: lib.nameValuePair (lib.systems.examples.ghcjs.config + "-" + n) v)))))
+          mapped-pkgs-ghcjs);
 
 in fix (self: (builtins.removeAttrs packageSet ["nix-tools" "_lib"]) // mapped-pkgs-all
 // {
