@@ -21,6 +21,9 @@ let
  mappedPkgs = mapTestOn {
     nix-tools.package            = supportedSystems;
     nix-tools.regeneratePackages = supportedSystems;
+    rust-packages.pkgs.cardano-http-bridge = supportedSystems;
+    rust-packages.pkgs.cardano-cli = supportedSystems;
+    rust-packages.pkgs.jormungandr = supportedSystems;
 
     # this seems not to work :-/
     # tests.hlint                  = supportedSystems;
@@ -36,6 +39,9 @@ fix (self: mappedPkgs // {
       nix-tools.package.x86_64-darwin
       nix-tools.regeneratePackages.x86_64-linux
       nix-tools.regeneratePackages.x86_64-darwin
+      rust-packages.pkgs.cardano-http-bridge.x86_64-linux
+      rust-packages.pkgs.cardano-cli.x86_64-linux
+      rust-packages.pkgs.jormungandr.x86_64-linux
     ];
   });
 })
