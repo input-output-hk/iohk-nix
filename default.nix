@@ -86,7 +86,20 @@ let
     stylishHaskell = ./tests/stylish-haskell.nix;
   };
 
+  rust-packages = rec {
+    nixpkgsRust = ./pins/rust-nixpkgs-src.json;
+    overlays = [
+      (commonLib.pkgsDefault.callPackage ./overlays/rust/mozilla.nix {})
+      (import ./overlays/rust)
+    ];
+    pkgs = import (commonLib.fetchNixpkgs nixpkgsRust) {
+      inherit overlays;
+      config = globalConfig // config;
+      inherit system crossSystem;
+    };
+  };
+
 in {
-  inherit tests nix-tools stack2nix jemallocOverlay;
+  inherit tests nix-tools stack2nix jemallocOverlay rust-packages;
   inherit (commonLib) pkgs haskellPackages fetchNixpkgs maybeEnv cleanSourceHaskell getPkgs nixpkgs commitIdFromGitRepo getPackages cache-s3 stack-hpc-coveralls;
 }
