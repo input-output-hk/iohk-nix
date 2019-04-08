@@ -18,6 +18,6 @@ rustPlatform.buildRustPackage rec {
   };
 
   cargoSha256 = "1pa85b20k83ann7kplx5gr3r5g0793wd7m6xpl2hb0hi2v6a2b7k";
-  buildInputs = [ sqlite protobuf pkgconfig openssl ];
+  buildInputs = [ sqlite protobuf ];
   PROTOC = "${protobuf}/bin/protoc";
 }
