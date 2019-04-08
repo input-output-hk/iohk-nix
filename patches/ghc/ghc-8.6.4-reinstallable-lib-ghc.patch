@@ -13,7 +13,7 @@ index d57dcc8..62fb492 100755
 @@ -113,12 +113,13 @@ def boot_pkgs():
          elif len(cabals) == 1:
              cabal = cabals[0]
- 
+
 -            if os.path.isfile(cabal):
 +            ghc_mk = os.path.join(package, 'ghc.mk')
 +
@@ -21,7 +21,7 @@ index d57dcc8..62fb492 100755
                  # strip both .cabal and .in
                  pkg = os.path.splitext(os.path.splitext(os.path.basename(cabal))[0])[0]
                  top = os.path.join(*['..'] * len(os.path.normpath(package).split(os.path.sep)))
- 
+
 -                ghc_mk = os.path.join(package, 'ghc.mk')
                  print('Creating %s' % ghc_mk)
                  with open(ghc_mk, 'w') as f:
@@ -31,7 +31,7 @@ index e6ac15f..8c5519a 100644
 --- a/compiler/cmm/Bitmap.hs
 +++ b/compiler/cmm/Bitmap.hs
 @@ -132,4 +132,3 @@ mAX_SMALL_BITMAP_SIZE dflags
- 
+
  seqBitmap :: Bitmap -> a -> a
  seqBitmap = seqList
 -
@@ -48,42 +48,42 @@ index 9be3a64..f533a4e 100644
 -# 1 "/nix/store/f3l058q0zvnzr7nvl0jj789pyvljqadw-glibc-2.27-dev/include/stdc-predef.h" 1 3 4
 +{-# LINE 18 "<built-in>" #-}
 +{-# LINE 1 "/usr/local/Cellar/ghc/8.4.4/lib/ghc-8.4.4/include/ghcversion.h" #-}
- 
+
 -# 17 "/nix/store/f3l058q0zvnzr7nvl0jj789pyvljqadw-glibc-2.27-dev/include/stdc-predef.h" 3 4
- 
- 
- 
+
+
+
 @@ -3223,6 +3221,8 @@ parseCmmFile dflags filename = withTiming (pure dflags) (text "ParseCmm"<+>brack
- 
- 
- 
+
+
+
 +{-# LINE 19 "<built-in>" #-}
 +{-# LINE 1 "/var/folders/fv/xqjrpfj516n5xq_m_ljpsjx00000gn/T/ghc91389_0/ghc_2.h" #-}
- 
- 
- 
+
+
+
 @@ -3254,8 +3254,6 @@ parseCmmFile dflags filename = withTiming (pure dflags) (text "ParseCmm"<+>brack
- 
- 
- 
+
+
+
 -{-# LINE 11 "<command-line>" #-}
 -{-# LINE 1 "/nix/store/s2h1ssv92djzj2b16w7xm4w7rjic7bqz-ghc-8.4.3/lib/ghc-8.4.3/include/ghcversion.h" #-}
- 
- 
- 
+
+
+
 @@ -3271,8 +3269,6 @@ parseCmmFile dflags filename = withTiming (pure dflags) (text "ParseCmm"<+>brack
- 
- 
- 
+
+
+
 -{-# LINE 11 "<command-line>" #-}
 -{-# LINE 1 "/tmp/nix-build-happy-1.19.9.drv-0/ghc93072_0/ghc_2.h" #-}
- 
- 
- 
+
+
+
 @@ -3408,52 +3404,7 @@ parseCmmFile dflags filename = withTiming (pure dflags) (text "ParseCmm"<+>brack
- 
- 
- 
+
+
+
 -
 -
 -
@@ -132,26 +132,26 @@ index 9be3a64..f533a4e 100644
 -{-# LINE 11 "<command-line>" #-}
 +{-# LINE 20 "<built-in>" #-}
  {-# LINE 1 "templates/GenericTemplate.hs" #-}
- -- Id: GenericTemplate.hs,v 1.26 2005/01/14 14:47:22 simonmar Exp 
- 
+ -- Id: GenericTemplate.hs,v 1.26 2005/01/14 14:47:22 simonmar Exp
+
 @@ -3479,6 +3430,7 @@ parseCmmFile dflags filename = withTiming (pure dflags) (text "ParseCmm"<+>brack
  #define GTE(n,m) (n Happy_GHC_Exts.>=# m)
  #define EQ(n,m) (n Happy_GHC_Exts.==# m)
  #endif
 +
  {-# LINE 43 "templates/GenericTemplate.hs" #-}
- 
+
  data Happy_IntList = HappyCons Happy_GHC_Exts.Int# Happy_IntList
 @@ -3489,11 +3441,20 @@ data Happy_IntList = HappyCons Happy_GHC_Exts.Int# Happy_IntList
- 
- 
- 
+
+
+
 +
  {-# LINE 65 "templates/GenericTemplate.hs" #-}
- 
+
 +
  {-# LINE 75 "templates/GenericTemplate.hs" #-}
- 
+
 -{-# LINE 84 "templates/GenericTemplate.hs" #-}
 +
 +
@@ -161,16 +161,16 @@ index 9be3a64..f533a4e 100644
 +
 +
 +
- 
+
  infixr 9 `HappyStk`
  data HappyStk a = HappyStk a (HappyStk a)
 @@ -3521,7 +3482,7 @@ happyAccept j tk st sts (HappyStk ans _) =
- 
+
  happyDoAction i tk st
          = {- nothing -}
 -
-+          
- 
++
+
            case action of
                  0#           -> {- nothing -}
 @@ -3529,11 +3490,11 @@ happyDoAction i tk st
@@ -178,26 +178,26 @@ index 9be3a64..f533a4e 100644
                                       happyAccept i tk st
                  n | LT(n,(0# :: Happy_GHC_Exts.Int#)) -> {- nothing -}
 -
-+                                                   
++
                                                     (happyReduceArr Happy_Data_Array.! rule) i tk st
                                                     where rule = (Happy_GHC_Exts.I# ((Happy_GHC_Exts.negateInt# ((n Happy_GHC_Exts.+# (1# :: Happy_GHC_Exts.Int#))))))
                  n                 -> {- nothing -}
 -
-+                                     
- 
++
+
                                       happyShift new_state i tk st
                                       where new_state = (n Happy_GHC_Exts.-# (1# :: Happy_GHC_Exts.Int#))
 @@ -3579,6 +3540,7 @@ data HappyAddr = HappyA# Happy_GHC_Exts.Addr#
  -----------------------------------------------------------------------------
  -- HappyState data type (not arrays)
- 
+
 +
  {-# LINE 180 "templates/GenericTemplate.hs" #-}
- 
+
  -----------------------------------------------------------------------------
 @@ -3744,3 +3706,4 @@ happyDontSeq a b = b
  {-# NOINLINE happyFail #-}
- 
+
  -- end of Happy Template.
 +
 diff --git a/compiler/cmm/SMRep.hs b/compiler/cmm/SMRep.hs
@@ -207,58 +207,58 @@ index 7436315..b72ab70 100644
 @@ -421,8 +421,8 @@ cardTableSizeW dflags elems =
  -----------------------------------------------------------------------------
  -- deriving the RTS closure type from an SMRep
- 
+
 -#include "../includes/rts/storage/ClosureTypes.h"
 -#include "../includes/rts/storage/FunTypes.h"
 +#include "rts/storage/ClosureTypes.h"
 +#include "rts/storage/FunTypes.h"
  -- Defines CONSTR, CONSTR_1_0 etc
- 
+
  -- | Derives the RTS closure type from an 'SMRep'
 diff --git a/compiler/codeGen/CodeGen/Platform/ARM.hs b/compiler/codeGen/CodeGen/Platform/ARM.hs
 index a2cb476..f1ea503 100644
 --- a/compiler/codeGen/CodeGen/Platform/ARM.hs
 +++ b/compiler/codeGen/CodeGen/Platform/ARM.hs
 @@ -6,5 +6,5 @@ import GhcPrelude
- 
+
  #define MACHREGS_NO_REGS 0
  #define MACHREGS_arm 1
 -#include "../../../../includes/CodeGen.Platform.hs"
 +#include "CodeGen.Platform.hs"
- 
+
 diff --git a/compiler/codeGen/CodeGen/Platform/ARM64.hs b/compiler/codeGen/CodeGen/Platform/ARM64.hs
 index 6ace181..7a25fb8 100644
 --- a/compiler/codeGen/CodeGen/Platform/ARM64.hs
 +++ b/compiler/codeGen/CodeGen/Platform/ARM64.hs
 @@ -6,5 +6,5 @@ import GhcPrelude
- 
+
  #define MACHREGS_NO_REGS 0
  #define MACHREGS_aarch64 1
 -#include "../../../../includes/CodeGen.Platform.hs"
 +#include "CodeGen.Platform.hs"
- 
+
 diff --git a/compiler/codeGen/CodeGen/Platform/NoRegs.hs b/compiler/codeGen/CodeGen/Platform/NoRegs.hs
 index 4c074ee..4a34c78 100644
 --- a/compiler/codeGen/CodeGen/Platform/NoRegs.hs
 +++ b/compiler/codeGen/CodeGen/Platform/NoRegs.hs
 @@ -5,5 +5,5 @@ module CodeGen.Platform.NoRegs where
  import GhcPrelude
- 
+
  #define MACHREGS_NO_REGS 1
 -#include "../../../../includes/CodeGen.Platform.hs"
 +#include "CodeGen.Platform.hs"
- 
+
 diff --git a/compiler/codeGen/CodeGen/Platform/PPC.hs b/compiler/codeGen/CodeGen/Platform/PPC.hs
 index f7eae6b..7dd4587 100644
 --- a/compiler/codeGen/CodeGen/Platform/PPC.hs
 +++ b/compiler/codeGen/CodeGen/Platform/PPC.hs
 @@ -6,5 +6,5 @@ import GhcPrelude
- 
+
  #define MACHREGS_NO_REGS 0
  #define MACHREGS_powerpc 1
 -#include "../../../../includes/CodeGen.Platform.hs"
 +#include "CodeGen.Platform.hs"
- 
+
 diff --git a/compiler/codeGen/CodeGen/Platform/PPC_Darwin.hs b/compiler/codeGen/CodeGen/Platform/PPC_Darwin.hs
 index 91923fd..b0eb097 100644
 --- a/compiler/codeGen/CodeGen/Platform/PPC_Darwin.hs
@@ -269,40 +269,40 @@ index 91923fd..b0eb097 100644
  #define MACHREGS_darwin 1
 -#include "../../../../includes/CodeGen.Platform.hs"
 +#include "CodeGen.Platform.hs"
- 
+
 diff --git a/compiler/codeGen/CodeGen/Platform/SPARC.hs b/compiler/codeGen/CodeGen/Platform/SPARC.hs
 index 5d8dbb1..2eeb55c 100644
 --- a/compiler/codeGen/CodeGen/Platform/SPARC.hs
 +++ b/compiler/codeGen/CodeGen/Platform/SPARC.hs
 @@ -6,5 +6,5 @@ import GhcPrelude
- 
+
  #define MACHREGS_NO_REGS 0
  #define MACHREGS_sparc 1
 -#include "../../../../includes/CodeGen.Platform.hs"
 +#include "CodeGen.Platform.hs"
- 
+
 diff --git a/compiler/codeGen/CodeGen/Platform/X86.hs b/compiler/codeGen/CodeGen/Platform/X86.hs
 index 84d52c1..fc3e384 100644
 --- a/compiler/codeGen/CodeGen/Platform/X86.hs
 +++ b/compiler/codeGen/CodeGen/Platform/X86.hs
 @@ -6,5 +6,5 @@ import GhcPrelude
- 
+
  #define MACHREGS_NO_REGS 0
  #define MACHREGS_i386 1
 -#include "../../../../includes/CodeGen.Platform.hs"
 +#include "CodeGen.Platform.hs"
- 
+
 diff --git a/compiler/codeGen/CodeGen/Platform/X86_64.hs b/compiler/codeGen/CodeGen/Platform/X86_64.hs
 index 1b2b554..0a26a1f 100644
 --- a/compiler/codeGen/CodeGen/Platform/X86_64.hs
 +++ b/compiler/codeGen/CodeGen/Platform/X86_64.hs
 @@ -6,5 +6,5 @@ import GhcPrelude
- 
+
  #define MACHREGS_NO_REGS 0
  #define MACHREGS_x86_64 1
 -#include "../../../../includes/CodeGen.Platform.hs"
 +#include "CodeGen.Platform.hs"
- 
+
 diff --git a/compiler/codeGen/StgCmmClosure.hs b/compiler/codeGen/StgCmmClosure.hs
 index 6f0feaa..4a4b0ed 100644
 --- a/compiler/codeGen/StgCmmClosure.hs
@@ -310,23 +310,23 @@ index 6f0feaa..4a4b0ed 100644
 @@ -62,7 +62,7 @@ module StgCmmClosure (
          staticClosureNeedsLink,
      ) where
- 
+
 -#include "../includes/MachDeps.h"
 +#include "MachDeps.h"
- 
+
  #include "HsVersions.h"
- 
+
 diff --git a/compiler/codeGen/StgCmmLayout.hs b/compiler/codeGen/StgCmmLayout.hs
 index 78a7cf3..4898eba 100644
 --- a/compiler/codeGen/StgCmmLayout.hs
 +++ b/compiler/codeGen/StgCmmLayout.hs
 @@ -526,7 +526,7 @@ mkVirtConstrSizes dflags field_reps
  -------------------------------------------------------------------------
- 
+
  -- bring in ARG_P, ARG_N, etc.
 -#include "../includes/rts/storage/FunTypes.h"
 +#include "rts/storage/FunTypes.h"
- 
+
  mkArgDescr :: DynFlags -> [Id] -> ArgDescr
  mkArgDescr dflags args
 diff --git a/compiler/ghc.cabal.in b/compiler/ghc.cabal.in
@@ -336,7 +336,7 @@ index 01628dc..6be809a 100644
 @@ -20,31 +20,37 @@ Category: Development
  Build-Type: Simple
  Cabal-Version: >=1.10
- 
+
 +extra-source-files:
 +    utils/md5.h
 +    Unique.h
@@ -347,7 +347,7 @@ index 01628dc..6be809a 100644
      Description: Build GHCi support.
      Default: False
      Manual: True
- 
+
 +Flag terminfo
 +    Description: Build GHC with terminfo support on non-Windows platforms.
 +    Default: True
@@ -358,20 +358,20 @@ index 01628dc..6be809a 100644
 +    Description: Build Stage1 GHC (STAGE=1)
      Default: False
      Manual: True
- 
+
  Flag stage2
 -    Description: Is this stage 2?
 -    Default: False
 +    Description: Build Stage1 GHC (STAGE=2)
 +    Default: True
      Manual: True
- 
+
  Flag stage3
 -    Description: Is this stage 3?
 +    Description: Build Stage1 GHC (STAGE=3)
      Default: False
      Manual: True
- 
+
 -Flag terminfo
 -    Description: Build GHC with terminfo support on non-Windows platforms.
 -    Default: True
@@ -383,7 +383,7 @@ index 01628dc..6be809a 100644
 @@ -67,6 +73,9 @@ Library
                     ghc-heap   == @ProjectVersionMunged@,
                     ghci == @ProjectVersionMunged@
- 
+
 +    build-tool-depends: alex:alex,
 +                        happy:happy
 +
@@ -393,7 +393,7 @@ index 01628dc..6be809a 100644
 @@ -80,6 +89,15 @@ Library
                   -Wnoncanonical-monadfail-instances
                   -Wnoncanonical-monoid-instances
- 
+
 +    if flag(stage1)
 +        ghc-options: -DSTAGE=1
 +    else
@@ -409,7 +409,7 @@ index 01628dc..6be809a 100644
 @@ -119,17 +137,6 @@ Library
      -- as it's magic.
      GHC-Options: -this-unit-id ghc
- 
+
 -    if flag(stage1)
 -        Include-Dirs: stage1
 -    else
@@ -430,19 +430,19 @@ index 9bc6b3f..710ac64 100644
 +++ b/compiler/ghc.mk
 @@ -30,9 +30,7 @@ compiler_stage1_C_FILES_NODEPS = compiler/parser/cutils.c
  compiler_NO_CHECK = YES
- 
+
  ifneq "$(BINDIST)" "YES"
 -compiler/stage1/package-data.mk : compiler/stage1/build/Config.hs
 -compiler/stage2/package-data.mk : compiler/stage2/build/Config.hs
 -compiler/stage3/package-data.mk : compiler/stage3/build/Config.hs
 +compiler/main/Config.hs : rts/build/config.hs-incl
- 
+
  compiler/stage1/build/PlatformConstants.o: $(includes_GHCCONSTANTS_HASKELL_TYPE)
  compiler/stage2/build/PlatformConstants.o: $(includes_GHCCONSTANTS_HASKELL_TYPE)
 @@ -45,276 +43,6 @@ compiler/stage2/build/DynFlags.o: $(includes_GHCCONSTANTS_HASKELL_WRAPPERS)
  compiler/stage3/build/DynFlags.o: $(includes_GHCCONSTANTS_HASKELL_WRAPPERS)
  endif
- 
+
 -compiler/stage%/build/Config.hs : mk/config.mk mk/project.mk | $$(dir $$@)/.
 -	$(call removeFiles,$@)
 -	@echo 'Creating $@ ... '
@@ -715,11 +715,11 @@ index 9bc6b3f..710ac64 100644
 -
  # -----------------------------------------------------------------------------
  # Configuration
- 
+
 @@ -369,19 +97,6 @@ ifeq "$(WITH_TERMINFO)" "NO"
  compiler_stage2_CONFIGURE_OPTS += --flags=-terminfo
  endif
- 
+
 -# Careful optimisation of the parser: we don't want to throw everything
 -# at it, because that takes too long and doesn't buy much, but we do want
 -# to inline certain key external functions, so we instruct GHC not to
@@ -737,19 +737,19 @@ index 9bc6b3f..710ac64 100644
  # If we're profiling GHC then we want SCCs.  However, adding -auto-all
  # everywhere tends to give a hard-to-read profile, and adds lots of
 @@ -407,9 +122,6 @@ endif
- 
+
  compiler_stage3_CONFIGURE_OPTS := $(compiler_stage2_CONFIGURE_OPTS)
- 
+
 -compiler_stage1_CONFIGURE_OPTS += --ghc-option=-DSTAGE=1
 -compiler_stage2_CONFIGURE_OPTS += --ghc-option=-DSTAGE=2
 -compiler_stage3_CONFIGURE_OPTS += --ghc-option=-DSTAGE=3
  compiler_stage2_HADDOCK_OPTS += --optghc=-DSTAGE=2
- 
+
  compiler/stage1/package-data.mk : compiler/ghc.mk
 @@ -487,10 +199,6 @@ ifneq "$(BINDIST)" "YES"
  compiler_stage2_TAGS_HC_OPTS = -package ghc
  $(eval $(call tags-package,compiler,stage2))
- 
+
 -$(compiler_stage1_depfile_haskell) : compiler/stage1/$(PLATFORM_H)
 -$(compiler_stage2_depfile_haskell) : compiler/stage2/$(PLATFORM_H)
 -$(compiler_stage3_depfile_haskell) : compiler/stage3/$(PLATFORM_H)
@@ -760,7 +760,7 @@ index 9bc6b3f..710ac64 100644
 @@ -499,9 +207,13 @@ COMPILER_INCLUDES_DEPS += $(includes_GHCCONSTANTS_HASKELL_WRAPPERS)
  COMPILER_INCLUDES_DEPS += $(includes_GHCCONSTANTS_HASKELL_EXPORTS)
  COMPILER_INCLUDES_DEPS += $(includes_DERIVEDCONSTANTS)
- 
+
 -$(compiler_stage1_depfile_haskell) : $(COMPILER_INCLUDES_DEPS) $(PRIMOP_BITS_STAGE1)
 -$(compiler_stage2_depfile_haskell) : $(COMPILER_INCLUDES_DEPS) $(PRIMOP_BITS_STAGE2)
 -$(compiler_stage3_depfile_haskell) : $(COMPILER_INCLUDES_DEPS) $(PRIMOP_BITS_STAGE3)
@@ -771,13 +771,13 @@ index 9bc6b3f..710ac64 100644
 +compiler_stage1_HC_OPTS += -Ilibraries/ghc-prim/dist-boot -Irts/build
 +compiler_stage2_HC_OPTS += -Ilibraries/ghc-prim/dist-install -Irts/build
 +compiler_stage3_HC_OPTS += -Ilibraries/ghc-prim/dist-install -Irts/build
- 
+
  $(foreach way,$(compiler_stage1_WAYS),\
        compiler/stage1/build/PrimOp.$($(way)_osuf)) : $(PRIMOP_BITS_STAGE1)
 @@ -511,10 +223,6 @@ $(foreach way,$(compiler_stage3_WAYS),\
        compiler/stage3/build/PrimOp.$($(way)_osuf)) : $(PRIMOP_BITS_STAGE3)
- 
- 
+
+
 -# GHC itself doesn't know about the above dependencies, so we have to
 -# switch off the recompilation checker for that module:
 -compiler/prelude/PrimOp_HC_OPTS  += -fforce-recomp
@@ -791,13 +791,13 @@ index 07dcd22..cc44033 100644
 +++ b/compiler/ghci/ByteCodeInstr.hs
 @@ -10,7 +10,7 @@ module ByteCodeInstr (
    ) where
- 
+
  #include "HsVersions.h"
 -#include "../includes/MachDeps.h"
 +#include "MachDeps.h"
- 
+
  import GhcPrelude
- 
+
 diff --git a/compiler/ghci/RtClosureInspect.hs b/compiler/ghci/RtClosureInspect.hs
 index 3b9baed..f3a23d3 100644
 --- a/compiler/ghci/RtClosureInspect.hs
@@ -805,7 +805,7 @@ index 3b9baed..f3a23d3 100644
 @@ -142,8 +142,58 @@ instance Outputable (Term) where
  -- Runtime Closure information functions
  ----------------------------------------
- 
+
 -isConstr, isIndirection, isThunk :: GenClosure a -> Bool
 -isConstr ConstrClosure{} = True
 +instance Outputable ClosureType where
@@ -861,7 +861,7 @@ index 3b9baed..f3a23d3 100644
 +isConstr, isIndirection, isThunk :: ClosureType -> Bool
 +isConstr Constr = True
  isConstr    _   = False
- 
+
  isIndirection IndClosure{} = True
 diff --git a/compiler/main/Config.hs b/compiler/main/Config.hs
 new file mode 100644
@@ -882,12 +882,12 @@ index 88b9692..d73de55 100644
 --- a/compiler/nativeGen/PPC/CodeGen.hs
 +++ b/compiler/nativeGen/PPC/CodeGen.hs
 @@ -22,7 +22,7 @@ where
- 
+
  #include "HsVersions.h"
  #include "nativeGen/NCG.h"
 -#include "../includes/MachDeps.h"
 +#include "MachDeps.h"
- 
+
  -- NCG stuff:
  import GhcPrelude
 diff --git a/compiler/nativeGen/SPARC/CodeGen.hs b/compiler/nativeGen/SPARC/CodeGen.hs
@@ -895,12 +895,12 @@ index 98e062d..e6b3446 100644
 --- a/compiler/nativeGen/SPARC/CodeGen.hs
 +++ b/compiler/nativeGen/SPARC/CodeGen.hs
 @@ -19,7 +19,7 @@ where
- 
+
  #include "HsVersions.h"
  #include "nativeGen/NCG.h"
 -#include "../includes/MachDeps.h"
 +#include "MachDeps.h"
- 
+
  -- NCG stuff:
  import GhcPrelude
 diff --git a/compiler/nativeGen/X86/CodeGen.hs b/compiler/nativeGen/X86/CodeGen.hs
@@ -908,12 +908,12 @@ index 4551754..89a59dd 100644
 --- a/compiler/nativeGen/X86/CodeGen.hs
 +++ b/compiler/nativeGen/X86/CodeGen.hs
 @@ -27,7 +27,7 @@ where
- 
+
  #include "HsVersions.h"
  #include "nativeGen/NCG.h"
 -#include "../includes/MachDeps.h"
 +#include "MachDeps.h"
- 
+
  -- NCG stuff:
  import GhcPrelude
 diff --git a/compiler/parser/Parser.hs b/compiler/parser/Parser.hs
@@ -978,34 +978,34 @@ index 60395cc..3fba0f9 100644
 -
 +{-# LINE 18 "<built-in>" #-}
 +{-# LINE 1 "/usr/local/Cellar/ghc/8.4.4/lib/ghc-8.4.4/include/ghcversion.h" #-}
- 
- 
- 
+
+
+
 @@ -12105,9 +12084,9 @@ asl (x:_xs) (L ls _) _x = addAnnotation (getLoc x) AnnSemi ls
- 
- 
- 
+
+
+
 +{-# LINE 19 "<built-in>" #-}
 +{-# LINE 1 "/var/folders/fv/xqjrpfj516n5xq_m_ljpsjx00000gn/T/ghc91389_0/ghc_2.h" #-}
- 
+
 -{-# LINE 11 "<command-line>" #-}
 -{-# LINE 1 "/nix/store/s2h1ssv92djzj2b16w7xm4w7rjic7bqz-ghc-8.4.3/lib/ghc-8.4.3/include/ghcversion.h" #-}
- 
- 
- 
+
+
+
 @@ -12123,8 +12102,6 @@ asl (x:_xs) (L ls _) _x = addAnnotation (getLoc x) AnnSemi ls
- 
- 
- 
+
+
+
 -{-# LINE 11 "<command-line>" #-}
 -{-# LINE 1 "/tmp/nix-build-happy-1.19.9.drv-0/ghc93072_0/ghc_2.h" #-}
- 
- 
- 
+
+
+
 @@ -12290,22 +12267,7 @@ asl (x:_xs) (L ls _) _x = addAnnotation (getLoc x) AnnSemi ls
- 
- 
- 
+
+
+
 -
 -
 -
@@ -1024,26 +1024,26 @@ index 60395cc..3fba0f9 100644
 -{-# LINE 11 "<command-line>" #-}
 +{-# LINE 20 "<built-in>" #-}
  {-# LINE 1 "templates/GenericTemplate.hs" #-}
- -- Id: GenericTemplate.hs,v 1.26 2005/01/14 14:47:22 simonmar Exp 
- 
+ -- Id: GenericTemplate.hs,v 1.26 2005/01/14 14:47:22 simonmar Exp
+
 @@ -12331,6 +12293,7 @@ asl (x:_xs) (L ls _) _x = addAnnotation (getLoc x) AnnSemi ls
  #define GTE(n,m) (n Happy_GHC_Exts.>=# m)
  #define EQ(n,m) (n Happy_GHC_Exts.==# m)
  #endif
 +
  {-# LINE 43 "templates/GenericTemplate.hs" #-}
- 
+
  data Happy_IntList = HappyCons Happy_GHC_Exts.Int# Happy_IntList
 @@ -12341,11 +12304,20 @@ data Happy_IntList = HappyCons Happy_GHC_Exts.Int# Happy_IntList
- 
- 
- 
+
+
+
 +
  {-# LINE 65 "templates/GenericTemplate.hs" #-}
- 
+
 +
  {-# LINE 75 "templates/GenericTemplate.hs" #-}
- 
+
 -{-# LINE 84 "templates/GenericTemplate.hs" #-}
 +
 +
@@ -1053,16 +1053,16 @@ index 60395cc..3fba0f9 100644
 +
 +
 +
- 
+
  infixr 9 `HappyStk`
  data HappyStk a = HappyStk a (HappyStk a)
 @@ -12373,7 +12345,7 @@ happyAccept j tk st sts (HappyStk ans _) =
- 
+
  happyDoAction i tk st
          = {- nothing -}
 -
-+          
- 
++
+
            case action of
                  0#           -> {- nothing -}
 @@ -12381,11 +12353,11 @@ happyDoAction i tk st
@@ -1070,26 +1070,26 @@ index 60395cc..3fba0f9 100644
                                       happyAccept i tk st
                  n | LT(n,(0# :: Happy_GHC_Exts.Int#)) -> {- nothing -}
 -
-+                                                   
++
                                                     (happyReduceArr Happy_Data_Array.! rule) i tk st
                                                     where rule = (Happy_GHC_Exts.I# ((Happy_GHC_Exts.negateInt# ((n Happy_GHC_Exts.+# (1# :: Happy_GHC_Exts.Int#))))))
                  n                 -> {- nothing -}
 -
-+                                     
- 
++
+
                                       happyShift new_state i tk st
                                       where new_state = (n Happy_GHC_Exts.-# (1# :: Happy_GHC_Exts.Int#))
 @@ -12431,6 +12403,7 @@ data HappyAddr = HappyA# Happy_GHC_Exts.Addr#
  -----------------------------------------------------------------------------
  -- HappyState data type (not arrays)
- 
+
 +
  {-# LINE 180 "templates/GenericTemplate.hs" #-}
- 
+
  -----------------------------------------------------------------------------
 @@ -12596,3 +12569,4 @@ happyDontSeq a b = b
  {-# NOINLINE happyFail #-}
- 
+
  -- end of Happy Template.
 +
 diff --git a/compiler/parser/Parser.y.source b/compiler/parser/Parser.y.source
@@ -1098,7 +1098,7 @@ index d038562..cba0f36 100644
 +++ b/compiler/parser/Parser.y.source
 @@ -8,6 +8,17 @@
  -- ---------------------------------------------------------------------------
- 
+
  {
 +-- Careful optimisation of the parser: we don't want to throw everything
 +-- at it, because that takes too long and doesn't buy much, but we do want
@@ -1120,19 +1120,19 @@ index bc9342b..cabfe0c 100644
 +++ b/compiler/prelude/PrelRules.hs
 @@ -23,7 +23,7 @@ module PrelRules
  where
- 
+
  #include "HsVersions.h"
 -#include "../includes/MachDeps.h"
 +#include "MachDeps.h"
- 
+
  import GhcPrelude
- 
+
 diff --git a/compiler/prelude/PrimOp.hs b/compiler/prelude/PrimOp.hs
 index 369f17f..e1d21df 100644
 --- a/compiler/prelude/PrimOp.hs
 +++ b/compiler/prelude/PrimOp.hs
 @@ -8,6 +8,11 @@
- 
+
  -- The default is a bit too low for the quite large primOpInfo definition
  {-# OPTIONS_GHC -fmax-pmcheck-iterations=10000000 #-}
 +-- GHC itself doesn't know about the pimop bits, so we have to
@@ -1140,7 +1140,7 @@ index 369f17f..e1d21df 100644
 +{-# OPTIONS_GHC -fforce-recomp #-}
 +
 +
- 
+
  module PrimOp (
          PrimOp(..), PrimOpVecCat(..), allThePrimOps,
 diff --git a/compiler/utils/Binary.hs b/compiler/utils/Binary.hs
@@ -1149,13 +1149,13 @@ index 447317c..562d103 100644
 +++ b/compiler/utils/Binary.hs
 @@ -58,7 +58,7 @@ module Binary
  #include "HsVersions.h"
- 
+
  -- The *host* architecture version:
 -#include "../includes/MachDeps.h"
 +#include "MachDeps.h"
- 
+
  import GhcPrelude
- 
+
 diff --git a/ghc.mk b/ghc.mk
 index eed172e..fef69d9 100644
 --- a/ghc.mk
@@ -1163,7 +1163,7 @@ index eed172e..fef69d9 100644
 @@ -590,26 +590,6 @@ BOOT_LIBS = $(foreach lib,$(PACKAGES_STAGE0),$(libraries/$(lib)_dist-boot_v_LIB)
  # Only build internal interpreter support for the stage2 ghci lib
  libraries/ghci_dist-install_CONFIGURE_OPTS += --flags=ghci
- 
+
 -# ----------------------------------------
 -# Special magic for the ghc-prim package
 -
@@ -1186,7 +1186,7 @@ index eed172e..fef69d9 100644
 -
  # ----------------------------------------
  # Special magic for the integer package
- 
+
 diff --git a/ghc/ghc.mk b/ghc/ghc.mk
 index 6e32935..b062443 100644
 --- a/ghc/ghc.mk
@@ -1194,7 +1194,7 @@ index 6e32935..b062443 100644
 @@ -14,10 +14,6 @@ ghc_USES_CABAL = YES
  ghc_PACKAGE = ghc-bin
  ghc_EXECUTABLE = ghc
- 
+
 -ghc_stage1_CONFIGURE_OPTS += --flags=stage1
 -ghc_stage2_CONFIGURE_OPTS += --flags=stage2
 -ghc_stage3_CONFIGURE_OPTS += --flags=stage3
@@ -1204,7 +1204,7 @@ index 6e32935..b062443 100644
  ghc_stage3_CONFIGURE_OPTS += --flags=ghci
 @@ -121,9 +117,9 @@ ghc/stage2/build/tmp/$(ghc_stage2_PROG) : $(foreach lib,$(PACKAGES_STAGE1),$(lib
  endif
- 
+
  # Modules here import HsVersions.h, so we need ghc_boot_platform.h
 -$(ghc_stage1_depfile_haskell) : compiler/stage1/$(PLATFORM_H)
 -$(ghc_stage2_depfile_haskell) : compiler/stage2/$(PLATFORM_H)
@@ -1212,13 +1212,13 @@ index 6e32935..b062443 100644
 +$(ghc_stage1_depfile_haskell) : libraries/ghc-prim/dist-boot/$(PLATFORM_H)
 +$(ghc_stage2_depfile_haskell) : libraries/ghc-prim/dist-install/$(PLATFORM_H)
 +$(ghc_stage3_depfile_haskell) : libraries/ghc-prim/dist-install/$(PLATFORM_H)
- 
+
  all_ghc_stage1 : $(GHC_STAGE1)
  all_ghc_stage2 : $(GHC_STAGE2)
 @@ -178,6 +174,12 @@ INSTALL_LIBS += settings
  INSTALL_LIBS += llvm-targets
  INSTALL_LIBS += llvm-passes
- 
+
 +# A rather nasty hack needed because we still have headers in
 +# ghc-prim and rts.
 +ghc_stage1_HC_OPTS += -Irts/build -Ilibraries/ghc-prim/dist-boot
@@ -1238,7 +1238,7 @@ index d08ecfb..9358950 100644
  	$(INSTALL_HEADER) $(INSTALL_OPTS) $(includes_H_CONFIG) $(includes_H_PLATFORM) $(includes_H_VERSION) $(includes_DERIVEDCONSTANTS) "$(DESTDIR)$(ghcheaderdir)/"
 +	$(INSTALL_HEADER) rts/build/*.h rts/build/*.hs-incl includes/CodeGen.Platform.hs "$(DESTDIR)$(ghcheaderdir)/"
 +	$(INSTALL_HEADER) $(includes_GHCCONSTANTS_HASKELL_TYPE) $(includes_GHCCONSTANTS_HASKELL_VALUE) $(includes_GHCCONSTANTS_HASKELL_WRAPPERS) $(includes_GHCCONSTANTS_HASKELL_EXPORTS) "$(DESTDIR)$(ghcheaderdir)/"
- 
+
 diff --git a/libraries/ghc-prim/.gitignore b/libraries/ghc-prim/.gitignore
 index 1186a2b..2834a36 100644
 --- a/libraries/ghc-prim/.gitignore
@@ -1249,16 +1249,6 @@ index 1186a2b..2834a36 100644
 -/ghc.mk
  /ghc-prim.buildinfo
 -/GNUmakefile
-diff --git a/libraries/ghc-prim/GNUmakefile b/libraries/ghc-prim/GNUmakefile
-new file mode 100644
-index 0000000..433281f
---- /dev/null
-+++ b/libraries/ghc-prim/GNUmakefile
-@@ -0,0 +1,4 @@
-+dir = libraries/ghc-prim
-+TOP = ../..
-+include $(TOP)/mk/sub-makefile.mk
-+FAST_MAKE_OPTS += stage=0
 diff --git a/libraries/ghc-prim/ghc-prim.cabal b/libraries/ghc-prim/ghc-prim.cabal
 index a95f1ec..132fe12 100644
 --- a/libraries/ghc-prim/ghc-prim.cabal
@@ -1266,7 +1256,7 @@ index a95f1ec..132fe12 100644
 @@ -12,6 +12,16 @@ build-type:     Custom
  description:
      This package contains the primitive types and operations supplied by GHC.
- 
+
 +Flag boot
 +    Description: Is this stage 1?
 +    Default: False
@@ -1278,7 +1268,7 @@ index a95f1ec..132fe12 100644
 +    Manual: True
 +
  extra-source-files: changelog.md
- 
+
  source-repository head
 @@ -81,3 +91,27 @@ Library
      -- We need to set the unit ID to ghc-prim (without a version number)
@@ -1312,9 +1302,14 @@ index a95f1ec..132fe12 100644
 diff --git a/libraries/ghc-prim/ghc.mk b/libraries/ghc-prim/ghc.mk
 new file mode 100644
 index 0000000..5b09478
---- /dev/null
+--- a/libraries/ghc-prim/ghc.mk
 +++ b/libraries/ghc-prim/ghc.mk
-@@ -0,0 +1,202 @@
+@@ -0,5 +1,202 @@
+-libraries/ghc-prim_PACKAGE = ghc-prim
+-libraries/ghc-prim_dist-install_GROUP = libraries
+-$(if $(filter ghc-prim,$(PACKAGES_STAGE0)),$(eval $(call build-package,libraries/ghc-prim,dist-boot,0)))
+-$(if $(filter ghc-prim,$(PACKAGES_STAGE1)),$(eval $(call build-package,libraries/ghc-prim,dist-install,1)))
+-$(if $(filter ghc-prim,$(PACKAGES_STAGE2)),$(eval $(call build-package,libraries/ghc-prim,dist-install,2)))
 +libraries/ghc-prim_PACKAGE = ghc-prim
 +libraries/ghc-prim_dist-install_GROUP = libraries
 +
@@ -2563,7 +2558,7 @@ index 0000000..141fe6c
 +   to the destination array. The source and destination arrays can
 +   refer to the same array. Both arrays must fully contain the
 +   specified ranges, but this is not checked.
-+   The regions are allowed to overlap, although this is only possible when the same 
++   The regions are allowed to overlap, although this is only possible when the same
 +   array is provided as both the source and the destination. }
 +  with
 +  out_of_line      = True
@@ -3432,7 +3427,7 @@ index 0000000..141fe6c
 +  {Copy a range of the first MutableArrayArray# to the specified region in the second
 +   MutableArrayArray#.
 +   Both arrays must fully contain the specified ranges, but this is not checked.
-+   The regions are allowed to overlap, although this is only possible when the same 
++   The regions are allowed to overlap, although this is only possible when the same
 +   array is provided as both the source and the destination.
 +   }
 +  with
@@ -4393,7 +4388,7 @@ index 0000000..141fe6c
 +
 +-- Note [reallyUnsafePtrEquality#]
 +-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+-- 
++--
 +-- reallyUnsafePtrEquality# can't actually fail, per se, but we mark it can_fail
 +-- anyway. Until 5a9a1738023a, GHC considered primops okay for speculation only
 +-- when their arguments were known to be forced. This was unnecessarily
@@ -4410,12 +4405,12 @@ index 0000000..141fe6c
 +--              DEFAULT ->
 +--               let eq = reallyUnsafePtrEquality# x' y'
 +--               in ...
-+-- 
++--
 +-- If the let floats out, we'll get
-+-- 
++--
 +--     \x y . let eq = reallyUnsafePtrEquality# x y
 +--            in case x of ...
-+-- 
++--
 +-- The trouble is that pointer equality between thunks is very different
 +-- from pointer equality between the values those thunks reduce to, and the latter
 +-- is typically much more precise.
@@ -4599,8 +4594,8 @@ index 0000000..141fe6c
 +pseudoop   "seq"
 +   a -> b -> b
 +   { The value of {\tt seq a b} is bottom if {\tt a} is bottom, and
-+     otherwise equal to {\tt b}. In other words, it evaluates the first 
-+     argument {\tt a} to weak head normal form (WHNF). {\tt seq} is usually 
++     otherwise equal to {\tt b}. In other words, it evaluates the first
++     argument {\tt a} to weak head normal form (WHNF). {\tt seq} is usually
 +     introduced to improve performance by avoiding unneeded laziness.
 +
 +     A note on evaluation order: the expression {\tt seq a b} does
@@ -5122,7 +5117,7 @@ index 6154720..dcb5831 100644
 @@ -34,6 +34,95 @@ rts_dist_WAYS = $(rts_WAYS)
  ALL_RTS_LIBS = $(foreach way,$(rts_WAYS),rts/dist/build/libHSrts$($(way)_libsuf))
  $(eval $(call all-target,rts,$(ALL_RTS_LIBS)))
- 
+
 +
 +rts/build/config.hs-incl : mk/config.mk mk/project.mk | $$(dir $$@)/.
 +	$(call removeFiles,$@)
@@ -5214,7 +5209,7 @@ index 6154720..dcb5831 100644
 +
  # -----------------------------------------------------------------------------
  # Defining the sources
- 
+
 diff --git a/rts/rts.cabal b/rts/rts.cabal
 index 22f5e5d..9d0d045 100644
 --- a/rts/rts.cabal
@@ -5276,11 +5271,11 @@ index b30c9f8..150c8c8 100644
 +++ b/utils/genapply/Main.hs
 @@ -17,7 +17,7 @@ module Main(main) where
  #include "../../includes/rts/Constants.h"
- 
+
  -- Needed for TAG_BITS
 -#include "../../includes/MachDeps.h"
 +#include "MachDeps.h"
- 
+
  #if MIN_VERSION_base(4,11,0)
  import Prelude hiding ((<>))
 diff --git a/utils/genprimopcode/Parser.hs b/utils/genprimopcode/Parser.hs
@@ -5296,42 +5291,42 @@ index bc19f52..e9cbeaf 100644
 -# 1 "/nix/store/f3l058q0zvnzr7nvl0jj789pyvljqadw-glibc-2.27-dev/include/stdc-predef.h" 1 3 4
 +{-# LINE 18 "<built-in>" #-}
 +{-# LINE 1 "/usr/local/Cellar/ghc/8.4.4/lib/ghc-8.4.4/include/ghcversion.h" #-}
- 
+
 -# 17 "/nix/store/f3l058q0zvnzr7nvl0jj789pyvljqadw-glibc-2.27-dev/include/stdc-predef.h" 3 4
- 
- 
- 
+
+
+
 @@ -960,6 +958,8 @@ parse = run_parser parsex
- 
- 
- 
+
+
+
 +{-# LINE 19 "<built-in>" #-}
 +{-# LINE 1 "/var/folders/fv/xqjrpfj516n5xq_m_ljpsjx00000gn/T/ghc91389_0/ghc_2.h" #-}
- 
- 
- 
+
+
+
 @@ -991,8 +991,6 @@ parse = run_parser parsex
- 
- 
- 
+
+
+
 -{-# LINE 11 "<command-line>" #-}
 -{-# LINE 1 "/nix/store/s2h1ssv92djzj2b16w7xm4w7rjic7bqz-ghc-8.4.3/lib/ghc-8.4.3/include/ghcversion.h" #-}
- 
- 
- 
+
+
+
 @@ -1008,8 +1006,6 @@ parse = run_parser parsex
- 
- 
- 
+
+
+
 -{-# LINE 11 "<command-line>" #-}
 -{-# LINE 1 "/tmp/nix-build-happy-1.19.9.drv-0/ghc93072_0/ghc_2.h" #-}
- 
- 
- 
+
+
+
 @@ -1145,52 +1141,7 @@ parse = run_parser parsex
- 
- 
- 
+
+
+
 -
 -
 -
@@ -5380,26 +5375,26 @@ index bc19f52..e9cbeaf 100644
 -{-# LINE 11 "<command-line>" #-}
 +{-# LINE 20 "<built-in>" #-}
  {-# LINE 1 "templates/GenericTemplate.hs" #-}
- -- Id: GenericTemplate.hs,v 1.26 2005/01/14 14:47:22 simonmar Exp 
- 
+ -- Id: GenericTemplate.hs,v 1.26 2005/01/14 14:47:22 simonmar Exp
+
 @@ -1216,6 +1167,7 @@ parse = run_parser parsex
  #define GTE(n,m) (n Happy_GHC_Exts.>=# m)
  #define EQ(n,m) (n Happy_GHC_Exts.==# m)
  #endif
 +
  {-# LINE 43 "templates/GenericTemplate.hs" #-}
- 
+
  data Happy_IntList = HappyCons Happy_GHC_Exts.Int# Happy_IntList
 @@ -1226,11 +1178,20 @@ data Happy_IntList = HappyCons Happy_GHC_Exts.Int# Happy_IntList
- 
- 
- 
+
+
+
 +
  {-# LINE 65 "templates/GenericTemplate.hs" #-}
- 
+
 +
  {-# LINE 75 "templates/GenericTemplate.hs" #-}
- 
+
 -{-# LINE 84 "templates/GenericTemplate.hs" #-}
 +
 +
@@ -5409,16 +5404,16 @@ index bc19f52..e9cbeaf 100644
 +
 +
 +
- 
+
  infixr 9 `HappyStk`
  data HappyStk a = HappyStk a (HappyStk a)
 @@ -1258,7 +1219,7 @@ happyAccept j tk st sts (HappyStk ans _) =
- 
+
  happyDoAction i tk st
          = {- nothing -}
 -
-+          
- 
++
+
            case action of
                  0#           -> {- nothing -}
 @@ -1266,11 +1227,11 @@ happyDoAction i tk st
@@ -5426,26 +5421,26 @@ index bc19f52..e9cbeaf 100644
                                       happyAccept i tk st
                  n | LT(n,(0# :: Happy_GHC_Exts.Int#)) -> {- nothing -}
 -
-+                                                   
++
                                                     (happyReduceArr Happy_Data_Array.! rule) i tk st
                                                     where rule = (Happy_GHC_Exts.I# ((Happy_GHC_Exts.negateInt# ((n Happy_GHC_Exts.+# (1# :: Happy_GHC_Exts.Int#))))))
                  n                 -> {- nothing -}
 -
-+                                     
- 
++
+
                                       happyShift new_state i tk st
                                       where new_state = (n Happy_GHC_Exts.-# (1# :: Happy_GHC_Exts.Int#))
 @@ -1316,6 +1277,7 @@ data HappyAddr = HappyA# Happy_GHC_Exts.Addr#
  -----------------------------------------------------------------------------
  -- HappyState data type (not arrays)
- 
+
 +
  {-# LINE 180 "templates/GenericTemplate.hs" #-}
- 
+
  -----------------------------------------------------------------------------
 @@ -1481,3 +1443,4 @@ happyDontSeq a b = b
  {-# NOINLINE happyFail #-}
- 
+
  -- end of Happy Template.
 +
 diff --git a/utils/hpc/HpcParser.hs b/utils/hpc/HpcParser.hs
@@ -5461,42 +5456,42 @@ index c3d4d6a..58dc1b0 100644
 -# 1 "/nix/store/f3l058q0zvnzr7nvl0jj789pyvljqadw-glibc-2.27-dev/include/stdc-predef.h" 1 3 4
 +{-# LINE 18 "<built-in>" #-}
 +{-# LINE 1 "/usr/local/Cellar/ghc/8.4.4/lib/ghc-8.4.4/include/ghcversion.h" #-}
- 
+
 -# 17 "/nix/store/f3l058q0zvnzr7nvl0jj789pyvljqadw-glibc-2.27-dev/include/stdc-predef.h" 3 4
- 
- 
- 
+
+
+
 @@ -429,6 +427,8 @@ happyError e = error $ show (take 10 e)
- 
- 
- 
+
+
+
 +{-# LINE 19 "<built-in>" #-}
 +{-# LINE 1 "/var/folders/fv/xqjrpfj516n5xq_m_ljpsjx00000gn/T/ghc91389_0/ghc_2.h" #-}
- 
- 
- 
+
+
+
 @@ -460,8 +460,6 @@ happyError e = error $ show (take 10 e)
- 
- 
- 
+
+
+
 -{-# LINE 11 "<command-line>" #-}
 -{-# LINE 1 "/nix/store/s2h1ssv92djzj2b16w7xm4w7rjic7bqz-ghc-8.4.3/lib/ghc-8.4.3/include/ghcversion.h" #-}
- 
- 
- 
+
+
+
 @@ -477,8 +475,6 @@ happyError e = error $ show (take 10 e)
- 
- 
- 
+
+
+
 -{-# LINE 11 "<command-line>" #-}
 -{-# LINE 1 "/tmp/nix-build-happy-1.19.9.drv-0/ghc93072_0/ghc_2.h" #-}
- 
- 
- 
+
+
+
 @@ -614,52 +610,7 @@ happyError e = error $ show (take 10 e)
- 
- 
- 
+
+
+
 -
 -
 -
@@ -5545,26 +5540,26 @@ index c3d4d6a..58dc1b0 100644
 -{-# LINE 11 "<command-line>" #-}
 +{-# LINE 20 "<built-in>" #-}
  {-# LINE 1 "templates/GenericTemplate.hs" #-}
- -- Id: GenericTemplate.hs,v 1.26 2005/01/14 14:47:22 simonmar Exp 
- 
+ -- Id: GenericTemplate.hs,v 1.26 2005/01/14 14:47:22 simonmar Exp
+
 @@ -685,6 +636,7 @@ happyError e = error $ show (take 10 e)
  #define GTE(n,m) (n Happy_GHC_Exts.>=# m)
  #define EQ(n,m) (n Happy_GHC_Exts.==# m)
  #endif
 +
  {-# LINE 43 "templates/GenericTemplate.hs" #-}
- 
+
  data Happy_IntList = HappyCons Happy_GHC_Exts.Int# Happy_IntList
 @@ -695,11 +647,20 @@ data Happy_IntList = HappyCons Happy_GHC_Exts.Int# Happy_IntList
- 
- 
- 
+
+
+
 +
  {-# LINE 65 "templates/GenericTemplate.hs" #-}
- 
+
 +
  {-# LINE 75 "templates/GenericTemplate.hs" #-}
- 
+
 -{-# LINE 84 "templates/GenericTemplate.hs" #-}
 +
 +
@@ -5574,16 +5569,16 @@ index c3d4d6a..58dc1b0 100644
 +
 +
 +
- 
+
  infixr 9 `HappyStk`
  data HappyStk a = HappyStk a (HappyStk a)
 @@ -727,7 +688,7 @@ happyAccept j tk st sts (HappyStk ans _) =
- 
+
  happyDoAction i tk st
          = {- nothing -}
 -
-+          
- 
++
+
            case action of
                  0#           -> {- nothing -}
 @@ -735,11 +696,11 @@ happyDoAction i tk st
@@ -5591,25 +5586,25 @@ index c3d4d6a..58dc1b0 100644
                                       happyAccept i tk st
                  n | LT(n,(0# :: Happy_GHC_Exts.Int#)) -> {- nothing -}
 -
-+                                                   
++
                                                     (happyReduceArr Happy_Data_Array.! rule) i tk st
                                                     where rule = (Happy_GHC_Exts.I# ((Happy_GHC_Exts.negateInt# ((n Happy_GHC_Exts.+# (1# :: Happy_GHC_Exts.Int#))))))
                  n                 -> {- nothing -}
 -
-+                                     
- 
++
+
                                       happyShift new_state i tk st
                                       where new_state = (n Happy_GHC_Exts.-# (1# :: Happy_GHC_Exts.Int#))
 @@ -785,6 +746,7 @@ data HappyAddr = HappyA# Happy_GHC_Exts.Addr#
  -----------------------------------------------------------------------------
  -- HappyState data type (not arrays)
- 
+
 +
  {-# LINE 180 "templates/GenericTemplate.hs" #-}
- 
+
  -----------------------------------------------------------------------------
 @@ -950,3 +912,4 @@ happyDontSeq a b = b
  {-# NOINLINE happyFail #-}
- 
+
  -- end of Happy Template.
 +
