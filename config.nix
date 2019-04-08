@@ -21,25 +21,26 @@
         dontStrip = true;
         hardeningDisable = [ "stackprotector" "format" ];
         patches = (drv.patches or [])
-         ++ lib.optional (builtins.compareVersions drv.version "8.6.3" == 0) ./patches/ghc/T16057--ghci-doa-on-windows.patch
-         ++ lib.optional (builtins.compareVersions drv.version "8.6" == -1) ./patches/ghc/move-iserv-8.4.2.patch
-         ++ lib.optional (builtins.compareVersions drv.version "8.6" == -1) ./patches/ghc/hsc2hs-8.4.2.patch
-         ++ lib.optional (builtins.compareVersions drv.version "8.6" == -1) ./patches/ghc/various-8.4.2.patch
-         ++ lib.optional (builtins.compareVersions drv.version "8.6" == -1) ./patches/ghc/lowercase-8.4.2.patch
-         ++ lib.optional (builtins.compareVersions drv.version "8.6" == -1) ./patches/ghc/cabal-exe-ext-8.4.2.patch
-         ++ lib.optional (builtins.compareVersions drv.version "8.6" == -1) ./patches/ghc/ghc-8.4.3-Cabal2201-SMP-test-fix.patch
-         ++ lib.optional (builtins.compareVersions drv.version "8.6" == -1) ./patches/ghc/outputtable-assert-8.4.patch
+         ++ lib.optional (builtins.compareVersions drv.version "8.6.3" == 0)  ./patches/ghc/T16057--ghci-doa-on-windows.patch
+         ++ lib.optional (builtins.compareVersions drv.version "8.6" == -1)   ./patches/ghc/move-iserv-8.4.2.patch
+         ++ lib.optional (builtins.compareVersions drv.version "8.6" == -1)   ./patches/ghc/hsc2hs-8.4.2.patch
+         ++ lib.optional (builtins.compareVersions drv.version "8.6" == -1)   ./patches/ghc/various-8.4.2.patch
+         ++ lib.optional (builtins.compareVersions drv.version "8.6" == -1)   ./patches/ghc/lowercase-8.4.2.patch
+         ++ lib.optional (builtins.compareVersions drv.version "8.6" == -1)   ./patches/ghc/cabal-exe-ext-8.4.2.patch
+         ++ lib.optional (builtins.compareVersions drv.version "8.6" == -1)   ./patches/ghc/ghc-8.4.3-Cabal2201-SMP-test-fix.patch
+         ++ lib.optional (builtins.compareVersions drv.version "8.6" == -1)   ./patches/ghc/outputtable-assert-8.4.patch
          ++ lib.optional (builtins.compareVersions drv.version "8.4.3" == 1
-                       && builtins.compareVersions drv.version "8.6" == -1) ./patches/ghc/ghc-8.4.4-reinstallable-lib-ghc.patch
-         ++ lib.optional (builtins.compareVersions drv.version "8.6.3" == 0) ./patches/ghc/ghc-8.6.3-reinstallable-lib-ghc.patch
-         ++ lib.optional (builtins.compareVersions drv.version "8.6.4" == 0) ./patches/ghc/ghc-8.6.4-reinstallable-lib-ghc.patch
-         ++ lib.optional (builtins.compareVersions drv.version "8.5" ==  1) ./patches/ghc/outputtable-assert-8.6.patch
-         ++ lib.optional (builtins.compareVersions drv.version "8.5" ==  1) ./patches/ghc/mistuke-ghc-err_clean_up_error_handler-8ab1a89af89848f1713e6849f189de66c0ed7898.diff
+                       && builtins.compareVersions drv.version "8.6" == -1)   ./patches/ghc/ghc-8.4.4-reinstallable-lib-ghc.patch
+         ++ lib.optional (builtins.compareVersions drv.version "8.6.3" == 0)  ./patches/ghc/ghc-8.6.3-reinstallable-lib-ghc.patch
+         ++ lib.optional (builtins.compareVersions drv.version "8.6.4" == 0)  ./patches/ghc/ghc-8.6.4-reinstallable-lib-ghc.patch
+         ++ lib.optional (builtins.compareVersions drv.version "8.5" ==  1)   ./patches/ghc/outputtable-assert-8.6.patch
+         ++ lib.optional (builtins.compareVersions drv.version "8.5" ==  1)   ./patches/ghc/mistuke-ghc-err_clean_up_error_handler-8ab1a89af89848f1713e6849f189de66c0ed7898.diff
          # this might be fixed in 8.6.4 (if a release is cut), or 8.8
          ++ lib.optional (builtins.compareVersions drv.version "8.5" ==  1
-                       && builtins.compareVersions drv.version "8.8" == -1) ./patches/ghc/MR148--T16104-GhcPlugins.patch
-         ++ lib.optional (builtins.compareVersions drv.version "8.5" ==  1) ./patches/ghc/iserv-proxy-cleanup.patch
-         ++ lib.optional (builtins.compareVersions drv.version "8.2" ==  1) ./patches/ghc/MR545--ghc-pkg-databases.patch
+                       && builtins.compareVersions drv.version "8.6.4" == -1) ./patches/ghc/MR148--T16104-GhcPlugins.patch
+         ++ lib.optional (builtins.compareVersions drv.version "8.5" ==  1)   ./patches/ghc/iserv-proxy-cleanup.patch
+         ++ lib.optional (builtins.compareVersions drv.version "8.2" ==  1)   ./patches/ghc/MR545--ghc-pkg-databases.patch
+         ++ lib.optional (builtins.compareVersions drv.version "8.6.4" == -1) ./patches/ghc/MR95--ghc-pkg-deadlock-fix.patch
          ++ [
           ./patches/ghc/ghc-add-keepCAFs-to-rts.patch
           ./patches/ghc/lowercase-8.6.patch
@@ -49,7 +50,6 @@
           ./patches/ghc/ghc-8.4.3-Cabal2201-allow-test-wrapper.patch
           ./patches/ghc/ghc-8.4.3-Cabal2201-response-file-support.patch
           ./patches/ghc/ghc-8.6-Cabal-fix-datadir.patch
-          ./patches/ghc/MR95--ghc-pkg-deadlock-fix.patch
           ./patches/ghc/MR196--ghc-pkg-shut-up.patch
          ];
         postPatch = (drv.postPath or "") + ''
