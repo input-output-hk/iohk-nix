@@ -55,7 +55,7 @@ in {
     # same for iserv-proxy
     iserv-proxy.components.exes.iserv-proxy.doExactConfig = true;
     remote-iserv.components.exes.remote-iserv.doExactConfig = true;
-    remote-iserv.components.exes.remote-iserv.postInstall = with pkgs.stdenv; lib.optionalString hostPlatform.isWindows ''
+    remote-iserv.postInstall = with pkgs.stdenv; lib.optionalString hostPlatform.isWindows ''
       cp ${pkgs.libffi}/bin/*.dll $out/bin/
     '';
 
