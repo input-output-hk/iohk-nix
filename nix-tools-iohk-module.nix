@@ -26,7 +26,7 @@ let
     # run on the target host.
     inherit (config.hsPkgs.remote-iserv.components.exes) remote-iserv;
     # we need to use openssl.bin here, because the .dll's are in the .bin expression.
-    extra-test-libs = [ pkgs.rocksdb pkgs.openssl.bin ];
+    extra-test-libs = [ pkgs.rocksdb pkgs.openssl.bin pkgs.libffi ];
   } // {
     # we can perform testing of cross compiled test-suites by using wine.
     # Therfore let's enable doCrossCheck here!
