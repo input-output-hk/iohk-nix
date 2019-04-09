@@ -12,6 +12,7 @@ This repo contains build code and tools shared between IOHK projects.
 6. Nix packages and overlay for the [rust-cardano](https://github.com/input-output-hk/rust-cardano)
    projects.
 
+
 ## How to use in your project
 
 Use `iohk-nix` by "pinning" its git revision and source hash in a JSON
@@ -54,6 +55,7 @@ the HEAD of the `master` branch.
 $ nix-prefetch-git https://github.com/input-output-hk/iohk-nix [ --rev master ] | tee ./nix/iohk-nix.json
 ```
 
+
 ## How to update the `iohk-nix` revision.
 
 To get the latest version of `iohk-nix`, update the `iohk-nix.json` file:
@@ -65,9 +67,11 @@ $ nix-prefetch-git https://github.com/input-output-hk/iohk-nix | tee ./nix/iohk-
 Some things may have changed which could break your build, so refer to
 the [ChangeLog](./changelog.md).
 
+
 ## How to use Haskell.nix and `stack-to-nix`
 
 The [documentation](./docs/nix-toolification.org) needs to be updated.
+
 
 ## After updating your Stackage LTS
 
@@ -83,6 +87,14 @@ that version of GHC, and you will get an error such as:
 In this case, update the `iohk-nix` revision to the latest
 available. The nixpkgs version may also need to be bumped in
 `iohk-nix`.
+
+
+## Nix Gotchas
+
+The [gotchas folder](./gotchas) is dedicated to typical Nix errors encountered while developing with Haskell and Nix.
+The hope is developers will add Nix related problems they've encountered and solved to this folder.
+
+* [Gotcha 1](./gotchas/gotcha-1.md) - attribute `unbuildable` missing (win32/unix dependency issues)
 
 
 ## When making changes to `iohk-nix`
