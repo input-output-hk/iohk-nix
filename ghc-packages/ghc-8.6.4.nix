@@ -51,4 +51,4 @@
           ];
         };
       };
-    } // rec { src = pkgs.fetchurl { url = http://releases.mobilehaskell.org/ghc-packages/ghc-8.6.4.tar.gz; sha256 = "02v3rwqfnq2q210r1drn6kbngciadinq2n2970k8zgf24c6iys03"; }; }
+    } // rec { src = pkgs.fetchurl { url = http://releases.mobilehaskell.org/ghc-packages/ghc-8.6.4.tar.gz; sha256 = "0b912cpl7qinscw92w777x5xihw2jpqbrrd47wwka11vw69q902y"; }; }
