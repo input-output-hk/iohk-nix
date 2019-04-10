@@ -42,6 +42,7 @@
          ++ lib.optional (builtins.compareVersions drv.version "8.2" ==  1)   ./patches/ghc/MR545--ghc-pkg-databases.patch
          ++ lib.optional (builtins.compareVersions drv.version "8.6.4" == -1) ./patches/ghc/MR95--ghc-pkg-deadlock-fix.patch
          ++ lib.optional (builtins.compareVersions drv.version "8.6.4" == 0)  ./patches/ghc/ghc-8.6.4-reenable-th-qq-in-stage1.patch
+         ++ lib.optional (builtins.compareVersions drv.version "8.6.4" == 0)  ./patches/ghc/ghc-8.6.4-better-plusSimplCountErrors.patch
          ++ [
           ./patches/ghc/ghc-add-keepCAFs-to-rts.patch
           ./patches/ghc/lowercase-8.6.patch

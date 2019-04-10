@@ -26,7 +26,7 @@ let
     # run on the target host.
     inherit (config.hsPkgs.remote-iserv.components.exes) remote-iserv;
     # we need to use openssl.bin here, because the .dll's are in the .bin expression.
-    extra-test-libs = [ pkgs.rocksdb pkgs.openssl.bin ];
+    extra-test-libs = [ pkgs.rocksdb pkgs.openssl.bin pkgs.libffi ];
   } // {
     # we can perform testing of cross compiled test-suites by using wine.
     # Therfore let's enable doCrossCheck here!
@@ -55,6 +55,9 @@ in {
     # same for iserv-proxy
     iserv-proxy.components.exes.iserv-proxy.doExactConfig = true;
     remote-iserv.components.exes.remote-iserv.doExactConfig = true;
+    remote-iserv.postInstall = with pkgs.stdenv; lib.optionalString hostPlatform.isWindows ''
+      cp ${pkgs.libffi}/bin/*.dll $out/bin/
+    '';
 
     # clock hasn't had a release since 2016(!) that is for three(3) years
     # now.
