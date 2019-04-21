@@ -95,6 +95,9 @@ The [gotchas folder](./gotchas) is dedicated to typical Nix errors encountered w
 The hope is developers will add Nix related problems they've encountered and solved to this folder.
 
 * [Gotcha 1](./gotchas/gotcha-1.md) - attribute `unbuildable` missing (win32/unix dependency issues)
+* [Gotcha 2](./gotchas/gotcha-2.md) - more help with build problems
+* [Gotcha 3](./gotchas/gotcha-3.md) - filtering sources
+* [Gotcha 4](./gotchas/gotcha-4.md) - overriding version pins
 
 
 ## When making changes to `iohk-nix`
