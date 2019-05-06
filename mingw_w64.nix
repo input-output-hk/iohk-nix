@@ -78,4 +78,4 @@ let
     echo "================================================================================"
   '';
 
-in lib.optionalAttrs hostPlatform.isWindows { inherit preCheck postCheck setupBuildFlags setupTestFlags; }
+in lib.mkIf hostPlatform.isWindows { inherit preCheck postCheck setupBuildFlags setupTestFlags; }

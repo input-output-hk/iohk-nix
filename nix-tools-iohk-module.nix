@@ -14,7 +14,7 @@ commonLib:
 { pkgs, buildModules, config, lib, ... }:
 let
   withTHArgs ={
-    inherit (pkgs.stdenv) hostPlatform;
+    inherit (pkgs.stdenv) buildPlatform hostPlatform;
     inherit (commonLib.pkgs) stdenv lib writeScriptBin;
     wine = pkgs.buildPackages.winePackages.minimal;
     qemu = pkgs.buildPackages.qemu;
@@ -27,12 +27,13 @@ let
     # run on the target host.
     inherit (config.hsPkgs.remote-iserv.components.exes) remote-iserv;
     # we need to use openssl.bin here, because the .dll's are in the .bin expression.
-    extra-test-libs = [ pkgs.rocksdb pkgs.openssl.bin pkgs.libffi ];
-  }
-  withTH = import ./mingw_w64.nix withTHArgs // import ./linux_cross.nix withTHArgs // {
-    # we can perform testing of cross compiled test-suites by using wine.
+  };
+  windowsArgs = withTHArgs // { extra-test-libs = [ pkgs.rocksdb pkgs.openssl.bin pkgs.libffi ]; };
+  linuxArgs = withTHArgs // { extra-test-libs = []; };
+  withTH = import ./mingw_w64.nix windowsArgs // import ./linux_cross.nix linuxArgs // {
+    # we can perform testing of cross compiled test-suites by using wine or qemu.
     # Therfore let's enable doCrossCheck here!
-    doCrossCheck = pkgs.stdenv.hostPlatform.isWindows;
+    doCrossCheck = pkgs.stdenv.hostPlatform.isWindows || pkgs.stdenv.hostPlatform.isLinux;
   };
 in {
   packages = {
@@ -91,6 +92,16 @@ in {
     transformers.setupBuildFlags = [];
     ghci.setupBuildFlags = [];
     network.setupBuildFlags = [];
+    unix.setupBuildFlags = [];
+    array.setupBuildFlags = [];
+    deepseq.setupBuildFlags = [];
+    process.setupBuildFlags = [];
+    ghc-prim.setupBuildFlags = [];
+    ghc-boot-th.setupBuildFlags = [];
+    template-haskell.setupBuildFlags = [];
+    pretty.setupBuildFlags = [];
+    base.setupBuildFlags = [];
+    integer-gmp.setupBuildFlags = [];
 
   };
 } // withTH

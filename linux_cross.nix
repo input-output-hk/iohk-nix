@@ -1,10 +1,10 @@
 let
   # Here we try to figure out which qemu to use based on the host platform.
   # This guess can be overriden by passing qemuSuffix
-  qemuByHostform = hostPlatform:
+  qemuByHostPlatform = hostPlatform:
     if hostPlatform.isAarch32
     then "arm"
-    else abort "Don't know which QEMU to use for hostPlatform ${hostPlatform}. Please provide qemuSuffix"
+    else abort "Don't know which QEMU to use for hostPlatform ${hostPlatform}. Please provide qemuSuffix";
 in
 { stdenv
 , lib
@@ -15,11 +15,12 @@ in
 , remote-iserv
 , gmp
 , extra-test-libs ? []
+, buildPlatform
 , hostPlatform
 , ...
 }:
 let
-  isLinuxCross = buildPlatform != hostPlatform && hostPlatform.isLinux
+  isLinuxCross = buildPlatform != hostPlatform && hostPlatform.isLinux;
   qemuIservWrapper = writeScriptBin "iserv-wrapper" ''
     #!${stdenv.shell}
     set -euo pipefail
@@ -59,5 +60,5 @@ let
     echo "END RUNNING TESTS"
     echo "================================================================="
   '';
-in lib.optionalAttrs isLinuxCross { inherit preCheck postCheck setupBuildFlags setupTestFlags; }
+in lib.mkIf isLinuxCross { inherit preCheck postCheck setupBuildFlags setupTestFlags; }
 
