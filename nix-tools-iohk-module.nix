@@ -1,5 +1,5 @@
 # This file contains patches across haskell packages that
-# amend the packages to be cross-compilable to windows,
+# amend the packages to be cross-compilable to windows, linux on ARM
 # and potentially later other targets.
 #
 # The module is supposed to be used as part of the pkgSet's
@@ -13,10 +13,11 @@
 commonLib:
 { pkgs, buildModules, config, lib, ... }:
 let
-  withTH = import ./mingw_w64.nix {
+  withTHArgs ={
     inherit (pkgs.stdenv) hostPlatform;
     inherit (commonLib.pkgs) stdenv lib writeScriptBin;
     wine = pkgs.buildPackages.winePackages.minimal;
+    qemu = pkgs.buildPackages.qemu;
     inherit (pkgs.windows) mingw_w64_pthreads;
     inherit (pkgs) gmp;
     # iserv-proxy needs to come from the buildPackages, as it needs to run on the
@@ -27,7 +28,8 @@ let
     inherit (config.hsPkgs.remote-iserv.components.exes) remote-iserv;
     # we need to use openssl.bin here, because the .dll's are in the .bin expression.
     extra-test-libs = [ pkgs.rocksdb pkgs.openssl.bin pkgs.libffi ];
-  } // {
+  }
+  withTH = import ./mingw_w64.nix withTHArgs // import ./linux_cross.nix withTHArgs // {
     # we can perform testing of cross compiled test-suites by using wine.
     # Therfore let's enable doCrossCheck here!
     doCrossCheck = pkgs.stdenv.hostPlatform.isWindows;
