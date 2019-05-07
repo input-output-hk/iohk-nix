@@ -13,7 +13,7 @@
 commonLib:
 { pkgs, buildModules, config, lib, ... }:
 let
-  withTHArgs ={
+  withTHArgs = {
     inherit (pkgs.stdenv) buildPlatform hostPlatform;
     inherit (commonLib.pkgs) stdenv lib writeScriptBin;
     wine = pkgs.buildPackages.winePackages.minimal;
