@@ -37,6 +37,27 @@ extra-deps:
 - transformers-0.5.6.2
 ```
 
+### Errors building `transformers-0.5.5.0`
+
+This error will occur on `stack-to-nix` projects which use LTS 13.*
+snapshots. It is because those stackage snapshots have incorrect
+information about which package versions are shipped with GHC 8.6.4.
+
+```
+Configuring library for transformers-0.5.5.0..
+Setup: Encountered missing dependencies:
+base (>=2 && <6) && <0
+```
+
+Work around this by adding the following to `stack.yaml` and
+regenerating with `stack-to-nix`.
+
+```yaml
+extra-deps:
+- process-1.6.5.0
+- transformers-0.5.6.2
+```
+
 ### Errors about package version bounds
 
 This generally won't happen if you are using the Cabal solver
@@ -89,3 +110,13 @@ exist in `hackage.nix`.
 As above, the best course of action is usually to update your
 `haskell.nix` version, which will bring in a newer version of
 `hackage.nix`.
+
+### `pq` dependency missing, or other `extra-libraries` package
+
+If a build fails due to an unknown system dependency listed in the
+`extra-libraries` section of a cabal file, then it must be added to
+the file
+[`haskell.nix/lib/system-nixpkgs-map.nix`](https://github.com/input-output-hk/haskell.nix/blob/master/lib/system-nixpkgs-map.nix).
+
+This file maps the package name listed in `extra-libraries` to an
+attribute of the Nixpkgs package collection.
