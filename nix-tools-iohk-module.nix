@@ -30,6 +30,10 @@ let
   };
   windowsArgs = withTHArgs // { extra-test-libs = [ pkgs.rocksdb pkgs.openssl.bin pkgs.libffi ]; };
   linuxArgs = withTHArgs // { extra-test-libs = []; };
+   # We tried using mkIf around the whole option set for each of mingw_w64.nix and linux_cross.nix,
+   # and combining them with //. However, // needs to force which keys are in each set, so this did not break
+   # the circular dependency introduced by module evaluation. mkMerge is the proper way to combine sets of module
+   # option definitions for this reason, and because it properly combines options and merges sets recursively.
 in lib.mkMerge [
   {
     packages = {
