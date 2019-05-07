@@ -35,18 +35,18 @@ let
     (>&2 echo "---> killing remote-iserve...")
     kill $RISERV_PID
     '';
-  setupBuildFlags = map (opt: "--ghc-option=" + opt)
+  setupBuildFlags = map (opt: "--ghc-option=" + opt) (lib.optionals isLinuxCross
     [ "--fexternal-interpreter"
       "--pgmi" "${qemuIservWrapper}/bin/iserv-wrapper"
       "-L${gmp}/lib"
-    ];
+    ]);
   qemuTestWrapper = writeScriptBin "test-wrapper" ''
     #!${stdenv.shell}
     set -euo pipefail
     ${qemu}/bin/qemu-${qemuSuffix} $@*
     '';
-  setupTestFlags = [ "--test-wrapper ${qemuTestWrapper}/bin/test-wrapper" ];
-  preCheck = ''
+  setupTestFlags = lib.optionals isLinuxCross [ "--test-wrapper ${qemuTestWrapper}/bin/test-wrapper" ];
+  preCheck = lib.optionalString isLinuxCross ''
     echo "================================================================="
     echo "RUNNING TESTS for $name via qemu-${qemuSuffix}"
     echo "================================================================="
@@ -55,10 +55,10 @@ let
       find "$p" -iname '*.so*' -exec cp {} . \;
     done
   '';
-  postCheck = ''
+  postCheck = lib.optionalString isLinuxCross ''
     echo "================================================================="
     echo "END RUNNING TESTS"
     echo "================================================================="
   '';
-in lib.mkIf isLinuxCross { inherit preCheck postCheck setupBuildFlags setupTestFlags; }
+in { inherit preCheck postCheck setupBuildFlags setupTestFlags; }
 
