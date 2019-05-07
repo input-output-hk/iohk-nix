@@ -36,8 +36,8 @@ let
     kill $RISERV_PID
     '';
   setupBuildFlags = map (opt: "--ghc-option=" + opt) (lib.optionals isLinuxCross
-    [ "--fexternal-interpreter"
-      "--pgmi" "${qemuIservWrapper}/bin/iserv-wrapper"
+    [ "-fexternal-interpreter"
+      "-pgmi" "${qemuIservWrapper}/bin/iserv-wrapper"
       "-L${gmp}/lib"
     ]);
   qemuTestWrapper = writeScriptBin "test-wrapper" ''
