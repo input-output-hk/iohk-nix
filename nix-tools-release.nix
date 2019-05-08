@@ -58,13 +58,14 @@ let
   # linux, this should also only present CI with the .x86_64-linux targets.  This currently only
   # applies to mingw32 as that is our only cross compliation target for now.  We may later
   # add muslc/ghcjs/wasm, and other targets as needed.
-  mapped-pkgs-mingw32 = mapTestOnCross lib.systems.examples.mingwW64 (nix-tools-pkgs [ builtins.currentSystem ]);
+  map-pkgs = sys: lib.mapAttrs (_: (lib.mapAttrs (_: (lib.mapAttrs' (n: v: lib.nameValuePair (sys.config + "-" + n) v)))))
+                  (mapTestOnCross sys (nix-tools-pkgs supportedSystems));
+  systems = with lib.systems.examples; [ mingwW64 raspberryPi aarch64-multiplatform musl64 muslpi ];
 
   mapped-pkgs-all
-    = lib.recursiveUpdate
+    = builtins.foldl' lib.recursiveUpdate
         (mapped-pkgs)
-        (lib.mapAttrs (_: (lib.mapAttrs (_: (lib.mapAttrs' (n: v: lib.nameValuePair (lib.systems.examples.mingwW64.config + "-" + n) v)))))
-          mapped-pkgs-mingw32);
+        (map map-pkgs systems);
 
 in fix (self: (builtins.removeAttrs packageSet ["nix-tools" "_lib"]) // mapped-pkgs-all
 // {
