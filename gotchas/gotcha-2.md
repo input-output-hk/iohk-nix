@@ -120,3 +120,18 @@ the file
 
 This file maps the package name listed in `extra-libraries` to an
 attribute of the Nixpkgs package collection.
+
+
+### warning: dumping very large path
+
+Builds are slow to start, with the following message printed:
+
+    warning: dumping very large path (> 256 MiB); this may run out of memory
+
+This can happen when copying the project sources into the Nix
+store. It is probably copying your local `.stack-work` or
+`dist-newstyle`, which is not what you want.
+
+Add a source filter (e.g. `iohkLib.cleanHaskellSource`) to your
+Haskell.nix project to avoid this.
+See [Filtering Sources](./gotcha-3.md).
