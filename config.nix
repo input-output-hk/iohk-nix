@@ -13,13 +13,13 @@
                      then "perf"
                      else if ps.stdenv.targetPlatform.isWindows
                           then "perf-cross-ncg"
-                          else "perf-cross";
+                          else "quick-cross";
         enableShared = ps.stdenv.targetPlatform == ps.stdenv.hostPlatform;
         enableIntegerSimple = false;
       };
     ghcDrvOverrides = drv: {
         dontStrip = true;
-        hardeningDisable = [ "stackprotector" "format" ];
+        hardeningDisable = [ "stackprotector" "format" "pic" "pie" ];
         patches = (drv.patches or [])
          ++ lib.optional (builtins.compareVersions drv.version "8.6.3" == 0)  ./patches/ghc/T16057--ghci-doa-on-windows.patch
          ++ lib.optional (builtins.compareVersions drv.version "8.6" == -1)   ./patches/ghc/move-iserv-8.4.2.patch
@@ -43,6 +43,7 @@
          ++ lib.optional (builtins.compareVersions drv.version "8.6.4" == -1) ./patches/ghc/MR95--ghc-pkg-deadlock-fix.patch
          ++ lib.optional (builtins.compareVersions drv.version "8.6.4" == 0)  ./patches/ghc/ghc-8.6.4-reenable-th-qq-in-stage1.patch
          ++ lib.optional (builtins.compareVersions drv.version "8.6.4" == 0)  ./patches/ghc/ghc-8.6.4-better-plusSimplCountErrors.patch
+         ++ lib.optional (builtins.compareVersions drv.version "8.6.4" == 0)  ./patches/ghc/ghc-8.6.4-prim-no-arm-atomics.patch
          ++ [
           ./patches/ghc/ghc-add-keepCAFs-to-rts.patch
           ./patches/ghc/lowercase-8.6.patch
@@ -54,7 +55,7 @@
           ./patches/ghc/ghc-8.6-Cabal-fix-datadir.patch
           ./patches/ghc/MR196--ghc-pkg-shut-up.patch
          ];
-        postPatch = (drv.postPath or "") + ''
+        postPatch = (drv.postPatch or "") + ''
         autoreconf
         '';
       };
