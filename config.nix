@@ -15,6 +15,7 @@
                           then "perf-cross-ncg"
                           else "quick-cross";
         enableShared = ps.stdenv.targetPlatform == ps.stdenv.hostPlatform;
+        enableRelocatedStaticLibs = false;
         enableIntegerSimple = false;
       };
     ghcDrvOverrides = drv: {
