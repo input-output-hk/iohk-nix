@@ -6,13 +6,14 @@ nix-tools-pkgs-path: # the path to the local pkgs.nix file for nix-tools that im
 , crossSystem ? null
 , config ? {}
 , pkgs ? commonLib.getPkgs { inherit system crossSystem config; }
+, hackageIndexState ? null
 }:
 with builtins; with pkgs.lib;
 let  nix-tools = import nix-tools-pkgs-path {
   haskell = commonLib.nix-tools.haskell {
     # We need to pass `pkgs` here, otherwise we loose all
     # config customizations that are essential.
-    inherit pkgs;
+    inherit pkgs hackageIndexState;
   };
   inherit pkgs;
   # the iohk-module contains cross compilation specific patches
