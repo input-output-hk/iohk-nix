@@ -12,12 +12,12 @@ rustPlatform.buildRustPackage rec {
   src = fetchFromGitHub {
     owner = "input-output-hk";
     repo = "cardano-cli";
-    rev = "268f77ad2189122ae9fe0f296d2501b03fedabf3";
-    sha256 = "11ybkf03zdj0iyc3aq6iakab31vz6r6rdy619p3mkmm9h7wrx0j3";
+    rev = "ed064d5a3b96c23b52bb20ca49da9cb8764a2e0f";
+    sha256 = "07y5ssar6aq93snrvmapk05zmym4w23ydvjn2njp8saxk23ivqsg";
     fetchSubmodules = true;
   };
 
-  cargoSha256 = "1kspfs89021skayh53fldcj24mcc6z9wx9crhqbrjlwnr4yx4ry9";
+  cargoSha256 = "1jra0635inm95xp7vg8l7s7ybijcy28956cd6jl8qw2p8bw0z1p3";
   buildInputs = [ protobuf ];
   PROTOC = "${protobuf}/bin/protoc";
 }

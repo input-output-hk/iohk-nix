@@ -12,12 +12,13 @@ rustPlatform.buildRustPackage rec {
   src = fetchFromGitHub {
     owner = "input-output-hk";
     repo = "jormungandr";
-    rev = "412902c214cf86959a9db2b1bf3ca6019f05cd58";
-    sha256 = "0r7jv4zlwq0nqb0i70dknqbm8s4q01ka3rskimmzqgivbhggvjxz";
+    rev = "9cb52dfb9406b8579e6f98b44e30163799c5d6e9";
+    sha256 = "0kblk3pm1i7l5cq43kammaljq5llnl2fvp5iqbblhjnzw3iq8fi7";
     fetchSubmodules = true;
   };
 
-  cargoSha256 = "1pa85b20k83ann7kplx5gr3r5g0793wd7m6xpl2hb0hi2v6a2b7k";
-  buildInputs = [ sqlite protobuf ];
+  cargoSha256 = "0ifbdd57m7xd8qdkq8cpfz1azq4j8rlg6j3ki9d25mb49l0563w9";
+  nativeBuildInputs = [ pkgconfig ];
+  buildInputs = [ sqlite protobuf openssl ];
   PROTOC = "${protobuf}/bin/protoc";
 }
