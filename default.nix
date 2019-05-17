@@ -6,6 +6,7 @@
 , application ? ""
 # Override nixpkgs-src.json to a file in your repo
 , nixpkgsJsonOverride ? ""
+, haskellNixJsonOverride ? ""
 }:
 
 let
@@ -52,7 +53,7 @@ let
     # stack.yaml files.
     package = (haskell { pkgs = commonLib.pkgsDefault; }).nix-tools;
     # A different haskell infrastructure
-    haskell = import ./haskell.nix;
+    haskell = (import ./haskell.nix) { inherit haskellNixJsonOverride; };
     # Script to invoke nix-tools stack-to-nix on a repo.
     regeneratePackages = commonLib.pkgsDefault.callPackage ./nix-tools-regenerate.nix {
       nix-tools = package;
