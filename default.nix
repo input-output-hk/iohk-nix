@@ -6,6 +6,7 @@
 , application ? ""
 # Override nixpkgs-src.json to a file in your repo
 , nixpkgsJsonOverride ? ""
+# Override haskell-nix.json to a file in your repo
 , haskellNixJsonOverride ? ""
 }:
 
