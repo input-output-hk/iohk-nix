@@ -12,6 +12,7 @@
 # when tests are run.
 , extra-test-libs ? []
 , hostPlatform
+, ...
 }:
 let
 
