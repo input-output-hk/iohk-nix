@@ -55,6 +55,8 @@
           ./patches/ghc/ghc-8.4.3-Cabal2201-response-file-support.patch
           ./patches/ghc/ghc-8.6-Cabal-fix-datadir.patch
           ./patches/ghc/MR196--ghc-pkg-shut-up.patch
+          ./patches/ghc/global-offset-table.patch
+          ./patches/ghc/global-offset-table-2.patch
          ];
         postPatch = (drv.postPatch or "") + ''
         autoreconf

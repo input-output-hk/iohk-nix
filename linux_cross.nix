@@ -41,11 +41,12 @@ let
     (>&2 echo "---> killing remote-iserve...")
     kill $RISERV_PID
     '';
+  configureFlags = lib.optional hostPlatform.isAarch32 "--disable-split-sections";
   setupBuildFlags = map (opt: "--ghc-option=" + opt) (lib.optionals isLinuxCross
     [ "-fexternal-interpreter"
       "-pgmi" "${qemuIservWrapper}/bin/iserv-wrapper"
       "-L${gmp}/lib"
-    ]);
+    ]) ++ lib.optionals hostPlatform.isAarch32 (map (opt: "--gcc-option=" + opt) [ "-fno-pic" "-fno-plt" ]);
   qemuTestWrapper = writeScriptBin "test-wrapper" ''
     #!${stdenv.shell}
     set -euo pipefail
@@ -66,4 +67,5 @@ let
     echo "END RUNNING TESTS"
     echo "================================================================="
   '';
-in { inherit preCheck postCheck setupBuildFlags setupTestFlags; }
+
+in { inherit preCheck postCheck configureFlags setupBuildFlags setupTestFlags; }
