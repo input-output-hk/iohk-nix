@@ -1,5 +1,4 @@
 status = [
-  #"buildkite/iohk-nix",
   "ci/hydra:Cardano:iohk-nix:required",
 ]
 timeout_sec = 7200
