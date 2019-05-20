@@ -2,6 +2,7 @@ commonLib: # the iohk-nix commonLib
 { packages ? []
 , required-name ? "required"
 , required-targets ? (jobsets: [])
+, extraBuilds ? {}
 , config ? {}
 # information hydra passes in about the current
 # package under evaluation.
@@ -59,12 +60,17 @@ let
   # applies to mingw32 as that is our only cross compliation target for now.  We may later
   # add muslc/ghcjs/wasm, and other targets as needed.
   mapped-pkgs-mingw32 = mapTestOnCross lib.systems.examples.mingwW64 (nix-tools-pkgs [ builtins.currentSystem ]);
-
-  mapped-pkgs-all
-    = lib.recursiveUpdate
-        (mapped-pkgs)
+  mapped-pkgs-mingw32-renamed =
         (lib.mapAttrs (_: (lib.mapAttrs (_: (lib.mapAttrs' (n: v: lib.nameValuePair (lib.systems.examples.mingwW64.config + "-" + n) v)))))
           mapped-pkgs-mingw32);
+  mapped-pkgs-partial
+    = lib.recursiveUpdate
+        mapped-pkgs
+        mapped-pkgs-mingw32-renamed;
+  mapped-pkgs-all
+    = lib.recursiveUpdate
+        mapped-pkgs-partial
+        extraBuilds;
 
 in fix (self: (builtins.removeAttrs packageSet ["nix-tools" "_lib"]) // mapped-pkgs-all
 // {
