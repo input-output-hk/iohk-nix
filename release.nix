@@ -32,9 +32,12 @@ let
  };
 in
 fix (self: mappedPkgs // {
+
+  forceNewEval = pkgs.writeText "forceNewEval" iohk-nix.rev;
   required = pkgs.lib.hydraJob (pkgs.releaseTools.aggregate {
     name = "required";
     constituents = with self; [
+      self.forceNewEval
       nix-tools.package.x86_64-linux
       nix-tools.package.x86_64-darwin
       nix-tools.regeneratePackages.x86_64-linux
