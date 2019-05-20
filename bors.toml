@@ -1,0 +1,8 @@
+status = [
+  #"buildkite/iohk-nix",
+  "ci/hydra:Cardano:iohk-nix:required",
+]
+timeout_sec = 7200
+required_approvals = 1
+block_labels = [ "WIP", "DO NOT MERGE" ]
+delete_merged_branches = true
