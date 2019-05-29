@@ -29,6 +29,9 @@ in {
     # if you want to build only a single component.
     nix-tools = { _raw = nix-tools; }
       # some shorthands
+      // {
+        inherit (nix-tools) shellFor;
+      }
       // { libs = mapAttrs (k: v: if   v ? components && v.components ? "library"
                                   then v.components.library
                                   else null) nix-tools; }
