@@ -122,7 +122,7 @@ in rec {
                                             rev    = "3584345a9ab001d1867e972a1a20b4406cbffd68";
                                             sha256 = "08pzfvspfl5nvn5szy7bv3rbwymjgmbdm1ac571c64fzhrwf5ghw";
                                             name   = "haskell-lib-source"; }))
-                   { inherit pkgs };
+                   { inherit pkgs; };
 }
 #+END_EXAMPLE
 
