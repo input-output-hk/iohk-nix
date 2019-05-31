@@ -6,6 +6,8 @@
 , application ? ""
 # Override nixpkgs-src.json to a file in your repo
 , nixpkgsJsonOverride ? ""
+# Modify nixpkgs with overlays
+, nixpkgsOverlays ? []
 # Override haskell-nix.json to a file in your repo
 , haskellNixJsonOverride ? ""
 }:
@@ -30,7 +32,7 @@ let
       config' = config;
       crossSystem' = crossSystem;
     in { args ? {}
-       , extraOverlays ? []
+       , extraOverlays ? nixpkgsOverlays
        , system ? system'
        , globalConfig ? globalConfig'
        , config ? config'
