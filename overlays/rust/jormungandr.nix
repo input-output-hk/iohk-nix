@@ -7,17 +7,17 @@
 ,  ... }:
 
 rustPlatform.buildRustPackage rec {
-  version = "0.0";
+  version = "0.1.0";
   name = "jormungandr-${version}";
   src = fetchFromGitHub {
     owner = "input-output-hk";
     repo = "jormungandr";
-    rev = "6c68850c1d057b3414f00cba32f48410b97f516a";
-    sha256 = "0la0c4pz3wis6y36j3bb84rsvchmbwsf00mhp6v3n28aqw8zmvnp";
+    rev = "c53a896774d30b357a6dbbabe909a14509fa078a";
+    sha256 = "1pwkb8xrmzpwnr5fw1yns7m3qybpc67na3kzwsvqcb4xbnb57yyy";
     fetchSubmodules = true;
   };
 
-  cargoSha256 = "1bddbx8mgbgbq944xm4gjvbxm5kynj28r0lz89ayd85nds5v59dc";
+  cargoSha256 = "1n0qg0nqhs653xc0d2iy4dd0shzbdxklxydxh674dkssrb28bmab";
   nativeBuildInputs = [ pkgconfig ];
   buildInputs = [ sqlite protobuf openssl ];
   PROTOC = "${protobuf}/bin/protoc";
