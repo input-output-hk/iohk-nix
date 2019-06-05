@@ -49,6 +49,7 @@ let
     commitIdFromGitRepo = pkgs.callPackage ./commit-id.nix {};
     cache-s3 = pkgsDefault.callPackage ./pkgs/cache-s3.nix {};
     stack-hpc-coveralls = pkgsDefault.haskellPackages.callPackage ./pkgs/stack-hpc-coveralls.nix {};
+    check-hydra = pkgsDefault.callPackage ./ci/check-hydra.nix {};
   };
 
   nix-tools = rec {
@@ -105,5 +106,5 @@ let
 
 in {
   inherit tests nix-tools stack2nix jemallocOverlay rust-packages;
-  inherit (commonLib) pkgs haskellPackages fetchNixpkgs maybeEnv cleanSourceHaskell getPkgs nixpkgs commitIdFromGitRepo getPackages cache-s3 stack-hpc-coveralls;
+  inherit (commonLib) pkgs haskellPackages fetchNixpkgs maybeEnv cleanSourceHaskell getPkgs nixpkgs commitIdFromGitRepo getPackages cache-s3 stack-hpc-coveralls check-hydra;
 }

@@ -1,0 +1,5 @@
+steps:
+  - label: release.nix
+    command: 'nix-build -A check-hydra && ./result'
+    agents:
+      system: x86_64-linux
