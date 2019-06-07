@@ -25,7 +25,7 @@ let
     unset configureFlags
     PORT=$((5000 + $RANDOM % 5000))
     (>&2 echo "---> Starting remote-iserv on port $PORT")
-    WINEDLLOVERRIDES="winemac.drv=d" WINEDEBUG=-all+error WINEPREFIX=$TMP ${wine}/bin/wine64 ${remote-iserv}/bin/remote-iserv.exe tmp $PORT &
+    WINEDLLOVERRIDES="winemac.drv=d" WINEDEBUG=warn-all,fixme-all,-menubuilder,-mscoree,-ole,-secur32,-winediag WINEPREFIX=$TMP ${wine}/bin/wine64 ${remote-iserv}/bin/remote-iserv.exe tmp $PORT &
     (>&2 echo "---| remote-iserv should have started on $PORT")
     RISERV_PID="$!"
     ${iserv-proxy}/bin/iserv-proxy $@ 127.0.0.1 "$PORT"
@@ -50,9 +50,10 @@ let
   wineTestWrapper = writeScriptBin "test-wrapper" ''
     #!${stdenv.shell}
     set -euo pipefail
-    WINEDLLOVERRIDES="winemac.drv=d" WINEDEBUG=-all+error LC_ALL=en_US.UTF-8 WINEPREFIX=$TMP ${wine}/bin/wine64 $@*
+    WINEDLLOVERRIDES="winemac.drv=d" WINEDEBUG=warn-all,fixme-all,-menubuilder,-mscoree,-ole,-secur32,-winediag LC_ALL=en_US.UTF-8 WINEPREFIX=$TMP ${wine}/bin/wine64 $@
   '';
-  setupTestFlags = lib.optionals hostPlatform.isWindows [ "--test-wrapper ${wineTestWrapper}/bin/test-wrapper" ];
+  testWrapper = lib.optionalString hostPlatform.isWindows "${wineTestWrapper}/bin/test-wrapper";
+
   preCheck = lib.optionalString hostPlatform.isWindows ''
     echo "================================================================================"
     echo "RUNNING TESTS for $name via wine64"
@@ -77,4 +78,4 @@ let
     echo "================================================================================"
   '';
 
-in { inherit preCheck postCheck setupBuildFlags setupTestFlags; }
+in { inherit preCheck testWrapper postCheck setupBuildFlags; }
