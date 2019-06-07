@@ -1,7 +1,7 @@
 {
-  "url": "https://github.com/input-output-hk/nixpkgs",
-  "rev": "8ac568bbddfd26b6210ff554d9e06201124189d7",
-  "date": "2019-06-07T09:58:49+08:00",
-  "sha256": "0bwzrlya36173yq1ghm0vqm27y52aijmm69513li7rj6xhc5cq9k",
+  "url": "https://github.com/input-output-hk/haskell.nix",
+  "rev": "e18f9185cdc6e62af83a38ab7770593cd2d7f500",
+  "date": "2019-06-07T14:27:23+08:00",
+  "sha256": "1bfirvafz274i0yy7nxp18s3grmwymrk5yngq4r4p8ckg16g7nj3",
   "fetchSubmodules": false
 }
