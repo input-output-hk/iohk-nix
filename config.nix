@@ -33,6 +33,7 @@
                        && builtins.compareVersions drv.version "8.6" == -1)   ./patches/ghc/ghc-8.4.4-reinstallable-lib-ghc.patch
          ++ lib.optional (builtins.compareVersions drv.version "8.6.3" == 0)  ./patches/ghc/ghc-8.6.3-reinstallable-lib-ghc.patch
          ++ lib.optional (builtins.compareVersions drv.version "8.6.4" == 0)  ./patches/ghc/ghc-8.6.4-reinstallable-lib-ghc.patch
+         ++ lib.optional (builtins.compareVersions drv.version "8.6.5" == 0)  ./patches/ghc/ghc-8.6.5-reinstallable-lib-ghc.patch
          ++ lib.optional (builtins.compareVersions drv.version "8.5" ==  1)   ./patches/ghc/outputtable-assert-8.6.patch
          ++ lib.optional (builtins.compareVersions drv.version "8.5" ==  1)   ./patches/ghc/mistuke-ghc-err_clean_up_error_handler-8ab1a89af89848f1713e6849f189de66c0ed7898.diff
          # this might be fixed in 8.6.4 (if a release is cut), or 8.8
@@ -42,6 +43,7 @@
          ++ lib.optional (builtins.compareVersions drv.version "8.2" ==  1)   ./patches/ghc/MR545--ghc-pkg-databases.patch
          ++ lib.optional (builtins.compareVersions drv.version "8.6.4" == -1) ./patches/ghc/MR95--ghc-pkg-deadlock-fix.patch
          ++ lib.optional (builtins.compareVersions drv.version "8.6.4" == 0)  ./patches/ghc/ghc-8.6.4-reenable-th-qq-in-stage1.patch
+         ++ lib.optional (builtins.compareVersions drv.version "8.6.5" == 0)  ./patches/ghc/ghc-8.6.4-reenable-th-qq-in-stage1.patch
          ++ lib.optional (builtins.compareVersions drv.version "8.6.4" == 0)  ./patches/ghc/ghc-8.6.4-better-plusSimplCountErrors.patch
          ++ [
           ./patches/ghc/ghc-add-keepCAFs-to-rts.patch
