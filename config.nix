@@ -100,6 +100,7 @@
       compiler.ghc862 = (ps.haskell.compiler.ghc862.override ghcPkgOverrides).overrideAttrs ghcDrvOverrides;
       compiler.ghc863 = (ps.haskell.compiler.ghc863.override ghcPkgOverrides).overrideAttrs ghcDrvOverrides;
       compiler.ghc864 = (ps.haskell.compiler.ghc864.override ghcPkgOverrides).overrideAttrs ghcDrvOverrides;
+      compiler.ghc865 = (ps.haskell.compiler.ghc865.override ghcPkgOverrides).overrideAttrs ghcDrvOverrides;
     };
   };
 }
