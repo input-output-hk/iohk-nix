@@ -64,4 +64,12 @@ in {
     remote-iserv = ./ghc-packages/remote-iserv-8.6.4.nix;
     iserv-proxy  = ./ghc-packages/iserv-proxy-8.6.4.nix;
   };
+  ghc865 = h: ghc86 h // {
+    ghc          = ./ghc-packages/ghc-8.6.5.nix;
+    ghci         = ./ghc-packages/ghci-8.6.5.nix;
+    ghc-boot     = ./ghc-packages/ghc-boot-8.6.5.nix;
+    libiserv     = ./ghc-packages/libiserv-8.6.5.nix;
+    remote-iserv = ./ghc-packages/remote-iserv-8.6.5.nix;
+    iserv-proxy  = ./ghc-packages/iserv-proxy-8.6.5.nix;
+  };
 }
