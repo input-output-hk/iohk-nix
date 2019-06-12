@@ -12,8 +12,8 @@ rustPlatform.buildRustPackage rec {
   src = fetchFromGitHub {
     owner = "input-output-hk";
     repo = "jormungandr";
-    rev = "6522b8da77d38db1844186dea74bc3bc0c2f516c";
-    sha256 = "1sl2bw5x1flxzyrk9sxqhwnlbh4bqjcgnas915dfqwsali8nijsi";
+    rev = "3e5e425d232ec342ee45d86bd133fec149263ad2";
+    sha256 = "1iyamy29dniav4qssc45gp15nv28baa3f0vr41dbgxxnpyfxr2f6";
     fetchSubmodules = true;
   };
 
