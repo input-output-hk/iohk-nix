@@ -43,6 +43,7 @@
          ++ lib.optional (versionAtLeast "8.2")                           ./patches/ghc/MR545--ghc-pkg-databases.patch                        # https://gitlab.haskell.org/ghc/ghc/merge_requests/545  -- merged; ghc-8.8.1
          ++ lib.optional (versionAtLeast "8.6")                           ./patches/ghc/outputtable-assert-8.6.patch
          ++ lib.optional (versionAtLeast "8.6")                           ./patches/ghc/mistuke-ghc-err_clean_up_error_handler-8ab1a89af89848f1713e6849f189de66c0ed7898.diff # this is part of Phyx- revamped io-manager.
+         ++ lib.optional (versionAtLeast "8.6.4")                         ./patches/ghc/ghc-8.6.4-reenable-th-qq-in-stage1.patch
          ++ [
           ./patches/ghc/ghc-add-keepCAFs-to-rts.patch                         # https://gitlab.haskell.org/ghc/ghc/merge_requests/950  -- open
           ./patches/ghc/lowercase-8.6.patch                                   # https://gitlab.haskell.org/ghc/ghc/merge_requests/949  -- merged; ghc-8.8.1
@@ -61,8 +62,6 @@
          ++ lib.optional (drv.version == "8.6.3")                         ./patches/ghc/ghc-8.6.3-reinstallable-lib-ghc.patch
          ++ lib.optional (drv.version == "8.6.4")                         ./patches/ghc/ghc-8.6.4-reinstallable-lib-ghc.patch
          ++ lib.optional (drv.version == "8.6.5")                         ./patches/ghc/ghc-8.6.5-reinstallable-lib-ghc.patch
-         ++ lib.optional (drv.version == "8.6.4")                         ./patches/ghc/ghc-8.6.4-reenable-th-qq-in-stage1.patch
-         ++ lib.optional (drv.version == "8.6.5")                         ./patches/ghc/ghc-8.6.4-reenable-th-qq-in-stage1.patch
          ++ lib.optional (drv.version == "8.6.4")                         ./patches/ghc/ghc-8.6.4-better-plusSimplCountErrors.patch
          ;
         # Run autoconf again, because an .ac file may have been patched
