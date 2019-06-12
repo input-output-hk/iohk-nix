@@ -12,8 +12,8 @@ rustPlatform.buildRustPackage rec {
   src = fetchFromGitHub {
     owner = "input-output-hk";
     repo = "jormungandr";
-    rev = "88f3421b0665f36782a70485fce4922935e785dc";
-    sha256 = "0xcg2vzl5zc0hzq339r4sxc2nzj9vc28xhplcfxf1k1x0xis79yq";
+    rev = "3e5e425d232ec342ee45d86bd133fec149263ad2";
+    sha256 = "1iyamy29dniav4qssc45gp15nv28baa3f0vr41dbgxxnpyfxr2f6";
     fetchSubmodules = true;
   };
 
@@ -21,4 +21,6 @@ rustPlatform.buildRustPackage rec {
   nativeBuildInputs = [ pkgconfig ];
   buildInputs = [ sqlite protobuf openssl ];
   PROTOC = "${protobuf}/bin/protoc";
+  JOR_CLI_NAME = "../release/jcli";
+  JORMUNGANDR_NAME = "../release/jormungandr";
 }
