@@ -1,4 +1,6 @@
-{ rustPlatform
+{ lib
+, stdenv
+, rustPlatform
 , fetchFromGitHub
 , sqlite
 , protobuf
@@ -17,6 +19,7 @@ rustPlatform.buildRustPackage rec {
     fetchSubmodules = true;
   };
 
+  cargoBuildFlags = lib.optionals (stdenv.isLinux) ["--features jormungandr/systemd"];
   cargoSha256 = "1na2fqf90x34c2qix2i4yjdimjb3k6khfk7m1ig5vqc5nv6y7ahy";
   nativeBuildInputs = [ pkgconfig ];
   buildInputs = [ sqlite protobuf openssl ];
