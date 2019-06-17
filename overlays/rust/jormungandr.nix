@@ -6,26 +6,50 @@
 , pkgconfig
 , openssl
 , darwin
+, rustup
+, rustc
+, cargo
+, rustfmt
 ,  ... }:
-
 let
   Security = darwin.apple_sdk.frameworks.Security;
+in {
 
-in rustPlatform.buildRustPackage rec {
-  version = "0.2.1";
-  name = "jormungandr-${version}";
-  src = fetchFromGitHub {
-    owner = "input-output-hk";
-    repo = "jormungandr";
-    rev = "v${version}";
-    sha256 = "1rq40968vznix2lmkvn9c3ap65ncjnqv5wxmhrr0vj6sa2m24ikd";
-    fetchSubmodules = true;
+  jormungandr = rustPlatform.buildRustPackage rec {
+    version = "0.2.1";
+    name = "jormungandr-${version}";
+    src = fetchFromGitHub {
+      owner = "input-output-hk";
+      repo = "jormungandr";
+      rev = "v${version}";
+      sha256 = "1rq40968vznix2lmkvn9c3ap65ncjnqv5wxmhrr0vj6sa2m24ikd";
+      fetchSubmodules = true;
+    };
+
+    cargoSha256 = "0kpfq3j8wgsw685p94zk57h26zivnvrshvrfx35blb6aabr6kmx8";
+    nativeBuildInputs = [ pkgconfig ];
+    buildInputs = [ sqlite protobuf openssl ] ++ stdenv.lib.optional stdenv.isDarwin Security;
+    PROTOC = "${protobuf}/bin/protoc";
+    JOR_CLI_NAME = "../release/jcli";
+    JORMUNGANDR_NAME = "../release/jormungandr";
   };
 
-  cargoSha256 = "0kpfq3j8wgsw685p94zk57h26zivnvrshvrfx35blb6aabr6kmx8";
-  nativeBuildInputs = [ pkgconfig ];
-  buildInputs = [ sqlite protobuf openssl ] ++ stdenv.lib.optional stdenv.isDarwin Security;
-  PROTOC = "${protobuf}/bin/protoc";
-  JOR_CLI_NAME = "../release/jcli";
-  JORMUNGANDR_NAME = "../release/jormungandr";
+  jormungandrMaster = rustPlatform.buildRustPackage rec {
+    version = "0.2.1";
+    name = "jormungandr-master-${version}";
+    src = fetchFromGitHub {
+      owner = "jbgi";
+      repo = "jormungandr";
+      rev = "7e5fabde850e530bec49a4ade87c709d80bc9570";
+      sha256 = "1gkfnzr3vqydq588rvh9llg4p05369bhh6gq7ar9d4mjvv41fl9i";
+      fetchSubmodules = true;
+    };
+    doCheck = false;
+    cargoSha256 = "0sc86cmzii3dm3665sl68d9a1mzb70sp00f1b9d60jcb60hbbg7m";
+    nativeBuildInputs = [ pkgconfig ];
+    buildInputs = [ sqlite protobuf openssl ] ++ stdenv.lib.optional stdenv.isDarwin Security;
+    PROTOC = "${protobuf}/bin/protoc";
+    JOR_CLI_NAME = "../release/jcli";
+    JORMUNGANDR_NAME = "../release/jormungandr";
+  };
 }
