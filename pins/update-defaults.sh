@@ -9,5 +9,9 @@ nix-prefetch-git https://github.com/input-output-hk/nixpkgs \
                  --rev refs/heads/iohk-18.09 \
                  > $PINS_DIR/default-nixpkgs-src.json
 
+nix-prefetch-git https://github.com/NixOS/nixpkgs-channels \
+                 --rev refs/heads/nixos-19.03 \
+                 > $PINS_DIR/rust-nixpkgs-src.json
+
 nix-prefetch-git https://github.com/input-output-hk/haskell.nix \
                  > $PINS_DIR/haskell-nix.json
