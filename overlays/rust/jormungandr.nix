@@ -1,12 +1,17 @@
 { rustPlatform
+, stdenv
 , fetchFromGitHub
 , sqlite
 , protobuf
 , pkgconfig
 , openssl
+, darwin
 ,  ... }:
 
-rustPlatform.buildRustPackage rec {
+let
+  Security = darwin.apple_sdk.frameworks.Security;
+
+in rustPlatform.buildRustPackage rec {
   version = "0.2.1";
   name = "jormungandr-${version}";
   src = fetchFromGitHub {
@@ -19,7 +24,7 @@ rustPlatform.buildRustPackage rec {
 
   cargoSha256 = "0kpfq3j8wgsw685p94zk57h26zivnvrshvrfx35blb6aabr6kmx8";
   nativeBuildInputs = [ pkgconfig ];
-  buildInputs = [ sqlite protobuf openssl ];
+  buildInputs = [ sqlite protobuf openssl ] ++ stdenv.lib.optional stdenv.isDarwin Security;
   PROTOC = "${protobuf}/bin/protoc";
   JOR_CLI_NAME = "../release/jcli";
   JORMUNGANDR_NAME = "../release/jormungandr";

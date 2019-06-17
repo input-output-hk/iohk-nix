@@ -4,9 +4,13 @@
 , protobuf
 , pkgconfig
 , openssl
+, stdenv
+, darwin
 ,  ... }:
 
-rustPlatform.buildRustPackage rec {
+let
+  Security = darwin.apple_sdk.frameworks.Security;
+in rustPlatform.buildRustPackage rec {
   version = "0.0";
   name = "cardano-http-bridge-${version}";
   src = fetchFromGitHub {
@@ -18,6 +22,6 @@ rustPlatform.buildRustPackage rec {
   };
 
   cargoSha256 = "19g5fy8af65vd9rl66058c67nlrz7r6mjd0cy83865d7q81hdl8r";
-  buildInputs = [ protobuf ];
+  buildInputs = [ protobuf ] ++ stdenv.lib.optional stdenv.isDarwin Security;
   PROTOC = "${protobuf}/bin/protoc";
 }
