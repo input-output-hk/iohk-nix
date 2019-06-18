@@ -16,7 +16,8 @@ in {
     rustc = stableChannel.rust;
     cargo = stableChannel.cargo;
   });
-  jormungandr = super.pkgs.callPackage ./jormungandr.nix {};
+  jormungandr = (super.pkgs.callPackage ./jormungandr.nix {}).jormungandr;
+  jormungandrMaster = (super.pkgs.callPackage ./jormungandr.nix {}).jormungandrMaster;
   cardano-http-bridge = super.pkgs.callPackage ./cardano-http-bridge.nix {};
   cardano-http-bridge-emurgo = super.pkgs.callPackage ./cardano-http-bridge-emurgo.nix {};
   cardano-cli = super.pkgs.callPackage ./cardano-cli.nix {};
