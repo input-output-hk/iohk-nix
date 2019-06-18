@@ -3,6 +3,7 @@ commonLib: # the iohk-nix commonLib
 , required-name ? "required"
 , required-targets ? (jobsets: [])
 , extraBuilds ? {}
+, builds-on-supported-systems ? []
 , config ? {}
 # information hydra passes in about the current
 # package under evaluation.
@@ -53,6 +54,10 @@ let
   };
 
   mapped-pkgs = mapTestOn (nix-tools-pkgs supportedSystems);
+
+  mapped-builds-on-supported-systems = mapTestOn (listToAttrs 
+    (map (n: nameValuePair n supportedSystems) builds-on-supported-systems));
+
   # we use builtins.currentSystem here as that will evaluate to whatever the evaluator runs on.
   # thus someone on macOS will be able to build the .x86_64-darwin cross expressions, while
   # someone on linux will be able to build the .x86_64-linux ones.  As hydra is running on
@@ -69,8 +74,8 @@ let
         mapped-pkgs-mingw32-renamed;
   mapped-pkgs-all
     = lib.recursiveUpdate
-        mapped-pkgs-partial
-        extraBuilds;
+        (lib.recursiveUpdate mapped-pkgs-partial extraBuilds)
+        mapped-builds-on-supported-systems;
 
 in fix (self: (builtins.removeAttrs packageSet ["nix-tools" "_lib"]) // mapped-pkgs-all
 // {
