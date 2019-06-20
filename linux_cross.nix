@@ -52,7 +52,7 @@ let
     set -euo pipefail
     ${qemu}/bin/qemu-${qemuSuffix} $@*
     '';
-  setupTestFlags = lib.optionals isLinuxCross [ "--test-wrapper ${qemuTestWrapper}/bin/test-wrapper" ];
+  testFlags = lib.optionals isLinuxCross [ "--test-wrapper ${qemuTestWrapper}/bin/test-wrapper" ];
   preCheck = lib.optionalString isLinuxCross ''
     echo "================================================================="
     echo "RUNNING TESTS for $name via qemu-${qemuSuffix}"
@@ -68,4 +68,4 @@ let
     echo "================================================================="
   '';
 
-in { inherit preCheck postCheck configureFlags setupBuildFlags setupTestFlags; }
+in { inherit preCheck postCheck configureFlags setupBuildFlags testFlags; }

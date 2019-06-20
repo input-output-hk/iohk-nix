@@ -53,7 +53,7 @@ let
     set -euo pipefail
     WINEDLLOVERRIDES="winemac.drv=d" WINEDEBUG=-all+error LC_ALL=en_US.UTF-8 WINEPREFIX=$TMP ${wine}/bin/wine64 $@*
   '';
-  setupTestFlags = lib.optionals hostPlatform.isWindows [ "--test-wrapper ${wineTestWrapper}/bin/test-wrapper" ];
+  testFlags = lib.optionals hostPlatform.isWindows [ "--test-wrapper ${wineTestWrapper}/bin/test-wrapper" ];
   preCheck = lib.optionalString hostPlatform.isWindows ''
     echo "================================================================================"
     echo "RUNNING TESTS for $name via wine64"
@@ -78,4 +78,4 @@ let
     echo "================================================================================"
   '';
 
-in { inherit preCheck postCheck setupBuildFlags setupTestFlags; }
+in { inherit preCheck postCheck setupBuildFlags testFlags; }
