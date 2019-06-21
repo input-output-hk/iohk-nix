@@ -26,7 +26,8 @@ in {
       fetchSubmodules = true;
     };
 
-    cargoSha256 = "0kpffffffffw685p94zk57h26zivnvrshvrfff5blb6aabr6kmx8";
+    cargoSha256 = "1svjz14hwg6b2xd7rhn1n43d0mgdp1vb0x3bjj60yqvxz12mwl1s";
+    cargoPatches = [ ./patches/jormungandr-0.2.2-generate-lockfile.patch ];
     nativeBuildInputs = [ pkgconfig ];
     buildInputs = [ sqlite protobuf openssl ] ++ stdenv.lib.optional stdenv.isDarwin Security;
     PROTOC = "${protobuf}/bin/protoc";
@@ -45,7 +46,8 @@ in {
       fetchSubmodules = true;
     };
     doCheck = false;
-    cargoSha256 = "0sc86cmzii3dm3665sl68d9a1mzb7ffff0f1b9d60jcb60hbbg7m";
+    cargoSha256 = "1svjz14hwg6b2xd7rhn1n43d0mgdp1vb0x3bjj60yqvxz12mwl1s";
+    cargoPatches = [ ./patches/jormungandr-0.2.2-generate-lockfile.patch ];
     nativeBuildInputs = [ pkgconfig ];
     buildInputs = [ sqlite protobuf openssl ] ++ stdenv.lib.optional stdenv.isDarwin Security;
     PROTOC = "${protobuf}/bin/protoc";
