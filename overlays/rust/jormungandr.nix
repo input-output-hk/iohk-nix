@@ -38,14 +38,14 @@ in {
     version = "0.2.1";
     name = "jormungandr-master-${version}";
     src = fetchFromGitHub {
-      owner = "jbgi";
+      owner = "input-output-hk";
       repo = "jormungandr";
-      rev = "7e5fabde850e530bec49a4ade87c709d80bc9570";
-      sha256 = "1gkfnzr3vqydq588rvh9llg4p05369bhh6gq7ar9d4mjvv41fl9i";
+      rev = "bebd3a3ad8b4065e2b2744586c89d69cc20c2adb";
+      sha256 = "0dznwql27kd9ygvhy5vc0wbqkhy9jj5nbpa4c9zwln48r6xvznyg";
       fetchSubmodules = true;
     };
     doCheck = false;
-    cargoSha256 = "0sc86cmzii3dm3665sl68d9a1mzb70sp00f1b9d60jcb60hbbg7m";
+    cargoSha256 = "15xdhvxish67rp48idsi6qc669skyl0xrn9a6b6ql563j934a70s";
     nativeBuildInputs = [ pkgconfig ];
     buildInputs = [ sqlite protobuf openssl ] ++ stdenv.lib.optional stdenv.isDarwin Security;
     PROTOC = "${protobuf}/bin/protoc";
