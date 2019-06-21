@@ -24,6 +24,7 @@ let
     rust-packages.pkgs.cardano-http-bridge = supportedSystems;
     rust-packages.pkgs.cardano-cli = supportedSystems;
     rust-packages.pkgs.jormungandr = supportedSystems;
+    rust-packages.pkgs.jormungandr-cli = supportedSystems;
     rust-packages.pkgs.jormungandrMaster = supportedSystems;
 
     # this seems not to work :-/
@@ -47,6 +48,7 @@ fix (self: mappedPkgs // {
       rust-packages.pkgs.cardano-http-bridge.x86_64-linux
       rust-packages.pkgs.cardano-cli.x86_64-linux
       rust-packages.pkgs.jormungandr.x86_64-linux
+      rust-packages.pkgs.jormungandr-cli.x86_64-linux
     ];
   });
 })
