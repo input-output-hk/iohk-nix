@@ -16,17 +16,17 @@ let
 in {
 
   jormungandr = rustPlatform.buildRustPackage rec {
-    version = "0.2.1";
+    version = "0.2.2";
     name = "jormungandr-${version}";
     src = fetchFromGitHub {
       owner = "input-output-hk";
       repo = "jormungandr";
       rev = "v${version}";
-      sha256 = "1rq40968vznix2lmkvn9c3ap65ncjnqv5wxmhrr0vj6sa2m24ikd";
+      sha256 = "0fy6sq2j9lxkn7md094ysildwcsnjjq142js4l8x0f1l8yfpqh3i";
       fetchSubmodules = true;
     };
 
-    cargoSha256 = "0kpfq3j8wgsw685p94zk57h26zivnvrshvrfx35blb6aabr6kmx8";
+    cargoSha256 = "0kpffffffffw685p94zk57h26zivnvrshvrfff5blb6aabr6kmx8";
     nativeBuildInputs = [ pkgconfig ];
     buildInputs = [ sqlite protobuf openssl ] ++ stdenv.lib.optional stdenv.isDarwin Security;
     PROTOC = "${protobuf}/bin/protoc";
@@ -35,17 +35,17 @@ in {
   };
 
   jormungandrMaster = rustPlatform.buildRustPackage rec {
-    version = "0.2.1";
+    version = "unstable";
     name = "jormungandr-master-${version}";
     src = fetchFromGitHub {
-      owner = "jbgi";
+      owner = "input-output-hk";
       repo = "jormungandr";
-      rev = "7e5fabde850e530bec49a4ade87c709d80bc9570";
-      sha256 = "1gkfnzr3vqydq588rvh9llg4p05369bhh6gq7ar9d4mjvv41fl9i";
+      rev = "d471df6b609484c65538f97dd36f925ab8c6812a";
+      sha256 = "0fy6sq2j9lxkn7md094ysildwcsnjjq142js4l8x0f1l8yfpqh3i";
       fetchSubmodules = true;
     };
     doCheck = false;
-    cargoSha256 = "0sc86cmzii3dm3665sl68d9a1mzb70sp00f1b9d60jcb60hbbg7m";
+    cargoSha256 = "0sc86cmzii3dm3665sl68d9a1mzb7ffff0f1b9d60jcb60hbbg7m";
     nativeBuildInputs = [ pkgconfig ];
     buildInputs = [ sqlite protobuf openssl ] ++ stdenv.lib.optional stdenv.isDarwin Security;
     PROTOC = "${protobuf}/bin/protoc";
