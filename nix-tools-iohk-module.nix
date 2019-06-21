@@ -70,6 +70,12 @@ in {
     x509-system.patches        = [ ./patches/x509-system-1.6.6.patch ];
     file-embed-lzma.patches    = [ ./patches/file-embed-lzma-0.patch ];
 
+    # Fix dependencies and case-sensitive filesystem builds for unix-time.
+    packages.unix-time = pkgs.lib.optionalAttrs pkgs.stdenv.hostPlatform.isWindows {
+      components.library.libs = with pkgs.windows; [ mingw_w64_headers mingw_w64_pthreads ];
+      postUnpack = "substituteInPlace */cbits/win_patch.h --replace Windows.h windows.h";
+    };
+
     # Set all of these to [], as these form the
     # dependency graph of the libiserv, iserv-proxy, and iserv-remote
     # packages.  Subsequently we do not want the defaults that `withTH`
