@@ -35,7 +35,7 @@
          ++ lib.optional (versionOlder "8.6")                             ./patches/ghc/cabal-exe-ext-8.4.2.patch
          ++ lib.optional (versionOlder "8.6")                             ./patches/ghc/ghc-8.4.3-Cabal2201-SMP-test-fix.patch
          ++ lib.optional (versionOlder "8.6")                             ./patches/ghc/outputtable-assert-8.4.patch
-         ++ lib.optional (versionAtLeast "8.6" && versionOlder "8.6.5")   ./patches/ghc/MR148--T16104-GhcPlugins.patch
+         ++ lib.optional (versionAtLeast "8.6" && versionOlder "8.6.4")   ./patches/ghc/MR148--T16104-GhcPlugins.patch
          ++ lib.optional (versionOlder "8.6.5")                           ./patches/ghc/MR95--ghc-pkg-deadlock-fix.patch
 
          # Patches for which we only know a lower bound.
