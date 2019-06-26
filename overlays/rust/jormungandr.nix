@@ -57,6 +57,10 @@ in {
       ++ lib.optional stdenv.isLinux systemd;
     preBuild = "cd jcli";
     preInstall = "cd ..";
+    postInstall = ''
+      mkdir $out/scripts
+      cp scripts/* $out/scripts/
+    '';
     PROTOC = "${protobuf}/bin/protoc";
   };
 
