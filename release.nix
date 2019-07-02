@@ -27,6 +27,7 @@ let
     rust-packages.pkgs.jormungandr-master = supportedSystems;
     rust-packages.pkgs.jormungandr-cli = supportedSystems;
     rust-packages.pkgs.jormungandr-cli-master = supportedSystems;
+    niv = supportedSystems;
 
     # this seems not to work :-/
     # tests.hlint                  = supportedSystems;
@@ -62,6 +63,8 @@ fix (self: mappedPkgs // {
       rust-packages.pkgs.jormungandr-master.x86_64-linux
       rust-packages.pkgs.jormungandr-cli.x86_64-linux
       rust-packages.pkgs.jormungandr-cli-master.x86_64-linux
+      niv.x86_64-linux
+      niv.x86_64-darwin
     ];
   });
 } // {

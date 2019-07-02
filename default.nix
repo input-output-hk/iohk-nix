@@ -2,31 +2,26 @@
 , config ? {}
 , system ? builtins.currentSystem
 , crossSystem ? null
+, sourcesOverride ? {}
 # Set application for getting a specific application nixkgs-src.json
 , application ? ""
-# Override nixpkgs-src.json to a file in your repo
 , nixpkgsOverride ? ""
-, nixpkgsJsonOverride ? ""
 # Modify nixpkgs with overlays
 , nixpkgsOverlays ? []
-# Override haskell-nix.json to a file in your repo
-, haskellNixJsonOverride ? ""
 }:
 
 let
-  # Default nixpkgs-src.json to use
-  nixpkgsJsonDefault = ./pins/default-nixpkgs-src.json;
-  nixpkgsJson = if (nixpkgsJsonOverride != "") then nixpkgsJsonOverride else
-    (if (application != "") then (getNixpkgsJson application) else nixpkgsJsonDefault);
+  defaultSources = import ./nix/sources.nix;
+  sources = defaultSources // sourcesOverride;
 
-  getNixpkgsJson = application: ./pins + "/${application}-nixpkgs-src.json";
   jemallocOverlay = import ./overlays/jemalloc.nix;
 
   commonLib = rec {
-    fetchNixpkgs = import ./fetch-tarball-with-override.nix "custom_nixpkgs";
     # equivalent of <nixpkgs> but pinned instead of system
-    nixpkgs = if nixpkgsOverride != "" then nixpkgsOverride else fetchNixpkgs nixpkgsJson;
-    pkgsDefault = import (fetchNixpkgs nixpkgsJsonDefault) {};
+    nixpkgs = builtins.getAttr
+      (if application != "" then "nixpkgs-${application}" else "nixpkgs")
+      sources;
+    pkgsDefault = import (defaultSources.nixpkgs) {};
     getPkgs = let
       system' = system;
       globalConfig' = globalConfig;
@@ -37,7 +32,7 @@ let
        , system ? system'
        , globalConfig ? globalConfig'
        , config ? config'
-       , crossSystem ? crossSystem' }: import (fetchNixpkgs nixpkgsJson) ({
+       , crossSystem ? crossSystem' }: import nixpkgs ({
           overlays = [ jemallocOverlay ] ++ extraOverlays;
           config = globalConfig // config;
           inherit system crossSystem;
@@ -79,7 +74,7 @@ let
     # stack.yaml files.
     package = (haskell { pkgs = commonLib.pkgsDefault; }).nix-tools;
     # A different haskell infrastructure
-    haskell = (import ./haskell.nix) { inherit haskellNixJsonOverride; };
+    haskell = { pkgs }: import sources.haskell { inherit pkgs; };
     # Script to invoke nix-tools stack-to-nix on a repo.
     regeneratePackages = commonLib.pkgsDefault.callPackage ./nix-tools-regenerate.nix {
       nix-tools = package;
@@ -114,12 +109,11 @@ let
   };
 
   rust-packages = rec {
-    nixpkgsRust = ./pins/rust-nixpkgs-src.json;
     overlays = [
       (commonLib.pkgsDefault.callPackage ./overlays/rust/mozilla.nix {})
       (import ./overlays/rust)
     ];
-    pkgs = import (commonLib.fetchNixpkgs nixpkgsRust) {
+    pkgs = import sources.nixpkgs-unstable {
       inherit overlays;
       config = globalConfig // config;
       inherit system crossSystem;
@@ -130,4 +124,5 @@ in {
   inherit tests nix-tools stack2nix jemallocOverlay rust-packages cardanoLib jormungandrLib;
   inherit (commonLib) pkgs haskellPackages fetchNixpkgs maybeEnv cleanSourceHaskell getPkgs nixpkgs commitIdFromGitRepo getPackages cache-s3 stack-hpc-coveralls hlint stylish-haskell openapi-spec-validator cardano-repo-tool check-hydra check-nix-tools haskellBuildUtils;
   release-lib = ./lib/release-lib.nix;
+  inherit (import sources.niv {}) niv;
 }
