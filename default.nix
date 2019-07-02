@@ -2,6 +2,7 @@
 , config ? {}
 , system ? builtins.currentSystem
 , crossSystem ? null
+, sourcesOverride ? {}
 # Set application for getting a specific application nixkgs-src.json
 , application ? ""
 # Override nixpkgs-src.json to a file in your repo
@@ -14,19 +15,50 @@
 }:
 
 let
-  # Default nixpkgs-src.json to use
-  nixpkgsJsonDefault = ./pins/default-nixpkgs-src.json;
-  nixpkgsJson = if (nixpkgsJsonOverride != "") then nixpkgsJsonOverride else
-    (if (application != "") then (getNixpkgsJson application) else nixpkgsJsonDefault);
+  defaultSources = import ./nix/sources.nix;
+  pkgsDefault = import (defaultSources.nixpkgs) {};
+  fetchTarballFromJson = jsonFile:
+    let
+      spec = builtins.fromJSON (builtins.readFile jsonFile);
+    in builtins.fetchTarball {
+      url = "${spec.url}/archive/${spec.rev}.tar.gz";
+      inherit (spec) sha256;
+    };
+  deprecationWarning = parameter: builtins.trace ''
+    WARNING: iohk-nix \"${parameter}\" parameter is deprecated.
+    Please use niv (https://github.com/input-output-hk/niv/) and the \"sourcesOverride\" parameter instead.
+  '';
+  hasNoPathOverride = host: !(builtins.tryEval (builtins.findFile builtins.nixPath host)).success;
+  sources = with pkgsDefault.lib; defaultSources // sourcesOverride //
+    (optionalAttrs (hasNoPathOverride "custom_nixpkgs")
+      (optionalAttrs (application != "") {
+        nixpkgs = deprecationWarning "application"
+          defaultSources."nixpkgs-${application}";
+      }) //
+      (optionalAttrs (nixpkgsJsonOverride != "") {
+        nixpkgs = deprecationWarning "nixpkgsJsonOverride"
+          fetchTarballFromJson nixpkgsJsonOverride;
+      }) //
+      (optionalAttrs (nixpkgsOverride != "") {
+        nixpkgs = deprecationWarning "nixpkgsOverride"
+          nixpkgsOverride;
+      })
+    ) //
+    (optionalAttrs (hasNoPathOverride "haskell" && haskellNixJsonOverride != "") {
+      haskell = deprecationWarning "haskellNixJsonOverride"
+        fetchTarballFromJson haskellNixJsonOverride;
+    });
 
-  getNixpkgsJson = application: ./pins + "/${application}-nixpkgs-src.json";
   jemallocOverlay = import ./overlays/jemalloc.nix;
 
   commonLib = rec {
-    fetchNixpkgs = import ./fetch-tarball-with-override.nix "custom_nixpkgs";
+    fetchNixpkgs = builtins.trace ''
+      WARNING: iohk-nix 'fetchNixpkgs' function is deprecated.
+      Please use niv (https://github.com/input-output-hk/niv) to pin nixpkgs instead."
+    '' (import ./fetch-tarball-with-override.nix "custom_nixpkgs");
     # equivalent of <nixpkgs> but pinned instead of system
-    nixpkgs = if nixpkgsOverride != "" then nixpkgsOverride else fetchNixpkgs nixpkgsJson;
-    pkgsDefault = import (fetchNixpkgs nixpkgsJsonDefault) {};
+    inherit (sources) nixpkgs;
+    inherit pkgsDefault;
     getPkgs = let
       system' = system;
       globalConfig' = globalConfig;
@@ -37,7 +69,7 @@ let
        , system ? system'
        , globalConfig ? globalConfig'
        , config ? config'
-       , crossSystem ? crossSystem' }: import (fetchNixpkgs nixpkgsJson) ({
+       , crossSystem ? crossSystem' }: import nixpkgs ({
           overlays = [ jemallocOverlay ] ++ extraOverlays;
           config = globalConfig // config;
           inherit system crossSystem;
@@ -63,7 +95,7 @@ let
 
     # Development tools
     haskellBuildUtils = import ./utils/default.nix {
-      pkgs = import (fetchNixpkgs nixpkgsJsonDefault) { inherit system; };
+      pkgs = import defaultSources.nixpkgs { inherit system; };
     };
     cache-s3 = pkgsDefault.callPackage ./pkgs/cache-s3.nix {};
     stack-hpc-coveralls = pkgsDefault.haskellPackages.callPackage ./pkgs/stack-hpc-coveralls.nix {};
@@ -93,7 +125,7 @@ let
     # stack.yaml files.
     package = (haskell { pkgs = commonLib.pkgsDefault; }).nix-tools;
     # A different haskell infrastructure
-    haskell = (import ./haskell.nix) { inherit haskellNixJsonOverride; };
+    haskell = { pkgs }: import sources.haskell { inherit pkgs; };
     # Script to invoke nix-tools stack-to-nix on a repo.
     regeneratePackages = commonLib.pkgsDefault.callPackage ./nix-tools-regenerate.nix {
       nix-tools = package;
@@ -128,12 +160,11 @@ let
   };
 
   rust-packages = rec {
-    nixpkgsRust = ./pins/rust-nixpkgs-src.json;
     overlays = [
       (commonLib.pkgsDefault.callPackage ./overlays/rust/mozilla.nix {})
       (import ./overlays/rust)
     ];
-    pkgs = import (commonLib.fetchNixpkgs nixpkgsRust) {
+    pkgs = import sources.nixpkgs-unstable {
       inherit overlays;
       config = globalConfig // config;
       inherit system crossSystem;
@@ -170,4 +201,5 @@ in {
     check-hydra
     check-nix-tools;
   release-lib = ./lib/release-lib.nix;
+  inherit (import sources.niv {}) niv;
 }
