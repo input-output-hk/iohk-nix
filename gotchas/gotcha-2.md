@@ -102,6 +102,19 @@ with their JSON pins in `haskell.nix`.
 The best course of action is usually to update your `haskell.nix`
 version.
 
+For projects that use `iohk-nix` to grab `haskell.nix` this usually
+means updating `iohk-nix` pinned version in your project.
+This can be done by running a `nix/update-iohk-nix.sh` script
+or manually updating the json file describing the pin:
+```
+nix-prefetch-git https://github.com/input-output-hk/iohk-nix | tee iohk-nix.json
+```
+
+If this does not fix the issue then the version of `haskell.nix` in
+`iohk-nix` is out-of-date. In this case, running
+`pins/update-defaults.sh` in `iohk-nix` and merging the changes
+is needed beforehand.
+
 ### `error: attribute '0.42.0' missing, at /home/user/project/nix/pkgs.nix:10:22`
 
 This usually means that the the given version of a package does not
