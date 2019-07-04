@@ -71,58 +71,26 @@ set like this:
   packages.transformers.components.library.doExactConfig = true;
 }
 ```
+### `error: attribute '0.42.0' missing, at /home/user/project/nix/pkgs.nix:10:22`
 
-### `attribute ghc864 missing`
+This usually means that the the given version of a package does not
+exist in `hackage.nix`.
 
-This happens when a compiler is not available in the Nixpkgs package
-collection that you are using. Nixpkgs will only keep one compiler of
-each major version.
-
-You may need to use a different Nixpkgs channel.
-
-If using `stack-to-nix`, you could choose a different Stackage snapshot.
-
-If using `plan-to-nix`, you could regenerate your plan and nix with a
-compiler version that exists in your Nixpkgs.
-
-
-### `attribute 'lts-13.17' missing`
-
-```
-error: attribute 'lts-13.17' missing, at /nix/store/z229kzbikg42cxd1xq42wwsp1divan0z-source/default.nix:81:19
-```
-
-This means that the resolver specified in `stack.yaml` was not found
-in `stackage.nix`. The snapshot is probably more recent than your
-version of `stackage.nix`.
-
-The repos `stackage.nix` and `hackage.nix` are updated daily, along
-with their JSON pins in `haskell.nix`.
-
-The best course of action is usually to update your `haskell.nix`
-version.
+The best course of action is usually to update your
+`haskell.nix` version, which will bring in a newer version of
+`hackage.nix`.
 
 For projects that use `iohk-nix` to grab `haskell.nix` this usually
-means updating `iohk-nix` pinned version in your project.
-This can be done by running a `nix/update-iohk-nix.sh` script
-or manually updating the json file describing the pin:
-```
-nix-prefetch-git https://github.com/input-output-hk/iohk-nix | tee iohk-nix.json
-```
+means updating `iohk-nix` pinned version in your project. See the
+[README](https://github.com/input-output-hk/iohk-nix#how-to-update-the-iohk-nix-revision)
+for instructions.
 
 If this does not fix the issue then the version of `haskell.nix` in
 `iohk-nix` is out-of-date. In this case, running
 `pins/update-defaults.sh` in `iohk-nix` and merging the changes
 is needed beforehand.
 
-### `error: attribute '0.42.0' missing, at /home/user/project/nix/pkgs.nix:10:22`
-
-This usually means that the the given version of a package does not
-exist in `hackage.nix`.
-
-As above, the best course of action is usually to update your
-`haskell.nix` version, which will bring in a newer version of
-`hackage.nix`.
+Related: [issue #125](https://github.com/input-output-hk/haskell.nix/issues/125)
 
 ### `pq` dependency missing, or other `extra-libraries` package
 
