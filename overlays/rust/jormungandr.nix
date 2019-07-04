@@ -63,23 +63,4 @@ in {
     '';
     PROTOC = "${protobuf}/bin/protoc";
   };
-
-  jormungandrMaster = rustPlatform.buildRustPackage rec {
-    version = "unstable";
-    name = "jormungandr-master-${version}";
-    src = fetchFromGitHub {
-      owner = "input-output-hk";
-      repo = "jormungandr";
-      rev = "cc02cc30c89f01fd807a4cb997a85744e228e829";
-      sha256 = "0wfkgcvc3jvcr7xf18948925xhf46ijsh1m23zs5xz4r3j003llk";
-      fetchSubmodules = true;
-    };
-    doCheck = false;
-    cargoSha256 = "15xdhvxish67rp48idsi6qc669skyl0xrn9a6b6ql563j934a70s";
-    nativeBuildInputs = [ pkgconfig ];
-    buildInputs = [ sqlite protobuf openssl ] ++ stdenv.lib.optional stdenv.isDarwin Security;
-    PROTOC = "${protobuf}/bin/protoc";
-    JOR_CLI_NAME = "../release/jcli";
-    JORMUNGANDR_NAME = "../release/jormungandr";
-  };
 }

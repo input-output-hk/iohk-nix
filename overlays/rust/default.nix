@@ -18,7 +18,6 @@ in {
   });
   jormungandr = (super.pkgs.callPackage ./jormungandr.nix {}).jormungandr;
   jormungandr-cli = (super.pkgs.callPackage ./jormungandr.nix {}).jcli;
-  jormungandrMaster = (super.pkgs.callPackage ./jormungandr.nix {}).jormungandrMaster;
   cardano-http-bridge = super.pkgs.callPackage ./cardano-http-bridge.nix {};
   cardano-http-bridge-emurgo = super.pkgs.callPackage ./cardano-http-bridge-emurgo.nix {};
   cardano-cli = super.pkgs.callPackage ./cardano-cli.nix {};
