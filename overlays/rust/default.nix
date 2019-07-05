@@ -8,17 +8,14 @@ self: super: let
   };
 
 in {
-  rust = {
-    rustc = stableChannel.rust;
-    cargo = stableChannel.cargo;
-  };
-  rustPlatform = super.recurseIntoAttrs (super.makeRustPlatform {
+  rust.packages.stable.rustc = stableChannel.rust;
+  rust.packages.stable.cargo = stableChannel.cargo;
+  rustPlatform = super.recurseIntoAttrs (super.rust.makeRustPlatform {
     rustc = stableChannel.rust;
     cargo = stableChannel.cargo;
   });
   jormungandr = (super.pkgs.callPackage ./jormungandr.nix {}).jormungandr;
   jormungandr-cli = (super.pkgs.callPackage ./jormungandr.nix {}).jcli;
-  jormungandrMaster = (super.pkgs.callPackage ./jormungandr.nix {}).jormungandrMaster;
   cardano-http-bridge = super.pkgs.callPackage ./cardano-http-bridge.nix {};
   cardano-http-bridge-emurgo = super.pkgs.callPackage ./cardano-http-bridge-emurgo.nix {};
   cardano-cli = super.pkgs.callPackage ./cardano-cli.nix {};

@@ -24,4 +24,8 @@ in rustPlatform.buildRustPackage rec {
   cargoSha256 = "19g5fy8af65vd9rl66058c67nlrz7r6mjd0cy83865d7q81hdl8r";
   buildInputs = [ protobuf ] ++ stdenv.lib.optional stdenv.isDarwin Security;
   PROTOC = "${protobuf}/bin/protoc";
+  # workaround https://github.com/NixOS/nixpkgs/issues/61618
+  preConfigure = ''
+    export HOME=`mktemp -d`
+  '';
 }

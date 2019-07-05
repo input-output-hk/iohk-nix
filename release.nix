@@ -25,7 +25,6 @@ let
     rust-packages.pkgs.cardano-cli = supportedSystems;
     rust-packages.pkgs.jormungandr = supportedSystems;
     rust-packages.pkgs.jormungandr-cli = supportedSystems;
-    rust-packages.pkgs.jormungandrMaster = supportedSystems;
 
     # this seems not to work :-/
     # tests.hlint                  = supportedSystems;
