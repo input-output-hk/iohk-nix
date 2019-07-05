@@ -37,6 +37,10 @@ in {
     preInstall = "cd ..";
     cargoBuildFlags = ["--features \"gelf"] ++ lib.optional stdenv.isLinux "systemd" ++ ["\""];
     PROTOC = "${protobuf}/bin/protoc";
+    # workaround https://github.com/NixOS/nixpkgs/issues/61618
+    preConfigure = ''
+      export HOME=`mktemp -d`
+    '';
   };
 
   jcli = rustPlatform.buildRustPackage rec {
@@ -62,5 +66,9 @@ in {
       cp scripts/* $out/scripts/
     '';
     PROTOC = "${protobuf}/bin/protoc";
+    # workaround https://github.com/NixOS/nixpkgs/issues/61618
+    preConfigure = ''
+      export HOME=`mktemp -d`
+    '';
   };
 }

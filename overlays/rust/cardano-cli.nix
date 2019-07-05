@@ -20,4 +20,8 @@ rustPlatform.buildRustPackage rec {
   cargoSha256 = "1jra0635inm95xp7vg8l7s7ybijcy28956cd6jl8qw2p8bw0z1p3";
   buildInputs = [ protobuf ];
   PROTOC = "${protobuf}/bin/protoc";
+  # workaround https://github.com/NixOS/nixpkgs/issues/61618
+  preConfigure = ''
+    export HOME=`mktemp -d`
+  '';
 }
