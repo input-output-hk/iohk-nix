@@ -8,11 +8,9 @@ self: super: let
   };
 
 in {
-  rust = {
-    rustc = stableChannel.rust;
-    cargo = stableChannel.cargo;
-  };
-  rustPlatform = super.recurseIntoAttrs (super.makeRustPlatform {
+  rust.packages.stable.rustc = stableChannel.rust;
+  rust.packages.stable.cargo = stableChannel.cargo;
+  rustPlatform = super.recurseIntoAttrs (super.rust.makeRustPlatform {
     rustc = stableChannel.rust;
     cargo = stableChannel.cargo;
   });
