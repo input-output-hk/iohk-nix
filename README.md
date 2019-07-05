@@ -1,5 +1,7 @@
 # IOHK Common Nix Code
 
+[![Build status](https://badge.buildkite.com/e5b12d0fd507084fbdb1849da2de467f1de66b3e5c6d954554.svg)](https://buildkite.com/input-output-hk/iohk-nix)
+
 This repo contains build code and tools shared between IOHK projects.
 
 1. Pinned versions of [input-output-hk/nixpkgs](https://github.com/input-output-hk/nixpkgs).
@@ -40,28 +42,29 @@ Now set up `./nix/iohk-common.nix`, which is pure boilerplate:
 
 ```nix
 let
-  spec = builtins.fromJSON (builtins.readFile ./iohk-nix.json);
+  spec = builtins.fromJSON (builtins.readFile ./iohk-nix-src.json);
 in import (builtins.fetchTarball {
   url = "${spec.url}/archive/${spec.rev}.tar.gz";
   inherit (spec) sha256;
 })
 ```
 
-And create `iohk-nix.json`. You will need `nix-prefetch-git` (get it
+And create `iohk-nix-src.json`. You will need `nix-prefetch-git` (get it
 with `nix-env -iA` or `nix-shell -p`). The `--rev` option defaults to
 the HEAD of the `master` branch.
 
 ```
-$ nix-prefetch-git https://github.com/input-output-hk/iohk-nix [ --rev master ] | tee ./nix/iohk-nix.json
+$ nix-prefetch-git https://github.com/input-output-hk/iohk-nix [ --rev master ] | tee ./nix/iohk-nix-src.json
 ```
 
+Alternatively, the JSON file can be downloaded from [Buildkite](https://buildkite.com/input-output-hk/haskell-dot-nix-nightly-updates/builds/latest?branch=master).
 
 ## How to update the `iohk-nix` revision.
 
-To get the latest version of `iohk-nix`, update the `iohk-nix.json` file:
+To get the latest version of `iohk-nix`, update the `iohk-nix-src.json` file:
 
 ```
-$ nix-prefetch-git https://github.com/input-output-hk/iohk-nix | tee ./nix/iohk-nix.json
+$ nix-prefetch-git https://github.com/input-output-hk/iohk-nix | tee ./nix/iohk-nix-src.json
 ```
 
 Some things may have changed which could break your build, so refer to
