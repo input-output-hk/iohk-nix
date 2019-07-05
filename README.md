@@ -70,24 +70,36 @@ the [ChangeLog](./changelog.md).
 
 ## How to use Haskell.nix and `stack-to-nix`
 
-The [documentation](./docs/nix-toolification.org) needs to be updated.
-
+Look in the "User Guide" section of the [Haskell.nix
+Documentation](https://input-output-hk.github.io/haskell.nix/).
 
 ## After updating your Stackage LTS
 
-If you have updated your project's [Stackage
-LTS](https://www.stackage.org/lts) version, then the compiler version
-may also have been increased.
+If you have updated your project's [Stackage LTS](https://www.stackage.org/lts)
+version, then you may need to update the `iohk-nix` revision in your
+project. The error message you may see is:
 
-It's possible that the `nixpkgs` used in iohk-nix may not have have
-that version of GHC, and you will get an error such as:
+    error: This version of stackage.nix does not know
+      about the Stackage resolver X.Y.
 
-    error: attribute 'ghc864' missing
+      You may need to update haskell.nix to one
+      that includes a newer stackage.nix.
 
-In this case, update the `iohk-nix` revision to the latest
-available. The nixpkgs version may also need to be bumped in
-`iohk-nix`.
+If updating the LTS, the compiler version may also have been
+increased. Note that we maintain a patched GHC for cross-compiling to
+Windows. **The GHC version that you use needs to be supported** by
+`iohk-nix`. The error message in this case will be:
 
+    error: This version of Nixpkgs does not contain GHC x.y.z
+
+In both of these cases, update the `iohk-nix` revision to the latest
+available using the instructions above.
+
+### Adding new GHC versions
+
+To add support for a new GHC version in `iohk-nix`, first update its
+Nixpkgs version to one that provides that compiler, then work on
+adding the version to [`nix-tools-iohk-extras.nix`](./nix-tools-iohk-extras.nix).
 
 ## Nix Gotchas
 
