@@ -57,7 +57,7 @@ the HEAD of the `master` branch.
 $ nix-prefetch-git https://github.com/input-output-hk/iohk-nix [ --rev master ] | tee ./nix/iohk-nix-src.json
 ```
 
-Alternatively, the JSON file can be downloaded from [Buildkite](https://buildkite.com/input-output-hk/haskell-dot-nix-nightly-updates/builds/latest?branch=master).
+Alternatively, the JSON file can be downloaded from [Buildkite](https://buildkite.com/input-output-hk/iohk-nix/builds/latest?branch=master).
 
 ## How to update the `iohk-nix` revision.
 
