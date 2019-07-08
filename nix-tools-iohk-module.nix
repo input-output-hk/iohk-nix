@@ -92,7 +92,7 @@ in {
   } 
   # Fix dependencies and case-sensitive filesystem builds for unix-time.
   // pkgs.lib.optionalAttrs pkgs.stdenv.hostPlatform.isWindows {
-    unix-time.components.library.libs = with pkgs.windows; [ mingw_w64_headers mingw_w64_pthreads ];
+    unix-time.components.library.libs = with pkgs.windows; [ mingw_w64_pthreads ];
     unix-time.postUnpack = "substituteInPlace */cbits/win_patch.h --replace Windows.h windows.h";
   }
   ;
