@@ -18,17 +18,17 @@ let
 in {
 
   jormungandr = rustPlatform.buildRustPackage rec {
-    version = "0.2.4";
+    version = "0.3.0";
     name = "jormungandr-${version}";
     src = fetchFromGitHub {
       owner = "input-output-hk";
       repo = "jormungandr";
-      rev = "b155772e6d8f72506b6b5f1dac79bdbca66fcddd";
-      sha256 = "1rhlspsjy3b3isrfpvbqh17fh0szb4d1dd9s1y21nx22q9ykk8cf";
+      rev = "2359f76111403bc721d300009f7a92b48d276c67";
+      sha256 = "1p96aljnbqwhs11ycj9daa1a01nykf1bzvwkfln7lkls5x3xrin9";
       fetchSubmodules = true;
     };
 
-    cargoSha256 = "1y3h2rpidb95lxn2zfha8ihrjfw8gfqdnq0z5nkd3z16vlgi7k8g";
+    cargoSha256 = "0fphjzz78ym15qbka01idnq6vkyf4asrnhrhvxngwc3bifmnj937";
     nativeBuildInputs = [ pkgconfig ];
     buildInputs = [ sqlite protobuf openssl ]
       ++ lib.optional stdenv.isDarwin Security
@@ -44,17 +44,17 @@ in {
   };
 
   jcli = rustPlatform.buildRustPackage rec {
-    version = "0.2.4";
+    version = "0.3.0";
     name = "jormungandr-cli-${version}";
     src = fetchFromGitHub {
       owner = "input-output-hk";
       repo = "jormungandr";
-      rev = "b155772e6d8f72506b6b5f1dac79bdbca66fcddd";
-      sha256 = "1rhlspsjy3b3isrfpvbqh17fh0szb4d1dd9s1y21nx22q9ykk8cf";
+      rev = "2359f76111403bc721d300009f7a92b48d276c67";
+      sha256 = "1p96aljnbqwhs11ycj9daa1a01nykf1bzvwkfln7lkls5x3xrin9";
       fetchSubmodules = true;
     };
 
-    cargoSha256 = "1y3h2rpidb95lxn2zfha8ihrjfw8gfqdnq0z5nkd3z16vlgi7k8g";
+    cargoSha256 = "0fphjzz78ym15qbka01idnq6vkyf4asrnhrhvxngwc3bifmnj937";
     nativeBuildInputs = [ pkgconfig ];
     buildInputs = [ sqlite protobuf openssl ]
       ++ lib.optional stdenv.isDarwin Security
