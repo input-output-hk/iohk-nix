@@ -19,9 +19,9 @@ let  nix-tools = (if builtins.isFunction nix-tools-pkgs
   inherit pkgs;
   # the iohk-module contains cross compilation specific patches
   inherit (commonLib.nix-tools) iohk-module iohk-extras;
+  };
   # Allow hsPkgs to be returned separately (useful when using
   # callCabalPlanToNix and callStackToNix on Hydra)
-  };
   hsPkgs = nix-tools.hsPkgs or nix-tools;
 in {
     _lib = commonLib;
