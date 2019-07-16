@@ -53,7 +53,7 @@ in {
                                   else null) hsPkgs; }
       // { tests = mapAttrs (k: v: if v ? components && length (attrValues v.components.tests) > 0
                                    then v.components.tests
-                                   else null) nix-tools; }
+                                   else null) hsPkgs; }
       // { benchmarks = mapAttrs (k: v: if v ? components && length (attrValues v.components.benchmarks) > 0
                                    then v.components.benchmarks
                                    else null) hsPkgs; }
