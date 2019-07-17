@@ -104,8 +104,14 @@ let
       inherit system crossSystem;
     };
   };
-
+  source-pins = commonLib.pkgs.runCommand "iohk-nix-source-pins" {} ''
+    mkdir $out
+    cd $out
+    ln -sv ${commonLib.nixpkgs} nixpkgs
+    ln -sv ${(nix-tools.haskell { pkgs = commonLib.pkgs; }).path} haskell.nix
+    ln -sv ${(nix-tools.haskell { pkgs = commonLib.pkgs; }).source-pins} haskell.nix-pins
+  '';
 in {
-  inherit tests nix-tools stack2nix jemallocOverlay rust-packages;
+  inherit tests nix-tools stack2nix jemallocOverlay rust-packages source-pins;
   inherit (commonLib) pkgs haskellPackages fetchNixpkgs maybeEnv cleanSourceHaskell getPkgs nixpkgs commitIdFromGitRepo getPackages cache-s3 stack-hpc-coveralls check-hydra check-nix-tools;
 }

@@ -33,6 +33,7 @@ let
 in
 fix (self: mappedPkgs // {
   inherit (commonLib) check-hydra;
+  inherit (packageSet) source-pins;
 
   forceNewEval = pkgs.writeText "forceNewEval" iohk-nix.rev;
   required = pkgs.lib.hydraJob (pkgs.releaseTools.aggregate {
