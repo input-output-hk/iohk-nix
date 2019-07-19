@@ -15,20 +15,23 @@
 ,  ... }:
 let
   Security = darwin.apple_sdk.frameworks.Security;
+  version = "0.3.1";
+  sha256 = "0ys8sw73c7binxnl79dqi7sxva62bgifbhgyzvvjvmjjdxgq4kfp";
+  cargoSha256 = "0fphjzz78ym15qbka01idnq6vkyf4asrnhrhvxngwc3bifmnj937";
 in {
 
   jormungandr = rustPlatform.buildRustPackage rec {
-    version = "0.3.0";
+    inherit version;
     name = "jormungandr-${version}";
     src = fetchFromGitHub {
       owner = "input-output-hk";
       repo = "jormungandr";
-      rev = "2359f76111403bc721d300009f7a92b48d276c67";
-      sha256 = "1p96aljnbqwhs11ycj9daa1a01nykf1bzvwkfln7lkls5x3xrin9";
+      rev = "v${version}";
+      inherit sha256;
       fetchSubmodules = true;
     };
 
-    cargoSha256 = "0fphjzz78ym15qbka01idnq6vkyf4asrnhrhvxngwc3bifmnj937";
+    inherit cargoSha256;
     nativeBuildInputs = [ pkgconfig ];
     buildInputs = [ sqlite protobuf openssl ]
       ++ lib.optional stdenv.isDarwin Security
@@ -44,17 +47,17 @@ in {
   };
 
   jcli = rustPlatform.buildRustPackage rec {
-    version = "0.3.0";
+    inherit version;
     name = "jormungandr-cli-${version}";
     src = fetchFromGitHub {
       owner = "input-output-hk";
       repo = "jormungandr";
-      rev = "2359f76111403bc721d300009f7a92b48d276c67";
-      sha256 = "1p96aljnbqwhs11ycj9daa1a01nykf1bzvwkfln7lkls5x3xrin9";
+      rev = "v${version}";
+      inherit sha256;
       fetchSubmodules = true;
     };
 
-    cargoSha256 = "0fphjzz78ym15qbka01idnq6vkyf4asrnhrhvxngwc3bifmnj937";
+    inherit cargoSha256;
     nativeBuildInputs = [ pkgconfig ];
     buildInputs = [ sqlite protobuf openssl ]
       ++ lib.optional stdenv.isDarwin Security
