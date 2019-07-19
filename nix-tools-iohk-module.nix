@@ -40,6 +40,8 @@ in {
     # I hope we can apply this globally.
     ghc.flags.ghci = true;
 
+    # Apply https://github.com/haskell/cabal/pull/6055
+    # See also https://github.com/input-output-hk/iohk-nix/issues/136
     Cabal.patches = [ ({ version, revision }: (if builtins.compareVersions version "3.0.0" < 0
       then pkgs.fetchpatch {
         url = "https://patch-diff.githubusercontent.com/raw/haskell/cabal/pull/6055.diff";
