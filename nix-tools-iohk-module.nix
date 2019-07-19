@@ -40,6 +40,14 @@ in {
     # I hope we can apply this globally.
     ghc.flags.ghci = true;
 
+    Cabal.patches = [ ({ version, revision }: (if builtins.compareVersions version "3.0.0" < 0
+      then pkgs.fetchpatch {
+        url = "https://patch-diff.githubusercontent.com/raw/haskell/cabal/pull/6055.diff";
+        sha256 = "145g7s3z9q8d18pxgyngvixgsm6gmwh1rgkzkhacy4krqiq0qyvx";
+        stripLen = 1;
+      }
+      else null)) ];
+
     # this needs to be true to expose module
     #  Message.Remote
     # as needed by libiserv.
