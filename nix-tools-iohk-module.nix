@@ -40,16 +40,6 @@ in {
     # I hope we can apply this globally.
     ghc.flags.ghci = true;
 
-    # Apply https://github.com/haskell/cabal/pull/6055
-    # See also https://github.com/input-output-hk/iohk-nix/issues/136
-    Cabal.patches = [ ({ version, revision }: (if builtins.compareVersions version "3.0.0" < 0
-      then pkgs.fetchpatch {
-        url = "https://patch-diff.githubusercontent.com/raw/haskell/cabal/pull/6055.diff";
-        sha256 = "145g7s3z9q8d18pxgyngvixgsm6gmwh1rgkzkhacy4krqiq0qyvx";
-        stripLen = 1;
-      }
-      else null)) ];
-
     # this needs to be true to expose module
     #  Message.Remote
     # as needed by libiserv.
@@ -68,6 +58,16 @@ in {
     remote-iserv.postInstall = with pkgs.stdenv; lib.optionalString hostPlatform.isWindows ''
       cp ${pkgs.libffi}/bin/*.dll $out/bin/
     '';
+
+    # Apply https://github.com/haskell/cabal/pull/6055
+    # See also https://github.com/input-output-hk/iohk-nix/issues/136
+    Cabal.patches = [ ({ version, revision }: (if builtins.compareVersions version "3.0.0" < 0
+      then pkgs.fetchpatch {
+        url = "https://patch-diff.githubusercontent.com/raw/haskell/cabal/pull/6055.diff";
+        sha256 = "145g7s3z9q8d18pxgyngvixgsm6gmwh1rgkzkhacy4krqiq0qyvx";
+        stripLen = 1;
+      }
+      else null)) ];
 
     # clock hasn't had a release since 2016(!) that is for three(3) years
     # now.
