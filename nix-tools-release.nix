@@ -77,7 +77,31 @@ let
         (lib.recursiveUpdate mapped-pkgs-partial extraBuilds)
         mapped-builds-on-supported-systems;
 
-in fix (self: (builtins.removeAttrs packageSet ["nix-tools" "_lib"]) // mapped-pkgs-all
+  aggregate-pkgs = let
+    w64 = lib.systems.examples.mingwW64.config;
+    cS = builtins.currentSystem;
+  in foldr (cType: (lib.recursiveUpdate {
+    # we define aggregate jobs that respectively gather all libs, all exes, all tests and all benchmarks
+    # in the `packages` list.
+    nix-tools."packages-${cType}" = listToAttrs (map (s: nameValuePair s (pkgs.lib.hydraJob (pkgs.releaseTools.aggregate {
+      name = "packages-${cType}.${s}";
+      constituents = filter (d: d.system == s) (collect isDerivation
+        (filterAttrs (n: v: builtins.elem n packages && v != null) mapped-pkgs-all.nix-tools."${cType}"));
+    }))) supportedSystems);
+    # corresponding Windows64 cross expression:
+    nix-tools."${w64}-packages-${cType}"."${cS}" = pkgs.lib.hydraJob (pkgs.releaseTools.aggregate {
+      name = "${w64}-packages-${cType}.${cS}";
+      constituents = filter (d: d.system == cS) (collect isDerivation
+        (filterAttrs (n: v: builtins.elem n (map (p: "${w64}-${p}") packages) && v != null) mapped-pkgs-all.nix-tools."${cType}"));
+    });
+  })) {} ["libs" "exes" "tests" "benchmarks"];
+
+  pkgs-all
+    = lib.recursiveUpdate
+        mapped-pkgs-all
+        aggregate-pkgs;
+
+in fix (self: (builtins.removeAttrs packageSet ["nix-tools" "_lib"]) // pkgs-all
 // {
   forceNewEval = pkgs.writeText "forceNewEval" _this.rev;
   required = pkgs.lib.hydraJob (pkgs.releaseTools.aggregate {
