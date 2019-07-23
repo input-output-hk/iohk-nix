@@ -1,0 +1,40 @@
+# TODO: choose your stack package resolver
+# Many Cardano packages snapshot.yaml from cardano-prelude.
+resolver: https://raw.githubusercontent.com/input-output-hk/cardano-prelude/d673b92f2a2d9354d102514d0a0fa74f8248b14a/snapshot.yaml
+# resolver: 13.26
+
+packages:
+  - .
+
+extra-deps:
+  - git: https://github.com/input-output-hk/cardano-prelude
+    commit: d673b92f2a2d9354d102514d0a0fa74f8248b14a
+    subdirs:
+      - .
+      - test
+
+  - git: https://github.com/input-output-hk/cardano-base
+    commit: 6b808ad5506cb097cdf5832e1cd5cad0c83c58d6
+    subdirs:
+      - binary
+      - binary/test
+
+  - git: https://github.com/input-output-hk/iohk-monitoring-framework
+    commit: e2dc8b2160bb2ccd1ef9817a6498cda06ad36580
+    subdirs:
+      - contra-tracer
+      - iohk-monitoring
+
+flags:
+  # Bring in less dependencies from iohk-monitoring
+  # See also: package options in nix/default.nix
+  iohk-monitoring:
+    disable-ekg: true
+    disable-examples: true
+    disable-graylog: true
+    disable-gui: true
+    disable-prometheus: true
+    disable-systemd: true
+
+nix:
+  shell-file: nix/stack-shell.nix

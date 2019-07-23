@@ -13,59 +13,31 @@ This repo contains build code and tools shared between IOHK projects.
 5. Nix builds of development tools such as HLint, ShellCheck, Stylish Haskell, SHC, cache-s3.
 6. Nix packages and overlay for the [rust-cardano](https://github.com/input-output-hk/rust-cardano)
    projects.
+7. A [skeleton project](./skeleton) demonstrating how to use iohk-nix
+   and set up CI.
 
 
 ## How to use in your project
 
-Use `iohk-nix` by "pinning" its git revision and source hash in a JSON
-file. Then use iohk-nix to get nixpkgs. This is usually done with the
-default arguments to `default.nix`. For example:
+See [Starting a new project](./docs/start.md).
 
-```nix
-# default.nix
-{ config ? {}
-, system ? builtins.currentSystem
-, iohkLib ? import ./nix/iohk-common.nix { inherit config system; }
-, pkgs ? iohkLib.pkgs
-}:
-
-{
-  # your builds go here
-}
-```
-
-The `config` and `system` arguments above are needed when building for
-other systems. They have default values, and should be passed through
-to `iohk-nix`.
-
-Now set up `./nix/iohk-common.nix`, which is pure boilerplate:
-
-```nix
-let
-  spec = builtins.fromJSON (builtins.readFile ./iohk-nix-src.json);
-in import (builtins.fetchTarball {
-  url = "${spec.url}/archive/${spec.rev}.tar.gz";
-  inherit (spec) sha256;
-})
-```
-
-And create `iohk-nix-src.json`. You will need `nix-prefetch-git` (get it
-with `nix-env -iA` or `nix-shell -p`). The `--rev` option defaults to
-the HEAD of the `master` branch.
-
-```
-$ nix-prefetch-git https://github.com/input-output-hk/iohk-nix [ --rev master ] | tee ./nix/iohk-nix-src.json
-```
-
-Alternatively, the JSON file can be downloaded from [Buildkite](https://buildkite.com/input-output-hk/iohk-nix/builds/latest?branch=master).
 
 ## How to update the `iohk-nix` revision.
 
-To get the latest version of `iohk-nix`, update the `iohk-nix-src.json` file:
+To get the latest version of `iohk-nix`, update the
+`iohk-nix-src.json` file in your project.
+
+Download the JSON file from
+[iohk-nix Buildkite](https://buildkite.com/input-output-hk/iohk-nix/builds/latest?branch=master),
+or run the following command:
 
 ```
 $ nix-prefetch-git https://github.com/input-output-hk/iohk-nix | tee ./nix/iohk-nix-src.json
 ```
+
+(You may need to
+[install](https://nixos.org/nix/manual/#operation-install) the
+`nix-prefetch-git` package beforehand.)
 
 Some things may have changed which could break your build, so refer to
 the [ChangeLog](./changelog.md).
@@ -123,3 +95,5 @@ Please document any change that might affect project builds in the
  - Bumping `nixpkgs` to a different branch.
  - Changing API (renaming attributes, changing function parameters, etc).
  - Bumping the `haskell.nix` version.
+
+Also update the [`skeleton`](./skeleton/README.md) project if necessary.

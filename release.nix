@@ -36,6 +36,11 @@ let
     stack-hpc-coveralls = supportedSystems;
     openapi-spec-validator = supportedSystems;
  };
+
+ skeletonJobset = import ./skeleton/release.nix {
+   iohkLib = packageSet;
+ };
+
 in
 fix (self: mappedPkgs // {
   inherit (commonLib) check-hydra;
@@ -55,4 +60,6 @@ fix (self: mappedPkgs // {
       rust-packages.pkgs.jormungandr-cli.x86_64-linux
     ];
   });
+} // {
+  skeleton = skeletonJobset;
 })

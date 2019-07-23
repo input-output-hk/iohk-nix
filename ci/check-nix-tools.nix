@@ -14,7 +14,11 @@ writeScript "check-nix-tools.sh" ''
 
   export PATH="${makeBinPath [ stdenv.shellPackage coreutils nixStable git gawk ]}:$PATH"
 
-  cd $(git rev-parse --show-toplevel)
+  if [ -z "''${BUILDKITE:-}" ]; then
+    # Go to top of project repo, unless running under CI.
+    # If running under CI, assume the pipeline has set the correct directory.
+    cd $(git rev-parse --show-toplevel)
+  fi
 
   # The regenerate script is here by convention
   ./nix/regenerate.sh
