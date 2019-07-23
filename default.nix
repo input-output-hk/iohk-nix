@@ -47,8 +47,17 @@ let
     cleanSourceHaskell = pkgs.callPackage ./clean-source-haskell.nix {};
     haskellPackages = import ./haskell-packages.nix;
     commitIdFromGitRepo = pkgs.callPackage ./commit-id.nix {};
+
+    # Development tools
     cache-s3 = pkgsDefault.callPackage ./pkgs/cache-s3.nix {};
     stack-hpc-coveralls = pkgsDefault.haskellPackages.callPackage ./pkgs/stack-hpc-coveralls.nix {};
+    openapi-spec-validator = pkgsDefault.python3Packages.callPackage ./pkgs/openapi-spec-validator.nix {
+      # Upstream PR: https://github.com/NixOS/nixpkgs/pull/65244
+      # It requires PyYAML >= 5.1.
+      pyyaml = pkgsDefault.python3Packages.callPackage ./pkgs/pyyaml51.nix {};
+    };
+
+    # Check scripts
     check-hydra = pkgsDefault.callPackage ./ci/check-hydra.nix {};
     check-nix-tools = pkgsDefault.callPackage ./ci/check-nix-tools.nix {};
   };
@@ -107,5 +116,5 @@ let
 
 in {
   inherit tests nix-tools stack2nix jemallocOverlay rust-packages;
-  inherit (commonLib) pkgs haskellPackages fetchNixpkgs maybeEnv cleanSourceHaskell getPkgs nixpkgs commitIdFromGitRepo getPackages cache-s3 stack-hpc-coveralls check-hydra check-nix-tools;
+  inherit (commonLib) pkgs haskellPackages fetchNixpkgs maybeEnv cleanSourceHaskell getPkgs nixpkgs commitIdFromGitRepo getPackages cache-s3 stack-hpc-coveralls openapi-spec-validator check-hydra check-nix-tools;
 }

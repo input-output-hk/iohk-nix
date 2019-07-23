@@ -30,6 +30,11 @@ let
     # tests.hlint                  = supportedSystems;
     # tests.shellcheck             = supportedSystems;
     # tests.stylishHaskell         = supportedSystems;
+
+    # Development tools
+    cache-s3 = supportedSystems;
+    stack-hpc-coveralls = supportedSystems;
+    openapi-spec-validator = supportedSystems;
  };
 in
 fix (self: mappedPkgs // {
