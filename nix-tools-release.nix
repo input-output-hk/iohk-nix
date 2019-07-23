@@ -9,6 +9,8 @@ commonLib: # the iohk-nix commonLib
 # package under evaluation.
 , _this ? { outPath = ./.; rev = "abcdef"; }
 , package-set-path # usually ./.
+# all derivations with a path that starts with one of the values in `disabled-jobs` is ignored:
+, disabled-jobs ? []
 }:
 { system ? builtins.currentSystem
 , pkgs ? commonLib.getPkgs { inherit system config; }
@@ -77,6 +79,13 @@ let
         (lib.recursiveUpdate mapped-pkgs-partial extraBuilds)
         mapped-builds-on-supported-systems;
 
+  filtered-pkgs-all = lib.mapAttrsRecursiveCond
+    (as: !(as ? "type" && as.type == "derivation"))
+    (path: v: 
+      let dottedPath = builtins.concatStringsSep "." path; 
+      in if builtins.any (d: lib.hasPrefix d dottedPath) disabled-jobs then null else v)
+    mapped-pkgs-all;
+
   aggregate-pkgs = let
     w64 = lib.systems.examples.mingwW64.config;
     cS = builtins.currentSystem;
@@ -86,19 +95,19 @@ let
     nix-tools."packages-${cType}" = listToAttrs (map (s: nameValuePair s (pkgs.lib.hydraJob (pkgs.releaseTools.aggregate {
       name = "packages-${cType}.${s}";
       constituents = filter (d: d.system == s) (collect isDerivation
-        (filterAttrs (n: v: builtins.elem n packages && v != null) mapped-pkgs-all.nix-tools."${cType}"));
+        (filterAttrs (n: v: builtins.elem n packages && v != null) filtered-pkgs-all.nix-tools."${cType}"));
     }))) supportedSystems);
     # corresponding Windows64 cross expression:
     nix-tools."${w64}-packages-${cType}"."${cS}" = pkgs.lib.hydraJob (pkgs.releaseTools.aggregate {
       name = "${w64}-packages-${cType}.${cS}";
       constituents = filter (d: d.system == cS) (collect isDerivation
-        (filterAttrs (n: v: builtins.elem n (map (p: "${w64}-${p}") packages) && v != null) mapped-pkgs-all.nix-tools."${cType}"));
+        (filterAttrs (n: v: builtins.elem n (map (p: "${w64}-${p}") packages) && v != null) filtered-pkgs-all.nix-tools."${cType}"));
     });
   })) {} ["libs" "exes" "tests" "benchmarks"];
 
   pkgs-all
     = lib.recursiveUpdate
-        mapped-pkgs-all
+        filtered-pkgs-all
         aggregate-pkgs;
 
 in fix (self: (builtins.removeAttrs packageSet ["nix-tools" "_lib"]) // pkgs-all
