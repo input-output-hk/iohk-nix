@@ -10,14 +10,14 @@ Hydra and Buildkite, using the `iohk-nix` library.
 
  * `iohk-skeleton.cabal`, `stack.yaml`, `app/`, `bench/`, `src/`, `test/` — The example Haskell package.
  * [`.buildkite/`](./buildkite/) — Buildkite pipeline definitions and related scripts.
- * `.gitattributes` — Metadata for GitHub so that it ignores auto-generated files in diffs.
- * `default.nix` — The main Nix build file.
- * `release.nix` — The Hydra release jobset.
- * `shell.nix` — Default `nix-shell` development environment.
- * `docs/` — Example Nix build of a LaTeX document.
- * `nix/` — The proper location for all Nix code and files, apart from `{default,release,shell}.nix`.
- * `nix/.stack.nix/` — Auto-generated Nix expressions. These need to be checked in to Git, but don't edit them manually.
- * `nix/pkgs.nix` — The Haskell package set.
+ * [`.gitattributes`](./.gitattributes) — Metadata for GitHub so that it ignores auto-generated files in diffs.
+ * [`default.nix`](./default.nix) — The main Nix build file.
+ * [`release.nix`](./release.nix) — The Hydra release jobset.
+ * [`shell.nix`](./shell.nix) — Default `nix-shell` development environment.
+ * [`docs/`](./docs/) — Example Nix build of a LaTeX document.
+ * [`nix/`](./nix/) — The proper location for all Nix code and files, apart from `{default,release,shell}.nix`.
+ * [`nix/.stack.nix/`](./nix/.stack.nix/) — Auto-generated Nix expressions. These need to be checked in to Git, but don't edit them manually.
+ * [`nix/pkgs.nix`](./nix/pkgs.nix) — The Haskell package set.
 
 ## How to set up a project
 
