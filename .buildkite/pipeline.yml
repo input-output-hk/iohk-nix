@@ -8,3 +8,13 @@ steps:
     command: './.buildkite/pin.sh'
     agents:
       system: x86_64-linux
+
+  - label: ":pipeline: Skeleton project pipeline"
+    command: "buildkite-agent pipeline upload skeleton/.buildkite/pipeline.yml"
+    agents:
+      system: x86_64-linux
+
+  - label: ":pipeline: Skeleton nightly project pipeline"
+    command: "buildkite-agent pipeline upload skeleton/.buildkite/nightly.yml"
+    agents:
+      system: x86_64-linux

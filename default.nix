@@ -117,4 +117,5 @@ let
 in {
   inherit tests nix-tools stack2nix jemallocOverlay rust-packages;
   inherit (commonLib) pkgs haskellPackages fetchNixpkgs maybeEnv cleanSourceHaskell getPkgs nixpkgs commitIdFromGitRepo getPackages cache-s3 stack-hpc-coveralls openapi-spec-validator check-hydra check-nix-tools;
+  release-lib = ./lib/release-lib.nix;
 }

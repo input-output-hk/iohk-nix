@@ -1,0 +1,95 @@
+cabal-version:       2.2
+name:                iohk-skeleton
+version:             0.1.0.0
+synopsis:            Template project with reference CI setup
+license:             Apache-2.0
+license-files:
+  LICENSE
+  NOTICE
+copyright:           2019 Input Output (Hong Kong) Ltd.
+author:              IOHK
+maintainer:          operations@iohk.io
+
+flag development
+    description: Disable `-Werror`
+    default: False
+    manual: True
+
+library
+  exposed-modules:     Skeleton
+  build-depends:       base ^>=4.12.0.0
+                     , cardano-prelude
+  hs-source-dirs:      src
+  default-language:    Haskell2010
+  default-extensions:
+      NoImplicitPrelude
+      OverloadedStrings
+
+  if (!flag(development))
+    ghc-options:         -Werror
+
+executable iohk-skeleton
+  main-is:             iohk-skeleton.hs
+  build-depends:       base ^>=4.12.0.0
+                     , cardano-prelude
+                     , iohk-skeleton
+  hs-source-dirs:      app
+  default-language:    Haskell2010
+  default-extensions:
+      NoImplicitPrelude
+      OverloadedStrings
+
+  if (!flag(development))
+    ghc-options:         -Werror
+
+test-suite unit
+  default-language:
+      Haskell2010
+  default-extensions:
+      NoImplicitPrelude
+      OverloadedStrings
+  ghc-options:
+      -threaded -rtsopts
+      -Wall
+      -O2
+  if (!flag(development))
+    ghc-options:
+      -Werror
+  build-depends:
+      base
+    , cardano-prelude
+    , iohk-skeleton
+    , hspec
+    , text
+  type:
+      exitcode-stdio-1.0
+  hs-source-dirs:
+      test/unit
+  main-is:
+      Main.hs
+  other-modules: SkeletonSpec
+
+benchmark iohk-skeleton-bench
+  default-language:
+      Haskell2010
+  default-extensions:
+      NoImplicitPrelude
+      OverloadedStrings
+  ghc-options:
+      -threaded -rtsopts
+      -Wall
+      -O2
+  if (!flag(development))
+    ghc-options:
+      -Werror
+  build-depends:
+      base
+    , cardano-prelude
+    , criterion
+    , iohk-skeleton
+  type:
+     exitcode-stdio-1.0
+  hs-source-dirs:
+      bench
+  main-is:
+      Main.hs
