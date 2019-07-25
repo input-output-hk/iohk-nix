@@ -1,5 +1,8 @@
 ############################################################################
 # iohk-skeleton Nix build
+#
+# fixme: document top-level attributes and how to build them
+#
 ############################################################################
 
 { system ? builtins.currentSystem

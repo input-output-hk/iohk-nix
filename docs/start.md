@@ -6,8 +6,8 @@ Hydra and Buildkite CI to their projects.
 ## Using the skeleton project
 
 The easiest way to start is by copying the reference template
-(skeleton). Follow the instructions in the [skeleton
-project](./skeleton) to set up your code tree, then come back here for
+(skeleton). Follow the instructions in the [skeleton project](../skeleton)
+to set up your code tree, then come back here for
 information on how to set up the services.
 
 
