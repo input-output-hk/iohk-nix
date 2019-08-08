@@ -5,6 +5,7 @@
 # Set application for getting a specific application nixkgs-src.json
 , application ? ""
 # Override nixpkgs-src.json to a file in your repo
+, nixpkgsOverride ? ""
 , nixpkgsJsonOverride ? ""
 # Modify nixpkgs with overlays
 , nixpkgsOverlays ? []
@@ -24,7 +25,7 @@ let
   commonLib = rec {
     fetchNixpkgs = import ./fetch-tarball-with-override.nix "custom_nixpkgs";
     # equivalent of <nixpkgs> but pinned instead of system
-    nixpkgs = fetchNixpkgs nixpkgsJson;
+    nixpkgs = if nixpkgsOverride != "" then nixpkgsOverride else fetchNixpkgs nixpkgsJson;
     pkgsDefault = import (fetchNixpkgs nixpkgsJsonDefault) {};
     getPkgs = let
       system' = system;
