@@ -2,8 +2,8 @@ self: super: let
   wallet = import (self.fetchFromGitHub {
     owner = "input-output-hk";
     repo = "cardano-wallet";
-    rev = "v2019-07-24";
-    sha256 = "11j3an4i6kvk9h71hz1cngns2a47cmv38bsr3qyagcr1829rlrxl";
+    rev = "1833df1a640d597382a7c018ca9bffeca4cf698c";
+    sha256 = "0b4i8wy3w192vbr6wb4j9d23smxycxkxa7qrwxr3djk01x5is9d0";
   }) {};
   cardano-wallet-jormungandr = wallet.cardano-wallet-jormungandr;
   cardano-wallet-http-bridge = wallet.cardano-wallet-http-bridge;
