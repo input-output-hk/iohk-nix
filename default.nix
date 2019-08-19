@@ -63,6 +63,8 @@ let
     check-nix-tools = pkgsDefault.callPackage ./ci/check-nix-tools.nix {};
   };
 
+  cardanoLib = commonLib.pkgsDefault.callPackage ./cardano-lib {};
+
   nix-tools = rec {
     # Programs for generating nix haskell package sets from cabal and
     # stack.yaml files.
@@ -116,7 +118,7 @@ let
   };
 
 in {
-  inherit tests nix-tools stack2nix jemallocOverlay rust-packages;
+  inherit tests nix-tools stack2nix jemallocOverlay rust-packages cardanoLib;
   inherit (commonLib) pkgs haskellPackages fetchNixpkgs maybeEnv cleanSourceHaskell getPkgs nixpkgs commitIdFromGitRepo getPackages cache-s3 stack-hpc-coveralls openapi-spec-validator check-hydra check-nix-tools;
   release-lib = ./lib/release-lib.nix;
 }
