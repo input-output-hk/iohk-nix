@@ -1,4 +1,4 @@
-{lib}:
+{lib, writeText}:
 let
   mkEdgeTopology = {
     hostAddr ? "127.0.0.1"
@@ -26,6 +26,10 @@ let
       }
     ];
   in builtins.toFile "topology.yaml" (builtins.toJSON topology);
+  mkProxyTopology = relay: writeText "proxy-topology-file" ''
+    wallet:
+      relays: [[{ host: ${relay} }]]
+  '';
   environments = {
     mainnet = {
       relays = "relays.cardano-mainnet.iohk.io";
@@ -73,5 +77,5 @@ let
   cardanoConfig = ./.;
 
 in {
-  inherit environments forEnvironments mkEdgeTopology cardanoConfig;
+  inherit environments forEnvironments mkEdgeTopology mkProxyTopology cardanoConfig;
 }
