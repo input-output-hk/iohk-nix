@@ -4,7 +4,7 @@ let
     hostAddr ? "127.0.0.1"
   , port ? 3001
   , edgeHost ? "127.0.0.1"
-  , edgePort ? 7777
+  , edgePort ? if edgeHost == "127.0.0.1" then 7777 else 3001
   , nodeId ? 0
   , valency ? 1
   }:
