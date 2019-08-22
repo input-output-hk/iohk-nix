@@ -15,9 +15,9 @@
 ,  ... }:
 let
   Security = darwin.apple_sdk.frameworks.Security;
-  version = "0.3.2";
-  sha256 = "0zlnl6a3i7x4basc4w31dwqbdign96kvd7j0vqk2v818ifjvpavd";
-  cargoSha256 = "13zcbhhdf4xakp37r920xzcb0prdk58jlph9f3hwlp8npmcws52p";
+  version = "0.3.3";
+  sha256 = "1fw3cl2rxnw9mww1b1z96x2iapwbpdgyp4ra19dhvfzmlvaiml5j";
+  cargoSha256 = "1ilp9ffaz3njv38mnqics4b5d7wh52mj4rwi71h5c0wzx4ww3zal";
 in {
 
   jormungandr = rustPlatform.buildRustPackage rec {
