@@ -60,6 +60,11 @@ writeScript "check-nix-tools.sh" ''
       git format-patch --stdout -1 HEAD > "$patch"
       buildkite-agent artifact upload "$patch" --job "$BUILDKITE_JOB_ID"
 
+      echo
+      echo "Error: The generated nix files are not up to date."
+      echo
+      echo "Now trying to push the updates back to the repo..."
+
       # Push the changes back to the pull request
       if [ -n "''${BUILDKITE_PULL_REQUEST_REPO:-}" ]; then
         sshkey="/run/keys/buildkite-$BUILDKITE_PIPELINE_SLUG-ssh-private"
@@ -72,7 +77,9 @@ writeScript "check-nix-tools.sh" ''
         else
           echo "There is no SSH key at $sshkey"
           echo "The updates can't be pushed."
-          echo "Apply the patch $patch from the build artifacts"
+          echo
+          echo "Error: The generated nix files are not up to date."
+          printf 'Apply the patch \033]1339;url=artifact://'$patch';content='$patch'\a from the build artifacts.\n'
         fi
       fi
 
