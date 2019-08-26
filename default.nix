@@ -116,9 +116,19 @@ let
       inherit system crossSystem;
     };
   };
+  cardano-packages = rec {
+    overlays = [
+      (import ./overlays/cardano)
+    ];
+    pkgs = import commonLib.nixpkgs {
+      inherit overlays;
+      config = globalConfig // config;
+      inherit system crossSystem;
+    };
+  };
 
 in {
-  inherit tests nix-tools stack2nix jemallocOverlay rust-packages cardanoLib;
+  inherit tests nix-tools stack2nix jemallocOverlay rust-packages cardanoLib cardano-packages;
   inherit (commonLib) pkgs haskellPackages fetchNixpkgs maybeEnv cleanSourceHaskell getPkgs nixpkgs commitIdFromGitRepo getPackages cache-s3 stack-hpc-coveralls openapi-spec-validator check-hydra check-nix-tools;
   release-lib = ./lib/release-lib.nix;
 }

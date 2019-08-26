@@ -25,6 +25,7 @@ let
     rust-packages.pkgs.cardano-cli = supportedSystems;
     rust-packages.pkgs.jormungandr = supportedSystems;
     rust-packages.pkgs.jormungandr-cli = supportedSystems;
+    cardano-packages.pkgs.cardano-wallet-jormungandr = supportedSystems;
 
     # this seems not to work :-/
     # tests.hlint                  = supportedSystems;
