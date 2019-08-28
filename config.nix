@@ -18,25 +18,25 @@
         enableIntegerSimple = false;
       };
     ghcDrvOverrides = drv: let
-      # Returns true iff this derivation's version is strictly older than ver.
+      # Returns true iff this derivation's version is strictly less than ver.
       versionOlder = ver: builtins.compareVersions ver drv.version == 1;
       # Returns true iff this derivation's verion is greater than or equal to ver.
-      versionAtLeast = ver: !versionOlder ver;
+      versionAtLeast = ver: !versionLessThan ver;
     in {
         dontStrip = true;
         hardeningDisable = (drv.hardeningDisable or []) ++ [ "stackprotector" "format" ];
         patches = (drv.patches or [])
          # Patches for which we know they have been merged into a public release already
-         ++ lib.optional (versionAtLeast "8.4.4" && versionOlder "8.6")   ./patches/ghc/ghc-8.4.4-reinstallable-lib-ghc.patch
-         ++ lib.optional (versionOlder "8.6")                             ./patches/ghc/move-iserv-8.4.2.patch
-         ++ lib.optional (versionOlder "8.6")                             ./patches/ghc/hsc2hs-8.4.2.patch
-         ++ lib.optional (versionOlder "8.6")                             ./patches/ghc/various-8.4.2.patch
-         ++ lib.optional (versionOlder "8.6")                             ./patches/ghc/lowercase-8.4.2.patch
-         ++ lib.optional (versionOlder "8.6")                             ./patches/ghc/cabal-exe-ext-8.4.2.patch
-         ++ lib.optional (versionOlder "8.6")                             ./patches/ghc/ghc-8.4.3-Cabal2201-SMP-test-fix.patch
-         ++ lib.optional (versionOlder "8.6")                             ./patches/ghc/outputtable-assert-8.4.patch
-         ++ lib.optional (versionAtLeast "8.6" && versionOlder "8.6.4")   ./patches/ghc/MR148--T16104-GhcPlugins.patch
-         ++ lib.optional (versionOlder "8.6.4")                           ./patches/ghc/MR95--ghc-pkg-deadlock-fix.patch
+         ++ lib.optional (versionAtLeast "8.4.4" && versionLessThan "8.6")   ./patches/ghc/ghc-8.4.4-reinstallable-lib-ghc.patch
+         ++ lib.optional (versionLessThan "8.6")                             ./patches/ghc/move-iserv-8.4.2.patch
+         ++ lib.optional (versionLessThan "8.6")                             ./patches/ghc/hsc2hs-8.4.2.patch
+         ++ lib.optional (versionLessThan "8.6")                             ./patches/ghc/various-8.4.2.patch
+         ++ lib.optional (versionLessThan "8.6")                             ./patches/ghc/lowercase-8.4.2.patch
+         ++ lib.optional (versionLessThan "8.6")                             ./patches/ghc/cabal-exe-ext-8.4.2.patch
+         ++ lib.optional (versionLessThan "8.6")                             ./patches/ghc/ghc-8.4.3-Cabal2201-SMP-test-fix.patch
+         ++ lib.optional (versionLessThan "8.6")                             ./patches/ghc/outputtable-assert-8.4.patch
+         ++ lib.optional (versionAtLeast "8.6" && versionLessThan "8.6.4")   ./patches/ghc/MR148--T16104-GhcPlugins.patch
+         ++ lib.optional (versionLessThan "8.6.4")                           ./patches/ghc/MR95--ghc-pkg-deadlock-fix.patch
 
          # Patches for which we only know a lower bound.
          ++ lib.optional (versionAtLeast "8.6")                           ./patches/ghc/iserv-proxy-cleanup.patch                             # https://gitlab.haskell.org/ghc/ghc/merge_requests/250  -- merged; ghc-8.8.1
