@@ -57,6 +57,9 @@ let
       # It requires PyYAML >= 5.1.
       pyyaml = pkgsDefault.python3Packages.callPackage ./pkgs/pyyaml51.nix {};
     };
+    cardano-repo-tool = pkgsDefault.callPackage ./pkgs/cardano-repo-tool.nix {
+      haskell = nix-tools.haskell { pkgs = pkgsDefault; };
+    };
 
     # Check scripts
     check-hydra = pkgsDefault.callPackage ./ci/check-hydra.nix {};
@@ -119,6 +122,6 @@ let
 
 in {
   inherit tests nix-tools stack2nix jemallocOverlay rust-packages cardanoLib;
-  inherit (commonLib) pkgs haskellPackages fetchNixpkgs maybeEnv cleanSourceHaskell getPkgs nixpkgs commitIdFromGitRepo getPackages cache-s3 stack-hpc-coveralls openapi-spec-validator check-hydra check-nix-tools;
+  inherit (commonLib) pkgs haskellPackages fetchNixpkgs maybeEnv cleanSourceHaskell getPkgs nixpkgs commitIdFromGitRepo getPackages cache-s3 stack-hpc-coveralls openapi-spec-validator cardano-repo-tool check-hydra check-nix-tools;
   release-lib = ./lib/release-lib.nix;
 }
