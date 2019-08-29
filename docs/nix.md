@@ -40,7 +40,7 @@ org.nixos.nix-daemon` on macOS.
 We do not recommend using `~/.config/nix/nix.conf` unless you are a
 power user. It's simpler to have only one global config file.
 
-If using NixOS, see [`iohk-binary-cache.nix`](../nix/iohk-binary-cache.nix).
+If using NixOS, see [`iohk-binary-cache.nix`](./iohk-binary-cache.nix).
 
 ## Using command-line options
 
