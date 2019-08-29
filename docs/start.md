@@ -59,6 +59,8 @@ access, benchmarks, stack builds, or jobs which update a website.
 6. The pipeline definition is in [`.buildkite/pipeline.yml`](./.buildkite/pipeline.yml).
    There is [documentation](https://buildkite.com/docs/pipelines) for this.
 
+See [buildkite-scripts.md](./buildkite-scripts.md) for information on
+how to set up CI scripts with all necessary dependencies available.
 
 ## How to set up scheduled builds in Buildkite
 
