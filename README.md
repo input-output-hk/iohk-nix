@@ -78,14 +78,17 @@ adding the version to [`nix-tools-iohk-extras.nix`](./nix-tools-iohk-extras.nix)
 
 ## Nix Gotchas
 
-The [gotchas folder](./gotchas) is dedicated to typical Nix errors encountered while developing with Haskell and Nix.
-The hope is developers will add Nix related problems they've encountered and solved to this folder.
+The [docs folder](./docs) contains a list of typical Nix errors
+encountered while developing with Haskell and Nix.  The hope is
+developers will add Nix related problems they've encountered and
+solved to this folder.
 
-* [Gotcha 1](./gotchas/gotcha-1.md) - attribute `unbuildable` missing (win32/unix dependency issues)
-* [Gotcha 2](./gotchas/gotcha-2.md) - more help with build problems
-* [Gotcha 3](./gotchas/gotcha-3.md) - filtering sources
-* [Gotcha 4](./gotchas/gotcha-4.md) - overriding version pins
-
+* [Gotcha 1](./docs/gotcha-1.md) - attribute `unbuildable` missing (win32/unix dependency issues)
+* [Gotcha 2](./docs/gotcha-2.md) - more help with build problems
+* [Gotcha 3](./docs/gotcha-3.md) - filtering sources
+* [Gotcha 4](./docs/gotcha-4.md) - overriding version pins
+* [Gotcha 5](./docs/gotcha-5.md) - ghci
+* [Gotcha 6](./docs/gotcha-6.md) - how to get longer error messages from `nix build`
 
 ## When making changes to `iohk-nix`
 
