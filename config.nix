@@ -19,7 +19,7 @@
       };
     ghcDrvOverrides = drv: let
       # Returns true iff this derivation's version is strictly less than ver.
-      versionOlder = ver: builtins.compareVersions ver drv.version == 1;
+      versionLessThan = ver: builtins.compareVersions ver drv.version == 1;
       # Returns true iff this derivation's verion is greater than or equal to ver.
       versionAtLeast = ver: !versionLessThan ver;
     in {
