@@ -1,7 +1,7 @@
 {
-  "url": "https://github.com/input-output-hk/nixpkgs",
-  "rev": "55db2a95eade4a80fadf85ae7fce7fa293f87f50",
-  "date": "2019-06-25T15:12:03+01:00",
-  "sha256": "0sll5drg4xrq4ap2lwpw9sr11003m0ampw0fs1xp7qgpi4dkp2rr",
+  "url": "https://github.com/NixOS/nixpkgs-channels",
+  "rev": "541d9cce8af7a490fb9085305939569567cb58e6",
+  "date": "2019-09-02T14:22:35+02:00",
+  "sha256": "0jgz72hhzkd5vyq5v69vpljjlnf0lqaz7fh327bvb3cvmwbfxrja",
   "fetchSubmodules": false
 }
