@@ -52,6 +52,7 @@ let
     # Development tools
     cache-s3 = pkgsDefault.callPackage ./pkgs/cache-s3.nix {};
     stack-hpc-coveralls = pkgsDefault.haskellPackages.callPackage ./pkgs/stack-hpc-coveralls.nix {};
+    hlint = pkgsDefault.haskellPackages.callPackage ./pkgs/hlint.nix {};
     openapi-spec-validator = pkgsDefault.python3Packages.callPackage ./pkgs/openapi-spec-validator.nix {
       # Upstream PR: https://github.com/NixOS/nixpkgs/pull/65244
       # It requires PyYAML >= 5.1.
@@ -122,6 +123,6 @@ let
 
 in {
   inherit tests nix-tools stack2nix jemallocOverlay rust-packages cardanoLib;
-  inherit (commonLib) pkgs haskellPackages fetchNixpkgs maybeEnv cleanSourceHaskell getPkgs nixpkgs commitIdFromGitRepo getPackages cache-s3 stack-hpc-coveralls openapi-spec-validator cardano-repo-tool check-hydra check-nix-tools;
+  inherit (commonLib) pkgs haskellPackages fetchNixpkgs maybeEnv cleanSourceHaskell getPkgs nixpkgs commitIdFromGitRepo getPackages cache-s3 stack-hpc-coveralls hlint openapi-spec-validator cardano-repo-tool check-hydra check-nix-tools;
   release-lib = ./lib/release-lib.nix;
 }
