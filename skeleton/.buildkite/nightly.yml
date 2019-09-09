@@ -2,8 +2,8 @@
 steps:
   - label: 'Benchmark'
     commands:
-      - "cd skeleton"  # TODO: remove this line
-      - "./.buildkite/bench.sh"
+      - '.buildkite/set-skeleton-pin.sh && cd skeleton'  # TODO: remove this line
+      - '.buildkite/bench.sh'
     timeout_in_minutes: 60
     agents:
       system: x86_64-linux
