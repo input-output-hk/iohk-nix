@@ -15,9 +15,12 @@ in {
     cargo = stableChannel.cargo;
   });
   jormungandr = (super.pkgs.callPackage ./jormungandr.nix {}).jormungandr;
+  jormungandr-master = (super.pkgs.callPackage ./jormungandr.nix {}).jormungandr-master;
   jormungandr-cli = (super.pkgs.callPackage ./jormungandr.nix {}).jcli;
+  jormungandr-cli-master = (super.pkgs.callPackage ./jormungandr.nix {}).jcli-master;
+  makeJormungandr = (super.pkgs.callPackage ./jormungandr.nix {}).makeJormungandr;
+  makeJcli = (super.pkgs.callPackage ./jormungandr.nix {}).makeJcli;
   cardano-http-bridge = super.pkgs.callPackage ./cardano-http-bridge.nix {};
   cardano-http-bridge-emurgo = super.pkgs.callPackage ./cardano-http-bridge-emurgo.nix {};
   cardano-cli = super.pkgs.callPackage ./cardano-cli.nix {};
 }
-
