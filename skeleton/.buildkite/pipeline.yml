@@ -33,13 +33,3 @@ steps:
       - "./check-lint-fuzz.sh"
     agents:
       system: x86_64-linux
-
-  # Imperative build steps
-  - label: Stack build
-    commands:
-      - ".buildkite/set-skeleton-pin.sh && cd skeleton"  # TODO: remove this line
-      - "nix-build .buildkite/default.nix -o stack-rebuild"
-      - "./stack-rebuild"
-    agents:
-      system: x86_64-linux
-    timeout_in_minutes: 60
