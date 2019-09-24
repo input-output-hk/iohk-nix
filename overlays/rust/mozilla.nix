@@ -3,8 +3,8 @@ let
   rustOverlay = fetchFromGitHub {
     owner = "mozilla";
     repo = "nixpkgs-mozilla";
-    rev = "200cf0640fd8fdff0e1a342db98c9e31e6f13cd7";
-    sha256 = "1am353ims43ylvay263alchzy3y87r1khnwr0x2fp35qr347bvxi";
+    rev = "b52a8b7de89b1fac49302cbaffd4caed4551515f";
+    sha256 = "1np4fmcrg6kwlmairyacvhprqixrk7x9h89k813safnlgbgqwrqb";
   };
 in
   import (rustOverlay + "/rust-overlay.nix")

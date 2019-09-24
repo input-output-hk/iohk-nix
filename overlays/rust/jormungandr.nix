@@ -17,15 +17,15 @@ let
   release = {
     version = "0.5.0";
     sha256 = "19jqnja4mxyfgg79m4ak4815wjxvkg6qn04gk21c15xl3i8b4zf6";
-    cargoSha256 = "1kdrx4k6d3jx7d67vnmwp37vflzz9ngl2fnwsjl02vacs4g932cf";
+    cargoSha256 = "1grrxmczdmkf2sd0f0b2iblzzcp8qlrsad5dkm0r5vxch22rcx7d";
   };
 
   master = {
     name = "jormungandr-master";
-    version = "0.3.3";
-    rev = "25f780105656b5a6f81797635a817b6c93ec0bf3";
-    sha256 = "0a5db051aaafx084nmwnc4j3cbnmfhb2rx5viiap6nrp7ca2yyfh";
-    cargoSha256 = "1rbissmf15c6vsip5rwfbzk75x19bcl532ynqvdj6arwj4662nd0";
+    version = "master";
+    rev = "1de8ae2cd88b58a0268f8bc6ff8cdbef9c61365b";
+    sha256 = "1d673l94npa7i8zkw1fwjv5nb6y41f0kbdaw7nq7x55vsnxjg36m";
+    cargoSha256 = "1grrxmczdmkf2sd0f0b2iblzzcp8qlrsad5dkm0r5vxch22rcx7d";
   };
 
   fetchSrc = { name, rev, sha256 }:
