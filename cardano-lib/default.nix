@@ -59,7 +59,7 @@ let
       private = false;
     };
     shelley_staging = {
-      relays = "relays.shelley-staging.aws.iohkdev.io";
+      relays = "relays.staging-shelley.aws.iohkdev.io";
       edgeHost = "3.120.217.223";
       edgePort = 3001;
       confKey = "shelley_staging_full";
