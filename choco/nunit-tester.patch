@@ -1,0 +1,12 @@
+diff -ur source-orig/.build/analyzers/nunit.test.step source-manual/.build/analyzers/nunit.test.step
+--- source-orig/.build/analyzers/nunit.test.step	1969-12-31 19:00:01.000000000 -0500
++++ source-manual/.build/analyzers/nunit.test.step	2019-07-02 17:56:25.664939316 -0400
+@@ -111,7 +111,7 @@
+       </exec>
+       <exec program="mono"
+           workingdir="${dirs.build.code}"
+-          failonerror="${fail.build.on.error}"
++          failonerror="false"
+           if="${platform::is-unix()}"
+           >
+           <arg value='"${app.test.console}"' />

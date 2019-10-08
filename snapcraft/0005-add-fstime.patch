@@ -1,0 +1,542 @@
+diff --git i/squashfs-tools/mksquashfs.c w/squashfs-tools/mksquashfs.c
+index 4e9b07b..31154ce 100644
+--- i/squashfs-tools/mksquashfs.c
++++ w/squashfs-tools/mksquashfs.c
+@@ -82,6 +82,8 @@ int quiet = FALSE;
+ int fd;
+ struct squashfs_super_block sBlk;
+ 
++time_t forced_time = (time_t)0;
++
+ /* filesystem flags for building */
+ int comp_opts = FALSE;
+ int no_xattrs = XATTR_DEF;
+@@ -358,7 +360,7 @@ int shift_overflow(int a, int shift)
+ 	return (INT_MAX >> shift) < a;
+ }
+ 
+- 
++
+ int multiply_overflow(int a, int multiplier)
+ {
+ 	return (INT_MAX / multiplier) < a;
+@@ -606,7 +608,7 @@ long long write_inodes()
+ 		c_byte = mangle(inode_table + inode_bytes + BLOCK_OFFSET, datap,
+ 			avail_bytes, SQUASHFS_METADATA_SIZE, noI, 0);
+ 		TRACE("Inode block @ 0x%x, size %d\n", inode_bytes, c_byte);
+-		SQUASHFS_SWAP_SHORTS(&c_byte, inode_table + inode_bytes, 1); 
++		SQUASHFS_SWAP_SHORTS(&c_byte, inode_table + inode_bytes, 1);
+ 		inode_bytes += SQUASHFS_COMPRESSED_SIZE(c_byte) + BLOCK_OFFSET;
+ 		total_inode_bytes += avail_bytes + BLOCK_OFFSET;
+ 		datap += avail_bytes;
+@@ -754,7 +756,7 @@ char *_pathname(struct dir_ent *dir_ent, char *pathname, int *size)
+ 	}
+ 
+ 	for(;;) {
+-		int res = snprintf(pathname, *size, "%s/%s", 
++		int res = snprintf(pathname, *size, "%s/%s",
+ 			dir_ent->our_dir->pathname,
+ 			dir_ent->source_name ? : dir_ent->name);
+ 
+@@ -850,7 +852,7 @@ inline unsigned int get_parent_no(struct dir_info *dir)
+ 	return dir->depth ? get_inode_no(dir->dir_ent->inode) : inode_no;
+ }
+ 
+-	
++
+ int create_inode(squashfs_inode *i_no, struct dir_info *dir_info,
+ 	struct dir_ent *dir_ent, int type, long long byte_size,
+ 	long long start_block, unsigned int offset, unsigned int *block_list,
+@@ -897,7 +899,7 @@ int create_inode(squashfs_inode *i_no, struct dir_info *dir_info,
+ 			type = SQUASHFS_LSOCKET_TYPE;
+ 		break;
+ 	}
+-			
++
+ 	base->mode = SQUASHFS_MODE(buf->st_mode);
+ 	base->uid = get_uid((unsigned int) global_uid == -1 ?
+ 		buf->st_uid : global_uid);
+@@ -1129,7 +1131,7 @@ void add_dir(squashfs_inode inode, unsigned int inode_number, char *name,
+ 			MEM_ERROR();
+ 
+ 		dir->p = (dir->p - dir->buff) + buff;
+-		if(dir->entry_count_p) 
++		if(dir->entry_count_p)
+ 			dir->entry_count_p = (dir->entry_count_p - dir->buff +
+ 			buff);
+ 		dir->index_count_p = dir->index_count_p - dir->buff + buff;
+@@ -1501,7 +1503,7 @@ void unlock_fragments()
+ 		if(do_4k_align)
+ 			ALIGN_UP(bytes, 4096);
+ 		write_buffer = queue_get(locked_fragment);
+-		frg = write_buffer->block;	
++		frg = write_buffer->block;
+ 		size = SQUASHFS_COMPRESSED_SIZE_BLOCK(fragment_table[frg].size);
+ 		fragment_table[frg].start_block = bytes;
+ 		write_buffer->block = bytes;
+@@ -1617,7 +1619,7 @@ long long generic_write_table(int length, void *buffer, int length2,
+ 	int compressed_size, i, list_size = meta_blocks * sizeof(long long);
+ 	unsigned short c_byte;
+ 	char cbuffer[(SQUASHFS_METADATA_SIZE << 2) + 2];
+-	
++
+ #ifdef SQUASHFS_TRACE
+ 	long long obytes = bytes;
+ 	int olength = length;
+@@ -1651,7 +1653,7 @@ long long generic_write_table(int length, void *buffer, int length2,
+ 		bytes += length2;
+ 		total_bytes += length2;
+ 	}
+-		
++
+ 	SQUASHFS_INSWAP_LONG_LONGS(list, meta_blocks);
+ 	write_destination(fd, bytes, list_size, list);
+ 	bytes += list_size;
+@@ -1745,7 +1747,7 @@ unsigned short get_checksum_disk(long long start, long long l,
+ 			cache_block_put(write_buffer);
+ 		} else {
+ 			void *data = read_from_disk(start, bytes);
+-			if(data == NULL) {	
++			if(data == NULL) {
+ 				ERROR("Failed to checksum data from output"
+ 					" filesystem\n");
+ 				BAD_ERROR("Output filesystem corrupted?\n");
+@@ -2116,7 +2118,7 @@ void reader_read_process(struct dir_ent *dir_ent)
+ 		 * read incase write_file_process() is running in parallel
+ 		 * with this.  Otherwise the current progress bar position
+ 		 * may get ahead of the progress bar size.
+-		 */ 
++		 */
+ 		progress_bar_size(1);
+ 
+ 		if(prev_buffer)
+@@ -2384,7 +2386,7 @@ void *deflator(void *arg)
+ 	while(1) {
+ 		struct file_buffer *file_buffer = queue_get(to_deflate);
+ 
+-		if(sparse_files && all_zero(file_buffer)) { 
++		if(sparse_files && all_zero(file_buffer)) {
+ 			file_buffer->c_byte = 0;
+ 			seq_queue_put(to_main, file_buffer);
+ 		} else {
+@@ -3097,7 +3099,7 @@ void dir_scan(squashfs_inode *inode, char *pathname,
+ {
+ 	struct stat buf;
+ 	struct dir_ent *dir_ent;
+-	
++
+ 	root_dir = dir_scan1(pathname, "", paths, _readdir, 1);
+ 	if(root_dir == NULL)
+ 		return;
+@@ -3408,7 +3410,7 @@ struct dir_info *dir_scan1(char *filename, char *subpath,
+ 
+ 		if(exclude_actions()) {
+ 			subpath = subpathname(dir_ent);
+-			
++
+ 			if(eval_exclude_actions(dir_name, filename, subpath,
+ 							&buf, depth, dir_ent)) {
+ 				add_excluded(dir);
+@@ -3479,7 +3481,7 @@ struct dir_ent *scan2_readdir(struct dir_info *dir, struct dir_ent *dir_ent)
+ 
+ 	for(; dir_ent && dir_ent->inode->root_entry; dir_ent = dir_ent->next);
+ 
+-	return dir_ent;	
++	return dir_ent;
+ }
+ 
+ 
+@@ -3500,7 +3502,7 @@ void dir_scan2(struct dir_info *dir, struct pseudo *pseudo)
+ 	struct pseudo_entry *pseudo_ent;
+ 	struct stat buf;
+ 	static int pseudo_ino = 1;
+-	
++
+ 	while((dir_ent = scan2_readdir(dir, dir_ent)) != NULL) {
+ 		struct inode_info *inode_info = dir_ent->inode;
+ 		struct stat *buf = &inode_info->buf;
+@@ -3649,7 +3651,7 @@ void free_dir(struct dir_info *dir)
+ 	free(dir->subpath);
+ 	free(dir);
+ }
+-	
++
+ 
+ void dir_scan4(struct dir_info *dir)
+ {
+@@ -3681,7 +3683,7 @@ void dir_scan4(struct dir_info *dir)
+ 				prev->next = dir_ent;
+ 			else
+ 				dir->list = dir_ent;
+-			
++
+ 			/* free it */
+ 			free_dir_entry(tmp);
+ 
+@@ -3732,7 +3734,7 @@ void dir_scan5(struct dir_info *dir)
+ 					prev->next = dir_ent;
+ 				else
+ 					dir->list = dir_ent;
+-			
++
+ 				/* free it */
+ 				free_dir_entry(tmp);
+ 
+@@ -3763,7 +3765,7 @@ void dir_scan5(struct dir_info *dir)
+  * is not ideal for arrays (as it needs an additonal n storage locations
+  * as sorting is not done in place), but it is ideal for linked lists because
+  * it doesn't require any extra storage,
+- */ 
++ */
+ void sort_directory(struct dir_info *dir)
+ {
+ 	struct dir_ent *cur, *l1, *l2, *next;
+@@ -3900,7 +3902,7 @@ struct dir_ent *scan7_readdir(struct directory *dir, struct dir_info *dir_info,
+ 		add_dir(dir_ent->inode->inode, dir_ent->inode->inode_number,
+ 			dir_ent->name, dir_ent->inode->type, dir);
+ 
+-	return dir_ent;	
++	return dir_ent;
+ }
+ 
+ 
+@@ -3918,9 +3920,9 @@ void dir_scan7(squashfs_inode *inode, struct dir_info *dir_info)
+ 	int duplicate_file;
+ 	struct directory dir;
+ 	struct dir_ent *dir_ent = NULL;
+-	
++
+ 	scan7_init_dir(&dir);
+-	
++
+ 	while((dir_ent = scan7_readdir(&dir, dir_info, dir_ent)) != NULL) {
+ 		struct stat *buf = &dir_ent->inode->buf;
+ 
+@@ -4044,7 +4046,7 @@ void dir_scan7(squashfs_inode *inode, struct dir_info *dir_info)
+ 					break;
+ 			}
+ 		}
+-		
++
+ 		add_dir(*inode, get_inode_no(dir_ent->inode), dir_ent->name,
+ 			squashfs_type, &dir);
+ 	}
+@@ -4453,10 +4455,10 @@ void add_exclude(char *target)
+ 	if(target[0] == '/' || strncmp(target, "./", 2) == 0 ||
+ 			strncmp(target, "../", 3) == 0)
+ 		BAD_ERROR("/, ./ and ../ prefixed excludes not supported with "
+-			"-wildcards or -regex options\n");	
++			"-wildcards or -regex options\n");
+ 	else if(strncmp(target, "... ", 4) == 0)
+ 		stickypath = add_path(stickypath, target + 4, target + 4);
+-	else	
++	else
+ 		path = add_path(path, target, target);
+ }
+ 
+@@ -4545,7 +4547,7 @@ int excluded_match(char *name, struct pathname *path, struct pathnames **new)
+ int excluded(char *name, struct pathnames *paths, struct pathnames **new)
+ {
+ 	int n;
+-		
++
+ 	if(stickypath && excluded_match(name, stickypath, NULL))
+ 		return TRUE;
+ 
+@@ -4665,7 +4667,7 @@ void write_recovery_data(struct squashfs_super_block *sBlk)
+ 	if(recoverfd == -1)
+ 		BAD_ERROR("Failed to create recovery file, because %s.  "
+ 			"Aborting\n", strerror(errno));
+-		
++
+ 	if(write_bytes(recoverfd, header, RECOVER_ID_SIZE) == -1)
+ 		BAD_ERROR("Failed to write recovery file, because %s\n",
+ 			strerror(errno));
+@@ -4680,7 +4682,7 @@ void write_recovery_data(struct squashfs_super_block *sBlk)
+ 
+ 	close(recoverfd);
+ 	free(metadata);
+-	
++
+ 	printf("Recovery file \"%s\" written\n", recovery_file);
+ 	printf("If Mksquashfs aborts abnormally (i.e. power failure), run\n");
+ 	printf("mksquashfs dummy %s -recover %s\n", destination_file,
+@@ -4762,7 +4764,7 @@ void read_recovery_data(char *recovery_file, char *destination_file)
+ 
+ 	printf("Successfully wrote recovery file \"%s\".  Exiting\n",
+ 		recovery_file);
+-	
++
+ 	exit(0);
+ }
+ 
+@@ -4793,7 +4795,7 @@ void write_filesystem_tables(struct squashfs_super_block *sBlk, int nopad)
+ 
+ 	sBlk->compression = comp->id;
+ 
+-	SQUASHFS_INSWAP_SUPER_BLOCK(sBlk); 
++	SQUASHFS_INSWAP_SUPER_BLOCK(sBlk);
+ 	write_destination(fd, SQUASHFS_START, sizeof(*sBlk), sBlk);
+ 
+ 	if(!nopad && (i = bytes & (4096 - 1))) {
+@@ -4966,13 +4968,41 @@ int parse_numberll(char *start, long long *res, int size)
+ }
+ 
+ 
++int parse_time(char *start, time_t *res)
++{
++	char *end;
++	long number = strtol(start, &end, 10);
++
++	/*
++	 * http://www.gnu.org/software/libc/manual/html_node/Simple-Calendar-Time.html
++	 * states that "In the GNU C Library, time_t is equivalent to long
++	 * int. In other systems, time_t might be either an integer or
++	 * floating-point type." As such, because strtol returns a long and
++	 * because a valid value of time_t is 0 or higher, we need only check
++	 * for a negative value. For this patch to be portable, we would need
++	 * to account for other implementations of time_t.
++	 */
++
++	/* Reject negative numbers as invalid */
++	if(number < 0)
++		return 0;
++
++	if(end[0] != '\0')
++		/* trailing junk after number */
++		return 0;
++
++	*res = (time_t) number;
++	return 1;
++}
++
++
+ int parse_number(char *start, int *res, int size)
+ {
+ 	long long number;
+ 
+ 	if(!parse_numberll(start, &number, size))
+ 		return 0;
+-	
++
+ 	/* check if long result will overflow signed int */
+ 	if(number > INT_MAX)
+ 		return 0;
+@@ -5027,7 +5057,7 @@ void check_usable_phys_mem(int total_mem)
+ 	int mem = get_physical_memory();
+ 
+ 	mem = (mem >> 1) + (mem >> 2); /* 75% */
+-						
++
+ 	if(total_mem > mem && mem) {
+ 		ERROR("Total memory requested is more than 75%% of physical "
+ 						"memory.\n");
+@@ -5163,7 +5193,7 @@ int main(int argc, char *argv[])
+ 	 */
+ 	for(; i < argc; i++) {
+ 		struct compressor *prev_comp = comp;
+-		
++
+ 		if(strcmp(argv[i], "-comp") == 0) {
+ 			if(++i == argc) {
+ 				ERROR("%s: -comp missing compression type\n",
+@@ -5368,7 +5398,7 @@ print_compressor_options:
+ 				exit(1);
+ 			}
+ 			squashfs_start_offset = (off_t)atol(argv[i]);
+-        }        
++        }
+ 		else if(strcmp(argv[i], "-processors") == 0) {
+ 			if((++i == argc) || !parse_num(argv[i], &processors)) {
+ 				ERROR("%s: -processors missing or invalid "
+@@ -5579,8 +5609,14 @@ print_compressor_options:
+ 				ERROR("%s: -root-becomes: missing name\n",
+ 					argv[0]);
+ 				exit(1);
+-			}	
++			}
+ 			root_name = argv[i];
++		} else if(strcmp(argv[i], "-fstime") == 0) {
++			if((++i == argc) || !parse_time(argv[i], &forced_time)) {
++				ERROR("%s: -fstime missing or invalid "
++					"number\n", argv[0]);
++				exit(1);
++			}
+ 		} else if(strcmp(argv[i], "-version") == 0) {
+ 			VERSION();
+ 		} else if(strcmp(argv[i], "-4k-align") == 0) {
+@@ -5628,6 +5664,8 @@ printOptions:
+ 			ERROR("\t\t\tdirectory containing that directory, "
+ 				"rather than the\n");
+ 			ERROR("\t\t\tcontents of the directory\n");
++			ERROR("-fstime secs\t\tSet fs time to seconds "
++				"since epoch.  Default to current time\n");
+ 			ERROR("-4k-align\t\tenables 4k alignment of all files\n");
+ 			ERROR("\nFilesystem filter options:\n");
+ 			ERROR("-p <pseudo-definition>\tAdd pseudo file "
+@@ -5692,7 +5730,7 @@ printOptions:
+ 				"\n");
+ 			ERROR("-o <offset>\t\tSkip <offset> bytes at the "
+ 				"beginning of the file.\n\t\t\t"
+-				"Default 0 bytes\n");            
++				"Default 0 bytes\n");
+ 			ERROR("-noInodeCompression\talternative name for -noI"
+ 				"\n");
+ 			ERROR("-noIdTableCompression\talternative name for -noId"
+@@ -5764,7 +5802,7 @@ printOptions:
+ 	 */
+ 	if(!silent)
+ 		progress = force_progress;
+-		
++
+ #ifdef SQUASHFS_TRACE
+ 	/*
+ 	 * Disable progress bar if full debug tracing is enabled.
+@@ -5913,6 +5951,8 @@ printOptions:
+ 			printf("Creating %d.%d filesystem on %s, block size %d.\n",
+ 				SQUASHFS_MAJOR, SQUASHFS_MINOR,
+ 				argv[source + 1], block_size);
++		if (forced_time)
++			printf("Setting fs time: %s\n", asctime(gmtime(&forced_time)));
+ 
+ 		/*
+ 		 * store any compressor specific options after the superblock,
+@@ -5921,7 +5961,7 @@ printOptions:
+ 		 */
+ 		if(comp_data) {
+ 			unsigned short c_byte = size | SQUASHFS_COMPRESSED_BIT;
+-	
++
+ 			SQUASHFS_INSWAP_SHORTS(&c_byte, 1);
+ 			write_destination(fd, sizeof(struct squashfs_super_block),
+ 				sizeof(c_byte), &c_byte);
+@@ -5930,7 +5970,7 @@ printOptions:
+ 			bytes = sizeof(struct squashfs_super_block) + sizeof(c_byte)
+ 				+ size;
+ 			comp_opts = TRUE;
+-		} else			
++		} else
+ 			bytes = sizeof(struct squashfs_super_block);
+ 	} else {
+ 		unsigned int last_directory_block, inode_dir_offset,
+@@ -5963,7 +6003,7 @@ printOptions:
+ 		if((append_fragments = fragments = sBlk.fragments)) {
+ 			fragment_table = realloc((char *) fragment_table,
+ 				((fragments + FRAG_SIZE - 1) & ~(FRAG_SIZE - 1))
+-				 * sizeof(struct squashfs_fragment_entry)); 
++				 * sizeof(struct squashfs_fragment_entry));
+ 			if(fragment_table == NULL)
+ 				BAD_ERROR("Out of memory in save filesystem state\n");
+ 		}
+@@ -5981,7 +6021,7 @@ printOptions:
+ 			~(SQUASHFS_METADATA_SIZE - 1);
+ 		uncompressed_data = (inode_dir_offset + inode_dir_file_size) &
+ 			(SQUASHFS_METADATA_SIZE - 1);
+-		
++
+ 		/* save original filesystem state for restoring ... */
+ 		sfragments = fragments;
+ 		sbytes = bytes;
+@@ -6050,7 +6090,7 @@ printOptions:
+ 					"state\n");
+ 			memcpy(sdirectory_compressed, directory_table +
+ 				inode_dir_start_block,
+-				sdirectory_compressed_bytes); 
++				sdirectory_compressed_bytes);
+ 			sdirectory_bytes = inode_dir_start_block;
+ 			root_inode_number = inode_dir_inode_number;
+ 			inode_no = sBlk.inodes + 1;
+@@ -6066,7 +6106,7 @@ printOptions:
+ 	if(path)
+ 		paths = add_subdir(paths, path);
+ 
+-	dump_actions(); 
++	dump_actions();
+ 	dump_pseudos();
+ 
+ 	if(delete && !keep_as_directory && source == 1 &&
+@@ -6087,7 +6127,10 @@ printOptions:
+ 	sBlk.flags = SQUASHFS_MKFLAGS(noI, noD, noF, noX, noId, no_fragments,
+ 		always_use_fragments, duplicate_checking, exportable,
+ 		no_xattrs, comp_opts);
+-	sBlk.mkfs_time = mkfs_fixed_time != -1 ? mkfs_fixed_time : time(NULL);
++	if (forced_time)
++		sBlk.mkfs_time = (time_t)forced_time;
++	else
++		sBlk.mkfs_time = mkfs_fixed_time != -1 ? mkfs_fixed_time : time(NULL);
+ 
+ 	disable_info();
+ 
+diff --git i/squashfs-tools/unsquashfs.c w/squashfs-tools/unsquashfs.c
+index a57f85c..6230f6e 100644
+--- i/squashfs-tools/unsquashfs.c
++++ w/squashfs-tools/unsquashfs.c
+@@ -1641,6 +1641,13 @@ void dir_scan(char *parent_name, unsigned int start_block, unsigned int offset,
+ }
+ 
+ 
++void squashfs_fstime(time_t *fstime)
++{
++	time_t mkfs_time = (time_t) sBlk.s.mkfs_time;
++	*fstime = (time_t) mkfs_time;
++}
++
++
+ void squashfs_stat(char *source)
+ {
+ 	time_t mkfs_time = (time_t) sBlk.s.mkfs_time;
+@@ -2520,13 +2527,14 @@ int parse_number(char *arg, int *res)
+ int main(int argc, char *argv[])
+ {
+ 	char *dest = "squashfs-root";
+-	int i, stat_sys = FALSE, version = FALSE;
++	int i, stat_sys = FALSE, version = FALSE, stat_fstime = FALSE;
+ 	int n;
+ 	struct pathnames *paths = NULL;
+ 	struct pathname *path = NULL;
+ 	long long directory_table_end;
+ 	int fragment_buffer_size = FRAGMENT_BUFFER_DEFAULT;
+ 	int data_buffer_size = DATA_BUFFER_DEFAULT;
++	time_t fstime;
+ 
+ 	pthread_mutex_init(&screen_mutex, NULL);
+ 	root_process = geteuid() == 0;
+@@ -2623,6 +2631,8 @@ int main(int argc, char *argv[])
+ 		else if(strcmp(argv[i], "-stat") == 0 ||
+ 				strcmp(argv[i], "-s") == 0)
+ 			stat_sys = TRUE;
++		else if(strcmp(argv[i], "-fstime") == 0)
++			stat_fstime = TRUE;
+ 		else if(strcmp(argv[i], "-lls") == 0 ||
+ 				strcmp(argv[i], "-ll") == 0) {
+ 			lsonly = TRUE;
+@@ -2695,6 +2705,8 @@ options:
+ 				"overwrite\n");
+ 			ERROR("\t-s[tat]\t\t\tdisplay filesystem superblock "
+ 				"information\n");
++			ERROR("\t-fstime\t\t\tdisplay filesystem superblock "
++				"time\n");
+ 			ERROR("\t-e[f] <extract file>\tlist of directories or "
+ 				"files to extract.\n\t\t\t\tOne per line\n");
+ 			ERROR("\t-da[ta-queue] <size>\tSet data queue to "
+@@ -2730,6 +2742,20 @@ options:
+ 		exit(0);
+ 	}
+ 
++	if(stat_fstime) {
++		squashfs_fstime(&fstime);
++		/*
++		 * http://www.gnu.org/software/libc/manual/html_node/Simple-Calendar-Time.html
++		 * states that "In the GNU C Library, time_t is equivalent to
++		 * long int. In other systems, time_t might be either an
++		 * integer or floating-point type." For this patch to be
++		 * portable, we would need to account for other implementations
++		 * of time_t.
++		 */
++		printf("%ld\n", (long)fstime);
++		exit(0);
++	}
++
+ 	if(!check_compression(comp))
+ 		exit(1);
+ 
