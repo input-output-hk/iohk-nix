@@ -68,5 +68,6 @@ fix (self: mappedPkgs // {
     ];
   });
 } // {
+  inherit (packageSet) choco snapcraft snapReviewTools;
   skeleton = skeletonJobset;
 })
