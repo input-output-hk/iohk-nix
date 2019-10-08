@@ -7,6 +7,10 @@ version. There may have been changes which could break your build.
    * Changes `mkRequired` of `release-lib` to return an attribute set
      containing `required` and `build-version`
 
+## 2019-10-08
+
+   * Switched to niv for source management instead of json files
+
 
 ## 2019-07-25
 
