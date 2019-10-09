@@ -65,5 +65,5 @@ fix (self: mappedPkgs // {
     ];
   });
 } // {
-  skeleton = skeletonJobset;
+  #skeleton = skeletonJobset;
 })

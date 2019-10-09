@@ -4,11 +4,13 @@ let
     hostAddr ? "127.0.0.1"
   , port ? 3001
   , edgeHost ? "127.0.0.1"
-  , edgePort ? if edgeHost == "127.0.0.1" then 7777 else 3001
+  , edgeNodes ? []
+  , edgePort ? if (edgeNodes != []) then 3001 else (if edgeHost == "127.0.0.1" then 7777 else 3001)
   , nodeId ? 0
   , valency ? 1
   }:
   let
+    mkProducers = map (edgeHost': { addr = edgeHost'; port = edgePort; inherit valency; }) edgeNodes;
     topology = [
       {
         inherit nodeId;
@@ -16,7 +18,7 @@ let
           addr = hostAddr;
           inherit port;
         };
-        producers = [
+        producers = if (edgeNodes != []) then mkProducers else [
           {
             addr = edgeHost;
             port = edgePort;
@@ -33,7 +35,9 @@ let
   environments = {
     mainnet = {
       relays = "relays.cardano-mainnet.iohk.io";
-      edgeHost = "18.185.45.45";
+      edgeNodes = [
+        "18.185.45.45"
+      ];
       edgePort = 3001;
       confKey = "mainnet_full";
       genesisFile = ./mainnet-genesis.json;
@@ -42,7 +46,9 @@ let
     };
     staging = {
       relays = "relays.awstest.iohkdev.io";
-      edgeHost = "3.123.95.181";
+      edgeNodes = [
+        "3.123.95.181"
+      ];
       edgePort = 3001;
       confKey = "mainnet_dryrun_full";
       genesisFile = ./mainnet-genesis-dryrun-with-stakeholders.json;
@@ -51,7 +57,9 @@ let
     };
     testnet = {
       relays = "relays.cardano-testnet.iohkdev.io";
-      edgeHost = "18.194.162.74";
+      edgeNodes = [
+        "18.194.162.74"
+      ];
       edgePort = 3001;
       confKey = "testnet_full";
       genesisFile = ./testnet-genesis.json;
@@ -60,7 +68,11 @@ let
     };
     shelley_staging = {
       relays = "relays.shelley-staging.aws.iohkdev.io";
-      edgeHost = "3.120.217.223";
+      edgeNodes = [
+        "52.59.133.44"
+        "3.114.127.167"
+        "18.138.87.237"
+      ];
       edgePort = 3001;
       confKey = "shelley_staging_full";
       genesisFile = ./shelley-staging-genesis.json;
@@ -69,7 +81,9 @@ let
     };
     shelley_staging_short = {
       relays = "relays.staging-shelley-short.aws.iohkdev.io";
-      edgeHost = "3.123.96.194";
+      edgeNodes = [
+        "3.123.96.194"
+      ];
       edgePort = 3001;
       confKey = "shelley_staging_short_full";
       genesisFile = ./shelley-staging-short-genesis.json;
