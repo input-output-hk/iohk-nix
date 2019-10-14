@@ -8,10 +8,17 @@ let
     sha256 = "1grmqk22q6gyk5qivp8zxklvcd43p10wbvsayy34z4mcg2745qiy";
   };
 
+  # pkgSetCabal = haskell.mkCabalProjectPkgSet {
+  #   plan-pkgs = import (haskell.callCabalProjectToNix {
+  #     inherit src;
+  #     index-state = "2019-08-01T00:00:00Z";
+  #   });
+  # };
+
   pkgSet = haskell.mkStackPkgSet {
-    stack-pkgs = (haskell.importAndFilterProject (haskell.callStackToNix {
+    stack-pkgs = import (haskell.callStackToNix {
       inherit src;
-    })).pkgs;
+    });
     pkg-def-extras = [];
     modules = [{
       packages.cardano-repo-tool.components.exes.cardano-repo-tool = {
