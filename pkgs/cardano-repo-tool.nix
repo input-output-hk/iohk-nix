@@ -16,9 +16,9 @@ let
   # };
 
   pkgSet = haskell.mkStackPkgSet {
-    stack-pkgs = import (haskell.callStackToNix {
+    stack-pkgs = (haskell.importAndFilterProject (haskell.callStackToNix {
       inherit src;
-    });
+    })).pkgs;
     pkg-def-extras = [];
     modules = [{
       packages.cardano-repo-tool.components.exes.cardano-repo-tool = {
