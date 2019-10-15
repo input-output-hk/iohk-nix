@@ -91,6 +91,17 @@ let
       pbftThreshold = "0.9";
       private = false;
     };
+    latency-tests = {
+      relays = "relays.latency-tests.aws.iohkdev.io";
+      edgeNodes = [
+        "18.231.36.12"
+      ];
+      edgePort = 3001;
+      confKey = "latency_tests_full";
+      genesisFile = ./latency-tests-genesis.json;
+      genesisHash = "c8b2ef02574d10bf23c2cd4a8c4022a9285f366af64b2544b317e2175b94f5a3";
+      private = false;
+    };
   };
   forEnvironments = f: lib.mapAttrs
     (name: env: f (env // { inherit name; }))
