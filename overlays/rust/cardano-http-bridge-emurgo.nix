@@ -16,12 +16,12 @@ in rustPlatform.buildRustPackage rec {
   src = fetchFromGitHub {
     owner = "Emurgo";
     repo = "cardano-http-bridge";
-    rev = "33852c7d9eac91e3ececeed0886180fa68778909";
-    sha256 = "0xyfciwry8xzjxxy4nvix7iyk7pdd5yydwvj1n9n58pajvz31d19";
+    rev = "cd7fa514e8c17879663c41a046cb6bd51e6b18d0";
+    sha256 = "1s7p1jy63myahkm90y2kgxik8kv311f6prwdsl8p3arjh5vg85x3";
     fetchSubmodules = true;
   };
 
-  cargoSha256 = "0n5hlzaqvn5hd0dkg9kj82n4syb6f5k1zlqkbpbsfqrm2g7knp4c";
+  cargoSha256 = "0sr9mzw9d5j86f7j7y2hdaxdrl3jm4dyzmbhpxjb8x6nf1bi10an";
   buildInputs = [ protobuf ] ++ stdenv.lib.optional stdenv.isDarwin Security;
   PROTOC = "${protobuf}/bin/protoc";
   # workaround https://github.com/NixOS/nixpkgs/issues/61618
