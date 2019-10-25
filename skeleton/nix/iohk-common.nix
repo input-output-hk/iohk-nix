@@ -6,6 +6,7 @@ import (
   in if try.success
   then builtins.trace "using host <iohk_nix>" try.value
   else
+    if builtins.pathExists ../../skeleton then ../../default.nix else  # TODO: Remove this line
     let
       spec = builtins.fromJSON (builtins.readFile ./iohk-nix-src.json);
       fetchArgs = {

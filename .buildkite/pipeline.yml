@@ -11,9 +11,9 @@ steps:
     agents:
       system: x86_64-linux
 
-#  - label: ":pipeline: Skeleton project pipelines"
-#    command:
-#      - 'buildkite-agent pipeline upload skeleton/.buildkite/pipeline.yml'
-#      - 'buildkite-agent pipeline upload skeleton/.buildkite/nightly.yml'
-#    agents:
-#      system: x86_64-linux
+  - label: ":pipeline: Skeleton project pipelines"
+    command:
+      - 'buildkite-agent pipeline upload skeleton/.buildkite/pipeline.yml'
+      - 'buildkite-agent pipeline upload skeleton/.buildkite/nightly.yml'
+    agents:
+      system: x86_64-linux
