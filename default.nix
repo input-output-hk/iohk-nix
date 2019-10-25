@@ -50,6 +50,7 @@ let
     commitIdFromGitRepo = pkgs.callPackage ./commit-id.nix {};
 
     # Development tools
+    haskellBuildUtils = import ./utils/default.nix { pkgs = pkgsDefault; };
     cache-s3 = pkgsDefault.callPackage ./pkgs/cache-s3.nix {};
     stack-hpc-coveralls = pkgsDefault.haskellPackages.callPackage ./pkgs/stack-hpc-coveralls.nix {};
     hlint = pkgsDefault.haskellPackages.callPackage ./pkgs/hlint.nix {};
@@ -126,6 +127,6 @@ let
 
 in {
   inherit tests nix-tools stack2nix jemallocOverlay rust-packages cardanoLib;
-  inherit (commonLib) pkgs haskellPackages fetchNixpkgs maybeEnv cleanSourceHaskell getPkgs nixpkgs commitIdFromGitRepo getPackages cache-s3 stack-hpc-coveralls hlint stylish-haskell openapi-spec-validator cardano-repo-tool check-hydra check-nix-tools;
+  inherit (commonLib) pkgs haskellPackages fetchNixpkgs maybeEnv cleanSourceHaskell getPkgs nixpkgs commitIdFromGitRepo getPackages cache-s3 stack-hpc-coveralls hlint stylish-haskell openapi-spec-validator cardano-repo-tool check-hydra check-nix-tools haskellBuildUtils;
   release-lib = ./lib/release-lib.nix;
 }
