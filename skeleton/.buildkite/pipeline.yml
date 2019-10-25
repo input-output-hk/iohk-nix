@@ -5,6 +5,11 @@
 # iohk-nix.
 # TODO: remove all the "cd skeleton" lines
 
+env:
+  BUILD_DIR: "/build/iohk-skeleton"
+  STACK_ROOT: "/build/iohk-skeleton.stack"
+  CACHE_DIR: "/cache/iohk-skeleton"
+
 steps:
   - label: Check Hydra evaluation of release.nix
     commands:
@@ -33,3 +38,15 @@ steps:
       - "./check-lint-fuzz.sh"
     agents:
       system: x86_64-linux
+
+  # Imperative build steps
+  - label: Stack build
+    commands:
+      - ".buildkite/set-skeleton-pin.sh && cd skeleton"  # TODO: remove this line
+      - "nix-build .buildkite/default.nix -o sr"
+      - "./sr/bin/rebuild --build-dir=$BUILD_DIR --cache-dir=$CACHE_DIR"
+    agents:
+      system: x86_64-linux
+    timeout_in_minutes: 60
+    artifact_paths:
+      - "/build/iohk-skeleton/.stack-work/logs/iohk-skeleton*.log"
