@@ -102,6 +102,17 @@ let
       genesisHash = "c8b2ef02574d10bf23c2cd4a8c4022a9285f366af64b2544b317e2175b94f5a3";
       private = false;
     };
+    mainnet-ci = {
+      relays = "";
+      edgeNodes = [
+        "10.1.0.8"
+      ];
+      edgePort = 3000;
+      confKey = "mainnet_ci_full";
+      genesisFile = ./mainnet-ci-genesis.json;
+      genesisHash = "12da51c484b5310fe26ca06ab24b94b323cde3698a0a50cb3f212abd08c2731e";
+      private = false;
+    };
   };
   forEnvironments = f: lib.mapAttrs
     (name: env: f (env // { inherit name; }))
