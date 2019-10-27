@@ -3,6 +3,11 @@
 Please read these notes when updating your project's `iohk-nix`
 version. There may have been changes which could break your build.
 
+## 2019-10-27
+   * Changes `mkRequired` of `release-lib` to return an attribute set
+     containing `required` and `build-version`
+
+
 ## 2019-07-25
 
    * Added a [skeleton project](./skeleton/README.md) which provides a
@@ -26,7 +31,7 @@ version. There may have been changes which could break your build.
      - nix-tools.packages-tests.x86_64-linux
      - nix-tools.packages-libs.x86_64-darwin
      - nix-tools.x86_64-pc-mingw32-packages-exes.x86_64-linux
-   
+
 ## 2019-04-09
 
    * Started changelog
