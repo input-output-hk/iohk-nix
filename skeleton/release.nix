@@ -49,18 +49,13 @@ let
   jobs = {
     native = mapTestOn (packagePlatforms project);
     "${mingwW64.config}" = mapTestOnCross mingwW64 (packagePlatformsCross project);
-  }
-  // {
-    # This aggregate job is what IOHK Hydra uses to update
-    # the CI status in GitHub.
-    required = mkRequiredJob (
+  } // (mkRequiredJob (
       collectTests jobs.native.tests ++
       collectTests jobs.native.benchmarks ++
       # TODO: Add your project executables to this list
       [ jobs.native.iohk-skeleton.x86_64-linux
       ]
-    );
-  }
+    ))
   # Build the shell derivation in Hydra so that all its dependencies
   # are cached.
   // mapTestOn (packagePlatforms { inherit (project) shell; });

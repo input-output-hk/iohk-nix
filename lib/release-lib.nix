@@ -103,9 +103,12 @@ in
       # normally do.
       build-version = pkgs.writeText "version.json" (builtins.toJSON
         (filterAttrs (n: _: n == "version") project // { inherit gitrev; }));
-    in pkgs.releaseTools.aggregate {
-      name = "github-required";
-      meta.description = "All jobs required to pass CI";
-      constituents = constituents ++ [ build-version];
+    in {
+      inherit build-version;
+      required = pkgs.releaseTools.aggregate ({
+        name = "github-required";
+        meta.description = "All jobs required to pass CI";
+        constituents = constituents ++ [ build-version ];
+      });
     };
   }
