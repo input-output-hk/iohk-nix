@@ -23,9 +23,9 @@ let
   master = {
     name = "jormungandr-master";
     version = "master";
-    rev = "4f66dddc668947862890acbc8da1e65642af38b3";
-    sha256 = "0d8yh74bmjfzl9wc3py9axfr5n4n5shm1pn8bf8l9xb39v1m5d3m";
-    cargoSha256 = "07k4fzbgbn3nwhl6icykppjyx9vyddnmjs10xp0balhaffp2f979";
+    rev = "a4692b762f4b8d92a335f70f5acdfc7afcad3fe8";
+    sha256 = "03ijiqhsv17px2lnpzq3bvpq3dy8pmlqdrda100l3mkk1qb7ayjc";
+    cargoSha256 = "1pp829azj6aw68ba637rm852sj61nxznxfzrlqs9ds6adk9h7abs";
   };
 
   fetchSrc = { name, rev, sha256 }:
