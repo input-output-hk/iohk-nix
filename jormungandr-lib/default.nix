@@ -20,14 +20,17 @@ let
   mkConfigHydra = environment: runCommand "jormungandr-config" { } ''
     mkdir -p $out/nix-support
     ${jq}/bin/jq . < ${__toFile "jormungandr-config.yaml" (__toJSON (mkConfig environment))} > $out/config.yaml
+    ${jq}/bin/jq . < ${environment.genesisFile} > $out/genesis.yaml
     echo "${environment.genesisHash}" > $out/genesis-hash.txt
     echo "file binary-dist $out/config.yaml" > $out/nix-support/hydra-build-products
     echo "file binary-dist $out/genesis-hash.txt" >> $out/nix-support/hydra-build-products
+    echo "file binary-dist $out/genesis.yaml" >> $out/nix-support/hydra-build-products
 
   '';
   environments = {
-    stable = {
+    beta = {
       genesisHash = "adbdd5ede31637f6c9bad5c271eec0bc3d0cb9efb86a5b913bb55cba549d0770";
+      genesisFile = ./genesis-beta.yaml;
       trustedPeers = [
         {
           address = "/ip4/3.115.194.22/tcp/3000";
@@ -61,6 +64,7 @@ let
     };
     nightly = {
       genesisHash = "ae57995b8fe086ba590c36dc930f2aa9b52b2ffa92c0698fff2347adafe8dc65";
+      genesisFile = ./genesis-nightly.yaml;
       trustedPeers = [
         {
           address = "/ip4/13.230.137.72/tcp/3000";
