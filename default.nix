@@ -37,7 +37,7 @@ let
        , system ? system'
        , globalConfig ? globalConfig'
        , config ? config'
-       , crossSystem ? crossSystem' }: import (fetchNixpkgs nixpkgsJson) ({
+       , crossSystem ? crossSystem' }: import nixpkgs ({
           overlays = [ jemallocOverlay ] ++ extraOverlays;
           config = globalConfig // config;
           inherit system crossSystem;
