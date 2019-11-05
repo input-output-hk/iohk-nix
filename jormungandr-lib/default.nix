@@ -96,6 +96,40 @@ let
         }
       ];
     };
+    qa = {
+      genesisHash = "c83ecf5b971d5ab70acb850cbf911f89709cd8207af0a51a6e5ed240c5f640db";
+      genesisFile = ./genesis-qa.yaml;
+      trustedPeers = [
+        {
+          address = "/ip4/54.193.75.55/tcp/3000";
+          id = "b191cf683f58ef704e813664acd2818cc2d6153225c84a6c";
+        }
+        {
+          address = "/ip4/13.57.122.88/tcp/3000";
+          id = "406a940157caf2828a50f36f00c2d361d5271f7f1eb63ec3";
+        }
+        {
+          address = "/ip4/13.52.228.233/tcp/3000";
+          id = "9743b65ae3b8ddadd75339759569fc50dddbeadbc5f5d059";
+        }
+        {
+          address = "/ip4/3.115.220.90/tcp/3000";
+          id = "007a713f33703d393f0b88e97f38b5e0b703cec7e662cee2";
+        }
+        {
+          address = "/ip4/52.198.219.29/tcp/3000";
+          id = "e3d18894d22081b58f8697cbc9cdf6decfa228fd2966473b";
+        }
+        {
+          address = "/ip4/3.124.136.155/tcp/3000";
+          id = "34351c6d01e1947bd503a21d1a8ea2e4a06fe02c68f67b16";
+        }
+        {
+          address = "/ip4/3.120.96.219/tcp/3000";
+          id = "15ffd56597c2b3b406b84174f76ea2ae126b868ec03b302a";
+        }
+      ];
+    };
   };
   forEnvironments = f: lib.mapAttrs
     (name: env: f (env // { inherit name; }))
