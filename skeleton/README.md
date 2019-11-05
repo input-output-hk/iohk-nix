@@ -92,5 +92,4 @@ Hydra and Buildkite, using the `iohk-nix` library.
 
 - How to get links to PDF documentation builds in Hydra.
 - How to update a website in CI (e.g. `gh-pages`).
-- How to get code coverage reports.
 - How to get Hackage documentation for the project.

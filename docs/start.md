@@ -23,7 +23,7 @@ information on how to set up the services.
 2. In the GitHub repo _Collaborators & teams_ section, try to grant
    permissions to groups, not individual users. Make sure enough
    people have admin access.
-   
+
    As an example, for Cardano projects, grant `Write` access to the
    [cardano-sl](https://github.com/orgs/input-output-hk/teams/cardano-sl)
    team, and `Admin` access to the
@@ -81,6 +81,21 @@ take too long to run on every git push.
 3. Create the pipeline. Skip the webhook setup.
 
 4. The pipeline definition is in [`.buildkite/nightly.yml`](./.buildkite/nightly.yml).
+
+## How to setup coveralls
+
+Add the desired repository in
+[`coveralls.io`](https://coveralls.io/github/input-output-hk/) (an account is
+needed). After the repository is added, a token will be accessible in the
+`coveralls.io` settings page of your project. This token needs to be associated
+to an environment variable, e.g., `SKELETON_COVERALLS_REPO_TOKEN`, and the
+environment variable needs to be set in Buildkite by
+[@devops](https://app.slack.com/client/T0N639Z4N/CAP8NM7N0).
+
+After the environment variable is set, pass the environment variable name to
+[`Build.doBuild`](../utils/lib/Build.hs). File
+[rebuild.hs](../skeleton/.buildkite/rebuild.hs) contains an example of how this
+can done.
 
 ## How to set up Hydra
 
