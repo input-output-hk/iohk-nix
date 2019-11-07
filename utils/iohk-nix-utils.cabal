@@ -21,7 +21,9 @@ library
                      , turtle
   ghc-options:       -Wall
   default-language:  Haskell2010
-  exposed-modules:   CommonBuild
+  exposed-modules:   Build
+                   , BuildArgs
+                   , CommonBuild
   hs-source-dirs:    lib
 
 executable rebuild

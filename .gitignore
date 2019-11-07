@@ -2,3 +2,11 @@
 \#*\#
 *.*~
 *.bak
+
+## Editor artifacts and configuration files
+TAGS
+.dir-locals.el
+*.md.temp
+
+## Stack artifacts
+stack.yaml.lock
