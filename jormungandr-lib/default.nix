@@ -63,36 +63,36 @@ let
       ];
     };
     nightly = {
-      genesisHash = "ae57995b8fe086ba590c36dc930f2aa9b52b2ffa92c0698fff2347adafe8dc65";
+      genesisHash = "cfd99bc54ebf44b44e72db7e2d48a40499888781e7628ea0fbf286bfd480ca58";
       genesisFile = ./genesis-nightly.yaml;
       trustedPeers = [
         {
           address = "/ip4/13.230.137.72/tcp/3000";
-          id = "ed25519_pk1w6f2sclsauhfd6r9ydgvn0yvpvg4p3x3u2m2n7thknwghrfpdu5sgvrql9";
+          id = "980657fef80a5d2bce23bb9d60c3266b5a2311ea5f3f6746";
         }
         {
           address = "/ip4/13.230.48.191/tcp/3000";
-          id = "ed25519_pk1lzrdh0pcmhwcnqdl5cgcu7n0c76pm7g7p6pdey7wup54vz32gy6qlz5vnq";
+          id = "8477a0e060d0d1797fdaa6c7b78bc684f3fc26c926f15960";
         }
         {
           address = "/ip4/18.196.168.220/tcp/3000";
-          id = "ed25519_pk1uufkgu0t9xm8ry04wnddtnku5gjg8typf5z6ehh65uc6nz4j8n4spq0xrl";
+          id = "f291122fc279c29e302a0af22e91a468f858fd3e82bcf356";
         }
         {
           address = "/ip4/3.124.132.123/tcp/3000";
-          id = "ed25519_pk14tqkqnz3eydn0c8c8gmmyzxgnf2dztpy5dnrx09mhfzv0dh93s3qszqgpc";
+          id = "714b8e0d7ccbacb37aa4f49a380f75adb8b55d3e47d45189";
         }
         {
           address = "/ip4/18.184.181.30/tcp/3000";
-          id = "ed25519_pk178ge2jn6c40vgmrewgmg26nmtda47nk2jncukzj327mp3a9g2qzss2d44f";
+          id = "75297c04687495e3ee6f22f11f912975aa485b3e0e5a33de";
         }
         {
           address = "/ip4/184.169.162.15/tcp/3000";
-          id = "ed25519_pk1nk0ne8ez66w5tp2g8ctcakthjpz89eveyg0egcpylenhet83n0sq2jqz8q";
+          id = "9afc6084584c924b4c7af6a518d55d03341c0c19443833fa";
         }
         {
           address = "/ip4/13.56.87.134/tcp/3000";
-          id = "ed25519_pk1ce450zrtn04eaevcn9csz0thpjuhxrysdrq6qlr9pq7e0wd842nsxy6r5k";
+          id = "5dc5f6cbc13b8e305c181a576695f1375dbb789f062e97b9";
         }
       ];
     };
