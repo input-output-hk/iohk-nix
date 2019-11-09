@@ -18,6 +18,7 @@
   setupBackends = [
     "AggregationBK"
     "KatipBK"
+    "EKGViewBK"
   ];
 
   # if not indicated otherwise, then messages are passed to these backends:
@@ -29,7 +30,7 @@
   # hasGUI: 12787
 
   # if wanted, the EKG interface is listening on this port:
-  # hasEKG: 12788
+  hasEKG = 12788;
   hasPrometheus = 12798;
 
   # here we set up outputs of logging in 'katip':
@@ -127,13 +128,13 @@
       "cardano.node.metrics.ChainDB" = [
          "EKGViewBK"
          {
-            kind = "UserDefinedBK";
+            kind = "EKGViewBK";
             name = "LiveViewBackend";
          }
       ];
       "cardano.node.metrics" = [
          {
-            kind = "UserDefinedBK";
+            kind = "EKGViewBK";
             name = "LiveViewBackend";
          }
       ];
