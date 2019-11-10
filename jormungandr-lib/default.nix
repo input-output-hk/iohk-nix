@@ -31,7 +31,7 @@ let
     beta = {
       genesisHash = "adbdd5ede31637f6c9bad5c271eec0bc3d0cb9efb86a5b913bb55cba549d0770";
       genesisFile = ./genesis-beta.yaml;
-      syncTolerance = "60s";
+      syncTolerance = "300s";
       trustedPeers = [
         {
           address = "/ip4/3.115.194.22/tcp/3000";
@@ -66,7 +66,7 @@ let
     nightly = {
       genesisHash = "cfd99bc54ebf44b44e72db7e2d48a40499888781e7628ea0fbf286bfd480ca58";
       genesisFile = ./genesis-nightly.yaml;
-      syncTolerance = "30s";
+      syncTolerance = "300s";
       trustedPeers = [
         {
           address = "/ip4/13.230.137.72/tcp/3000";
@@ -101,7 +101,7 @@ let
     qa = {
       genesisHash = "6a40cf890d84981353457fcab6c892af57ee3c3286b33b530cd46b1af5b0e3a7";
       genesisFile = ./genesis-qa.yaml;
-      syncTolerance = "30s";
+      syncTolerance = "300s";
       trustedPeers = [
         {
           address = "/ip4/54.193.75.55/tcp/3000";
