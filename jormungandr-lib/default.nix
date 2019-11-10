@@ -101,6 +101,7 @@ let
     qa = {
       genesisHash = "6a40cf890d84981353457fcab6c892af57ee3c3286b33b530cd46b1af5b0e3a7";
       genesisFile = ./genesis-qa.yaml;
+      syncTolerance = "30s";
       trustedPeers = [
         {
           address = "/ip4/54.193.75.55/tcp/3000";
