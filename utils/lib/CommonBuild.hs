@@ -80,6 +80,7 @@ import Safe
     ( headMay, readMay )
 
 import qualified Control.Foldl as Fold
+import qualified Data.ByteString.Char8 as B8
 import qualified Data.Text as T
 import qualified Filesystem.Path.CurrentOS as FP
 import qualified Turtle.Bytes as TB
@@ -352,7 +353,7 @@ saveStackRoot cfg@CICacheConfig{..} = saveZippedCache stackRootCache cfg tar
 saveStackWork :: CICacheConfig -> IO ()
 saveStackWork cfg = saveZippedCache stackWorkCache cfg tar
   where
-    nullTerminate = (<> "\0") . FP.encode
+    nullTerminate = (<> "\0") . B8.pack . encodeString
     dirs = nullTerminate <$> find (ends ".stack-work") "."
     tar = TB.inproc "tar" ["--null", "-T", "-", "-c"] dirs
 
