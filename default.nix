@@ -50,7 +50,9 @@ let
     commitIdFromGitRepo = pkgs.callPackage ./commit-id.nix {};
 
     # Development tools
-    haskellBuildUtils = import ./utils/default.nix { pkgs = pkgsDefault; };
+    haskellBuildUtils = import ./utils/default.nix {
+      pkgs = import (fetchNixpkgs nixpkgsJsonDefault) { inherit system; };
+    };
     cache-s3 = pkgsDefault.callPackage ./pkgs/cache-s3.nix {};
     stack-hpc-coveralls = pkgsDefault.haskellPackages.callPackage ./pkgs/stack-hpc-coveralls.nix {};
     hlint = pkgsDefault.haskellPackages.callPackage ./pkgs/hlint.nix {};
