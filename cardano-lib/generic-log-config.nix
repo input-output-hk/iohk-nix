@@ -2,6 +2,11 @@
   # global filter; messages must have at least this severity to pass:
   minSeverity = "Debug";
 
+  TurnOnLogging = true;
+  TurnOnLogMetrics = true;
+
+  ViewMode = "SimpleView";
+
   # global file rotation settings:
   rotation = {
     rpLogLimitBytes = 5000000;
