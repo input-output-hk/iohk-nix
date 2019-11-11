@@ -50,6 +50,7 @@
   SlotLength = 20000;
   NetworkConnectionTimeout = 15000;
   HandshakeTimeout = 30000;
+
   CA-Organization = "Input Output HK";
   CA-CommonName = "Cardano SL Self-Signed Root CA";
   CA-ExpiryDays = 3600;
