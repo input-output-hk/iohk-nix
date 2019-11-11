@@ -7,7 +7,7 @@
   NodeId = 0;
   NodeHostAddress = "";
   NodePort = 7000;
-  Protocol = "ByronLegacy";
+  Protocol = "RealPBFT";
   GenesisHash = "5f20df933584822601f9e3f8c024eb5eb252fe8cefb24d1317dc3d432e940ebb";
   NumCoreNodes = 1;
   RequiresNetworkMagic = "RequiresNoMagic";
@@ -50,4 +50,23 @@
   SlotLength = 20000;
   NetworkConnectionTimeout = 15000;
   HandshakeTimeout = 30000;
+
+  CA-Organization = "Input Output HK";
+  CA-CommonName = "Cardano SL Self-Signed Root CA";
+  CA-ExpiryDays = 3600;
+  CA-AltDNS = [];
+
+  Server-Organization = "Input Output HK";
+  Server-CommonName = "Cardano SL Server";
+  Server-ExpiryDays = 3600;
+  Server-AltDNS = [ "localhost"
+                    "localhost.localdomain"
+                    "127.0.0.1"
+                    "::1"
+                  ];
+
+  Wallet-Organization = "Input Output HK";
+  Wallet-CommonName = "Daedalus Wallet";
+  Wallet-ExpiryDays = 3600;
+  Wallet-AltDNS = [];
 }
