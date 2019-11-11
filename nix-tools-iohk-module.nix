@@ -71,7 +71,7 @@ in {
 
     # clock hasn't had a release since 2016(!) that is for three(3) years
     # now.
-    clock.patches              = [ ({ version, revision }: (if version == "0.7.2" then ./patches/clock-0.7.2.patch else null)) ];
+#    clock.patches              = [ ({ version, revision }: (if version == "0.7.2" then ./patches/clock-0.7.2.patch else null)) ];
     # nix calles this package crypto
     cryptonite-openssl.patches = [ ({ version, revision }: if version == "0.7" then ./patches/cryptonite-openssl-0.7.patch else null) ];
 
