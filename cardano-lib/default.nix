@@ -28,12 +28,17 @@ let
       }
     ];
   in builtins.toFile "topology.yaml" (builtins.toJSON topology);
+
+  defaultLogConfig = import ./generic-log-config.nix;
+  writeConfig = netConf: outFile:
+    __toFile outFile (__toJSON (defaultLogConfig // netConf));
+
   mkProxyTopology = relay: writeText "proxy-topology-file" ''
     wallet:
       relays: [[{ host: ${relay} }]]
   '';
   environments = {
-    mainnet = {
+    mainnet = rec {
       relays = "relays.cardano-mainnet.iohk.io";
       edgeNodes = [
         "18.185.45.45"
@@ -43,6 +48,8 @@ let
       genesisFile = ./mainnet-genesis.json;
       genesisHash = "5f20df933584822601f9e3f8c024eb5eb252fe8cefb24d1317dc3d432e940ebb";
       private = false;
+      networkConfig = import ./mainnet-config.nix;
+      configFile = writeConfig networkConfig "mainnet-config.yaml";
     };
     staging = {
       relays = "relays.awstest.iohkdev.io";
@@ -55,7 +62,7 @@ let
       genesisHash = "c6a004d3d178f600cd8caa10abbebe1549bef878f0665aea2903472d5abf7323";
       private = false;
     };
-    testnet = {
+    testnet = rec {
       relays = "relays.cardano-testnet.iohkdev.io";
       edgeNodes = [
         "18.194.162.74"
@@ -65,6 +72,8 @@ let
       genesisFile = ./testnet-genesis.json;
       genesisHash = "96fceff972c2c06bd3bb5243c39215333be6d56aaf4823073dca31afe5038471";
       private = false;
+      networkConfig = import ./testnet-config.nix;
+      configFile = writeConfig networkConfig "testnet-config.yaml";
     };
     shelley_staging = {
       relays = "relays.shelley-staging.aws.iohkdev.io";
@@ -117,9 +126,12 @@ let
   forEnvironments = f: lib.mapAttrs
     (name: env: f (env // { inherit name; }))
     environments;
+  forEnvironmentsCustom = f: environments: lib.mapAttrs
+    (name: env: f (env // { inherit name; }))
+    environments;
 
   cardanoConfig = ./.;
 
 in {
-  inherit environments forEnvironments mkEdgeTopology mkProxyTopology cardanoConfig;
+  inherit environments forEnvironments forEnvironmentsCustom mkEdgeTopology mkProxyTopology cardanoConfig defaultLogConfig writeConfig;
 }
