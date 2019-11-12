@@ -47,7 +47,14 @@ let
     maybeEnv = import ./maybe-env.nix;
     cleanSourceHaskell = pkgs.callPackage ./clean-source-haskell.nix {};
     haskellPackages = import ./haskell-packages.nix;
+
+    # Example usage: commitIdFromGitRepo ./.git
     commitIdFromGitRepo = pkgs.callPackage ./commit-id.nix {};
+    # A variant of the above which provides a default rev, instead of
+    # throwing an exception.
+    commitIdFromGitRepoOrZero = path:
+      let res = builtins.tryEval (commitIdFromGitRepo path);
+      in if res.success then res.value else "0000000000000000000000000000000000000000";
 
     # Development tools
     haskellBuildUtils = import ./utils/default.nix {
@@ -130,6 +137,32 @@ let
 
 in {
   inherit tests nix-tools stack2nix jemallocOverlay rust-packages cardanoLib jormungandrLib;
-  inherit (commonLib) pkgs haskellPackages fetchNixpkgs maybeEnv cleanSourceHaskell getPkgs nixpkgs commitIdFromGitRepo getPackages cache-s3 stack-hpc-coveralls hlint stylish-haskell openapi-spec-validator cardano-repo-tool check-hydra check-nix-tools haskellBuildUtils;
+  inherit (commonLib)
+    # package sets
+    nixpkgs
+    pkgs
+    haskellPackages
+
+    # library functions
+    fetchNixpkgs
+    getPkgs
+    getPackages
+    maybeEnv
+    cleanSourceHaskell
+    commitIdFromGitRepo
+    commitIdFromGitRepoOrZero
+
+    # packages
+    cache-s3
+    stack-hpc-coveralls
+    hlint
+    stylish-haskell
+    openapi-spec-validator
+    cardano-repo-tool
+    haskellBuildUtils
+
+    # scripts
+    check-hydra
+    check-nix-tools;
   release-lib = ./lib/release-lib.nix;
 }
