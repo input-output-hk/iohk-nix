@@ -28,6 +28,41 @@ let
 
   '';
   environments = {
+    itn_balance_check = {
+      genesisHash = "7be0014ffe4e5fd74aeb2916bd85cbfdaf52c2d738e4883f4cf52f6f695a6e2d";
+      genesisFile = ./genesis-mock.yaml;
+      syncTolerance = "300s";
+      trustedPeers = [
+        {
+         address = "/ip4/54.183.206.246/tcp/3000";
+         id = "67282e0bf1dcdf5e4559c85b057de122ba7a248f16ac5226";
+        }
+        {
+          address = "/ip4/52.8.126.235/tcp/3000";
+          id = "75534bbbb7dddfeee3783ae5e7983c28349209138351c278";
+        }
+        {
+          address = "/ip4/3.113.195.95/tcp/3000";
+          id = "617ff3920bac9e90faec3adc5d32c2937cbb6b8528b1b22d";
+        }
+        {
+          address = "/ip4/18.176.14.159/tcp/3000";
+          id = "55f82104122f4d5101ae549935943071c8c646f1bd62cd0b";
+        }
+        {
+          address = "/ip4/3.124.166.70/tcp/3000";
+          id = "96a84a81a74715c7fb29d906ddff32b2874aac4d14acc7db";
+        }
+        {
+          address = "/ip4/3.125.15.153/tcp/3000";
+          id = "97fd215d7e294b5943960056af1e1a0316c3593a4aa3cb76";
+        }
+        {
+          address = "/ip4/3.124.103.156/tcp/3000";
+          id = "173ca3b1198816989c585785a8c912fea3c5ec14895eaa6b";
+        }
+      ];
+    };
     beta = {
       genesisHash = "adbdd5ede31637f6c9bad5c271eec0bc3d0cb9efb86a5b913bb55cba549d0770";
       genesisFile = ./genesis-beta.yaml;
