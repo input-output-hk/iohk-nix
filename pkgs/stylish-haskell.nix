@@ -4,8 +4,8 @@ let
   src = fetchFromGitHub {
     owner = "jaspervdj";
     repo = "stylish-haskell";
-    rev = "a5d8cd34bcde3ad4698bbe38c9f14f7a1074ef4c";
-    sha256 = "1rrwp3g0ad0viismd1cs55jh9xpnjnadllmwxvg42cypg8axca2q";
+    rev = "9958a5253a9498c29508895450c4ac47542d5f2a";
+    sha256 = "1lc2q15qdhv7xnawdqbrxcdhmy4m7h9v6z1sg4qpyvhf93b43bix";
   };
 
   pkgSet = haskell.mkStackPkgSet {
