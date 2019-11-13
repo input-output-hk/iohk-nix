@@ -57,7 +57,8 @@ in {
     ];
     # These programs will be available inside the nix-shell.
     buildInputs =
-      with pkgs.haskellPackages; [ hlint stylish-haskell weeder ghcid lentil ]
+         (with pkgs.haskellPackages; [ weeder ghcid lentil ])
+      ++ (with iohkLib; [ hlint stylish-haskell ])
       # TODO: Add your own packages to the shell.
       ++ [ jormungandr ];
   };
