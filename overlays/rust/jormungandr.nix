@@ -15,16 +15,16 @@
 ,  ... }:
 let
   release = {
-    version = "0.7.0-rc7";
-    sha256 = "1dp0s5aykyvb19q7ghfr3xnqgvqmrq7gzjlg0iwj5qsnksh6zdql";
+    version = "0.7.0";
+    sha256 = "0hhbn383z3j06llx887qpx7gmxyy7r1n2m79kx0hshhyd90w7rcs";
     cargoSha256 = "0fqpm0a1824dirb3f5d4yw7vb8xrpj03n6gxw7rlfjbhy025spqh";
   };
 
   master = {
     name = "jormungandr-master";
     version = "master";
-    rev = "c8be7a6d873bd96255492bc031c2fe13249a4a17";
-    sha256 = "1v5zrnlqcz886y5hz2srixscdhrv9pm8pga8bc5b4sy307lasgcw";
+    rev = "1924085a09c285954b992af44706fbe82da02d64";
+    sha256 = "1dap67c194r0n9i4lfin5nlhgzvhq0lx25a6w6nspc71chr8x0w7";
     cargoSha256 = "0fqpm0a1824dirb3f5d4yw7vb8xrpj03n6gxw7rlfjbhy025spqh";
   };
 

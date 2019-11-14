@@ -134,37 +134,37 @@ let
       ];
     };
     qa = {
-      genesisHash = "6a40cf890d84981353457fcab6c892af57ee3c3286b33b530cd46b1af5b0e3a7";
+      genesisHash = "1fc80a7c3dcdf50fd967a266a6bba186c8e7a1f600334479e8ffaf779e4d4c8a";
       genesisFile = ./genesis-qa.yaml;
       syncTolerance = "300s";
       trustedPeers = [
         {
           address = "/ip4/54.193.75.55/tcp/3000";
-          id = "b191cf683f58ef704e813664acd2818cc2d6153225c84a6c";
+          id = "91db277a8cbcbb91b93f1814c8c3a67bf410b56a1dd10fcb";
         }
         {
           address = "/ip4/13.57.122.88/tcp/3000";
-          id = "406a940157caf2828a50f36f00c2d361d5271f7f1eb63ec3";
+          id = "6d9e2b32e9b509503d5e4194f0680d4f700a2748dcd18918";
         }
         {
           address = "/ip4/13.52.228.233/tcp/3000";
-          id = "9743b65ae3b8ddadd75339759569fc50dddbeadbc5f5d059";
+          id = "1450214c4cd6cf6f520737eeb3460d9295f2a0fadefd1b39";
         }
         {
           address = "/ip4/3.115.220.90/tcp/3000";
-          id = "007a713f33703d393f0b88e97f38b5e0b703cec7e662cee2";
+          id = "d1d7ada52d17c16453b0ef1d953041e42c99ae2bc52cec3f";
         }
         {
           address = "/ip4/52.198.219.29/tcp/3000";
-          id = "e3d18894d22081b58f8697cbc9cdf6decfa228fd2966473b";
+          id = "233aac9c2aa8055bc605e4303b9acca597f2db6be942f90a";
         }
         {
           address = "/ip4/3.124.136.155/tcp/3000";
-          id = "34351c6d01e1947bd503a21d1a8ea2e4a06fe02c68f67b16";
+          id = "ac1a4f64dca99bd743e4e495dea360c33f2f8545ecd96c39";
         }
         {
           address = "/ip4/3.120.96.219/tcp/3000";
-          id = "15ffd56597c2b3b406b84174f76ea2ae126b868ec03b302a";
+          id = "d7702d62ab4336626a6786616cde1988d9735cac2d4c3685";
         }
       ];
     };
