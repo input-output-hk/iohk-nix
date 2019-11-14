@@ -29,7 +29,7 @@ let
   '';
   environments = {
     itn_balance_check = {
-      genesisHash = "7be0014ffe4e5fd74aeb2916bd85cbfdaf52c2d738e4883f4cf52f6f695a6e2d";
+      genesisHash = "0f9d564199ad7f71af3daaff4b6997cb7f2e3d7c422fa29097f5d6a018c440d1";
       genesisFile = ./genesis-mock.yaml;
       syncTolerance = "300s";
       trustedPeers = [
@@ -64,42 +64,42 @@ let
       ];
     };
     beta = {
-      genesisHash = "adbdd5ede31637f6c9bad5c271eec0bc3d0cb9efb86a5b913bb55cba549d0770";
+      genesisHash = "27668e95121566df0bb2e2c11c5fd95dfe59efd570f8f592235ecff167ca3f29";
       genesisFile = ./genesis-beta.yaml;
       syncTolerance = "300s";
       trustedPeers = [
         {
-          address = "/ip4/3.115.194.22/tcp/3000";
-          id = "ed25519_pk1npsal4j9p9nlfs0fsmfjyga9uqk5gcslyuvxy6pexxr0j34j83rsf98wl2";
+          address = "52.9.85.113";
+          id = "7f47c880339670ad98d38ad3b379e1f7853479f8ef4f6fc7";
         }
         {
-          address = "/ip4/13.113.10.64/tcp/3000";
-          id = "ed25519_pk16pw2st5wgx4558c6temj8tzv0pqc37qqjpy53fstdyzwxaypveys3qcpfl";
+          address = "13.57.72.175";
+          id = "b8b20f58b34dd7a485c8cff0d67f800149b1ff220b826632";
         }
         {
-          address = "/ip4/52.57.214.174/tcp/3000";
-          id = "ed25519_pk1v4cj0edgmp8f2m5gex85jglrs2ruvu4z7xgy8fvhr0ma2lmyhtyszxtejz";
+          address = "52.8.62.219";
+          id = "f51aa0ce82b7f061e12762bd22b84424129f690655441b8e";
         }
         {
-          address = "/ip4/3.120.96.93/tcp/3000";
-          id = "ed25519_pk10gmg0zkxpuzkghxc39n3a646pdru6xc24rch987cgw7zq5pmytmszjdmvh";
+          address = "52.194.124.233";
+          id = "255df5de725cd9d1087b8a3e4ff66d65572c36ceed791679";
         }
         {
-          address = "/ip4/52.28.134.8/tcp/3000";
-          id = "ed25519_pk1unu66eej6h6uxv4j4e9crfarnm6jknmtx9eknvq5vzsqpq6a9vxqr78xrw";
+          address = "52.197.220.18";
+          id = "50768a0bb41781baa551cd96fb46a62e666e97874bca1cf5";
         }
         {
-          address = "/ip4/13.52.208.132/tcp/3000";
-          id = "ed25519_pk15ppd5xlg6tylamskqkxh4rzum26w9acph8gzg86w4dd9a88qpjms26g5q9";
+          address = "3.125.20.154";
+          id = "ddfea960bc2fe1aa45af9b385b6bd3e949c050df61b5b451";
         }
         {
-          address = "/ip4/54.153.19.202/tcp/3000";
-          id = "ed25519_pk1j9nj2u0amlg28k27pw24hre0vtyp3ge0xhq6h9mxwqeur48u463s0crpfk";
+          address = "3.124.255.35";
+          id = "2b7216b51b890ef1e8ade8e513dd6f2b35173e46b08ac1a9";
         }
       ];
     };
     nightly = {
-      genesisHash = "cfd99bc54ebf44b44e72db7e2d48a40499888781e7628ea0fbf286bfd480ca58";
+      genesisHash = "dceef4d6696ead83eadb5104c6383e1905aa81fc7a79ea2ca87a97c2bfd2f4a1";
       genesisFile = ./genesis-nightly.yaml;
       syncTolerance = "300s";
       trustedPeers = [
