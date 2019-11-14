@@ -69,31 +69,31 @@ let
       syncTolerance = "300s";
       trustedPeers = [
         {
-          address = "52.9.85.113";
+          address = "/ip4/52.9.85.113/tcp/3000";
           id = "7f47c880339670ad98d38ad3b379e1f7853479f8ef4f6fc7";
         }
         {
-          address = "13.57.72.175";
+          address = "/ip4/13.57.72.175/tcp/3000";
           id = "b8b20f58b34dd7a485c8cff0d67f800149b1ff220b826632";
         }
         {
-          address = "52.8.62.219";
+          address = "/ip4/52.8.62.219/tcp/3000";
           id = "f51aa0ce82b7f061e12762bd22b84424129f690655441b8e";
         }
         {
-          address = "52.194.124.233";
+          address = "/ip4/52.194.124.233/tcp/3000";
           id = "255df5de725cd9d1087b8a3e4ff66d65572c36ceed791679";
         }
         {
-          address = "52.197.220.18";
+          address = "/ip4/52.197.220.18/tcp/3000";
           id = "50768a0bb41781baa551cd96fb46a62e666e97874bca1cf5";
         }
         {
-          address = "3.125.20.154";
+          address = "/ip4/3.125.20.154/tcp/3000";
           id = "ddfea960bc2fe1aa45af9b385b6bd3e949c050df61b5b451";
         }
         {
-          address = "3.124.255.35";
+          address = "/ip4/3.124.255.35/tcp/3000";
           id = "2b7216b51b890ef1e8ade8e513dd6f2b35173e46b08ac1a9";
         }
       ];
