@@ -15,8 +15,8 @@
 ,  ... }:
 let
   release = {
-    version = "0.7.0-rc7";
-    sha256 = "1dp0s5aykyvb19q7ghfr3xnqgvqmrq7gzjlg0iwj5qsnksh6zdql";
+    version = "0.7.0";
+    sha256 = "0hhbn383z3j06llx887qpx7gmxyy7r1n2m79kx0hshhyd90w7rcs";
     cargoSha256 = "0fqpm0a1824dirb3f5d4yw7vb8xrpj03n6gxw7rlfjbhy025spqh";
   };
 
