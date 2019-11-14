@@ -134,7 +134,7 @@ let
       ];
     };
     qa = {
-      genesisHash = "6a40cf890d84981353457fcab6c892af57ee3c3286b33b530cd46b1af5b0e3a7";
+      genesisHash = "1fc80a7c3dcdf50fd967a266a6bba186c8e7a1f600334479e8ffaf779e4d4c8a";
       genesisFile = ./genesis-qa.yaml;
       syncTolerance = "300s";
       trustedPeers = [
