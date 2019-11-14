@@ -24,20 +24,7 @@ See [Starting a new project](./docs/start.md).
 
 ## How to update the `iohk-nix` revision.
 
-To get the latest version of `iohk-nix`, update the
-`iohk-nix-src.json` file in your project.
-
-Download the JSON file from
-[iohk-nix Buildkite](https://buildkite.com/input-output-hk/iohk-nix/builds/latest?branch=master),
-or run the following command:
-
-```
-$ nix-prefetch-git https://github.com/input-output-hk/iohk-nix | tee ./nix/iohk-nix-src.json
-```
-
-(You may need to
-[install](https://nixos.org/nix/manual/#operation-install) the
-`nix-prefetch-git` package beforehand.)
+niv update iohk-nix
 
 Some things may have changed which could break your build, so refer to
 the [ChangeLog](./changelog.md).

@@ -2,31 +2,27 @@
 , config ? {}
 , system ? builtins.currentSystem
 , crossSystem ? null
+, sourcesOverride ? {}
 # Set application for getting a specific application nixkgs-src.json
 , application ? ""
-# Override nixpkgs-src.json to a file in your repo
 , nixpkgsOverride ? ""
-, nixpkgsJsonOverride ? ""
 # Modify nixpkgs with overlays
 , nixpkgsOverlays ? []
-# Override haskell-nix.json to a file in your repo
-, haskellNixJsonOverride ? ""
 }:
 
 let
-  # Default nixpkgs-src.json to use
-  nixpkgsJsonDefault = ./pins/default-nixpkgs-src.json;
-  nixpkgsJson = if (nixpkgsJsonOverride != "") then nixpkgsJsonOverride else
-    (if (application != "") then (getNixpkgsJson application) else nixpkgsJsonDefault);
+  defaultSources = import ./nix/sources.nix;
+  sources = defaultSources // sourcesOverride;
 
-  getNixpkgsJson = application: ./pins + "/${application}-nixpkgs-src.json";
   jemallocOverlay = import ./overlays/jemalloc.nix;
 
   commonLib = rec {
-    fetchNixpkgs = import ./fetch-tarball-with-override.nix "custom_nixpkgs";
     # equivalent of <nixpkgs> but pinned instead of system
-    nixpkgs = if nixpkgsOverride != "" then nixpkgsOverride else fetchNixpkgs nixpkgsJson;
-    pkgsDefault = import (fetchNixpkgs nixpkgsJsonDefault) {};
+    fetchNixpkgs = import ./fetch-tarball-with-override.nix "custom_nixpkgs";
+    nixpkgs = builtins.getAttr
+      (if application != "" then "nixpkgs-${application}" else "nixpkgs")
+      sources;
+    pkgsDefault = import (defaultSources.nixpkgs) {};
     getPkgs = let
       system' = system;
       globalConfig' = globalConfig;
@@ -37,7 +33,7 @@ let
        , system ? system'
        , globalConfig ? globalConfig'
        , config ? config'
-       , crossSystem ? crossSystem' }: import (fetchNixpkgs nixpkgsJson) ({
+       , crossSystem ? crossSystem' }: import nixpkgs ({
           overlays = [ jemallocOverlay ] ++ extraOverlays;
           config = globalConfig // config;
           inherit system crossSystem;
@@ -78,6 +74,23 @@ let
     # Check scripts
     check-hydra = pkgsDefault.callPackage ./ci/check-hydra.nix {};
     check-nix-tools = pkgsDefault.callPackage ./ci/check-nix-tools.nix {};
+    monoNixpkgs = import sources.nixpkgs-mono {};
+    mono = (monoNixpkgs.pkgs.callPackage (sources.nixpkgs-mono + "/pkgs/development/compilers/mono/default.nix") {
+      withLLVM = false;
+    });
+    choco = commonLib.pkgsDefault.callPackage ./choco { inherit mono; };
+
+    makeSnap = commonLib.pkgsDefault.callPackage ./snapcraft/make-snap.nix {};
+    snapcraft = commonLib.pkgsDefault.callPackage ./snapcraft/snapcraft.nix {};
+    squashfsTools = commonLib.pkgsDefault.squashfsTools.overrideAttrs (old: {
+      patches = old.patches ++ [
+        ./snapcraft/0005-add-fstime.patch
+      ];
+    });
+    snapReviewTools = commonLib.pkgsDefault.callPackage ./snapcraft/snap-review-tools.nix {
+      inherit squashfsTools;
+    };
+
   };
 
   cardanoLib = commonLib.pkgsDefault.callPackage ./cardano-lib {};
@@ -88,7 +101,7 @@ let
     # stack.yaml files.
     package = (haskell { pkgs = commonLib.pkgsDefault; }).nix-tools;
     # A different haskell infrastructure
-    haskell = (import ./haskell.nix) { inherit haskellNixJsonOverride; };
+    haskell = { pkgs }: import sources.haskell { inherit pkgs; };
     # Script to invoke nix-tools stack-to-nix on a repo.
     regeneratePackages = commonLib.pkgsDefault.callPackage ./nix-tools-regenerate.nix {
       nix-tools = package;
@@ -123,12 +136,11 @@ let
   };
 
   rust-packages = rec {
-    nixpkgsRust = ./pins/rust-nixpkgs-src.json;
     overlays = [
       (commonLib.pkgsDefault.callPackage ./overlays/rust/mozilla.nix {})
       (import ./overlays/rust)
     ];
-    pkgs = import (commonLib.fetchNixpkgs nixpkgsRust) {
+    pkgs = import sources.nixpkgs {
       inherit overlays;
       config = globalConfig // config;
       inherit system crossSystem;
@@ -161,8 +173,15 @@ in {
     cardano-repo-tool
     haskellBuildUtils
 
+    # snappy/choco
+    makeSnap
+    snapcraft
+    snapReviewTools
+    choco
+
     # scripts
     check-hydra
     check-nix-tools;
   release-lib = ./lib/release-lib.nix;
+  inherit (import sources.niv {}) niv;
 }
