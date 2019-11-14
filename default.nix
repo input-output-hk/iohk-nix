@@ -18,6 +18,7 @@ let
 
   commonLib = rec {
     # equivalent of <nixpkgs> but pinned instead of system
+    fetchNixpkgs = import ./fetch-tarball-with-override.nix "custom_nixpkgs";
     nixpkgs = builtins.getAttr
       (if application != "" then "nixpkgs-${application}" else "nixpkgs")
       sources;
