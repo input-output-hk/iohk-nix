@@ -51,10 +51,15 @@ let
     # Example usage: commitIdFromGitRepo ./.git
     commitIdFromGitRepo = pkgs.callPackage ./commit-id.nix {};
     # A variant of the above which provides a default rev, instead of
-    # throwing an exception.
+    # throwing an exception in cases of error.
     commitIdFromGitRepoOrZero = path:
-      let res = builtins.tryEval (commitIdFromGitRepo path);
-      in if res.success then res.value else "0000000000000000000000000000000000000000";
+      let
+        zero = "0000000000000000000000000000000000000000";
+        res = builtins.tryEval (commitIdFromGitRepo path);
+      in
+        if builtins.pathExists path
+          then (if res.success then res.value else zero)
+          else zero;
 
     # Development tools
     haskellBuildUtils = import ./utils/default.nix {
