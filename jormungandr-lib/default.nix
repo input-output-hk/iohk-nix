@@ -31,7 +31,7 @@ let
     itn_balance_check = {
       genesisHash = "0f9d564199ad7f71af3daaff4b6997cb7f2e3d7c422fa29097f5d6a018c440d1";
       genesisFile = ./genesis-mock.yaml;
-      syncTolerance = "300s";
+      syncTolerance = "600s";
       trustedPeers = [
         {
          address = "/ip4/54.183.206.246/tcp/3000";
