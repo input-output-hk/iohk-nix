@@ -15129,13 +15129,13 @@ shelley_staging_short_full: &shelley_staging_short_full
       <<: *shelley_staging_short_gen_genesis
       src:
         file: shelley-staging-short-genesis.json
-        hash: a8e01a2325b31349e6f27d48c2e32e3a1ebaac2f8bc094114e780687f1400dda
+        hash: 78be790c7c4dec7bd2f690c40296e130fefdd198d1175f2b0e9d7e53675f8779
 
   update: &shelley_staging_short_full_update
     applicationName: cardano-sl
     applicationVersion: 0
     lastKnownBlockVersion:
-      bvMajor: 1
+      bvMajor: 0
       bvMinor: 0
       bvAlt: 0
 
