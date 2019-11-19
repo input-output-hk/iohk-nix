@@ -96,7 +96,7 @@ let
       edgePort = 3001;
       confKey = "shelley_staging_short_full";
       genesisFile = ./shelley-staging-short-genesis.json;
-      genesisHash = "a8e01a2325b31349e6f27d48c2e32e3a1ebaac2f8bc094114e780687f1400dda";
+      genesisHash = "78be790c7c4dec7bd2f690c40296e130fefdd198d1175f2b0e9d7e53675f8779";
       pbftThreshold = "0.9";
       private = false;
     };
