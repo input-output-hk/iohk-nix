@@ -41,7 +41,7 @@ let
     ${jq}/bin/jq . < ${__toFile "jormungandr-config.yaml" (__toJSON (mkConfig environment))} > $out/config.yaml
     ${jq}/bin/jq . < ${environment.genesisFile} > $out/genesis.yaml
     echo "${environment.genesisHash}" > $out/genesis-hash.txt
-    echo "${environment.jormungandrVersion}" > $out/jormungandr-version.txt
+    echo "${environment.jormungandrVersion.version}" > $out/jormungandr-version.txt
     echo "file binary-dist $out/config.yaml" > $out/nix-support/hydra-build-products
     echo "file binary-dist $out/genesis-hash.txt" >> $out/nix-support/hydra-build-products
     echo "file binary-dist $out/genesis.yaml" >> $out/nix-support/hydra-build-products
@@ -53,7 +53,7 @@ let
 
   environments = {
     itn_balance_check = {
-      jormungandrVersion = versions.v0_7_0.version;
+      jormungandrVersion = versions.v0_7_0;
       genesisHash = "0f9d564199ad7f71af3daaff4b6997cb7f2e3d7c422fa29097f5d6a018c440d1";
       genesisFile = ./genesis-mock.yaml;
       syncTolerance = "600s";
@@ -90,7 +90,7 @@ let
     };
 
     beta = {
-      jormungandrVersion = versions.v0_7_0.version;
+      jormungandrVersion = versions.v0_7_0;
       genesisHash = "27668e95121566df0bb2e2c11c5fd95dfe59efd570f8f592235ecff167ca3f29";
       genesisFile = ./genesis-beta.yaml;
       syncTolerance = "300s";
@@ -127,7 +127,7 @@ let
     };
 
     nightly = {
-      jormungandrVersion = versions.v0_7_0.version;
+      jormungandrVersion = versions.v0_7_0;
       genesisHash = "dceef4d6696ead83eadb5104c6383e1905aa81fc7a79ea2ca87a97c2bfd2f4a1";
       genesisFile = ./genesis-nightly.yaml;
       syncTolerance = "300s";
@@ -164,7 +164,7 @@ let
     };
 
     qa = {
-      jormungandrVersion = versions.v0_7_0.version;
+      jormungandrVersion = versions.v0_7_0;
       genesisHash = "1fc80a7c3dcdf50fd967a266a6bba186c8e7a1f600334479e8ffaf779e4d4c8a";
       genesisFile = ./genesis-qa.yaml;
       syncTolerance = "300s";
