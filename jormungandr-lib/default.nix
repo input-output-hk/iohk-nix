@@ -1,5 +1,23 @@
-{lib, writeText, runCommand, jq}:
+{lib, writeText, runCommand, jq }:
 let
+  versions = rec {
+    release = v0_7_0;
+
+    v0_7_0 = {
+      version = "0.7.0";
+      sha256 = "0hhbn383z3j06llx887qpx7gmxyy7r1n2m79kx0hshhyd90w7rcs";
+      cargoSha256 = "0fqpm0a1824dirb3f5d4yw7vb8xrpj03n6gxw7rlfjbhy025spqh";
+    };
+
+    master = {
+      name = "jormungandr-master";
+      version = "master";
+      rev = "1924085a09c285954b992af44706fbe82da02d64";
+      sha256 = "1dap67c194r0n9i4lfin5nlhgzvhq0lx25a6w6nspc71chr8x0w7";
+      cargoSha256 = "0fqpm0a1824dirb3f5d4yw7vb8xrpj03n6gxw7rlfjbhy025spqh";
+    };
+  };
+
   mkConfig = environment: {
     log = {
       level = "info";
@@ -17,18 +35,25 @@ let
       };
     };
   };
+
   mkConfigHydra = environment: runCommand "jormungandr-config" { } ''
     mkdir -p $out/nix-support
     ${jq}/bin/jq . < ${__toFile "jormungandr-config.yaml" (__toJSON (mkConfig environment))} > $out/config.yaml
     ${jq}/bin/jq . < ${environment.genesisFile} > $out/genesis.yaml
     echo "${environment.genesisHash}" > $out/genesis-hash.txt
+    echo "${environment.jormungandrVersion.version}" > $out/jormungandr-version.txt
     echo "file binary-dist $out/config.yaml" > $out/nix-support/hydra-build-products
     echo "file binary-dist $out/genesis-hash.txt" >> $out/nix-support/hydra-build-products
     echo "file binary-dist $out/genesis.yaml" >> $out/nix-support/hydra-build-products
+    echo "file binary-dist $out/jormungandr-version.txt" >> $out/nix-support/hydra-build-products
 
   '';
+
+  # jormungandrVersion is a reference to prevent removing used versions
+
   environments = {
     itn_balance_check = {
+      jormungandrVersion = versions.v0_7_0;
       genesisHash = "0f9d564199ad7f71af3daaff4b6997cb7f2e3d7c422fa29097f5d6a018c440d1";
       genesisFile = ./genesis-mock.yaml;
       syncTolerance = "600s";
@@ -63,7 +88,9 @@ let
         }
       ];
     };
+
     beta = {
+      jormungandrVersion = versions.v0_7_0;
       genesisHash = "27668e95121566df0bb2e2c11c5fd95dfe59efd570f8f592235ecff167ca3f29";
       genesisFile = ./genesis-beta.yaml;
       syncTolerance = "300s";
@@ -98,7 +125,9 @@ let
         }
       ];
     };
+
     nightly = {
+      jormungandrVersion = versions.v0_7_0;
       genesisHash = "dceef4d6696ead83eadb5104c6383e1905aa81fc7a79ea2ca87a97c2bfd2f4a1";
       genesisFile = ./genesis-nightly.yaml;
       syncTolerance = "300s";
@@ -133,7 +162,9 @@ let
         }
       ];
     };
+
     qa = {
+      jormungandrVersion = versions.v0_7_0;
       genesisHash = "1fc80a7c3dcdf50fd967a266a6bba186c8e7a1f600334479e8ffaf779e4d4c8a";
       genesisFile = ./genesis-qa.yaml;
       syncTolerance = "300s";
@@ -169,10 +200,11 @@ let
       ];
     };
   };
+
   forEnvironments = f: lib.mapAttrs
     (name: env: f (env // { inherit name; }))
     environments;
 
 in {
-  inherit environments forEnvironments mkConfig mkConfigHydra;
+  inherit environments forEnvironments mkConfig mkConfigHydra versions;
 }
