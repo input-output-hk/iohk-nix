@@ -30,8 +30,6 @@ let
   in builtins.toFile "topology.yaml" (builtins.toJSON topology);
 
   defaultLogConfig = import ./generic-log-config.nix;
-  writeConfig = netConf: outFile:
-    __toFile outFile (__toJSON (defaultLogConfig // netConf));
 
   mkProxyTopology = relay: writeText "proxy-topology-file" ''
     wallet:
@@ -49,7 +47,7 @@ let
       genesisHash = "5f20df933584822601f9e3f8c024eb5eb252fe8cefb24d1317dc3d432e940ebb";
       private = false;
       networkConfig = import ./mainnet-config.nix;
-      configFile = writeConfig networkConfig "mainnet-config.yaml";
+      nodeConfig = networkConfig // defaultLogConfig;
     };
     staging = {
       relays = "relays.awstest.iohkdev.io";
@@ -73,7 +71,7 @@ let
       genesisHash = "96fceff972c2c06bd3bb5243c39215333be6d56aaf4823073dca31afe5038471";
       private = false;
       networkConfig = import ./testnet-config.nix;
-      configFile = writeConfig networkConfig "testnet-config.yaml";
+      nodeConfig = networkConfig // defaultLogConfig;
     };
     shelley_staging = {
       relays = "relays.shelley-staging.aws.iohkdev.io";
@@ -88,17 +86,20 @@ let
       genesisHash = "82995abf3e0e0f8ab9a6448875536a1cba305f3ddde18cd5ff54c32d7a5978c6";
       private = false;
     };
-    shelley_staging_short = {
+    shelley_staging_short = rec {
       relays = "relays.staging-shelley-short.aws.iohkdev.io";
       edgeNodes = [
-        "3.123.96.194"
+        "52.59.133.44"
+        "3.114.127.167"
+        "18.138.87.237"
       ];
       edgePort = 3001;
       confKey = "shelley_staging_short_full";
       genesisFile = ./shelley-staging-short-genesis.json;
       genesisHash = "78be790c7c4dec7bd2f690c40296e130fefdd198d1175f2b0e9d7e53675f8779";
-      pbftThreshold = "0.9";
       private = false;
+      networkConfig = import ./shelley-staging-short-config.nix;
+      nodeConfig = networkConfig // defaultLogConfig;
     };
     latency-tests = {
       relays = "relays.latency-tests.aws.iohkdev.io";
@@ -133,5 +134,5 @@ let
   cardanoConfig = ./.;
 
 in {
-  inherit environments forEnvironments forEnvironmentsCustom mkEdgeTopology mkProxyTopology cardanoConfig defaultLogConfig writeConfig;
+  inherit environments forEnvironments forEnvironmentsCustom mkEdgeTopology mkProxyTopology cardanoConfig defaultLogConfig;
 }

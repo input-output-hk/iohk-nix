@@ -1,17 +1,16 @@
 ##########################################################
-###############          Testnet           ###############
+###############    Shelley Staging Short   ###############
 ############### Cardano Node Configuration ###############
 ##########################################################
 
 {
   NodeId = 0;
   NodeHostAddress = "";
-  NodePort = 7000;
+  NodePort = 3001;
   Protocol = "RealPBFT";
-  GenesisHash = "96fceff972c2c06bd3bb5243c39215333be6d56aaf4823073dca31afe5038471";
+  GenesisHash = "78be790c7c4dec7bd2f690c40296e130fefdd198d1175f2b0e9d7e53675f8779";
   NumCoreNodes = 7;
   RequiresNetworkMagic = "RequiresMagic";
-  PBftSignatureThreshold = 0.5;
 
   ##### Network Time Parameters #####
 
