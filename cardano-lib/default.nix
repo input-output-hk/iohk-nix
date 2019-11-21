@@ -30,6 +30,7 @@ let
   in builtins.toFile "topology.yaml" (builtins.toJSON topology);
 
   defaultLogConfig = import ./generic-log-config.nix;
+  defaultExplorerLogConfig = import ./explorer-log-config.nix;
 
   mkProxyTopology = relay: writeText "proxy-topology-file" ''
     wallet:
@@ -136,5 +137,5 @@ let
   cardanoConfig = ./.;
 
 in {
-  inherit environments forEnvironments forEnvironmentsCustom mkEdgeTopology mkProxyTopology cardanoConfig defaultLogConfig;
+  inherit environments forEnvironments forEnvironmentsCustom mkEdgeTopology mkProxyTopology cardanoConfig defaultLogConfig defaultExplorerLogConfig;
 }
