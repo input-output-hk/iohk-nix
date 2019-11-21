@@ -73,18 +73,20 @@ let
       networkConfig = import ./testnet-config.nix;
       nodeConfig = networkConfig // defaultLogConfig;
     };
-    shelley_staging = {
-      relays = "relays.shelley-staging.aws.iohkdev.io";
+    shelley_staging = rec {
+      relays = "relays.staging-shelley.aws.iohkdev.io";
       edgeNodes = [
-        "52.59.133.44"
-        "3.114.127.167"
-        "18.138.87.237"
+        "3.124.154.93"
+        "13.231.96.153"
+        "18.141.37.212"
       ];
       edgePort = 3001;
       confKey = "shelley_staging_full";
       genesisFile = ./shelley-staging-genesis.json;
       genesisHash = "82995abf3e0e0f8ab9a6448875536a1cba305f3ddde18cd5ff54c32d7a5978c6";
       private = false;
+      networkConfig = import ./shelley-staging-config.nix;
+      nodeConfig = networkConfig // defaultLogConfig;
     };
     shelley_staging_short = rec {
       relays = "relays.staging-shelley-short.aws.iohkdev.io";
