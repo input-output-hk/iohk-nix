@@ -33,10 +33,10 @@ let
   pkgSet = haskell.mkStackPkgSet {
     inherit stack-pkgs;
     modules = [
-      # Add source filtering to local packages
+      # Add filtered sources to local packages
       {
         packages.iohk-skeleton.src = src;
-        # packages.another-package = src + /another-package;
+        # packages.another-package.src = src + /another-package;
       }
 
       # Add dependencies
@@ -67,8 +67,6 @@ let
       {
         # Cut down iohk-monitoring deps
         # Note that this reflects flags set in stack.yaml.
-        # There is an open ticket to automate this in stack-to-nix.
-        # https://github.com/input-output-hk/haskell.nix/issues/141
         packages.iohk-monitoring.flags = {
           disable-ekg = true;
           disable-examples = true;
