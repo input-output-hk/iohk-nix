@@ -30,23 +30,28 @@ let
     { jormungandr = makeJormungandr value; jcli = makeJcli value; }
   ) versions;
 
-  mkConfig = environment: {
-    log = {
-      level = "info";
-      format = "plain";
-      output = "stderr";
-    };
-    rest = {
-      listen = "127.0.0.1:3100";
-    };
-    p2p = {
-      trusted_peers = environment.trustedPeers;
-      topics_of_interest = {
-        messages = "low";
-        blocks = "normal";
+  mkConfig = environment:
+    let
+      log = {
+        level = "info";
+        format = "plain";
+        output = "stderr";
+      };
+    in {
+      log = if (builtins.compareVersions "0.7.1" environment.package.version >= 0)
+            then [log]
+            else log;
+      rest = {
+        listen = "127.0.0.1:3100";
+      };
+      p2p = {
+        trusted_peers = environment.trustedPeers;
+        topics_of_interest = {
+          messages = "low";
+          blocks = "normal";
+        };
       };
     };
-  };
 
   mkConfigHydra = environment: runCommand "jormungandr-config" {
       buildInputs = [ environment.packages.jormungandr ];
