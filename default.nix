@@ -86,7 +86,7 @@ let
   };
 
   cardanoLib = commonLib.pkgsDefault.callPackage ./cardano-lib {};
-  jormungandrLib = commonLib.pkgsDefault.callPackage ./jormungandr-lib {};
+  jormungandrLib = commonLib.pkgsDefault.callPackage ./jormungandr-lib { inherit rust-packages; };
 
   nix-tools = rec {
     # Programs for generating nix haskell package sets from cabal and

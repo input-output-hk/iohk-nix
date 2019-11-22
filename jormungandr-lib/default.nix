@@ -1,4 +1,4 @@
-{lib, writeText, runCommand, jq }:
+{lib, writeText, runCommand, jq, rust-packages }:
 let
   versions = rec {
     release = v0_7_0;
@@ -9,6 +9,12 @@ let
       cargoSha256 = "0fqpm0a1824dirb3f5d4yw7vb8xrpj03n6gxw7rlfjbhy025spqh";
     };
 
+    v0_7_1 = {
+      version = "0.7.1";
+      sha256 = "1qc8wrmddggfw1b4qyv03z7zimnkjl0qi91zaz53w2ghmfqkli25";
+      cargoSha256 = "14v7v9rl04yajwxh7qcpzjnc3swmpdbmjqw7arnms8cbdfbqc9q6";
+    };
+
     master = {
       name = "jormungandr-master";
       version = "master";
@@ -17,6 +23,12 @@ let
       cargoSha256 = "0fqpm0a1824dirb3f5d4yw7vb8xrpj03n6gxw7rlfjbhy025spqh";
     };
   };
+
+  inherit (rust-packages.pkgs) makeJormungandr makeJcli;
+
+  packages = builtins.mapAttrs (name: value:
+    { jormungandr = makeJormungandr value; jcli = makeJcli value; }
+  ) versions;
 
   mkConfig = environment: {
     log = {
@@ -36,24 +48,23 @@ let
     };
   };
 
-  mkConfigHydra = environment: runCommand "jormungandr-config" { } ''
+  mkConfigHydra = environment: runCommand "jormungandr-config" {
+      buildInputs = [ environment.packages.jormungandr ];
+    } ''
     mkdir -p $out/nix-support
     ${jq}/bin/jq . < ${__toFile "jormungandr-config.yaml" (__toJSON (mkConfig environment))} > $out/config.yaml
     ${jq}/bin/jq . < ${environment.genesisFile} > $out/genesis.yaml
     echo "${environment.genesisHash}" > $out/genesis-hash.txt
-    echo "${environment.jormungandrVersion.version}" > $out/jormungandr-version.txt
     echo "file binary-dist $out/config.yaml" > $out/nix-support/hydra-build-products
     echo "file binary-dist $out/genesis-hash.txt" >> $out/nix-support/hydra-build-products
     echo "file binary-dist $out/genesis.yaml" >> $out/nix-support/hydra-build-products
     echo "file binary-dist $out/jormungandr-version.txt" >> $out/nix-support/hydra-build-products
-
+    jormungandr --full-version > $out/jormungandr-version.txt
   '';
-
-  # jormungandrVersion is a reference to prevent removing used versions
 
   environments = {
     itn_balance_check = {
-      jormungandrVersion = versions.v0_7_0;
+      packages = packages.v0_7_0;
       genesisHash = "0f9d564199ad7f71af3daaff4b6997cb7f2e3d7c422fa29097f5d6a018c440d1";
       genesisFile = ./genesis-mock.yaml;
       syncTolerance = "600s";
@@ -90,7 +101,7 @@ let
     };
 
     beta = {
-      jormungandrVersion = versions.v0_7_0;
+      packages = packages.v0_7_0;
       genesisHash = "27668e95121566df0bb2e2c11c5fd95dfe59efd570f8f592235ecff167ca3f29";
       genesisFile = ./genesis-beta.yaml;
       syncTolerance = "300s";
@@ -127,7 +138,7 @@ let
     };
 
     nightly = {
-      jormungandrVersion = versions.v0_7_0;
+      packages = packages.v0_7_0;
       genesisHash = "dceef4d6696ead83eadb5104c6383e1905aa81fc7a79ea2ca87a97c2bfd2f4a1";
       genesisFile = ./genesis-nightly.yaml;
       syncTolerance = "300s";
@@ -164,7 +175,7 @@ let
     };
 
     qa = {
-      jormungandrVersion = versions.v0_7_0;
+      packages = packages.v0_7_1;
       genesisHash = "1fc80a7c3dcdf50fd967a266a6bba186c8e7a1f600334479e8ffaf779e4d4c8a";
       genesisFile = ./genesis-qa.yaml;
       syncTolerance = "300s";
@@ -206,5 +217,5 @@ let
     environments;
 
 in {
-  inherit environments forEnvironments mkConfig mkConfigHydra versions;
+  inherit environments forEnvironments mkConfig mkConfigHydra versions packages;
 }
