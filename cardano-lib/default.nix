@@ -77,9 +77,9 @@ let
     shelley_staging = rec {
       relays = "relays.staging-shelley.aws.iohkdev.io";
       edgeNodes = [
-        "3.124.154.93"
-        "13.231.96.153"
-        "18.141.37.212"
+        "3.125.23.159"
+        "18.177.133.109"
+        "18.141.119.164"
       ];
       edgePort = 3001;
       confKey = "shelley_staging_full";
