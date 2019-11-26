@@ -6,7 +6,7 @@
 {
   NodeId = 0;
   NodeHostAddress = "";
-  NodePort = 7000;
+  NodePort = 3001;
   Protocol = "RealPBFT";
   GenesisHash = "96fceff972c2c06bd3bb5243c39215333be6d56aaf4823073dca31afe5038471";
   NumCoreNodes = 7;

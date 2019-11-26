@@ -68,7 +68,10 @@ let
     testnet = rec {
       relays = "relays.cardano-testnet.iohkdev.io";
       edgeNodes = [
-        "18.194.162.74"
+        "3.125.94.58"
+        "18.176.19.63"
+        "13.251.186.36"
+        "3.135.95.164"
       ];
       edgePort = 3001;
       confKey = "testnet_full";
