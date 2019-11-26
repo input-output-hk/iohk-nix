@@ -53,7 +53,9 @@ let
     staging = rec {
       relays = "relays.awstest.iohkdev.io";
       edgeNodes = [
-        "3.123.95.181"
+        "3.125.10.61"
+        "52.192.59.170"
+        "18.136.145.112"
       ];
       edgePort = 3001;
       confKey = "mainnet_dryrun_full";
