@@ -50,16 +50,20 @@ let
       networkConfig = import ./mainnet-config.nix;
       nodeConfig = networkConfig // defaultLogConfig;
     };
-    staging = {
+    staging = rec {
       relays = "relays.awstest.iohkdev.io";
       edgeNodes = [
-        "3.123.95.181"
+        "3.125.10.61"
+        "52.192.59.170"
+        "18.136.145.112"
       ];
       edgePort = 3001;
       confKey = "mainnet_dryrun_full";
       genesisFile = ./mainnet-genesis-dryrun-with-stakeholders.json;
       genesisHash = "c6a004d3d178f600cd8caa10abbebe1549bef878f0665aea2903472d5abf7323";
       private = false;
+      networkConfig = import ./staging-config.nix;
+      nodeConfig = networkConfig // defaultLogConfig;
     };
     testnet = rec {
       relays = "relays.cardano-testnet.iohkdev.io";
