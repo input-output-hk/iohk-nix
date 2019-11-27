@@ -17,16 +17,21 @@ with (import (commonLib.nixpkgs + "/pkgs/top-level/release-lib.nix") {
   packageSet = import ./.;
 }); with pkgs.lib;
 let
+  inherit (packageSet) jormungandrLib;
+
+  jormungandrPackages = mapAttrs (name: env:
+    { inherit (env) packages; }
+  ) jormungandrLib.environments;
+
+  usedJormungandrVersions = flatten (mapAttrsToList (name: env:
+    with env.packages; [ jcli jormungandr ]
+  ) jormungandrLib.environments);
+
  packageSet = import ./. {};
- mappedPkgs = mapTestOn {
+ mappedPkgs = mapTestOn ({
     nix-tools.package            = supportedSystems;
     nix-tools.regeneratePackages = supportedSystems;
     rust-packages.pkgs.cardano-http-bridge = supportedSystems;
-    #rust-packages.pkgs.cardano-cli = supportedSystems;
-    rust-packages.pkgs.jormungandr = supportedSystems;
-    rust-packages.pkgs.jormungandr-master = supportedSystems;
-    rust-packages.pkgs.jormungandr-cli = supportedSystems;
-    rust-packages.pkgs.jormungandr-cli-master = supportedSystems;
 
     # this seems not to work :-/
     # tests.hlint                  = supportedSystems;
@@ -37,7 +42,7 @@ let
     cache-s3 = supportedSystems;
     stack-hpc-coveralls = supportedSystems;
     openapi-spec-validator = supportedSystems;
- };
+ } // jormungandrPackages);
 
  skeletonJobset = import ./skeleton/release.nix {
    iohkLib = packageSet;
@@ -50,19 +55,14 @@ fix (self: mappedPkgs // {
   forceNewEval = pkgs.writeText "forceNewEval" iohk-nix.rev;
   required = pkgs.lib.hydraJob (pkgs.releaseTools.aggregate {
     name = "required";
-    constituents = with self; [
+    constituents = (with self; [
       self.forceNewEval
       nix-tools.package.x86_64-linux
       nix-tools.package.x86_64-darwin
       nix-tools.regeneratePackages.x86_64-linux
       nix-tools.regeneratePackages.x86_64-darwin
       rust-packages.pkgs.cardano-http-bridge.x86_64-linux
-      #rust-packages.pkgs.cardano-cli.x86_64-linux
-      rust-packages.pkgs.jormungandr.x86_64-linux
-      rust-packages.pkgs.jormungandr-master.x86_64-linux
-      rust-packages.pkgs.jormungandr-cli.x86_64-linux
-      rust-packages.pkgs.jormungandr-cli-master.x86_64-linux
-    ];
+    ]) ++ usedJormungandrVersions;
   });
 } // {
   skeleton = skeletonJobset;
