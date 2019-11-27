@@ -40,7 +40,10 @@ let
     mainnet = rec {
       relays = "relays.cardano-mainnet.iohk.io";
       edgeNodes = [
-        "18.185.45.45"
+        "3.125.75.199"
+        "18.177.103.105"
+        "18.141.0.112"
+        "52.14.58.121"
       ];
       edgePort = 3001;
       confKey = "mainnet_full";
@@ -68,7 +71,10 @@ let
     testnet = rec {
       relays = "relays.cardano-testnet.iohkdev.io";
       edgeNodes = [
-        "18.194.162.74"
+        "3.125.94.58"
+        "18.176.19.63"
+        "13.251.186.36"
+        "3.135.95.164"
       ];
       edgePort = 3001;
       confKey = "testnet_full";
