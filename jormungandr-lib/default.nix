@@ -27,6 +27,18 @@ let
       cargoSha256 = "14v7v9rl04yajwxh7qcpzjnc3swmpdbmjqw7arnms8cbdfbqc9q6";
     };
 
+    v0_7_4 = {
+      version = "0.7.4";
+      sha256 = "0ih99p0rx65pvdn9hvv5y8p46h9m1zs8f7wwh23w8zz0r7jicbmf";
+      cargoSha256 = "14v7v9rl04yajwxh7qcpzjnc3swmpdbmjqw7arnms8cbdfbqc9q6";
+    };
+
+    v0_7_5 = {
+      version = "0.7.5";
+      sha256 = "0x1f046z5nkp1q0pdc3xfrvnc7rxswjch16xrw4rdi5kkd6p65bj";
+      cargoSha256 = "14v7v9rl04yajwxh7qcpzjnc3swmpdbmjqw7arnms8cbdfbqc9q6";
+    };
+
     master = {
       name = "jormungandr-master";
       version = "master";
@@ -192,7 +204,7 @@ let
     };
 
     qa = {
-      packages = packages.v0_7_3;
+      packages = packages.v0_7_5;
       genesisHash = "1fc80a7c3dcdf50fd967a266a6bba186c8e7a1f600334479e8ffaf779e4d4c8a";
       genesisFile = ./genesis-qa.yaml;
       syncTolerance = "300s";
