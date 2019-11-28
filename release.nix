@@ -12,23 +12,32 @@ let commonLib = (import ./. {}); in
     config = config // { allowUnfree = false; inHydra = true; };
   }
 }:
+
 with (import (commonLib.nixpkgs + "/pkgs/top-level/release-lib.nix") {
   inherit supportedSystems scrubJobs nixpkgsArgs;
   packageSet = import ./.;
-}); with pkgs.lib;
+});
+
+with pkgs.lib;
+
 let
+  packageSet = import ./. {};
   inherit (packageSet) jormungandrLib;
 
-  jormungandrPackages = mapAttrs (name: env:
-    { inherit (env) packages; }
-  ) jormungandrLib.environments;
+  jormungandrPackages = foldl' (sum: name:
+    recursiveUpdate {
+      jormungandrLib.environments.${name}.packages = {
+        jcli = supportedSystems;
+        jormungandr = supportedSystems;
+      };
+    } sum
+  ) {} (attrNames jormungandrLib.environments);
 
   usedJormungandrVersions = flatten (mapAttrsToList (name: env:
     with env.packages; [ jcli jormungandr ]
   ) jormungandrLib.environments);
 
- packageSet = import ./. {};
- mappedPkgs = mapTestOn ({
+  mappedPkgs = mapTestOn ({
     nix-tools.package            = supportedSystems;
     nix-tools.regeneratePackages = supportedSystems;
     rust-packages.pkgs.cardano-http-bridge = supportedSystems;
@@ -42,11 +51,11 @@ let
     cache-s3 = supportedSystems;
     stack-hpc-coveralls = supportedSystems;
     openapi-spec-validator = supportedSystems;
- } // jormungandrPackages);
+  } // jormungandrPackages);
 
- skeletonJobset = import ./skeleton/release.nix {
-   iohkLib = packageSet;
- };
+  skeletonJobset = import ./skeleton/release.nix {
+    iohkLib = packageSet;
+  };
 
 in
 fix (self: mappedPkgs // {
