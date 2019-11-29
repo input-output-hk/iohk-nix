@@ -174,7 +174,7 @@ let
 
     nightly = {
       packages = packages.v0_8_0-rc1;
-      genesisHash = "dceef4d6696ead83eadb5104c6383e1905aa81fc7a79ea2ca87a97c2bfd2f4a1";
+      genesisHash = "caeb379ec97ba32f34b6a137ab54c3f9079c64fd40adde9eba8099addca91e41";
       genesisFile = ./genesis-nightly.yaml;
       syncTolerance = "300s";
       trustedPeers = [
