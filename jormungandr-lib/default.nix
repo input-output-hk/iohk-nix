@@ -99,7 +99,7 @@ let
 
   environments = {
     itn_balance_check = {
-      packages = packages.v0_7_0;
+      packages = packages.v0_8_0-rc1;
       genesisHash = "0f9d564199ad7f71af3daaff4b6997cb7f2e3d7c422fa29097f5d6a018c440d1";
       genesisFile = ./genesis-mock.yaml;
       syncTolerance = "600s";
