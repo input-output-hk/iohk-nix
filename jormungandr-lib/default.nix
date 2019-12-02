@@ -79,8 +79,7 @@ let
   ) versions;
 
   mkConfig = environment:
-    let
-    in {
+    {
       log = [{
         level = "info";
         format = "plain";
