@@ -145,7 +145,8 @@ let
 
   mkConfigHtml = runCommand "jormungandr-html" {} ''
     mkdir -p $out/nix-support
-    echo "report jormungandr ${writeText "config.html" configHtml} index.html" > $out/nix-support/hydra-build-products
+    cp ${writeText "config.html" configHtml} $out/index.html
+    echo "report jormungandr $out index.html" > $out/nix-support/hydra-build-products
   '';
 
   environments = {
