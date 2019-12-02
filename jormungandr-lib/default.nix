@@ -80,15 +80,12 @@ let
 
   mkConfig = environment:
     let
-      log = {
+    in {
+      log = [{
         level = "info";
         format = "plain";
         output = "stderr";
-      };
-    in {
-      log = if (builtins.compareVersions "0.7.1" environment.package.version >= 0)
-            then [log]
-            else log;
+      }];
       rest = {
         listen = "127.0.0.1:3100";
       };
@@ -228,7 +225,7 @@ let
     };
 
     qa = {
-      packages = packages.v0_7_5;
+      packages = packages.v0_8_0-rc4;
       genesisHash = "1fc80a7c3dcdf50fd967a266a6bba186c8e7a1f600334479e8ffaf779e4d4c8a";
       genesisFile = ./genesis-qa.yaml;
       syncTolerance = "300s";
