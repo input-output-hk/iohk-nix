@@ -122,7 +122,7 @@ let
         <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
       </head>
       <body>
-        <section class="hero is-medium is-primary">
+        <section class="hero is-small is-primary">
           <div class="hero-body">
             <div class="container">
               <h1 class="title is-1">
@@ -137,15 +137,52 @@ let
 
         <section class="section">
           <div class="container">
+            <div class="table-container">
+              <table class="table is-narrow is-fullwidth">
+                <thead>
+                  <tr>
+                    <th>Cluster</th>
+                    <th>Version</th>
+                    <th>Genesis Hash</th>
+                    <th>Config</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${toString (lib.mapAttrsToList (name: value:
+                    ''
+                    <tr>
+                      <td>${name}</td>
+                      <td>${value.packages.jcli.src.rev}</td>
+                      <td style="font-family: monospace;">${value.genesisHash}</td>
+                      <td>
+                        <div class="buttons has-addons">
+                          <a class="button is-primary" href="${name}-config.yaml">config</a>
+                          <a class="button is-info" href="${name}-genesis.yaml">genesis</a>
+                        </div>
+                      </td>
+                    </tr>
+                    ''
+                  ) environments) }
+                </tbody>
+              </table>
+            </div>
           </div>
         </section>
       </body>
     </html>
   '';
 
-  mkConfigHtml = runCommand "jormungandr-html" {} ''
+  mkConfigHtml = runCommand "jormungandr-html" { buildInputs = [ jq ]; } ''
     mkdir -p $out/nix-support
     cp ${writeText "config.html" configHtml} $out/index.html
+    ${
+      toString (lib.mapAttrsToList (name: value:
+        ''
+          ${jq}/bin/jq . < ${__toFile "${name}-config.yaml" (__toJSON (mkConfig value))} > $out/${name}-config.yaml
+          ${jq}/bin/jq . < ${value.genesisFile} > $out/${name}-genesis.yaml
+        ''
+      ) environments)
+    }
     echo "report jormungandr $out index.html" > $out/nix-support/hydra-build-products
   '';
 
