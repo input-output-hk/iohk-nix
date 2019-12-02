@@ -111,7 +111,7 @@ let
     jormungandr --full-version > $out/jormungandr-version.txt
   '';
 
-  configHtml =
+  configHtml = environments:
     ''
     <!DOCTYPE html>
     <html>
@@ -173,16 +173,16 @@ let
     </html>
   '';
 
-  mkConfigHtml = runCommand "jormungandr-html" { buildInputs = [ jq ]; } ''
+  mkConfigHtml = environments: runCommand "jormungandr-html" { buildInputs = [ jq ]; } ''
     mkdir -p $out/nix-support
-    cp ${writeText "config.html" configHtml} $out/index.html
+    cp ${writeText "config.html" (configHtml environments)} $out/index.html
     ${
       toString (lib.mapAttrsToList (name: value:
         ''
           ${jq}/bin/jq . < ${__toFile "${name}-config.yaml" (__toJSON (mkConfig value))} > $out/${name}-config.yaml
           ${jq}/bin/jq . < ${value.genesisFile} > $out/${name}-genesis.yaml
         ''
-      ) environments)
+      ) environments )
     }
     echo "report jormungandr $out index.html" > $out/nix-support/hydra-build-products
   '';
