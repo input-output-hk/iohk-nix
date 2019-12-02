@@ -9,19 +9,19 @@
 , crossSystem ? null
 , config ? {}
 # Import IOHK common nix lib
-, iohkLib ? import ./nix/iohk-common.nix { inherit system crossSystem config; }
-# Use nixpkgs pin from iohkLib
-, pkgs ? iohkLib.pkgs
+, commonLib ? import ./lib.nix
+# Use nixpkgs pin from commonLib
+, pkgs ? commonLib.pkgs
 }:
 
 let
-  haskell = pkgs.callPackage iohkLib.nix-tools.haskell {};
-  src = iohkLib.cleanSourceHaskell ./.;
+  haskell = pkgs.callPackage commonLib.nix-tools.haskell {};
+  src = commonLib.cleanSourceHaskell ./.;
   util = pkgs.callPackage ./nix/util.nix {};
 
   # Example of using a package from iohk-nix
   # TODO: Declare packages required by the build.
-  inherit (iohkLib.rust-packages.pkgs) jormungandr;
+  inherit (commonLib.rust-packages.pkgs) jormungandr;
 
   # Import the Haskell package set.
   haskellPackages = import ./nix/pkgs.nix {
@@ -33,11 +33,11 @@ let
     inherit jormungandr;
     inherit (pkgs) cowsay;
     # Provide cross-compiling secret sauce
-    inherit (iohkLib.nix-tools) iohk-extras iohk-module;
+    inherit (commonLib.nix-tools) iohk-extras iohk-module;
   };
 
 in {
-  inherit pkgs iohkLib src haskellPackages;
+  inherit pkgs commonLib src haskellPackages;
   inherit (haskellPackages.iohk-skeleton.identifier) version;
 
   # Grab the executable component of our package.

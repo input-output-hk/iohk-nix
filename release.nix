@@ -59,7 +59,7 @@ let
   } // jormungandrPackages);
 
   skeletonJobset = import ./skeleton/release.nix {
-    iohkLib = packageSet;
+    commonLib = packageSet;
   };
 
 in

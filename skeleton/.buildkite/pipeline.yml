@@ -14,7 +14,7 @@ steps:
   - label: Check Hydra evaluation of release.nix
     commands:
       - ".buildkite/set-skeleton-pin.sh && cd skeleton"  # TODO: remove this line
-      - "nix-build -A iohkLib.check-hydra -o check-hydra.sh"
+      - "nix-build -A commonLib.check-hydra -o check-hydra.sh"
       # TODO: uncomment the following line
       # - "./check-hydra.sh"
     agents:
@@ -24,7 +24,7 @@ steps:
   - label: Check auto-generated Nix
     commands:
       - ".buildkite/set-skeleton-pin.sh && cd skeleton"  # TODO: remove this line
-      - "nix-build -A iohkLib.check-nix-tools -o check-nix-tools.sh"
+      - "nix-build -A commonLib.check-nix-tools -o check-nix-tools.sh"
       - "git checkout -- nix/iohk-nix-src.json"  # TODO: remove this line
       - "./check-nix-tools.sh"
     agents:
