@@ -111,6 +111,43 @@ let
     jormungandr --full-version > $out/jormungandr-version.txt
   '';
 
+  configHtml =
+    ''
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>Jörmungandr Status</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+        <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+      </head>
+      <body>
+        <section class="hero is-medium is-primary">
+          <div class="hero-body">
+            <div class="container">
+              <h1 class="title is-1">
+                Jörmungandr
+              </h1>
+              <h2 class="subtitle is-3">
+                Configurations
+              </h2>
+            </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="container">
+          </div>
+        </section>
+      </body>
+    </html>
+  '';
+
+  mkConfigHtml = runCommand "jormungandr-html" {} ''
+    mkdir -p $out/nix-support
+    echo "report jormungandr ${writeText "config.html" configHtml} index.html" > $out/nix-support/hydra-build-products
+  '';
+
   environments = {
     itn_balance_check = {
       packages = packages.v0_8_0-rc1;
@@ -266,5 +303,5 @@ let
     environments;
 
 in {
-  inherit environments forEnvironments mkConfig mkConfigHydra versions packages;
+  inherit environments forEnvironments mkConfig mkConfigHydra versions packages mkConfigHtml;
 }
