@@ -1,9 +1,9 @@
 { iohkSkeletonPackages ? import ../default.nix {}
 , pkgs ? iohkSkeletonPackages.pkgs
-, iohkLib ? iohkSkeletonPackages.iohkLib
+, commonLib ? iohkSkeletonPackages.commonLib
 }:
 
-iohkLib.haskellBuildUtils.stackRebuild {
+commonLib.haskellBuildUtils.stackRebuild {
   script = ./rebuild.hs;
   buildTools = [];
   libs = ps: [];

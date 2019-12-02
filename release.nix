@@ -45,6 +45,7 @@ let
     nix-tools.package            = supportedSystems;
     nix-tools.regeneratePackages = supportedSystems;
     rust-packages.pkgs.cardano-http-bridge = supportedSystems;
+    niv = supportedSystems;
 
     # this seems not to work :-/
     # tests.hlint                  = supportedSystems;
@@ -58,7 +59,7 @@ let
   } // jormungandrPackages);
 
   skeletonJobset = import ./skeleton/release.nix {
-    iohkLib = packageSet;
+    commonLib = packageSet;
   };
 
 in
@@ -77,6 +78,8 @@ fix (self: mappedPkgs // {
       nix-tools.regeneratePackages.x86_64-linux
       nix-tools.regeneratePackages.x86_64-darwin
       rust-packages.pkgs.cardano-http-bridge.x86_64-linux
+      niv.x86_64-linux
+      niv.x86_64-darwin
     ]) ++ usedJormungandrVersions;
   });
 } // {

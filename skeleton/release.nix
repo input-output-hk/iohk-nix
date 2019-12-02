@@ -23,11 +23,11 @@
 , scrubJobs ? true
 
 # Import IOHK common nix lib
-, iohkLib ? import ./nix/iohk-common.nix {}
+, commonLib ? import ./lib.nix
 }:
 
-with (import iohkLib.release-lib) {
-  inherit (import ./nix/iohk-common.nix {}) pkgs;
+with (import commonLib.release-lib) {
+  inherit (import ./lib.nix) pkgs;
 
   inherit supportedSystems supportedCrossSystems scrubJobs projectArgs;
   packageSet = import iohk-skeleton;

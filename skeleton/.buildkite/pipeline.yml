@@ -13,8 +13,8 @@ env:
 steps:
   - label: Check Hydra evaluation of release.nix
     commands:
-      - ".buildkite/set-skeleton-pin.sh && cd skeleton"  # TODO: remove this line
-      - "nix-build -A iohkLib.check-hydra -o check-hydra.sh"
+      - "cd skeleton"  # TODO: remove this line
+      - "nix-build -A commonLib.check-hydra -o check-hydra.sh"
       # TODO: uncomment the following line
       # - "./check-hydra.sh"
     agents:
@@ -23,9 +23,8 @@ steps:
   # This will ensure that the generated Nix code is kept up to date.
   - label: Check auto-generated Nix
     commands:
-      - ".buildkite/set-skeleton-pin.sh && cd skeleton"  # TODO: remove this line
-      - "nix-build -A iohkLib.check-nix-tools -o check-nix-tools.sh"
-      - "git checkout -- nix/iohk-nix-src.json"  # TODO: remove this line
+      - "cd skeleton"  # TODO: remove this line
+      - "nix-build -A commonLib.check-nix-tools -o check-nix-tools.sh"
       - "./check-nix-tools.sh"
     agents:
       system: x86_64-linux
@@ -33,20 +32,20 @@ steps:
   # TODO: Remove this and define your own build steps.
   - label: Lint the fuzz
     commands:
-      - ".buildkite/set-skeleton-pin.sh && cd skeleton"  # TODO: remove this line
+      - "cd skeleton"  # TODO: remove this line
       - "nix-build -A checks.lint-fuzz -o check-lint-fuzz.sh"
       - "./check-lint-fuzz.sh"
     agents:
       system: x86_64-linux
 
-  # Imperative build steps
-  - label: Stack build
-    commands:
-      - ".buildkite/set-skeleton-pin.sh && cd skeleton"  # TODO: remove this line
-      - "nix-build .buildkite/default.nix -o sr"
-      - "./sr/bin/rebuild --build-dir=$BUILD_DIR --cache-dir=$CACHE_DIR"
-    agents:
-      system: x86_64-linux
-    timeout_in_minutes: 60
-    artifact_paths:
-      - "/build/iohk-skeleton/.stack-work/logs/iohk-skeleton*.log"
+  # Imperative build steps (broken)
+  #- label: Stack build
+  #  commands:
+  #    - "cd skeleton"  # TODO: remove this line
+  #    - "nix-build .buildkite/default.nix -o sr"
+  #    - "./sr/bin/rebuild --build-dir=$BUILD_DIR --cache-dir=$CACHE_DIR"
+  #  agents:
+  #    system: x86_64-linux
+  #  timeout_in_minutes: 60
+  #  artifact_paths:
+  #    - "/build/iohk-skeleton/.stack-work/logs/iohk-skeleton*.log"
