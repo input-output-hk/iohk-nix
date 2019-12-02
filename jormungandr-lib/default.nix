@@ -78,13 +78,19 @@ let
     { jormungandr = makeJormungandr value; jcli = makeJcli value; }
   ) versions;
 
-  mkConfig = environment:
-    {
-      log = [{
-        level = "info";
-        format = "plain";
-        output = "stderr";
-      }];
+  mkConfig = environment: let
+    envVersion = environment.packages.jormungandr.version;
+    defaultLogConfig = {
+      level = "info";
+      format = "plain";
+      output = "stderr";
+    };
+    versionNewer071 = builtins.compareVersions envVersion "0.7.1" >= 0;
+    isMaster = envVersion == "master";
+  in {
+      log = if (isMaster || versionNewer071)
+        then [defaultLogConfig]
+        else defaultLogConfig;
       rest = {
         listen = "127.0.0.1:3100";
       };
