@@ -66,9 +66,9 @@ let
     master = {
       name = "jormungandr-master";
       version = "master";
-      rev = "1924085a09c285954b992af44706fbe82da02d64";
-      sha256 = "1dap67c194r0n9i4lfin5nlhgzvhq0lx25a6w6nspc71chr8x0w7";
-      cargoSha256 = "0fqpm0a1824dirb3f5d4yw7vb8xrpj03n6gxw7rlfjbhy025spqh";
+      rev = "ca98a23c315cac6a11a15f3f5f79d2cff54a102c";
+      sha256 = "1zvwkj85d2w2pcynhck3g17jdqas61wc7a3r6basn64wwsn0wv61";
+      cargoSha256 = "14v7v9rl04yajwxh7qcpzjnc3swmpdbmjqw7arnms8cbdfbqc9q6";
     };
   };
 
@@ -187,8 +187,8 @@ let
     };
 
     nightly = {
-      packages = packages.v0_8_0-rc4;
-      genesisHash = "a30d30b452ee801633dd1c71751ad07579c0f742a3a1d0fd836d0bc9caea45f6";
+      packages = packages.master;
+      genesisHash = "7181543c8027842e650638d96862aeba26954d8bfc75803382577156438997b5";
       genesisFile = ./genesis-nightly.yaml;
       syncTolerance = "300s";
       trustedPeers = [
@@ -224,7 +224,7 @@ let
     };
 
     qa = {
-      packages = packages.v0_8_0-rc4;
+      packages = packages.master;
       genesisHash = "1763fc87186dde2c2d18a19d06a4f02932d7ce1b60ea1267ae34ddab3e63716e";
       genesisFile = ./genesis-qa.yaml;
       syncTolerance = "300s";
