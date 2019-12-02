@@ -26,9 +26,11 @@ let
 
   jormungandrPackages = foldl' (sum: name:
     recursiveUpdate {
-      jormungandrLib.environments.${name}.packages = {
-        jcli = supportedSystems;
-        jormungandr = supportedSystems;
+      jormungandrLib.environments.${name} = {
+        packages = {
+          jcli = supportedSystems;
+          jormungandr = supportedSystems;
+        };
       };
     } sum
   ) {} (attrNames jormungandrLib.environments);
@@ -36,6 +38,8 @@ let
   usedJormungandrVersions = flatten (mapAttrsToList (name: env:
     with env.packages; [ jcli jormungandr ]
   ) jormungandrLib.environments);
+
+  jormungandrConfigs = jormungandrLib.forEnvironments jormungandrLib.mkConfigHydra;
 
   mappedPkgs = mapTestOn ({
     nix-tools.package            = supportedSystems;
@@ -60,6 +64,8 @@ let
 in
 fix (self: mappedPkgs // {
   inherit (commonLib) check-hydra;
+  inherit jormungandrConfigs;
+  jormungandr-deployment = jormungandrLib.mkConfigHtml;
 
   forceNewEval = pkgs.writeText "forceNewEval" iohk-nix.rev;
   required = pkgs.lib.hydraJob (pkgs.releaseTools.aggregate {

@@ -111,6 +111,82 @@ let
     jormungandr --full-version > $out/jormungandr-version.txt
   '';
 
+  configHtml =
+    ''
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>Jörmungandr Status</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+        <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+      </head>
+      <body>
+        <section class="hero is-small is-primary">
+          <div class="hero-body">
+            <div class="container">
+              <h1 class="title is-1">
+                Jörmungandr
+              </h1>
+              <h2 class="subtitle is-3">
+                Configurations
+              </h2>
+            </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="container">
+            <div class="table-container">
+              <table class="table is-narrow is-fullwidth">
+                <thead>
+                  <tr>
+                    <th>Cluster</th>
+                    <th>Version</th>
+                    <th>Genesis Hash</th>
+                    <th>Config</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${toString (lib.mapAttrsToList (name: value:
+                    ''
+                    <tr>
+                      <td>${name}</td>
+                      <td>${value.packages.jcli.src.rev}</td>
+                      <td style="font-family: monospace;">${value.genesisHash}</td>
+                      <td>
+                        <div class="buttons has-addons">
+                          <a class="button is-primary" href="${name}-config.yaml">config</a>
+                          <a class="button is-info" href="${name}-genesis.yaml">genesis</a>
+                        </div>
+                      </td>
+                    </tr>
+                    ''
+                  ) environments) }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </body>
+    </html>
+  '';
+
+  mkConfigHtml = runCommand "jormungandr-html" { buildInputs = [ jq ]; } ''
+    mkdir -p $out/nix-support
+    cp ${writeText "config.html" configHtml} $out/index.html
+    ${
+      toString (lib.mapAttrsToList (name: value:
+        ''
+          ${jq}/bin/jq . < ${__toFile "${name}-config.yaml" (__toJSON (mkConfig value))} > $out/${name}-config.yaml
+          ${jq}/bin/jq . < ${value.genesisFile} > $out/${name}-genesis.yaml
+        ''
+      ) environments)
+    }
+    echo "report jormungandr $out index.html" > $out/nix-support/hydra-build-products
+  '';
+
   environments = {
     itn_balance_check = {
       packages = packages.v0_8_0-rc1;
@@ -266,5 +342,5 @@ let
     environments;
 
 in {
-  inherit environments forEnvironments mkConfig mkConfigHydra versions packages;
+  inherit environments forEnvironments mkConfig mkConfigHydra versions packages mkConfigHtml;
 }
