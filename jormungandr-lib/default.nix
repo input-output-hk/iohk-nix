@@ -117,6 +117,12 @@ let
     jormungandr --full-version > $out/jormungandr-version.txt
   '';
 
+  linkTo = rev:
+    if __stringLength rev == 40 then
+      "https://github.com/input-output-hk/jormungandr/commits/${rev}"
+    else
+      "https://github.com/input-output-hk/jormungandr/releases/tag/${rev}";
+
   configHtml = environments:
     ''
     <!DOCTYPE html>
@@ -159,7 +165,7 @@ let
                     ''
                     <tr>
                       <td>${name}</td>
-                      <td>${value.packages.jcli.src.rev}</td>
+                      <td><a href="${linkTo value.packages.jcli.src.rev}">${value.packages.jcli.src.rev}</a></td>
                       <td style="font-family: monospace;">${value.genesisHash}</td>
                       <td>
                         <div class="buttons has-addons">
