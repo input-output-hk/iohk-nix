@@ -282,7 +282,7 @@ let
 
     nightly = {
       packages = packages.v0_8_0-rc5;
-      genesisHash = "7181543c8027842e650638d96862aeba26954d8bfc75803382577156438997b5";
+      genesisHash = "bce4426d0f89f1aaa4de055557dfe9e138d3683d6508d5392852c570f96ef808";
       genesisFile = ./genesis-nightly.yaml;
       syncTolerance = "300s";
       trustedPeers = [
