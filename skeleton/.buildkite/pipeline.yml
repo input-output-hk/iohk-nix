@@ -39,13 +39,13 @@ steps:
       system: x86_64-linux
 
   # Imperative build steps (broken)
-  #- label: Stack build
-  #  commands:
-  #    - "cd skeleton"  # TODO: remove this line
-  #    - "nix-build .buildkite/default.nix -o sr"
-  #    - "./sr/bin/rebuild --build-dir=$BUILD_DIR --cache-dir=$CACHE_DIR"
-  #  agents:
-  #    system: x86_64-linux
-  #  timeout_in_minutes: 60
-  #  artifact_paths:
-  #    - "/build/iohk-skeleton/.stack-work/logs/iohk-skeleton*.log"
+  - label: Stack build
+    commands:
+      - "cd skeleton"  # TODO: remove this line
+      - "nix-build .buildkite/default.nix -o sr"
+      - "./sr/bin/rebuild --build-dir=$BUILD_DIR --cache-dir=$CACHE_DIR"
+    agents:
+      system: x86_64-linux
+    timeout_in_minutes: 60
+    artifact_paths:
+      - "/build/iohk-skeleton/.stack-work/logs/iohk-skeleton*.log"

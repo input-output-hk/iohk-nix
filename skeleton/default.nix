@@ -8,16 +8,16 @@
 { system ? builtins.currentSystem
 , crossSystem ? null
 , config ? {}
-# Import IOHK common nix lib
-, commonLib ? import ./lib.nix
-# Use nixpkgs pin from commonLib
-, pkgs ? commonLib.pkgs
+, sourcesOverride ? {}
+, pkgs ? import ./nix {
+    inherit system crossSystem sourcesOverride;
+  }
 }:
-
 let
+  inherit (pkgs) commonLib;
   haskell = pkgs.callPackage commonLib.nix-tools.haskell {};
   src = commonLib.cleanSourceHaskell ./.;
-  util = pkgs.callPackage ./nix/util.nix {};
+  util = import ./nix/util.nix { inherit pkgs; };
 
   # Example of using a package from iohk-nix
   # TODO: Declare packages required by the build.

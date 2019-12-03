@@ -22,12 +22,15 @@
 # A Hydra option
 , scrubJobs ? true
 
-# Import IOHK common nix lib
-, commonLib ? import ./lib.nix
+# Dependencies overrides
+, sourcesOverride ? {}
+
+# Import pkgs, including IOHK common nix lib
+, pkgs ? import ./nix { inherit sourcesOverride; }
 }:
 
-with (import commonLib.release-lib) {
-  inherit (import ./lib.nix) pkgs;
+with (import pkgs.commonLib.release-lib) {
+  inherit pkgs;
 
   inherit supportedSystems supportedCrossSystems scrubJobs projectArgs;
   packageSet = import iohk-skeleton;

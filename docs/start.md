@@ -148,8 +148,8 @@ default arguments to `default.nix`. For example:
 # default.nix
 { config ? {}
 , system ? builtins.currentSystem
-, iohkLib ? import ./nix/iohk-common.nix { inherit config system; }
-, pkgs ? iohkLib.pkgs
+, sourcesOverride ? {}
+, pkgs ? import ./nix { inherit config system sourcesOverride; }
 }:
 
 {
@@ -161,21 +161,49 @@ The `config` and `system` arguments above are needed when building for
 other systems. They have default values, and should be passed through
 to `iohk-nix`.
 
-Now set up `./nix/iohk-common.nix`, which is pure boilerplate:
+Now set up `./nix/default.nix`, which is pure boilerplate:
 
 ```nix
+{ system ? builtins.currentSystem
+, crossSystem ? null
+, config ? {}
+, sourcesOverride ? {}
+}:
 let
-  spec = builtins.fromJSON (builtins.readFile ./iohk-nix-src.json);
-in import (builtins.fetchTarball {
-  url = "${spec.url}/archive/${spec.rev}.tar.gz";
-  inherit (spec) sha256;
-})
+  # use default stable nixpkgs from iohk-nix instead of our own:
+  sources = removeAttrs (import ./sources.nix) [ "nixpkgs" ] //
+    {
+      # alternatively, use iohk-nix default unstable nixpkgs:
+      #nixpkgs = iohkNix.sources.nixpkgs-unstable;
+    } //
+    sourcesOverride;
+
+  # for inclusion in pkgs:
+  nixpkgsOverlays = [
+    (_: _: { commonLib = lib // iohkNix; })
+  ];
+
+  # Import IOHK common nix lib, using our sources as override:
+  iohkNix = import sources.iohk-nix {
+    inherit system crossSystem config nixpkgsOverlays;
+    sourcesOverride = sources;
+  };
+  pkgs = iohkNix.pkgs;
+  lib = pkgs.lib;
+in
+  pkgs
 ```
 
-And create `iohk-nix-src.json`. You will need `nix-prefetch-git` (get it
-with `nix-env -iA` or `nix-shell -p`). The `--rev` option defaults to
-the HEAD of the `master` branch.
-
+Setup niv (nix dependencies manager) with
 ```
-$ nix-prefetch-git https://github.com/input-output-hk/iohk-nix [ --rev master ] | tee ./nix/iohk-nix-src.json
+nix-shell https://github.com/input-output-hk/iohk-nix/blob/master.tar.gz -A shell --run "niv init"
+```
+
+And add a minimal `shell.nix`:
+```nix
+with import ./nix {};
+stdenv.mkDerivation {
+  name = "shell";
+  buildInputs = [ commonLib.niv ];
+}
 ```

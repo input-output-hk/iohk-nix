@@ -1,15 +1,12 @@
 # This file is used by nix-shell.
 # It just takes the shell attribute from default.nix.
 
-{ localLib ? import ./lib.nix }:
-
+with import ./. {};
 let
-  shell = (import ./default.nix {}).shell;
-  pkgs = localLib.pkgs;
   devops = pkgs.stdenv.mkDerivation {
     name = "devops-shell";
     buildInputs = [
-      localLib.niv
+      commonLib.niv
     ];
     shellHook = ''
       echo "DevOps Tools" \
