@@ -8,12 +8,20 @@
 { system ? builtins.currentSystem
 , crossSystem ? null
 , config ? {}
+# allows to override dependencies of the project without modifications,
+# eg. to test build against local checkout of nixpkgs and iohk-nix:
+# nix build -f default.nix iohk-skeleton --arg sourcesOverride '{
+#   iohk-nix = ./../iohk-nix;
+#   nixpkgs  = ./../nixpkgs;
+# }'
 , sourcesOverride ? {}
+# pinned version of nixpkgs augmented with iohk overlays.
 , pkgs ? import ./nix {
     inherit system crossSystem sourcesOverride;
   }
 }:
 let
+  # commonLib include iohk-nix utilities and nixpkgs lib.
   inherit (pkgs) commonLib;
   haskell = pkgs.callPackage commonLib.nix-tools.haskell {};
   src = commonLib.cleanSourceHaskell ./.;
