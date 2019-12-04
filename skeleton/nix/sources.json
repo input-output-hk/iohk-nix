@@ -1,0 +1,50 @@
+{
+    "gitignore": {
+        "branch": "master",
+        "description": "Nix function for filtering local git sources",
+        "homepage": "",
+        "owner": "hercules-ci",
+        "repo": "gitignore",
+        "rev": "dcd0b0e878009ef7b1425f8ca3e5b883f12459d8",
+        "sha256": "0ni9hl6j4l94mfwsdmrg5l0ffibfgd8amspda7vc5fb3wm8blxpy",
+        "type": "tarball",
+        "url": "https://github.com/hercules-ci/gitignore/archive/dcd0b0e878009ef7b1425f8ca3e5b883f12459d8.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "iohk-nix": {
+        "branch": "master",
+        "description": "nix scripts shared across projects",
+        "homepage": null,
+        "owner": "input-output-hk",
+        "repo": "iohk-nix",
+        "rev": "b10307492e45801490b80571f7ac7f3b434c5fe5",
+        "sha256": "17565hidv1mg2lznxl3czzyc2pzh5q8d95kvi8l7dg3rdrg0a7p0",
+        "type": "tarball",
+        "url": "https://github.com/input-output-hk/iohk-nix/archive/b10307492e45801490b80571f7ac7f3b434c5fe5.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "niv": {
+        "branch": "iohk",
+        "description": "Easy dependency management for Nix projects",
+        "homepage": "https://github.com/input-output-hk/niv",
+        "owner": "input-output-hk",
+        "repo": "niv",
+        "rev": "89da7b2e7ae0779fd351618fc74df1b1da5e6214",
+        "sha256": "0jn88ahv6mycxdkzihy1v0dz2110q0d42q4ggyj68l2lyba6y0yy",
+        "type": "tarball",
+        "url": "https://github.com/input-output-hk/niv/archive/89da7b2e7ae0779fd351618fc74df1b1da5e6214.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "nixpkgs": {
+        "branch": "nixos-19.03",
+        "description": "A read-only mirror of NixOS/nixpkgs tracking the released channels. Send issues and PRs to",
+        "homepage": "https://github.com/NixOS/nixpkgs",
+        "owner": "NixOS",
+        "repo": "nixpkgs-channels",
+        "rev": "3ead845da927f9fed0d0f52a9c32dde2ce548873",
+        "sha256": "10ycdjr32zxfyqfq1qgkgxzfbig819y664mk1l7a6bvk6077c4xp",
+        "type": "tarball",
+        "url": "https://github.com/NixOS/nixpkgs-channels/archive/3ead845da927f9fed0d0f52a9c32dde2ce548873.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    }
+}

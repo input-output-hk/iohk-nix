@@ -13,8 +13,8 @@ env:
 steps:
   - label: Check Hydra evaluation of release.nix
     commands:
-      - "cd skeleton"  # TODO: remove this line
-      - "nix-build -A commonLib.check-hydra -o check-hydra.sh"
+      - "cd skeleton"  # TODO: remove this line and the sourcesOverride arg
+      - "nix-build -A commonLib.check-hydra -o check-hydra.sh --arg sourcesOverride '{iohk-nix = ./..;}'"
       # TODO: uncomment the following line
       # - "./check-hydra.sh"
     agents:
@@ -23,8 +23,8 @@ steps:
   # This will ensure that the generated Nix code is kept up to date.
   - label: Check auto-generated Nix
     commands:
-      - "cd skeleton"  # TODO: remove this line
-      - "nix-build -A commonLib.check-nix-tools -o check-nix-tools.sh"
+      - "cd skeleton"  # TODO: remove this line and the sourcesOverride arg
+      - "nix-build -A commonLib.check-nix-tools -o check-nix-tools.sh --arg sourcesOverride '{iohk-nix = ./..;}'"
       - "./check-nix-tools.sh"
     agents:
       system: x86_64-linux
@@ -32,20 +32,20 @@ steps:
   # TODO: Remove this and define your own build steps.
   - label: Lint the fuzz
     commands:
-      - "cd skeleton"  # TODO: remove this line
-      - "nix-build -A checks.lint-fuzz -o check-lint-fuzz.sh"
+      - "cd skeleton"  # TODO: remove this line and the sourcesOverride arg
+      - "nix-build -A checks.lint-fuzz -o check-lint-fuzz.sh --arg sourcesOverride '{iohk-nix = ./..;}'"
       - "./check-lint-fuzz.sh"
     agents:
       system: x86_64-linux
 
-  # Imperative build steps (broken)
-  #- label: Stack build
-  #  commands:
-  #    - "cd skeleton"  # TODO: remove this line
-  #    - "nix-build .buildkite/default.nix -o sr"
-  #    - "./sr/bin/rebuild --build-dir=$BUILD_DIR --cache-dir=$CACHE_DIR"
-  #  agents:
-  #    system: x86_64-linux
-  #  timeout_in_minutes: 60
-  #  artifact_paths:
-  #    - "/build/iohk-skeleton/.stack-work/logs/iohk-skeleton*.log"
+  # Imperative build steps
+  - label: Stack build
+    commands:
+      - "cd skeleton"  # TODO: remove this line and the sourcesOverride arg
+      - "nix-build .buildkite/default.nix -o sr --arg sourcesOverride '{iohk-nix = ./..;}'"
+      - "./sr/bin/rebuild --build-dir=$BUILD_DIR --cache-dir=$CACHE_DIR"
+    agents:
+      system: x86_64-linux
+    timeout_in_minutes: 60
+    artifact_paths:
+      - "/build/iohk-skeleton/.stack-work/logs/iohk-skeleton*.log"
