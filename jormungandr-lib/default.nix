@@ -75,6 +75,12 @@ let
       cargoSha256 = "0ji05pclqicsip3s810l1vp4yhn1p8na5vbd6wxap92yw9z792f5";
     };
 
+    v0_8_0-rc7 = {
+      version = "0.8.0-rc7";
+      sha256 = "0n31kpzw6213llqbhh1mx7bbdki12k14pmh17rsrys2ijj71hhaz";
+      cargoSha256 = "0ji05pclqicsip3s810l1vp4yhn1p8na5vbd6wxap92yw9z792f5";
+    };
+
     master = {
       name = "jormungandr-master";
       version = "master";
@@ -287,7 +293,7 @@ let
     };
 
     nightly = {
-      packages = packages.v0_8_0-rc6;
+      packages = packages.v0_8_0-rc7;
       genesisHash = "6159e26ed9e9d061f993af2fee80e3cbad85d6daa5e1e1ca290516705a3ebabc";
       genesisFile = ./genesis-nightly.yaml;
       syncTolerance = "300s";
