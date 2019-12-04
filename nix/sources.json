@@ -83,18 +83,6 @@
         "url": "https://github.com/NixOS/nixpkgs-channels/archive/e39e43a349d5f4f661d929fbe9a31129bda0acb2.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
-    "nixpkgs-unstable": {
-        "branch": "nixpkgs-unstable",
-        "description": "Nixpkgs/NixOS branches that track the Nixpkgs/NixOS channels",
-        "homepage": null,
-        "owner": "NixOS",
-        "repo": "nixpkgs-channels",
-        "rev": "362be9608c3e0dc5216e9d1d5f5c1a5643b7f7b1",
-        "sha256": "0934rhanamsnhawg15gg6cy9ird3c47hsqn5s46lq2n5kzl6v7ly",
-        "type": "tarball",
-        "url": "https://github.com/NixOS/nixpkgs-channels/archive/362be9608c3e0dc5216e9d1d5f5c1a5643b7f7b1.tar.gz",
-        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
-    },
     "nixpkgs-mono": {
         "branch": "mono",
         "description": "A fixed pin that works with mono for building choco packages",
@@ -105,6 +93,30 @@
         "sha256": "0aymjc693dxjxmlm9kklyxsd796x868v3jrryjms70bv3w1776nz",
         "type": "tarball",
         "url": "https://github.com/input-output-hk/nixpkgs/archive/1129f6b0dbc3b7739972c9b0e53359633f32b31b.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "nixpkgs-stable": {
+        "branch": "release-19.09",
+        "description": "Nixpkgs/NixOS branches that track the Nixpkgs/NixOS channels",
+        "homepage": null,
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "84586a4514dc37c4ab8c342a906e382c737cbb99",
+        "sha256": "1b8k7dwprj6biiiqkx1gm261ifbkkbj59rlk5n2m29nk3xhf2dqi",
+        "type": "tarball",
+        "url": "https://github.com/NixOS/nixpkgs/archive/84586a4514dc37c4ab8c342a906e382c737cbb99.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "nixpkgs-unstable": {
+        "branch": "nixpkgs-unstable",
+        "description": "Nixpkgs/NixOS branches that track the Nixpkgs/NixOS channels",
+        "homepage": null,
+        "owner": "NixOS",
+        "repo": "nixpkgs-channels",
+        "rev": "362be9608c3e0dc5216e9d1d5f5c1a5643b7f7b1",
+        "sha256": "0934rhanamsnhawg15gg6cy9ird3c47hsqn5s46lq2n5kzl6v7ly",
+        "type": "tarball",
+        "url": "https://github.com/NixOS/nixpkgs-channels/archive/362be9608c3e0dc5216e9d1d5f5c1a5643b7f7b1.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     }
 }

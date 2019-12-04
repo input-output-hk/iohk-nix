@@ -17,6 +17,7 @@
 let
   defaultSources = import ./nix/sources.nix;
   pkgsDefault = import (defaultSources.nixpkgs) {};
+  pkgsStable = import (defaultSources.nixpkgs-stable) {};
   fetchTarballFromJson = jsonFile:
     let
       spec = builtins.fromJSON (builtins.readFile jsonFile);
@@ -58,7 +59,7 @@ let
     '' (import ./fetch-tarball-with-override.nix "custom_nixpkgs");
     # equivalent of <nixpkgs> but pinned instead of system
     inherit (sources) nixpkgs;
-    inherit pkgsDefault;
+    inherit pkgsDefault pkgsStable;
     getPkgs = let
       system' = system;
       globalConfig' = globalConfig;
@@ -119,23 +120,23 @@ let
     mono = (monoNixpkgs.pkgs.callPackage (sources.nixpkgs-mono + "/pkgs/development/compilers/mono/default.nix") {
       withLLVM = false;
     });
-    choco = commonLib.pkgsDefault.callPackage ./choco { inherit mono; };
+    choco = commonLib.pkgsStable.callPackage ./choco { inherit mono; };
 
-    makeSnap = commonLib.pkgsDefault.callPackage ./snapcraft/make-snap.nix {};
-    snapcraft = commonLib.pkgsDefault.callPackage ./snapcraft/snapcraft.nix {};
-    squashfsTools = commonLib.pkgsDefault.squashfsTools.overrideAttrs (old: {
+    makeSnap = commonLib.pkgsStable.callPackage ./snapcraft/make-snap.nix {};
+    snapcraft = commonLib.pkgsStable.callPackage ./snapcraft/snapcraft.nix {};
+    squashfsTools = commonLib.pkgsStable.squashfsTools.overrideAttrs (old: {
       patches = old.patches ++ [
         ./snapcraft/0005-add-fstime.patch
       ];
     });
-    snapReviewTools = commonLib.pkgsDefault.callPackage ./snapcraft/snap-review-tools.nix {
+    snapReviewTools = commonLib.pkgsStable.callPackage ./snapcraft/snap-review-tools.nix {
       inherit squashfsTools;
     };
 
   };
 
   cardanoLib = commonLib.pkgsDefault.callPackage ./cardano-lib {};
-  jormungandrLib = commonLib.pkgsDefault.callPackage ./jormungandr-lib { inherit rust-packages; };
+  jormungandrLib = commonLib.pkgsStable.callPackage ./jormungandr-lib { inherit rust-packages; };
 
   nix-tools = rec {
     # Programs for generating nix haskell package sets from cabal and
@@ -178,10 +179,10 @@ let
 
   rust-packages = rec {
     overlays = [
-      (commonLib.pkgsDefault.callPackage ./overlays/rust/mozilla.nix {})
+      (commonLib.pkgsStable.callPackage ./overlays/rust/mozilla.nix {})
       (import ./overlays/rust)
     ];
-    pkgs = import sources.nixpkgs {
+    pkgs = import sources.nixpkgs-stable {
       inherit overlays;
       config = globalConfig // config;
       inherit system crossSystem;
