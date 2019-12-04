@@ -83,5 +83,6 @@ fix (self: mappedPkgs // {
     ]) ++ usedJormungandrVersions;
   });
 } // {
+  inherit (packageSet) choco snapcraft snapReviewTools;
   skeleton = skeletonJobset;
 })
