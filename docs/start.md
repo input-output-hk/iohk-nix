@@ -196,7 +196,7 @@ in
 
 Setup niv (nix dependencies manager) with
 ```
-nix-shell https://github.com/input-output-hk/iohk-nix/blob/master.tar.gz -A shell --run "niv init"
+nix-shell https://github.com/input-output-hk/iohk-nix/archive/master.tar.gz -A shell --run "niv init"
 ```
 
 And add a minimal `shell.nix`:
