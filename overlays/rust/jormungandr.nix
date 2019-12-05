@@ -15,9 +15,6 @@
 , callPackage
 , ... }:
 let
-  inherit (import ../../. { }) jormungandrLib;
-  inherit (jormungandrLib) versions;
-
   fetchSrc = { name, rev, sha256 }:
     fetchFromGitHub {
       owner = "input-output-hk";
@@ -80,9 +77,4 @@ let
 
 in {
   inherit makeJormungandr makeJcli;
-
-  jormungandr = makeJormungandr versions.release;
-  jcli = makeJcli versions.release;
-  jormungandr-master = makeJormungandr versions.master;
-  jcli-master = makeJcli versions.master;
 }

@@ -3,6 +3,14 @@ let
   versions = rec {
     release = v0_7_0;
 
+    master = {
+      name = "jormungandr-master";
+      version = "master";
+      rev = "ca98a23c315cac6a11a15f3f5f79d2cff54a102c";
+      sha256 = "1zvwkj85d2w2pcynhck3g17jdqas61wc7a3r6basn64wwsn0wv61";
+      cargoSha256 = "14v7v9rl04yajwxh7qcpzjnc3swmpdbmjqw7arnms8cbdfbqc9q6";
+    };
+
     v0_7_0 = {
       version = "0.7.0";
       sha256 = "0hhbn383z3j06llx887qpx7gmxyy7r1n2m79kx0hshhyd90w7rcs";
@@ -81,12 +89,10 @@ let
       cargoSha256 = "0ji05pclqicsip3s810l1vp4yhn1p8na5vbd6wxap92yw9z792f5";
     };
 
-    master = {
-      name = "jormungandr-master";
-      version = "master";
-      rev = "ca98a23c315cac6a11a15f3f5f79d2cff54a102c";
-      sha256 = "1zvwkj85d2w2pcynhck3g17jdqas61wc7a3r6basn64wwsn0wv61";
-      cargoSha256 = "14v7v9rl04yajwxh7qcpzjnc3swmpdbmjqw7arnms8cbdfbqc9q6";
+    v0_8_0-rc8 = {
+      version = "0.8.0-rc8";
+      sha256 = "1qjxk367k22hdznfi0g3z5lxh8wqj8728jqcz7by58bjgkyfkbkv";
+      cargoSha256 = "14n96hyb75wycqpzv1sv1qlxqykligr3zyvaa4a804hhk3grpjn7";
     };
   };
 
@@ -293,7 +299,7 @@ let
     };
 
     nightly = {
-      packages = packages.v0_8_0-rc7;
+      packages = packages.v0_8_0-rc8;
       genesisHash = "c8a1b4b8cd3b6a6c39adba11f62c34230b37b388f5a8edfe8cd73e7b8f811f48";
       genesisFile = ./genesis-nightly.yaml;
       syncTolerance = "300s";
