@@ -226,37 +226,37 @@ let
   environments = {
     itn_rewards_v1 = {
       packages = packages.v0_8_0-rc8;
-      genesisHash = "0f9d564199ad7f71af3daaff4b6997cb7f2e3d7c422fa29097f5d6a018c440d1";
+      genesisHash = "27957c40f800ad08dfb2adea4a214a2992afcd145f3e2c7d6f02f134aa3e6e15";
       genesisFile = ./genesis-mock.yaml;
       syncTolerance = "600s";
       trustedPeers = [
         {
-         address = "/ip4/54.183.206.246/tcp/3000";
-         id = "67282e0bf1dcdf5e4559c85b057de122ba7a248f16ac5226";
+          address = "/ip4/52.9.132.248/tcp/3000";
+          id = "671a9e7a5c739532668511bea823f0f5c5557c99b813456c";
         }
         {
-          address = "/ip4/52.8.126.235/tcp/3000";
-          id = "75534bbbb7dddfeee3783ae5e7983c28349209138351c278";
+          address = "/ip4/52.8.15.52/tcp/3000";
+          id = "18bf81a75e5b15a49b843a66f61602e14d4261fb5595b5f5";
         }
         {
-          address = "/ip4/3.113.195.95/tcp/3000";
-          id = "617ff3920bac9e90faec3adc5d32c2937cbb6b8528b1b22d";
+          address = "/ip4/13.114.196.228/tcp/3000";
+          id = "7e1020c2e2107a849a8353876d047085f475c9bc646e42e9";
         }
         {
-          address = "/ip4/18.176.14.159/tcp/3000";
-          id = "55f82104122f4d5101ae549935943071c8c646f1bd62cd0b";
+          address = "/ip4/13.112.181.42/tcp/3000";
+          id = "52762c49a84699d43c96fdfe6de18079fb2512077d6aa5bc";
         }
         {
-          address = "/ip4/3.124.166.70/tcp/3000";
-          id = "96a84a81a74715c7fb29d906ddff32b2874aac4d14acc7db";
+          address = "/ip4/3.125.75.156/tcp/3000";
+          id = "22fb117f9f72f38b21bca5c0f069766c0d4327925d967791";
         }
         {
-          address = "/ip4/3.125.15.153/tcp/3000";
-          id = "97fd215d7e294b5943960056af1e1a0316c3593a4aa3cb76";
+          address = "/ip4/52.28.91.178/tcp/3000";
+          id = "23b3ca09c644fe8098f64c24d75d9f79c8e058642e63a28c";
         }
         {
-          address = "/ip4/3.124.103.156/tcp/3000";
-          id = "173ca3b1198816989c585785a8c912fea3c5ec14895eaa6b";
+          address = "/ip4/3.124.116.145/tcp/3000";
+          id = "99cb10f53185fbef110472d45a36082905ee12df8a049b74";
         }
       ];
     };
