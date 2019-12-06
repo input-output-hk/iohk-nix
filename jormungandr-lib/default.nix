@@ -98,7 +98,7 @@ let
     v0_8_0-rc9 = {
       version = "0.8.0-rc9";
       sha256 = "1j6ji5pan5agjj6j22374j4dgajk4wl0g9i1s0mp73969rg0587f";
-      cargoSha256 = "14n96hyb75wycqpzv1sv1qlxqykligr3zyvaa4a804hhk3grpjn7";
+      cargoSha256 = "0000000000000000000000000000000000000000000000000000";
     };
   };
 
