@@ -232,7 +232,7 @@ let
   environments = {
     itn_rewards_v1 = {
       packages = packages.master;
-      genesisHash = "509920da5d0135f8c754ec0d70dcd14967af020950609e2a05d9b4705e35e89d";
+      genesisHash = "ee5d5c3ca7ed0b32bbb380e5c7a63c91ca43153ca23acc7e9dc55495fe635f0b";
       genesisFile = ./genesis-mock.yaml;
       syncTolerance = "600s";
       trustedPeers = [
