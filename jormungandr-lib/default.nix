@@ -94,6 +94,12 @@ let
       sha256 = "1qjxk367k22hdznfi0g3z5lxh8wqj8728jqcz7by58bjgkyfkbkv";
       cargoSha256 = "14n96hyb75wycqpzv1sv1qlxqykligr3zyvaa4a804hhk3grpjn7";
     };
+
+    v0_8_0-rc9 = {
+      version = "0.8.0-rc9";
+      sha256 = "1j6ji5pan5agjj6j22374j4dgajk4wl0g9i1s0mp73969rg0587f";
+      cargoSha256 = "14n96hyb75wycqpzv1sv1qlxqykligr3zyvaa4a804hhk3grpjn7";
+    };
   };
 
   inherit (rust-packages.pkgs) makeJormungandr makeJcli;
@@ -299,7 +305,7 @@ let
     };
 
     nightly = {
-      packages = packages.v0_8_0-rc8;
+      packages = packages.v0_8_0-rc9;
       genesisHash = "c8a1b4b8cd3b6a6c39adba11f62c34230b37b388f5a8edfe8cd73e7b8f811f48";
       genesisFile = ./genesis-nightly.yaml;
       syncTolerance = "300s";
