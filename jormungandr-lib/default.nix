@@ -95,10 +95,10 @@ let
       cargoSha256 = "14n96hyb75wycqpzv1sv1qlxqykligr3zyvaa4a804hhk3grpjn7";
     };
 
-    v0_8_0-rc9 = {
-      version = "0.8.0-rc9";
-      sha256 = "1j6ji5pan5agjj6j22374j4dgajk4wl0g9i1s0mp73969rg0587f";
-      cargoSha256 = "0000000000000000000000000000000000000000000000000000";
+    v0_8_0-rc9_1 = {
+      version = "0.8.0-rc9+1";
+      sha256 = "0msaj4hl93h0q5ay3w1dmkjmvw0lvwmfpd9hcxc17ldf6jq4f85n";
+      cargoSha256 = "14n96hyb75wycqpzv1sv1qlxqykligr3zyvaa4a804hhk3grpjn7";
     };
   };
 
@@ -231,7 +231,7 @@ let
 
   environments = {
     itn_rewards_v1 = {
-      packages = packages.master;
+      packages = packages.v0_8_0-rc9_1;
       genesisHash = "ee5d5c3ca7ed0b32bbb380e5c7a63c91ca43153ca23acc7e9dc55495fe635f0b";
       genesisFile = ./genesis-mock.yaml;
       syncTolerance = "600s";
@@ -305,7 +305,7 @@ let
     };
 
     nightly = {
-      packages = packages.master;
+      packages = packages.v0_8_0-rc9_1;
       genesisHash = "20dbeb9e3ed3063efa7391f55ea23e0638b5cb8ca4f6260e724b6c0c87b1e1ee";
       genesisFile = ./genesis-nightly.yaml;
       syncTolerance = "300s";
