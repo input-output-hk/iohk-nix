@@ -231,7 +231,7 @@ let
 
   environments = {
     itn_rewards_v1 = {
-      packages = packages.v0_8_0-rc9;
+      packages = packages.master;
       genesisHash = "509920da5d0135f8c754ec0d70dcd14967af020950609e2a05d9b4705e35e89d";
       genesisFile = ./genesis-mock.yaml;
       syncTolerance = "600s";
