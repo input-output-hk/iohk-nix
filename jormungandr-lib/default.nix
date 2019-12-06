@@ -6,9 +6,9 @@ let
     master = {
       name = "jormungandr-master";
       version = "master";
-      rev = "ca98a23c315cac6a11a15f3f5f79d2cff54a102c";
-      sha256 = "1zvwkj85d2w2pcynhck3g17jdqas61wc7a3r6basn64wwsn0wv61";
-      cargoSha256 = "14v7v9rl04yajwxh7qcpzjnc3swmpdbmjqw7arnms8cbdfbqc9q6";
+      rev = "cb753fd49f415a05afa91d7e36f9a61fdda62ec9";
+      sha256 = "0asjazx29732n1j3mabylpd39j34z2mij170ygdy1xx88nr8hv1b";
+      cargoSha256 = "14n96hyb75wycqpzv1sv1qlxqykligr3zyvaa4a804hhk3grpjn7";
     };
 
     v0_7_0 = {
@@ -92,6 +92,12 @@ let
     v0_8_0-rc8 = {
       version = "0.8.0-rc8";
       sha256 = "1qjxk367k22hdznfi0g3z5lxh8wqj8728jqcz7by58bjgkyfkbkv";
+      cargoSha256 = "14n96hyb75wycqpzv1sv1qlxqykligr3zyvaa4a804hhk3grpjn7";
+    };
+
+    v0_8_0-rc9_1 = {
+      version = "0.8.0-rc9+1";
+      sha256 = "0msaj4hl93h0q5ay3w1dmkjmvw0lvwmfpd9hcxc17ldf6jq4f85n";
       cargoSha256 = "14n96hyb75wycqpzv1sv1qlxqykligr3zyvaa4a804hhk3grpjn7";
     };
   };
@@ -225,8 +231,8 @@ let
 
   environments = {
     itn_rewards_v1 = {
-      packages = packages.v0_8_0-rc8;
-      genesisHash = "509920da5d0135f8c754ec0d70dcd14967af020950609e2a05d9b4705e35e89d";
+      packages = packages.v0_8_0-rc9_1;
+      genesisHash = "ee5d5c3ca7ed0b32bbb380e5c7a63c91ca43153ca23acc7e9dc55495fe635f0b";
       genesisFile = ./genesis-mock.yaml;
       syncTolerance = "600s";
       trustedPeers = [
@@ -299,8 +305,8 @@ let
     };
 
     nightly = {
-      packages = packages.v0_8_0-rc8;
-      genesisHash = "c8a1b4b8cd3b6a6c39adba11f62c34230b37b388f5a8edfe8cd73e7b8f811f48";
+      packages = packages.v0_8_0-rc9_1;
+      genesisHash = "20dbeb9e3ed3063efa7391f55ea23e0638b5cb8ca4f6260e724b6c0c87b1e1ee";
       genesisFile = ./genesis-nightly.yaml;
       syncTolerance = "300s";
       trustedPeers = [
