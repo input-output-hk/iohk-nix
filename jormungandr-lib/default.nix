@@ -342,8 +342,8 @@ let
     };
 
     qa = {
-      packages = packages.v0_8_0-rc7;
-      genesisHash = "5164722b25d3db530eb66262f2746292a23b48831b60c864dfc0efa4ff023359";
+      packages = packages.v0_8_0-rc9_1;
+      genesisHash = "5bf5fb9c61f360d530af0fd3cacc8632b78ac18e907a3f5f7deac590ee074c67";
       genesisFile = ./genesis-qa.yaml;
       syncTolerance = "300s";
       trustedPeers = [
