@@ -342,7 +342,7 @@ let
     };
 
     qa = {
-      packages = packages.v0_8_0-rc7;
+      packages = packages.v0_8_0-rc9_1;
       genesisHash = "5164722b25d3db530eb66262f2746292a23b48831b60c864dfc0efa4ff023359";
       genesisFile = ./genesis-qa.yaml;
       syncTolerance = "300s";
