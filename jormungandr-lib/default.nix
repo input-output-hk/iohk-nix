@@ -343,7 +343,7 @@ let
 
     qa = {
       packages = packages.v0_8_0-rc9_1;
-      genesisHash = "5bf5fb9c61f360d530af0fd3cacc8632b78ac18e907a3f5f7deac590ee074c67";
+      genesisHash = "f01b46af145e0285c28503c87efd10bf57fa4a1e12d143f9a510421c60340b8a";
       genesisFile = ./genesis-qa.yaml;
       syncTolerance = "300s";
       trustedPeers = [
