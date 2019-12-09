@@ -100,6 +100,12 @@ let
       sha256 = "0msaj4hl93h0q5ay3w1dmkjmvw0lvwmfpd9hcxc17ldf6jq4f85n";
       cargoSha256 = "14n96hyb75wycqpzv1sv1qlxqykligr3zyvaa4a804hhk3grpjn7";
     };
+
+    v0_8_0-rc10 = {
+      version = "0.8.0-rc10";
+      sha256 = "0r8990fqwi8jihjdzvknyif3k7mmg21rs6jbaqmn12r21irlv2zw";
+      cargoSha256 = "0vkn8a84f2dnr7p3jlif4lmrnz4w8y1dy0908kxvacvmdi72vfd5";
+    };
   };
 
   inherit (rust-packages.pkgs) makeJormungandr makeJcli;
@@ -231,7 +237,7 @@ let
 
   environments = {
     itn_rewards_v1 = {
-      packages = packages.v0_8_0-rc9_1;
+      packages = packages.v0_8_0-rc10;
       genesisHash = "ee5d5c3ca7ed0b32bbb380e5c7a63c91ca43153ca23acc7e9dc55495fe635f0b";
       genesisFile = ./genesis-mock.yaml;
       syncTolerance = "600s";
@@ -305,7 +311,7 @@ let
     };
 
     nightly = {
-      packages = packages.v0_8_0-rc9_1;
+      packages = packages.v0_8_0-rc10;
       genesisHash = "65a9b15f82619fffd5a7571fdbf973a18480e9acf1d2fddeb606ebb53ecca839";
       genesisFile = ./genesis-nightly.yaml;
       syncTolerance = "300s";
@@ -342,7 +348,7 @@ let
     };
 
     qa = {
-      packages = packages.v0_8_0-rc9_1;
+      packages = packages.v0_8_0-rc10;
       genesisHash = "5bf5fb9c61f360d530af0fd3cacc8632b78ac18e907a3f5f7deac590ee074c67";
       genesisFile = ./genesis-qa.yaml;
       syncTolerance = "300s";
