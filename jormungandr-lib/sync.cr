@@ -1,5 +1,5 @@
 #!/usr/bin/env nix-shell
-# !nix-shell -p nix-prefetch-github crystal -i crystal
+#!nix-shell -p nix-prefetch-github crystal -i crystal
 
 require "json"
 require "http/client"

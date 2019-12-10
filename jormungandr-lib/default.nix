@@ -217,7 +217,7 @@ let
     };
 
     nightly = {
-      packages = packages.v0_8_0-rc10;
+      packages = packages.v0_8_0-rc11;
       genesisHash = "65a9b15f82619fffd5a7571fdbf973a18480e9acf1d2fddeb606ebb53ecca839";
       genesisFile = ./genesis-nightly.yaml;
       syncTolerance = "300s";
@@ -254,8 +254,8 @@ let
     };
 
     qa = {
-      packages = packages.v0_8_0-rc10;
-      genesisHash = "5bf5fb9c61f360d530af0fd3cacc8632b78ac18e907a3f5f7deac590ee074c67";
+      packages = packages.v0_8_0-rc11;
+      genesisHash = "eb7e3169b6440c94962e495f2b6d6ae54799890e1d55bd04a526012c92bcb7d2";
       genesisFile = ./genesis-qa.yaml;
       syncTolerance = "300s";
       trustedPeers = [
