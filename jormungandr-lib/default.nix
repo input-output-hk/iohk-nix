@@ -1,8 +1,8 @@
 {lib, writeText, runCommand, jq, rust-packages }:
 let
-  versions = rec {
-    release = v0_7_0;
+  calculatedVersions = ( __fromJSON (__readFile ./versions.json) );
 
+  versions =  calculatedVersions.versions // {
     master = {
       name = "jormungandr-master";
       version = "master";
@@ -11,101 +11,7 @@ let
       cargoSha256 = "14n96hyb75wycqpzv1sv1qlxqykligr3zyvaa4a804hhk3grpjn7";
     };
 
-    v0_7_0 = {
-      version = "0.7.0";
-      sha256 = "0hhbn383z3j06llx887qpx7gmxyy7r1n2m79kx0hshhyd90w7rcs";
-      cargoSha256 = "0fqpm0a1824dirb3f5d4yw7vb8xrpj03n6gxw7rlfjbhy025spqh";
-    };
-
-    v0_7_1 = {
-      version = "0.7.1";
-      sha256 = "1qc8wrmddggfw1b4qyv03z7zimnkjl0qi91zaz53w2ghmfqkli25";
-      cargoSha256 = "14v7v9rl04yajwxh7qcpzjnc3swmpdbmjqw7arnms8cbdfbqc9q6";
-    };
-
-    v0_7_2 = {
-      version = "0.7.2";
-      sha256 = "0h75yf7ma4vj0c276qn12pb9rmwgqgx29k4nf828vaackzpwpby7";
-      cargoSha256 = "14v7v9rl04yajwxh7qcpzjnc3swmpdbmjqw7arnms8cbdfbqc9q6";
-    };
-
-    v0_7_3 = {
-      version = "0.7.3";
-      sha256 = "1k71lnxvxsnkr8z7qf7sgpmzmm4ck1bhxswri374jch45b5dc09m";
-      cargoSha256 = "14v7v9rl04yajwxh7qcpzjnc3swmpdbmjqw7arnms8cbdfbqc9q6";
-    };
-
-    v0_7_4 = {
-      version = "0.7.4";
-      sha256 = "0ih99p0rx65pvdn9hvv5y8p46h9m1zs8f7wwh23w8zz0r7jicbmf";
-      cargoSha256 = "14v7v9rl04yajwxh7qcpzjnc3swmpdbmjqw7arnms8cbdfbqc9q6";
-    };
-
-    v0_7_5 = {
-      version = "0.7.5";
-      sha256 = "0x1f046z5nkp1q0pdc3xfrvnc7rxswjch16xrw4rdi5kkd6p65bj";
-      cargoSha256 = "14v7v9rl04yajwxh7qcpzjnc3swmpdbmjqw7arnms8cbdfbqc9q6";
-    };
-
-    v0_8_0-rc1 = {
-      version = "0.8.0-rc1";
-      sha256 = "1ingf3hp35b762l0n22yaicyyrql6sqsn0qs11wbb3qifa2s1lvb";
-      cargoSha256 = "14v7v9rl04yajwxh7qcpzjnc3swmpdbmjqw7arnms8cbdfbqc9q6";
-    };
-
-    v0_8_0-rc2 = {
-      version = "0.8.0-rc2";
-      sha256 = "1b8vkh5yzql39a2lkzf72v3pzshwf3kx9xqr1ka2p58hr5a82dl1";
-      cargoSha256 = "14v7v9rl04yajwxh7qcpzjnc3swmpdbmjqw7arnms8cbdfbqc9q6";
-    };
-
-    v0_8_0-rc3 = {
-      version = "0.8.0-rc3";
-      sha256 = "0csqd60hz9vixvyp1rracz18lvjkspsm9r0df7sxs5inp1f3x8mk";
-      cargoSha256 = "14v7v9rl04yajwxh7qcpzjnc3swmpdbmjqw7arnms8cbdfbqc9q6";
-    };
-
-    v0_8_0-rc4 = {
-      version = "0.8.0-rc4";
-      sha256 = "0jm4mflmjmxc3p25js3n80w1x744bh5nb1c13bd25hk88xhyz2dn";
-      cargoSha256 = "14v7v9rl04yajwxh7qcpzjnc3swmpdbmjqw7arnms8cbdfbqc9q6";
-    };
-
-    v0_8_0-rc5 = {
-      version = "0.8.0-rc5";
-      sha256 = "0mji7m5rb72xq84marfh1cqmfdznfg6zwf6gwnfx7m5ifi1sxfvd";
-      cargoSha256 = "0ji05pclqicsip3s810l1vp4yhn1p8na5vbd6wxap92yw9z792f5";
-    };
-
-    v0_8_0-rc6 = {
-      version = "0.8.0-rc6";
-      sha256 = "1q4s4d1h9wak6yr6rgndgyfp2j7xssjjdzgxdqnm5741fgfniqzf";
-      cargoSha256 = "0ji05pclqicsip3s810l1vp4yhn1p8na5vbd6wxap92yw9z792f5";
-    };
-
-    v0_8_0-rc7 = {
-      version = "0.8.0-rc7";
-      sha256 = "0n31kpzw6213llqbhh1mx7bbdki12k14pmh17rsrys2ijj71hhaz";
-      cargoSha256 = "0ji05pclqicsip3s810l1vp4yhn1p8na5vbd6wxap92yw9z792f5";
-    };
-
-    v0_8_0-rc8 = {
-      version = "0.8.0-rc8";
-      sha256 = "1qjxk367k22hdznfi0g3z5lxh8wqj8728jqcz7by58bjgkyfkbkv";
-      cargoSha256 = "14n96hyb75wycqpzv1sv1qlxqykligr3zyvaa4a804hhk3grpjn7";
-    };
-
-    v0_8_0-rc9_1 = {
-      version = "0.8.0-rc9+1";
-      sha256 = "0msaj4hl93h0q5ay3w1dmkjmvw0lvwmfpd9hcxc17ldf6jq4f85n";
-      cargoSha256 = "14n96hyb75wycqpzv1sv1qlxqykligr3zyvaa4a804hhk3grpjn7";
-    };
-
-    v0_8_0-rc10 = {
-      version = "0.8.0-rc10";
-      sha256 = "0r8990fqwi8jihjdzvknyif3k7mmg21rs6jbaqmn12r21irlv2zw";
-      cargoSha256 = "0vkn8a84f2dnr7p3jlif4lmrnz4w8y1dy0908kxvacvmdi72vfd5";
-    };
+    release = calculatedVersions.v0_7_0;
   };
 
   inherit (rust-packages.pkgs) makeJormungandr makeJcli;
@@ -390,5 +296,6 @@ let
     environments;
 
 in {
-  inherit environments forEnvironments mkConfig mkConfigHydra versions packages mkConfigHtml;
+  inherit environments forEnvironments mkConfig mkConfigHydra versions packages
+          mkConfigHtml makeJormungandr makeJcli;
 }
