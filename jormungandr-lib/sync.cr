@@ -5,9 +5,14 @@ require "json"
 require "http/client"
 
 class JormungandrVersions
-  EMPTY_HASH = "0000000000000000000000000000000000000000000000000000"
+  EMPTY_HASH    = "0000000000000000000000000000000000000000000000000000"
+  VERSIONS_FILE = "jormungandr-lib/versions.json"
 
   JSON.mapping(versions: Hash(String, Version))
+
+  def self.update!
+    from_json(File.read(VERSIONS_FILE)).update!
+  end
 
   class Version
     JSON.mapping(version: String, sha256: String, cargoSha256: String)
@@ -67,12 +72,12 @@ class JormungandrVersions
 
       version.calculate_sha256 do
         versions[release.nix_version] = version
-        File.write("jormungandr-lib/versions.json", self.to_pretty_json)
+        persist!
       end
 
       version.calculate_cargoSha256 do
         versions[release.nix_version] = version
-        File.write("jormungandr-lib/versions.json", self.to_pretty_json)
+        persist!
       end
     end
   end
@@ -80,19 +85,19 @@ class JormungandrVersions
   # TODO: use parallel execution
   def calculate_sha256_sums
     versions.values.each do |version|
-      if version.calculate_sha256
-        File.write("jormungandr-lib/versions.json", self.to_pretty_json)
-      end
+      persist! if version.calculate_sha256
     end
   end
 
   # TODO: use parallel execution
   def calculate_cargoSha256_sums
     versions.values.each do |version|
-      if version.calculate_cargoSha256
-        File.write("jormungandr-lib/versions.json", self.to_pretty_json)
-      end
+      persist! if version.calculate_cargoSha256
     end
+  end
+
+  def persist!
+    File.write(VERSIONS_FILE, self.to_pretty_json)
   end
 end
 
@@ -106,7 +111,7 @@ class GithubRelease
   end
 end
 
-JormungandrVersions.from_json(File.read("jormungandr-lib/versions.json")).update!
+JormungandrVersions.update!
 
 puts "Updated all versions"
 puts "Now you can update your network configuration with the correct version."
