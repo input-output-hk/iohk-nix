@@ -181,8 +181,8 @@ let
     };
 
     legacy = {
-      packages = packages.v0_8_0-rc11;
-      genesisHash = "1af5cb158d365591b5ad1dbbd62e95c06d377a42cf435064e17433a82da48072";
+      packages = packages.v0_8_0;
+      genesisHash = "e03547a7effaf05021b40dd762d5c4cf944b991144f1ad507ef792ae54603197";
       genesisFile = ./genesis-legacy.yaml;
       registryUrl = "https://explorer.legacy.jormungandr-testnet.iohkdev.io/stakepool-registry/registry.zip";
       syncTolerance = "600s";

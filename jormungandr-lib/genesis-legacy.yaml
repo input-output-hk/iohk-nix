@@ -12,20 +12,25 @@
       "ratio": "1/10",
       "fixed": 0
     },
-    "block0_date": 1576091950,
+    "block0_date": 1576099158,
     "slot_duration": 2,
     "block_content_max_size": 1024000,
     "fees_go_to": "treasury",
     "slots_per_epoch": 900,
     "treasury": 0,
     "linear_fees": {
+      "per_certificate_fees": {
+        "certificate_pool_registration": 500000000,
+        "certificate_stake_delegation": 400000,
+        "certificate_owner_stake_delegation": null
+      },
       "coefficient": 100000,
       "certificate": 10000,
       "constant": 200000
     },
     "consensus_leader_ids": [
-      "ed25519_pk1wj4f8qvzpe09es4lfpq59xsdn87n45q3t3990afltxj0s305anpsngau7t",
-      "ed25519_pk1pf8c5r9yu2llt2txueljm6dzesekgam23gdszchrxrhxdk67e3xqvrjf6y"
+      "ed25519_pk1pp4uamnatvg9k70awyz8g29a4czn3hcx0ke3v296vje3f5ua9y8sd90k74",
+      "ed25519_pk1zc8warjvap6yakla9ltn5h0rwvzhqqlnntksc0mqe60r60du05rstl989w"
     ],
     "kes_update_speed": 86400,
     "consensus_genesis_praos_active_slot_coeff": 0.1,
@@ -228,6 +233,10 @@
         {
           "value": 25000000000000,
           "address": "DdzFFzCqrht4UcZbuLrmFymJwqEYyUUoi7NBrPpCs2CaLBYYtEZ5xbEa84fnzhKu8Ba7hnMexffV7iYz5aaE1Bhfg6HNrDPjqe3WaHp2"
+        },
+        {
+          "value": 25000000000000,
+          "address": "DdzFFzCqrhspzgcyDa9DfHaLnZbtjoNfhoLeKT7GTC5bDNHL7yfo5HksaCgzMX8tXvKWM8EW6y9pMYjXHwDbUWSmLP81fNSTdCaMkPtw"
         }
       ]
     },
