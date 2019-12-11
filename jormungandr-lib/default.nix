@@ -180,6 +180,44 @@ let
       ];
     };
 
+    legacy = {
+      packages = packages.v0_8_0-rc11;
+      genesisHash = "1af5cb158d365591b5ad1dbbd62e95c06d377a42cf435064e17433a82da48072";
+      genesisFile = ./genesis-legacy.yaml;
+      registryUrl = "https://explorer.legacy.jormungandr-testnet.iohkdev.io/stakepool-registry/registry.zip";
+      syncTolerance = "600s";
+      trustedPeers = [
+        {
+          address = "/ip4/52.53.93.103/tcp/3000";
+          id = "870a99ebe6256027826126ee75154c3bf61e934dc41ed703";
+        }
+        {
+          address = "/ip4/13.52.188.244/tcp/3000";
+          id = "d3d1dded6debbeded6bd3868274372123224a9fd85bf4ae3";
+        }
+        {
+          address = "/ip4/54.177.223.67/tcp/3000";
+          id = "784cc7f338360cf7ae4b4dedb2bda4e14c0838f32bfc239a";
+        }
+        {
+          address = "/ip4/18.177.133.253/tcp/3000";
+          id = "617956ec4fb8fb32fd8a39905c00975bef2200224584ad18";
+        }
+        {
+          address = "/ip4/3.115.248.77/tcp/3000";
+          id = "10619985ed6a15ebc69709e93f51012fbdc02c3d40e20893";
+        }
+        {
+          address = "/ip4/3.122.157.137/tcp/3000";
+          id = "97c5d5ead8b5b3ebf20801c628e580f943369b95d5a6d08a";
+        }
+        {
+          address = "/ip4/3.123.220.150/tcp/3000";
+          id = "b84f32e051f2ba6aecc64aa84909ef3307949c8ee7bd2cf3";
+        }
+      ];
+    };
+
     beta = {
       packages = packages.v0_7_0;
       genesisHash = "27668e95121566df0bb2e2c11c5fd95dfe59efd570f8f592235ecff167ca3f29";
