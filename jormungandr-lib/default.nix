@@ -146,6 +146,7 @@ let
       packages = packages.v0_8_0-rc10;
       genesisHash = "ee5d5c3ca7ed0b32bbb380e5c7a63c91ca43153ca23acc7e9dc55495fe635f0b";
       genesisFile = ./genesis-mock.yaml;
+      registryUrl = "https://github.com/cardano-foundation/incentivized-testnet-stake-pool-registry/archive/master.zip";
       syncTolerance = "600s";
       trustedPeers = [
         {
@@ -183,6 +184,7 @@ let
       packages = packages.v0_7_0;
       genesisHash = "27668e95121566df0bb2e2c11c5fd95dfe59efd570f8f592235ecff167ca3f29";
       genesisFile = ./genesis-beta.yaml;
+      registryUrl = "https://explorer.beta.jormungandr-testnet.iohkdev.io/stakepool-registry/registry.zip";
       syncTolerance = "300s";
       trustedPeers = [
         {
@@ -220,6 +222,7 @@ let
       packages = packages.v0_8_0-rc11;
       genesisHash = "65a9b15f82619fffd5a7571fdbf973a18480e9acf1d2fddeb606ebb53ecca839";
       genesisFile = ./genesis-nightly.yaml;
+      registryUrl = "https://github.com/input-output-hk/testnet-stakepool-registry/archive/master.zip";
       syncTolerance = "300s";
       trustedPeers = [
         {
@@ -257,6 +260,7 @@ let
       packages = packages.v0_8_0-rc11;
       genesisHash = "eb7e3169b6440c94962e495f2b6d6ae54799890e1d55bd04a526012c92bcb7d2";
       genesisFile = ./genesis-qa.yaml;
+      registryUrl = "https://explorer.qa.jormungandr-testnet.iohkdev.io/stakepool-registry/registry.zip";
       syncTolerance = "300s";
       trustedPeers = [
         {
