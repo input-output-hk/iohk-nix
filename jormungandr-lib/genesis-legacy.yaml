@@ -1,0 +1,271 @@
+{
+  "blockchain_configuration": {
+    "reward_parameters": {
+      "linear": {
+        "epoch_rate": 1,
+        "epoch_start": 1,
+        "ratio": "0/1",
+        "constant": 3835616440000
+      }
+    },
+    "treasury_parameters": {
+      "ratio": "1/10",
+      "fixed": 0
+    },
+    "block0_date": 1576091950,
+    "slot_duration": 2,
+    "block_content_max_size": 1024000,
+    "fees_go_to": "treasury",
+    "slots_per_epoch": 900,
+    "treasury": 0,
+    "linear_fees": {
+      "coefficient": 100000,
+      "certificate": 10000,
+      "constant": 200000
+    },
+    "consensus_leader_ids": [
+      "ed25519_pk1wj4f8qvzpe09es4lfpq59xsdn87n45q3t3990afltxj0s305anpsngau7t",
+      "ed25519_pk1pf8c5r9yu2llt2txueljm6dzesekgam23gdszchrxrhxdk67e3xqvrjf6y"
+    ],
+    "kes_update_speed": 86400,
+    "consensus_genesis_praos_active_slot_coeff": 0.1,
+    "total_reward_supply": 701917808520000,
+    "block0_consensus": "genesis_praos",
+    "discrimination": "test",
+    "epoch_stability_depth": 10
+  },
+  "initial": [
+    {
+      "fund": [
+        {
+          "value": 1,
+          "address": "ca1s4drdw5mxdsayr4z3ddckwxne7vr9tg5tchrhud3t4gdlt6w8r5h580ltvv"
+        },
+        {
+          "value": 1,
+          "address": "ca1sh982kxwr6aynfqaav0r64dh29zj3ffr4jedxetu5xyzpmc7kckxwpugcdj"
+        },
+        {
+          "value": 1,
+          "address": "ca1s4xalrf4nzu62rhysxc7dvp4ktt457eurgvxu9hpegpwgx4kppr4xer785d"
+        },
+        {
+          "value": 1,
+          "address": "ca1s50u972yaerngzts2jsx7d297hjsg3d78uj6uys78x0qedcq6v8s73ddard"
+        },
+        {
+          "value": 1,
+          "address": "ca1s5uuhyca7pmqm8waf9wsuz6xmwxay30q7l24nufke24nqkja2l93uaj75kz"
+        },
+        {
+          "value": 1,
+          "address": "ca1shdlecqkpjfn4gf58zdthas0tsev73tu3fnqqggl0ca26spf86l56xunwlp"
+        }
+      ]
+    },
+    {
+      "legacy_fund": [
+        {
+          "value": 500000000000000,
+          "address": "2w1sdSJu3GVfKR1y9xurYuzt6eJJ9Sebt8VtJqiQJgJVwPTHgs1AnsohEUUwVmx1r3ZcQPVtNz3K4wDV3pc68HYz9Sn3VEHbRmQ"
+        },
+        {
+          "value": 500000000000000,
+          "address": "2w1sdSJu3GViJVWDZb11EJcf2QAEsE1UHqwkaTCu3Xi4vXKZD3Mdut8AdnX6k4L6Ax2voxhd3L1Gk8C6en5Sm96Birgzm2m6cZm"
+        },
+        {
+          "value": 25000000000000,
+          "address": "2w1sdSJu3GVhFy8dRXtQx8FG3DiCph25SLjnde5BTKrECbB4hjzQHfXRtGs2STenXy9rgsUVVE3p7TA8ejA7WQLRqTBz3iZH6B9"
+        },
+        {
+          "value": 25000000000000,
+          "address": "2w1sdSJu3GVhVdQ3a59QppJdZHCdT1LTcXoNzocht5BKXRwj24dCtghsyD4vHTkaRNNAHw2NpKyNRjTN5dUaPixbsTWAVAwqiDv"
+        },
+        {
+          "value": 25000000000000,
+          "address": "2w1sdSJu3GVeRiMfhERf4dCu1HVxHR2r6LvjJkFEyBuitwLyVTaue1VxY2Q3NnGGy1ffPsnaLYgd2vSWS9RrYPL4s1EPoFYPgHH"
+        },
+        {
+          "value": 25000000000000,
+          "address": "DdzFFzCqrhtAZjMiBUGHhK16uSF3Zf1YTJKmUJAiPx5DiZs8jwqtetsXUEkUdAuZACUyHtYAW91MX3GMwWRk7YCuYtqJntKXHCpHQL4a"
+        },
+        {
+          "value": 25000000000000,
+          "address": "2w1sdSJu3GVeuuY9W1Mf6D1xUUfMrMe1nwKxWt8AFKUGGHV349QRLvQNZFwdRyiWmRrPcVqYGubRkZVQwyD1SR1npgNvTa9tyYx"
+        },
+        {
+          "value": 25000000000000,
+          "address": "DdzFFzCqrhtCWeg6PywoAR8wrza9DawkU2KgQddh7oi43LZy1kbZgZYK2hakgtXZu8Q7ptnhFjgV3ZgRgSypFhwtK9paG3ui17PiVUmB"
+        },
+        {
+          "value": 25000000000000,
+          "address": "DdzFFzCqrhsoip4B4BZzRT4rVab9u8x7jyUWmNF63UAVUS671RQaKB2zquDK2FwfCKrrTQ2ZDX2gMTQxoSz6xAWYGxySMCAL7CyEXEWC"
+        },
+        {
+          "value": 25000000000000,
+          "address": "DdzFFzCqrhsq8uMsszGRuzho2kQUMBdPCF5ZGBYqcH6MK34WgkYPhF4feMjFWCofcjhoW4ccNFJFQ1sPaQChma6NJD1uiVQR6wY2PFUy"
+        },
+        {
+          "value": 25000000000000,
+          "address": "DdzFFzCqrhsj7AEaDTt9KTKFSzP3DvMNmYb29CVHukYCgXeCuysPKaMp9wPE21bsZLp4tQajgo86V8WLGHzESAMTxkzmuLRoaP3YDoMa"
+        },
+        {
+          "value": 25000000000000,
+          "address": "Ae2tdPwUPEZGiUExztwe7em8yKbasWR7fb46fm8yPxZctyYAPV5Fc6wpGwY"
+        },
+        {
+          "value": 25000000000000,
+          "address": "DdzFFzCqrhskfzbJsyYZzkJjjWMYJUKeE3q9B3sfboL2RHkx4KjPawBoWauevBQnUzyvgEZfSir4z8Nxf8HmGdPHhmeBSJ34dttxGyCS"
+        },
+        {
+          "value": 25000000000000,
+          "address": "DdzFFzCqrhssutyA2q4DdBxNyx5kWzeJ6TKX3UF1MPWXvRFGrr6nZ3gu8tHdfUftt5rq7cPZXZ8TH7dvxwY9ZFZQYdkLtKNnf5SXbH5u"
+        },
+        {
+          "value": 25000000000000,
+          "address": "DdzFFzCqrhshvg2Q3TnXv4rRMkrYQxeCp9wVCvRw46NvC7v5iH7vRfXvGFn2AS6mfh3w1cuT9jmpdXp5LTpxroeWtLYrWbiG2gARJQSR"
+        },
+        {
+          "value": 25000000000000,
+          "address": "DdzFFzCqrhsqsfGv1wTU1iycdpEfsFPLs8dvE3TBbSrXQ38Pop2A6BALYVqxu6Gb66ZCf8kAR4Nm2mvHTDLgsQXhh8sEjh4b9XwuxMeC"
+        },
+        {
+          "value": 25000000000000,
+          "address": "DdzFFzCqrhtC5HBksij49oAbcndoT1MKkLT3cWnGf7uUtNm1hPbsYS2H4HuHVDp8FnAFSBHo6eSE2kQTF74ew2VhrwVNZ441bE7cJqNY"
+        },
+        {
+          "value": 25000000000000,
+          "address": "DdzFFzCqrhsgvB9VpBmQQgwZMtxfXpTbnvi6wj3w6LVnsUi7ETtFbn2Yr18EKRNguP7S8YHKwDPMHHdNCJf6vxSd474Awq6FZb5xaTKA"
+        },
+        {
+          "value": 25000000000000,
+          "address": "DdzFFzCqrhsu4uSoqCP5L8xTNKV2Tw5sNUZm4PKwGv5Qk5txYbXXJCKKW1RSdriBy4QwgXaWeq5sY9QjktT6BjtgPp3tEQsTf8PKETTC"
+        },
+        {
+          "value": 25000000000000,
+          "address": "Ae2tdPwUPEYw3rz8KGHbnTusd9QWQ8ePhogEWkm1agugTtW51skA59DrKe8"
+        },
+        {
+          "value": 25000000000000,
+          "address": "DdzFFzCqrht6KNtLvVdU3Q4Wkznj7htnYBEkkVx1QibX6LUYBVyaJgXxGENPE7mdom5EGMp3m453jAigYGWSUuZNhq5ef4Tx881DPV4S"
+        },
+        {
+          "value": 25000000000000,
+          "address": "Ae2tdPwUPEZ1uPQNb4dNrXQdxxjVjwNPceyFvmBuhmbx52vmnR2otHhKNGn"
+        },
+        {
+          "value": 25000000000000,
+          "address": "DdzFFzCqrhsu4uSoqCP5L8xTNKV2Tw5sNUZm4PKwGv5Qk5txYbXXJCKKW1RSdriBy4QwgXaWeq5sY9QjktT6BjtgPp3tEQsTf8PKETTC"
+        },
+        {
+          "value": 25000000000000,
+          "address": "DdzFFzCqrhsdzdJZjw5LiScJtWhPYjeLFSeBPCj6iKNYgJwDppsQZGMPixc26yWwhnAf5CgwiLNfHsjccUTAHhjwtLXBVtSUAnAgKUHT"
+        },
+        {
+          "value": 25000000000000,
+          "address": "DdzFFzCqrht9Qj3FefrpkeP2y84NMNJTx6x4h7sZ1NBTJjjzCUEo8iwM9LtrvgGMVsJ83bn12huopCveUD72Lj3biQC5Ni73xrTQ9moX"
+        },
+        {
+          "value": 25000000000000,
+          "address": "DdzFFzCqrht9uW98NkitQYsAatp6xgzBp5hgVR5wvUHRRJpaR5Nmq77a6qHVyHozUJXaa8yf9tJR5vCaadXKwpg4R5F7GUou3gU6bSAu"
+        },
+        {
+          "value": 25000000000000,
+          "address": "DdzFFzCqrhsxhkudZezWjTDFpasvhASnVakDXnVy7yiieNT97akyjEtAyoBEdsej2svfhGHuqXvM9LLEHx9GuLBWuoNF2P8E71s6LSQa"
+        },
+        {
+          "value": 25000000000000,
+          "address": "DdzFFzCqrhsgN148z1GUHDGTWBor65kkdLzLBn9eUfkRBBY2Kg5qcPYVYUeWU1RB4mKk4F2ShT8Gc7pPM46NjrwRMD5jXEVfFSyNxpbL"
+        },
+        {
+          "value": 25000000000000,
+          "address": "DdzFFzCqrhsySXcvRpVATZco2yyaQBoDckbf9VMwE1Uftc1csGModayMgRsmtJeV37zLGMsbvAme24pv56nuqPo2xyNYZd1ukDRpRx2m"
+        },
+        {
+          "value": 25000000000000,
+          "address": "DdzFFzCqrht9pcAmGr8E4Lk9QA1UsoPS4WnYneW5V6tcVFxvFXadJac53G4A8J8VqqF8RCUbFtjfyuSB47hpikGM41qvGHH6xoR7tdus"
+        },
+        {
+          "value": 25000000000000,
+          "address": "DdzFFzCqrhshKFUZs2ndoHsmdfiTmzgaRVtwHfx1GeHAXbjCGzrx5TJSvgk7pXu7cvNXAp8DCWNvst45No4UGbsJEFnZixhJSdosk3bd"
+        },
+        {
+          "value": 25000000000000,
+          "address": "DdzFFzCqrhsgaYBNK2XccfqnZeVNGnuwFmDnnjQoKnHPgBBRMKnMMQagHDcPg4XhAu8Wea9JNPeeFBpR1wBmYBEWoUQgx1qH3HWMKa55"
+        },
+        {
+          "value": 25000000000000,
+          "address": "DdzFFzCqrhsgLw2Po6vDQSx3tcXUjhBLqW4He18nf4xtyJKXFHa4v9WYkA1TkCmHpnmWyoFpQHmTHLc33TaogqHfc52Kx7cG1UyUdMLC"
+        },
+        {
+          "value": 25000000000000,
+          "address": "DdzFFzCqrhsuMmzgHfCLFjPa2Dkowx8xGKHqjZv79JKsB8TZpq5y5SnWZro1SMCrcd8pVhHQ1q4ev6SA9bhamyrh6GqcDcKa5iKsob4H"
+        },
+        {
+          "value": 25000000000000,
+          "address": "DdzFFzCqrhtAjtxH7CtTV8SAU4EGYdt8cPnDt582QeWLJU8GwtJHNzk9ksDhz66LcZLrsA8zoKk5d77CLY7rWZ9WZFyQzGYw7nYFnUPi"
+        },
+        {
+          "value": 25000000000000,
+          "address": "DdzFFzCqrhsidXcWsndrtJc3zL6yHtZQ21ibU8iFRYaacEnn8DT9AJ6NExmcpv8rQGEj97GpXpVYikZs3gcpsp4KTKKGzF8rzuHx6K84"
+        },
+        {
+          "value": 25000000000000,
+          "address": "DdzFFzCqrhsz4WA6TDzRHjwp1EKNbEYH3XTVtzRMmma8rjFvq2Uieij2j2YVKmEvXuxP2hZfGNvnV8gyRjtvjtL5sQRMjwoELVi576z8"
+        },
+        {
+          "value": 25000000000000,
+          "address": "Ae2tdPwUPEZ13TbCDMQsfyAHPbbxCaB1V3qgAAVZRU8EC4zeqe3MvuhnWQT"
+        },
+        {
+          "value": 25000000000000,
+          "address": "DdzFFzCqrhsg72hf4sARqduZmqz1F23iqu73xxCawhCaLCtGZXg9EGpLjk3UdoeGXoPHCCw4WfEKux93u6SL9SdPaXNTPrUnYgt6jTNW"
+        },
+        {
+          "value": 25000000000000,
+          "address": "DdzFFzCqrhsytzLXcKmi1ckPJjKyiwQUc2vB17y4jDRNoAcxU13ZpLo1zWJ4BrXpeTSu9z3pX8k4dmt5FGfVd7WNGz2MveaCAM7JRTJy"
+        },
+        {
+          "value": 25000000000000,
+          "address": "DdzFFzCqrht4UcZbuLrmFymJwqEYyUUoi7NBrPpCs2CaLBYYtEZ5xbEa84fnzhKu8Ba7hnMexffV7iYz5aaE1Bhfg6HNrDPjqe3WaHp2"
+        }
+      ]
+    },
+    {
+      "cert": "signedcert1qvqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqrzhdk7pnfclf50q2rv4yh7t7ru883lzeekrn3f4n09qtxlwyzrfj2ckdj0h8efu2sprvuaqgx2cyrttdauxh4tc60ymyhe7sl9s46rgszk3kh2dnxcwjp63gkkut8rfulxpj4529ut3m7xc465xl4a8r36t6qqqqqqqqqqqqqqqqqqqqqqqqqpjqqqqqqqqqqqryqqqqqqqqqqqqqqqpqpr5v3x5z7gxy44q3u7fph7jlz55h77zqafhpvlshqxdvq6xx9mvmax4x4q532a87gytg2h0wlhud456tfs6mufv6j7vu7wxelg635grrw9w2m"
+    },
+    {
+      "cert": "signedcert1qvqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqrerj9cjcpm9eqlhr4a74fx2u05cjgahcpnttzya5dsnmnvptkwjn6lzl7mpxapdp4uz5atdcld9nnh0vkk8c2p53tf08fwnjrs7lf42srjn4tr8pawjf5sw7k83a2km4z3fg5536evknv472rzpqau0tvtr8qqqqqqqqqqqqqqqqqqqqqqqqqpjqqqqqqqqqqqryqqqqqqqqqqqqqqqpqpz2adtzn5phk6x2f3ftp4hdwug6y9lucn4vaquygahspsjq06z0c6cgh74pdwckrz2q6d0lza89nmm6ynw39x973hlsd4t0amgrkqc0ekt93v"
+    },
+    {
+      "cert": "signedcert1qvqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqzykkv054k2kwag9ehm4wk0slwn85d39q322ru0hhnhx09vv0lcsn5ram9ufavy0g92rlpwtvzelpnjax6kcn2p4vqa253lsdy8yzy87qznwl356e3wd9pmjgrv0xkq6m94660v7p5xrwzmsu5qhyr2mqs36nqqqqqqqqqqqqqqqqqqqqqqqqqqyqqqqqqqqqqqryqqqqqqqqqqqqqqqpqzd43udtfcdywjlgku9338trpkyv964wjh00rysvflcrzh3aj4tsgkunvr47guflv0svyufl3tyu73wvv70tvl7qxrxwfkzdtry4w2cfqdusw7"
+    },
+    {
+      "cert": "signedcert1qvqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqze4fe3nhxfhv373plsjfjg7j487frzxceweadfk77vzu7xqqudq864atalfcqqun289r0hs5vncytrzc93fa2p8weg8l77shukp0dwhsz87zl9zwu3e5p9c9fgr0x4zltegygklr7fdwzg0rn8svkuqdxrc0qqqqqqqqqqqqqqqqqqqqqqqqqq9qqqqqqqqqqqryqqqqqqqqqqqqqqqpqpjph6vxu86a2ynfnw7zznyqsa0hdv2csucxfjdzum93ee5eavmwduy93775cux47e5qyc4gysqm74mcsm9faerv7axym8rdsuyvpqqp5nlrsy"
+    },
+    {
+      "cert": "signedcert1qvqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqzr5x70tn60yx6u732q3vckcjpztenpmjn0mpfvpk6n98cjxj9lzdeuyunt7flu9vvjjng2hv85w8xmt32nla74e543xpx2dyeltzj3zszwwtjvwlqasdnhw5jhgwpdrdhrwjghs0042e7ymv42estfw40jc7qqqqqqqqqqqqqqqqqqqqqqqqqqxqqqqqqqqqqqryqqqqqqqqqqqqqqqpqpdexmj5zu5nkkrglp6h277e2p7mnkcr02jy7jpkxky6602kw69wcrf5w8v0ajreqwr2etht5hun0gf798djr7qlpsfpmj3wavmmhlgvl4yt7l"
+    },
+    {
+      "cert": "signedcert1qvqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqzq32u5l3ddtr3f609sgrzhmkgy48u4hckule5zkq26dumkdg4vg6pfpspfwff25aw8ecmf84f2rrqvh9vdjk5ekjnlahtvtuj08r0zasrkluuqtqeye65y6r3x4m7c84cvk0g47g5esqyy0huw4dgq5na06dqqqqqqqqqqqqqqqqqqqqqqqqqqgqqqqqqqqqqqryqqqqqqqqqqqqqqqpqryzelsqp50yhk99j4cjstm4qj25h3ny67rg2985x76atcpjfw2zrw972xlneygwr7ny0xthytvvfy9x554tlmptvw4at02565hqweqglg33qc"
+    },
+    {
+      "cert": "signedcert1q9drdw5mxdsayr4z3ddckwxne7vr9tg5tchrhud3t4gdlt6w8r5h5qvjp0xqr2s6nsng2fpwpza7jm9fhxlrrlerw3g386kt6haam9zn3qqsljn3fvw23fn5qpnn6afpdauffet0j8ur4y7x2cfld8clerlpsnr75lh4s6y27y3cpmkv6tf34r9s7tel838ztzcuzvp8tlsf5aaapvau50yx"
+    },
+    {
+      "cert": "signedcert1q8982kxwr6aynfqaav0r64dh29zj3ffr4jedxetu5xyzpmc7kckxwq0j42l0p2slqdpwdrey07cg3795380nnxfytr4ulpd8t03c3x8ezvqsvj48hqhntcvzvnqxxtqgkejqvxn8m8ulcaslq7mhj836rj4jxj999dfgrmctd67ysf5yu9ld5dx5lyk0j8fm7ldsr07em8yksn3cqvup9dww"
+    },
+    {
+      "cert": "signedcert1q9xalrf4nzu62rhysxc7dvp4ktt457eurgvxu9hpegpwgx4kppr4xqt4vewacwvhfw2x8cslg75fqv29d469e4f9dfjnydyks3fkfyxwwyqk50rg879a9t0fprpv5vf4ql690lunpdefzh60mxnrj7aczmmummjqywzqw40kkul6la0w7h4ucd7gu4lrny6lx5uq673d7cag3ac9p50fx6aa"
+    },
+    {
+      "cert": "signedcert1qy0u972yaerngzts2jsx7d297hjsg3d78uj6uys78x0qedcq6v8s7qfzrq4ls0vyqvf7wg3mh7zhxg6xdxws35mjfa376eh404pfzqu7eqqud5ftepkjg6crenn3myq48v2f9grj2dwhr3zrx84e9ekz95lnsnf0gjmdu380q37tgwxywluhsm3a727p0k7yjtuq6yhtal8aasmnpcwj7s3p"
+    },
+    {
+      "cert": "signedcert1qyuuhyca7pmqm8waf9wsuz6xmwxay30q7l24nufke24nqkja2l93uq25cmtmwqjqvvaytwjs8qxsf7xz590slst4sq9ypy0dzy23t8xq9yq5z2794mmsmpnqt9el55fdwqgmz78hvl4e63ppsx0m8cf49d78s83x9qzj42t6t32s96wwheq8nn9v59hur3lgg90q456yqcqfnlkcqcg930ra"
+    },
+    {
+      "cert": "signedcert1q8dlecqkpjfn4gf58zdthas0tsev73tu3fnqqggl0ca26spf86l56qgrz08eml2p0z93jgmap0ktestad0hwxqf0gswnlhugt094le9lhyqnw4akgw5pknxwst46e6jl736j86jx9zn5sfqv74w2ls2l7p9636pkp4uqq0mpxdgkgm5wpsnlex4087kayxf5gwtw6xpq5nyxde7uqu9vy66p"
+    }
+  ]
+}
