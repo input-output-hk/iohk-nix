@@ -295,8 +295,8 @@ let
     };
 
     qa = {
-      packages = packages.v0_8_0-rc11;
-      genesisHash = "eb7e3169b6440c94962e495f2b6d6ae54799890e1d55bd04a526012c92bcb7d2";
+      packages = packages.v0_8_0;
+      genesisHash = "c3480bc20fbd03a3937449b21b6b743eb5741e067fad6539f7666b093224fef1";
       genesisFile = ./genesis-qa.yaml;
       registryUrl = "https://explorer.qa.jormungandr-testnet.iohkdev.io/stakepool-registry/registry.zip";
       syncTolerance = "300s";

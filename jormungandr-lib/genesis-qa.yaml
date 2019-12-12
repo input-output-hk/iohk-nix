@@ -12,9 +12,10 @@
       "ratio": "1/10",
       "fixed": 0
     },
-    "block0_date": 1575995993,
+    "block0_date": 1576150196,
     "slot_duration": 2,
     "block_content_max_size": 1024000,
+    "fees_go_to": "treasury",
     "slots_per_epoch": 750,
     "treasury": 0,
     "linear_fees": {
@@ -23,12 +24,19 @@
       "constant": 200000
     },
     "consensus_leader_ids": [
-      "ed25519_pk18p4lfazfqy40zl2xdhlqxx5k5awyzt4ajt9ku7tgagjcjq84zcdqz304zm",
-      "ed25519_pk1at86uxu34kt4eg42ss80uxz9ehdsc4zqftnqg24hphefgy2ns69q875j2l"
+      "ed25519_pk10pz6q44ae05rx8rvya3qpghptlv667l86qw2rwc6vlvj2yjlprcq3dmtnz",
+      "ed25519_pk18rqvu4tt9n86twhdq7dnsvy3ty4nqdm2xfyw92rlhx9lxgnu5h4qs3g3l9"
     ],
     "kes_update_speed": 86400,
     "consensus_genesis_praos_active_slot_coeff": 0.1,
     "total_reward_supply": 701917808520000,
+    "reward_constraints": {
+      "pool_participation_capping": {
+        "max": 100,
+        "min": 100
+      },
+      "reward_drawing_limit_max": "15/100"
+    },
     "block0_consensus": "genesis_praos",
     "discrimination": "test",
     "epoch_stability_depth": 10
