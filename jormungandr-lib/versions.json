@@ -164,6 +164,11 @@
       "version": "0.8.1",
       "sha256": "0405h7mgqi0rgl2zh7pbx2g0h1rfvjbvi4kk3is1rnz4rgra2rmv",
       "cargoSha256": "1fppg1av71gzxzbmbi8zg2zma2zdzfqyxsgpribc455jm74g7pys"
+    },
+    "v0_8_2": {
+      "version": "0.8.2",
+      "sha256": "1y6brh47mqlrscp2cvy0lizyj85nia0ixz0xaxds4p96vx2n4s89",
+      "cargoSha256": "1fppg1av71gzxzbmbi8zg2zma2zdzfqyxsgpribc455jm74g7pys"
     }
   }
 }
