@@ -66,7 +66,7 @@ in
 fix (self: mappedPkgs // {
   inherit (commonLib) check-hydra;
   inherit jormungandrConfigs;
-  jormungandr-deployment = jormungandrLib.mkConfigHtml { inherit (jormungandrLib.environments) beta nightly legacy; };
+  jormungandr-deployment = jormungandrLib.mkConfigHtml { inherit (jormungandrLib.environments) itn_rewards_v1 beta nightly legacy; };
 
   forceNewEval = pkgs.writeText "forceNewEval" iohk-nix.rev;
   required = pkgs.lib.hydraJob (pkgs.releaseTools.aggregate {
