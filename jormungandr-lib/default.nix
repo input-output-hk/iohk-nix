@@ -11,7 +11,7 @@ let
       cargoSha256 = "14n96hyb75wycqpzv1sv1qlxqykligr3zyvaa4a804hhk3grpjn7";
     };
 
-    release = calculatedVersions.v0_7_0;
+    release = calculatedVersions.v0_8_2;
   };
 
   inherit (rust-packages.pkgs) makeJormungandr makeJcli;
@@ -143,8 +143,8 @@ let
 
   environments = {
     itn_rewards_v1 = {
-      packages = packages.v0_8_0-rc10;
-      genesisHash = "ee5d5c3ca7ed0b32bbb380e5c7a63c91ca43153ca23acc7e9dc55495fe635f0b";
+      packages = packages.v0_8_2;
+      genesisHash = "8e4d2a343f3dcf9330ad9035b3e8d168e6728904262f2c434a4f8f934ec7b676";
       genesisFile = ./genesis-mock.yaml;
       registryUrl = "https://github.com/cardano-foundation/incentivized-testnet-stake-pool-registry/archive/master.zip";
       syncTolerance = "600s";
