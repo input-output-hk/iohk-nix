@@ -12,20 +12,25 @@
       "ratio": "1/10",
       "fixed": 0
     },
-    "block0_date": 1576150196,
+    "block0_date": 1576234895,
     "slot_duration": 2,
     "block_content_max_size": 1024000,
     "fees_go_to": "treasury",
     "slots_per_epoch": 750,
     "treasury": 0,
     "linear_fees": {
+      "per_certificate_fees": {
+        "certificate_pool_registration": 500000000,
+        "certificate_stake_delegation": 400000,
+        "certificate_owner_stake_delegation": null
+      },
       "coefficient": 100000,
       "certificate": 10000,
       "constant": 200000
     },
     "consensus_leader_ids": [
-      "ed25519_pk10pz6q44ae05rx8rvya3qpghptlv667l86qw2rwc6vlvj2yjlprcq3dmtnz",
-      "ed25519_pk18rqvu4tt9n86twhdq7dnsvy3ty4nqdm2xfyw92rlhx9lxgnu5h4qs3g3l9"
+      "ed25519_pk12q442ewj2clmpesqgt5k53nrh9zur3vjfae7d7ve9psy2efnwcnqmqy473",
+      "ed25519_pk1mev6hvhwvq95a3086qqt6sdhtslkq6p20kdvneascxgy4r3needqa0djhj"
     ],
     "kes_update_speed": 86400,
     "consensus_genesis_praos_active_slot_coeff": 0.1,
@@ -35,7 +40,7 @@
         "max": 100,
         "min": 100
       },
-      "reward_drawing_limit_max": "15/100"
+      "reward_drawing_limit_max": "4109589/10000000000"
     },
     "block0_consensus": "genesis_praos",
     "discrimination": "test",

@@ -258,7 +258,7 @@ let
 
     nightly = {
       packages = packages.v0_8_1;
-      genesisHash = "65a9b15f82619fffd5a7571fdbf973a18480e9acf1d2fddeb606ebb53ecca839";
+      genesisHash = "9409af111b04896c756c1cee3b7f9bae8b9ed1843c9e0a5f07d92ab9b62f6f78";
       genesisFile = ./genesis-nightly.yaml;
       registryUrl = "https://github.com/input-output-hk/testnet-stakepool-registry/archive/master.zip";
       syncTolerance = "300s";
@@ -296,7 +296,7 @@ let
 
     qa = {
       packages = packages.v0_8_1;
-      genesisHash = "c3480bc20fbd03a3937449b21b6b743eb5741e067fad6539f7666b093224fef1";
+      genesisHash = "b5ada4577e10513240a5457490bd855c350b378fcd762d4354b443ba49b42dda";
       genesisFile = ./genesis-qa.yaml;
       registryUrl = "https://explorer.qa.jormungandr-testnet.iohkdev.io/stakepool-registry/registry.zip";
       syncTolerance = "300s";
