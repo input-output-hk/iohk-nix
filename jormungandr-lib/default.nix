@@ -146,7 +146,7 @@ let
       packages = packages.v0_8_2;
       genesisHash = "8e4d2a343f3dcf9330ad9035b3e8d168e6728904262f2c434a4f8f934ec7b676";
       genesisFile = ./genesis-mock.yaml;
-      registryUrl = "https://github.com/cardano-foundation/incentivized-testnet-stake-pool-registry/archive/master.zip";
+      registryUrl = "https://github.com/cardano-foundation/incentivized-testnet-stake-poolregistry/archive/master.zip";
       syncTolerance = "600s";
       trustedPeers = [
         {
