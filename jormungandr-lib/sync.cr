@@ -1,8 +1,9 @@
 #!/usr/bin/env nix-shell
-#!nix-shell -p nix-prefetch-github crystal -i crystal
+#!nix-shell -p rsync crystal -i crystal
 
-require "json"
+require "file_utils"
 require "http/client"
+require "json"
 
 class JormungandrVersions
   EMPTY_HASH    = "0000000000000000000000000000000000000000000000000000"
@@ -12,6 +13,7 @@ class JormungandrVersions
 
   def self.update!
     from_json(File.read(VERSIONS_FILE)).update!
+    puts "Updated all versions in #{VERSIONS_FILE}"
   end
 
   class Version
@@ -111,20 +113,104 @@ class GithubRelease
   end
 end
 
+class JormungandrSynchronization
+  NETWORKS = {
+    "qa" => {
+      server: "testnet-deployer",
+      dir:    "jormungandr-qa",
+    },
+    "nightly" => {
+      server: "testnet-deployer",
+      dir:    "jormungandr-nightly",
+    },
+    "itn_rewards_v1" => {
+      server: "mainnet-deployer",
+      dir:    "jormungandr-incentivized",
+    },
+    "legacy" => {
+      server: "testnet-deployer",
+      dir:    "jormungandr-legacy",
+    },
+    "beta" => {
+      server: "testnet-deployer",
+      dir:    "jormungandr-beta",
+    },
+  }
+
+  def self.sync!
+    chan = Channel(Nil).new
+
+    NETWORKS.each do |name, settings|
+      puts "Synchronizing #{name} ..."
+      spawn do
+        new.sync(name, **settings)
+        chan.send nil
+      end
+    end
+
+    NETWORKS.size.times { chan.receive }
+  end
+
+  def sync(name, server, dir)
+    unless sync_genesis_hash(name, server, dir)
+      puts "#{name} is already synchronized"
+      return
+    end
+
+    server_genesis = "#{server}:#{dir}/static/genesis.yaml"
+    local_genesis = "jormungandr-lib/genesis-#{name}.yaml"
+    bak = "#{local_genesis}.rsync.bak"
+
+    if File.file?(local_genesis)
+      FileUtils.cp local_genesis, bak
+    end
+
+    system(%(rsync -P #{server_genesis} #{bak}))
+
+    if File.size(bak) / (1024.0 ** 2) > 1
+      puts "truncating #{bak} genesis for because it's larger than 1 megabyte"
+
+      File.open(bak, "r") do |in_io|
+        content = Hash(String, JSON::Any).from_json(in_io)
+        content["initial"] = JSON::Any.new(Array(JSON::Any).new)
+        File.write(local_genesis, content.to_pretty_json)
+      end
+    else
+      FileUtils.mv bak, local_genesis
+    end
+  end
+
+  def sync_genesis_hash(name, server, dir)
+    file = `nix eval --raw '((import ./. {}).jormungandrLib.environments.#{name}.genesisFile)'`.strip
+    hash = `nix eval --raw '((import ./. {}).jormungandrLib.environments.#{name}.genesisHash)'`.strip
+
+    cmd = "cd #{dir}; direnv exec . jcli genesis hash < static/block-0.bin"
+    stdout, stderr = IO::Memory.new, IO::Memory.new
+    process = Process.run("ssh", [server, cmd], error: stderr, output: stdout)
+
+    unless process.success?
+      puts "couldn't update hash for #{name}:"
+      puts stderr.to_s
+      return false
+    end
+
+    current_hash = stdout.to_s.strip
+
+    if hash != current_hash
+      old_default = File.read("jormungandr-lib/default.nix")
+      File.write("jormungandr-lib/default.nix", old_default.gsub(hash, current_hash))
+      return true
+    end
+
+    false
+  end
+end
+
 JormungandrVersions.update!
 
-puts "Updated all versions"
-puts "Now you can update your network configuration with the correct version."
-puts "Hit return when you want to continue, so I can fetch the new genesis (QA and Nightly only atm)"
+puts "Now you can update your deployer with the correct version."
+puts "Hit return to continue fetching the genesis from the deployers."
 
 gets
 
-%w[qa nightly].each do |cluster|
-  puts "Synchronizing with #{cluster}"
-  system(%(scp testnet-deployer:jormungandr-#{cluster}/static/genesis.yaml jormungandr-lib/genesis-#{cluster}.yaml))
-  puts "Gensis hash for #{cluster}:"
-  system(%(ssh testnet-deployer "cd jormungandr-#{cluster}; direnv exec . jcli genesis hash < static/block-0.bin"))
-end
-
-puts "All done"
-puts "please update the genesis hash in jormungandr-lib/default.nix manually, I'm not smart enough to do that yet."
+JormungandrSynchronization.sync!

@@ -1,0 +1,50 @@
+{
+  "blockchain_configuration": {
+    "reward_parameters": {
+      "linear": {
+        "epoch_rate": 1,
+        "epoch_start": 1,
+        "ratio": "0/1",
+        "constant": 3835616440000
+      }
+    },
+    "treasury_parameters": {
+      "ratio": "1/10",
+      "fixed": 0
+    },
+    "block0_date": 1576264417,
+    "slot_duration": 2,
+    "block_content_max_size": 1024000,
+    "fees_go_to": "treasury",
+    "slots_per_epoch": 43200,
+    "treasury": 0,
+    "linear_fees": {
+      "per_certificate_fees": {
+        "certificate_pool_registration": 500000000,
+        "certificate_stake_delegation": 400000,
+        "certificate_owner_stake_delegation": null
+      },
+      "coefficient": 100000,
+      "certificate": 10000,
+      "constant": 200000
+    },
+    "consensus_leader_ids": [
+      "ed25519_pk14ya2jjezjpg3wed96f94le5gmd4xtv0a3j63kqd5thar5cjk4k6qckq07z",
+      "ed25519_pk1pzth90w8aqx5e4885hfq6sm44mqh537zs0guwnu6gsr7jvq85ngsp674y8"
+    ],
+    "kes_update_speed": 86400,
+    "consensus_genesis_praos_active_slot_coeff": 0.1,
+    "total_reward_supply": 701917808520000,
+    "reward_constraints": {
+      "pool_participation_capping": {
+        "max": 100,
+        "min": 100
+      },
+      "reward_drawing_limit_max": "4109589/10000000000"
+    },
+    "block0_consensus": "genesis_praos",
+    "discrimination": "test",
+    "epoch_stability_depth": 10
+  },
+  "initial": []
+}
