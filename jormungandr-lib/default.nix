@@ -143,7 +143,7 @@ let
 
   environments = {
     itn_rewards_v1 = {
-      packages = packages.v0_8_4;
+      packages = packages.v0_8_3;
       genesisHash = "8e4d2a343f3dcf9330ad9035b3e8d168e6728904262f2c434a4f8f934ec7b676";
       genesisFile = ./genesis-itn_rewards_v1.yaml;
       registryUrl = "https://github.com/cardano-foundation/incentivized-testnet-stake-poolregistry/archive/master.zip";
