@@ -32,11 +32,22 @@ let
         name = "${name}-source";
         inherit rev sha256;
       };
+      mioPatchBranch = __fetchurl {
+        url = "https://github.com/johnalotoski/mio/archive/dc85965607deb3e3fdb3ad2d61e55eb3f5a05b90.tar.gz";
+        sha256 = "0j2j5kqfkpl5wr5jzl2hwpi34vdxmwsdg9mfsd2nkx5a1rnmq3i5";
+      };
       inherit cargoSha256;
       nativeBuildInputs = [ pkgconfig ];
       buildInputs = [ sqlite protobuf openssl ]
         ++ lib.optional stdenv.isDarwin Security
         ++ lib.optional stdenv.isLinux systemd;
+      prePatch = ''
+        mkdir -p ../mio
+        tar --directory ../mio --strip-components=1 -zxvf ${mioPatchBranch}
+      '';
+      cargoPatches = [
+        ./patches/somaxconn.patch
+      ];
       preBuild = "cd jormungandr";
       preInstall = "cd ..";
       cargoBuildFlags = ["--features \"gelf"] ++ lib.optional stdenv.isLinux "systemd" ++ ["\""];
