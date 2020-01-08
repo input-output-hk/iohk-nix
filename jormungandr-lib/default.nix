@@ -11,7 +11,7 @@ let
       cargoSha256 = "1z6cm4v1lc5z8yx90cvqav98x6mm4wim2yckyxkasb7s29spvh6x";
     };
 
-    release = calculatedVersions.v0_8_2;
+    release = calculatedVersions.v0_8_5;
   };
 
   inherit (rust-packages.pkgs) makeJormungandr makeJcli;
@@ -143,7 +143,7 @@ let
 
   environments = {
     itn_rewards_v1 = {
-      packages = packages.v0_8_3;
+      packages = packages.v0_8_5;
       genesisHash = "8e4d2a343f3dcf9330ad9035b3e8d168e6728904262f2c434a4f8f934ec7b676";
       genesisFile = ./genesis-itn_rewards_v1.yaml;
       registryUrl = "https://github.com/cardano-foundation/incentivized-testnet-stake-poolregistry/archive/master.zip";
@@ -341,7 +341,7 @@ let
     };
 
     qa = {
-      packages = packages.v0_8_5-alpha1;
+      packages = packages.v0_8_5;
       genesisHash = "b5ada4577e10513240a5457490bd855c350b378fcd762d4354b443ba49b42dda";
       genesisFile = ./genesis-qa.yaml;
       registryUrl = "https://explorer.qa.jormungandr-testnet.iohkdev.io/stakepool-registry/registry.zip";
