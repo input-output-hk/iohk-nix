@@ -128,16 +128,13 @@
       "#messagecounters.monitoring" = {
          subtrace = "NoTrace";
       };
+      "cardano.node-metrics" = {
+         subtrace = "NoTrace";
+      };
     };
     mapBackends = {
       "cardano.node.metrics.ChainDB" = [
          "EKGViewBK"
-         {
-            kind = "EKGViewBK";
-            name = "LiveViewBackend";
-         }
-      ];
-      "cardano.node.metrics" = [
          {
             kind = "EKGViewBK";
             name = "LiveViewBackend";

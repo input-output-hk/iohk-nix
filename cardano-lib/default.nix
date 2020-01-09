@@ -31,6 +31,7 @@ let
 
   defaultLogConfig = import ./generic-log-config.nix;
   defaultExplorerLogConfig = import ./explorer-log-config.nix;
+  defaultProxyLogConfig = import ./proxy-log-config.nix;
 
   mkProxyTopology = relay: writeText "proxy-topology-file" ''
     wallet:
@@ -147,5 +148,5 @@ let
   cardanoConfig = ./.;
 
 in {
-  inherit environments forEnvironments forEnvironmentsCustom mkEdgeTopology mkProxyTopology cardanoConfig defaultLogConfig defaultExplorerLogConfig;
+  inherit environments forEnvironments forEnvironmentsCustom mkEdgeTopology mkProxyTopology cardanoConfig defaultLogConfig defaultExplorerLogConfig defaultProxyLogConfig;
 }
