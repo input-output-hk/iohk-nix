@@ -61,97 +61,43 @@
     };
     mapSubtrace = {
       benchmark = {
+        subtrace = "ObservableTrace";
         contents = [
           "GhcRtsStats"
           "MonotonicClock"
         ];
-        subtrace = "ObservableTrace";
       };
       "#ekgview" = {
+        subtrace = "FilterTrace";
         contents = [
-          [
-            {
-              tag = "Contains";
-              contents = "cardano.epoch-validation.benchmark";
-            }
-            [
-              {
-                tag = "Contains";
-                contents = ".monoclock.basic.";
-              }
-            ]
+          [{ tag = "Contains";   contents = "cardano.epoch-validation.benchmark";}
+           [{tag = "Contains";   contents = ".monoclock.basic.";}]
           ]
-          [
-            {
-              tag = "Contains";
-              contents = "cardano.epoch-validation.benchmark";
-            }
-            [
-              {
-                tag = "Contains";
-                contents = "diff.RTS.cpuNs.timed.";
-              }
-            ]
+          [{ tag = "Contains";   contents = "cardano.epoch-validation.benchmark";}
+           [{tag = "Contains";   contents = "diff.RTS.cpuNs.timed.";}]
           ]
-          [
-            {
-              tag = "StartsWith";
-              contents = "#ekgview.#aggregation.cardano.epoch-validation.benchmark";
-            }
-            [
-              {
-                tag = "Contains";
-                contents = "diff.RTS.gcNum.timed.";
-              }
-            ]
+          [{ tag = "StartsWith"; contents = "#ekgview.#aggregation.cardano.epoch-validation.benchmark";}
+           [{tag = "Contains";   contents = "diff.RTS.gcNum.timed.";}]
           ]
         ];
-        subtrace = "FilterTrace";
       };
       "cardano.epoch-validation.utxo-stats" = {
          # Change the `subtrace` value to `Neutral` in order to log
          # `UTxO`-related messages during epoch validation.
          subtrace = "NoTrace";
       };
-      "#messagecounters.aggregation" = {
-         subtrace = "NoTrace";
-      };
-      "#messagecounters.ekgview" = {
-         subtrace = "NoTrace";
-      };
-      "#messagecounters.switchboard" = {
-         subtrace = "NoTrace";
-      };
-      "#messagecounters.katip" = {
-         subtrace = "NoTrace";
-      };
-      "#messagecounters.monitoring" = {
-         subtrace = "NoTrace";
-      };
-      "cardano.node-metrics" = {
-         subtrace = "NoTrace";
-      };
+      "#messagecounters.aggregation" = {subtrace = "NoTrace";};
+      "#messagecounters.ekgview"     = {subtrace = "NoTrace";};
+      "#messagecounters.switchboard" = {subtrace = "NoTrace";};
+      "#messagecounters.katip"       = {subtrace = "NoTrace";};
+      "#messagecounters.monitoring"  = {subtrace = "NoTrace";};
+      "cardano.node-metrics"         = {subtrace = "NoTrace";};
     };
     mapBackends = {
-      "cardano.node.metrics.ChainDB" = [
-         "EKGViewBK"
-         {
-            kind = "EKGViewBK";
-            name = "LiveViewBackend";
-         }
-      ];
-      "cardano.node.BlockFetchDecision" = [
-         {
-            kind = "UserDefinedBK";
-            name = "LiveViewBackend";
-         }
-      ];
-      "cardano.node.peers.BlockFetchDecision" = [
-         {
-            kind = "UserDefinedBK";
-            name = "LiveViewBackend";
-         }
-      ];
+      "cardano.node.metrics.ChainDB"          = ["EKGViewBK"
+                                                 {kind = "UserDefinedBK"; name = "LiveViewBackend";}];
+      "cardano.node.BlockFetchDecision"       = [{kind = "UserDefinedBK"; name = "LiveViewBackend";}];
+      "cardano.node.peers.BlockFetchDecision" = [{kind = "UserDefinedBK"; name = "LiveViewBackend";}];
     };
   };
 }
