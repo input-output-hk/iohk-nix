@@ -94,10 +94,10 @@
       "cardano.node-metrics"         = {subtrace = "NoTrace";};
     };
     mapBackends = {
-      "cardano.node.metrics.ChainDB"          = ["EKGViewBK"
-                                                 {kind = "UserDefinedBK"; name = "LiveViewBackend";}];
-      "cardano.node.BlockFetchDecision"       = [{kind = "UserDefinedBK"; name = "LiveViewBackend";}];
-      "cardano.node.peers.BlockFetchDecision" = [{kind = "UserDefinedBK"; name = "LiveViewBackend";}];
+      "cardano.node.metrics" = [
+        "EKGViewBK"
+        {kind = "UserDefinedBK"; name = "LiveViewBackend";}
+      ];
     };
   };
 }
