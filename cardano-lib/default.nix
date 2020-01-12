@@ -53,7 +53,7 @@ let
       networkConfig = import ./mainnet-config.nix;
       nodeConfig = networkConfig // defaultLogConfig;
       txSubmitConfig = {
-        inherit genesisHash;
+        GenesisHash = genesisHash;
         inherit (networkConfig) RequiresNetworkMagic;
       } // defaultExplorerLogConfig;
     };
@@ -72,7 +72,7 @@ let
       networkConfig = import ./staging-config.nix;
       nodeConfig = networkConfig // defaultLogConfig;
       txSubmitConfig = {
-        inherit genesisHash;
+        GenesisHash = genesisHash;
         inherit (networkConfig) RequiresNetworkMagic;
       } // defaultExplorerLogConfig;
     };
@@ -92,7 +92,7 @@ let
       networkConfig = import ./testnet-config.nix;
       nodeConfig = networkConfig // defaultLogConfig;
       txSubmitConfig = {
-        inherit genesisHash;
+        GenesisHash = genesisHash;
         inherit (networkConfig) RequiresNetworkMagic;
       } // defaultExplorerLogConfig;
     };
@@ -111,7 +111,7 @@ let
       networkConfig = import ./shelley-staging-config.nix;
       nodeConfig = networkConfig // defaultLogConfig;
       txSubmitConfig = {
-        inherit genesisHash;
+        GenesisHash = genesisHash;
         inherit (networkConfig) RequiresNetworkMagic;
       } // defaultExplorerLogConfig;
     };
@@ -130,7 +130,7 @@ let
       networkConfig = import ./shelley-staging-short-config.nix;
       nodeConfig = networkConfig // defaultLogConfig;
       txSubmitConfig = {
-        inherit genesisHash;
+        GenesisHash = genesisHash;
         inherit (networkConfig) RequiresNetworkMagic;
       } // defaultExplorerLogConfig;
     };
