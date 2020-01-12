@@ -2,201 +2,241 @@
   "versions": {
     "v0_8_0-rc10": {
       "version": "0.8.0-rc10",
+      "rev": "73f68fc3067f640bfca81473869601f964c88add",
       "sha256": "0r8990fqwi8jihjdzvknyif3k7mmg21rs6jbaqmn12r21irlv2zw",
       "cargoSha256": "0vkn8a84f2dnr7p3jlif4lmrnz4w8y1dy0908kxvacvmdi72vfd5"
     },
     "v0_8_0-rc9_1": {
       "version": "0.8.0-rc9+1",
+      "rev": "3339987e04533af745182b4e1aefe78ba239032b",
       "sha256": "0msaj4hl93h0q5ay3w1dmkjmvw0lvwmfpd9hcxc17ldf6jq4f85n",
       "cargoSha256": "14n96hyb75wycqpzv1sv1qlxqykligr3zyvaa4a804hhk3grpjn7"
     },
     "v0_8_0-rc9": {
       "version": "0.8.0-rc9",
+      "rev": "9ffcf9f28d2aa246dbe8cfe51ce0fcbe7be6ccae",
       "sha256": "1j6ji5pan5agjj6j22374j4dgajk4wl0g9i1s0mp73969rg0587f",
       "cargoSha256": "14n96hyb75wycqpzv1sv1qlxqykligr3zyvaa4a804hhk3grpjn7"
     },
     "v0_8_0-rc8": {
       "version": "0.8.0-rc8",
+      "rev": "1c31f5aa5b1e897badfd8f36361d2b213bb40cb7",
       "sha256": "1qjxk367k22hdznfi0g3z5lxh8wqj8728jqcz7by58bjgkyfkbkv",
       "cargoSha256": "14n96hyb75wycqpzv1sv1qlxqykligr3zyvaa4a804hhk3grpjn7"
     },
     "v0_8_0-rc7": {
       "version": "0.8.0-rc7",
+      "rev": "ab32b2cd48f25250eadef57772a9d1199d711030",
       "sha256": "0n31kpzw6213llqbhh1mx7bbdki12k14pmh17rsrys2ijj71hhaz",
       "cargoSha256": "0ji05pclqicsip3s810l1vp4yhn1p8na5vbd6wxap92yw9z792f5"
     },
     "v0_8_0-rc6": {
       "version": "0.8.0-rc6",
+      "rev": "478e562103d34011753e60c90f30cad81aafc7c0",
       "sha256": "1q4s4d1h9wak6yr6rgndgyfp2j7xssjjdzgxdqnm5741fgfniqzf",
       "cargoSha256": "0ji05pclqicsip3s810l1vp4yhn1p8na5vbd6wxap92yw9z792f5"
     },
     "v0_8_0-rc5": {
       "version": "0.8.0-rc5",
+      "rev": "cecea4d3692deaeca4812a1a135f8579bfa6a95f",
       "sha256": "0mji7m5rb72xq84marfh1cqmfdznfg6zwf6gwnfx7m5ifi1sxfvd",
       "cargoSha256": "0ji05pclqicsip3s810l1vp4yhn1p8na5vbd6wxap92yw9z792f5"
     },
     "v0_8_0-rc4": {
       "version": "0.8.0-rc4",
+      "rev": "b1aa3c09c2eee2b3d2e10d0ab3b4800889c9a9a9",
       "sha256": "0jm4mflmjmxc3p25js3n80w1x744bh5nb1c13bd25hk88xhyz2dn",
       "cargoSha256": "14v7v9rl04yajwxh7qcpzjnc3swmpdbmjqw7arnms8cbdfbqc9q6"
     },
     "v0_8_0-rc3": {
       "version": "0.8.0-rc3",
+      "rev": "b88e2be2568a31d2671bf2670d0a867a3c8a1fef",
       "sha256": "0csqd60hz9vixvyp1rracz18lvjkspsm9r0df7sxs5inp1f3x8mk",
       "cargoSha256": "14v7v9rl04yajwxh7qcpzjnc3swmpdbmjqw7arnms8cbdfbqc9q6"
     },
     "v0_8_0-rc2": {
       "version": "0.8.0-rc2",
+      "rev": "f262db163d66475705b1ab080608cf98515e9632",
       "sha256": "1b8vkh5yzql39a2lkzf72v3pzshwf3kx9xqr1ka2p58hr5a82dl1",
       "cargoSha256": "14v7v9rl04yajwxh7qcpzjnc3swmpdbmjqw7arnms8cbdfbqc9q6"
     },
     "v0_8_0-rc1": {
       "version": "0.8.0-rc1",
+      "rev": "b589a109180be7d618e04f7604a006123c02d2c7",
       "sha256": "1ingf3hp35b762l0n22yaicyyrql6sqsn0qs11wbb3qifa2s1lvb",
       "cargoSha256": "14v7v9rl04yajwxh7qcpzjnc3swmpdbmjqw7arnms8cbdfbqc9q6"
     },
     "v0_7_5": {
       "version": "0.7.5",
+      "rev": "c07bbfe17a557ce833a35196f3eb22e9a9579bd3",
       "sha256": "0x1f046z5nkp1q0pdc3xfrvnc7rxswjch16xrw4rdi5kkd6p65bj",
       "cargoSha256": "14v7v9rl04yajwxh7qcpzjnc3swmpdbmjqw7arnms8cbdfbqc9q6"
     },
     "v0_7_4": {
       "version": "0.7.4",
+      "rev": "4a1463ac3ac1f9f8e4db6ae4e21a1438a827b802",
       "sha256": "0ih99p0rx65pvdn9hvv5y8p46h9m1zs8f7wwh23w8zz0r7jicbmf",
       "cargoSha256": "14v7v9rl04yajwxh7qcpzjnc3swmpdbmjqw7arnms8cbdfbqc9q6"
     },
     "v0_7_3": {
       "version": "0.7.3",
+      "rev": "383d7ad57e5cbbbfd3ba2d99fb0b73d366bc5658",
       "sha256": "1k71lnxvxsnkr8z7qf7sgpmzmm4ck1bhxswri374jch45b5dc09m",
       "cargoSha256": "14v7v9rl04yajwxh7qcpzjnc3swmpdbmjqw7arnms8cbdfbqc9q6"
     },
     "v0_7_2": {
       "version": "0.7.2",
+      "rev": "b5df0e04f30f2cce0157553a2f2a070acac09ceb",
       "sha256": "0h75yf7ma4vj0c276qn12pb9rmwgqgx29k4nf828vaackzpwpby7",
       "cargoSha256": "14v7v9rl04yajwxh7qcpzjnc3swmpdbmjqw7arnms8cbdfbqc9q6"
     },
     "v0_7_1": {
       "version": "0.7.1",
+      "rev": "c57466d5d6d6d32e13c9c729a7c5d6d73bcd0d25",
       "sha256": "1qc8wrmddggfw1b4qyv03z7zimnkjl0qi91zaz53w2ghmfqkli25",
       "cargoSha256": "14v7v9rl04yajwxh7qcpzjnc3swmpdbmjqw7arnms8cbdfbqc9q6"
     },
     "v0_7_0": {
       "version": "0.7.0",
+      "rev": "a93d4f675a03633511bdc6d4d140ec032c0e5782",
       "sha256": "0hhbn383z3j06llx887qpx7gmxyy7r1n2m79kx0hshhyd90w7rcs",
       "cargoSha256": "0fqpm0a1824dirb3f5d4yw7vb8xrpj03n6gxw7rlfjbhy025spqh"
     },
     "v0_7_0-rc7": {
       "version": "0.7.0-rc7",
+      "rev": "cf5fcaea885cabe4de14fa56cc8fb8d4c3597ed0",
       "sha256": "1dp0s5aykyvb19q7ghfr3xnqgvqmrq7gzjlg0iwj5qsnksh6zdql",
       "cargoSha256": "0fqpm0a1824dirb3f5d4yw7vb8xrpj03n6gxw7rlfjbhy025spqh"
     },
     "v0_7_0-rc6": {
       "version": "0.7.0-rc6",
+      "rev": "a5af99a631460ed49bde60f4980a1234949a4e41",
       "sha256": "0arszp33pahhg11k19gn9wajyqhlwnkfpmgydjzdjycfiva218fx",
       "cargoSha256": "03zgj0vnw4j63bbim4v0ahxsd91smpsg6swv313m117gdmmy8zqm"
     },
     "v0_7_0-rc5": {
       "version": "0.7.0-rc5",
+      "rev": "d4ac194b440ed05edac0c447b0dc95d34824369f",
       "sha256": "18pfhggvx4ngmz0a01dgk07983vx31kpqmvf6zzqr21jxs9adv6i",
       "cargoSha256": "1ywrwgryqlcziqjz68flsa4fcgfn5silnr70fxsj7dfivqc83j4p"
     },
     "v0_7_0-rc4": {
       "version": "0.7.0-rc4",
+      "rev": "",
       "sha256": "1cjdapy0r2bikqck64cl09vzs307wcfi628hfmpczrg33i81pr3g",
       "cargoSha256": "0546ahgwcczaxda1hc1r20skzi93s40isq2ys40y9165sgdydn4i"
     },
     "v0_7_0-rc3": {
       "version": "0.7.0-rc3",
+      "rev": "466c0fb07508b95078180c46224e2446dd5e4ec2",
       "sha256": "09hfmzgz1imz22w27c0aal6v7m4yfivh0sk63mawcd4m7sa6045c",
       "cargoSha256": "0syfwykwzfm9nqpna0qrmjiv4dp0rxxbpxv8qawq9ivs9z8fbq2m"
     },
     "v0_7_0-rc2": {
       "version": "0.7.0-rc2",
+      "rev": "d6de99e77ae48e9e78d10517ebdd458a4705d3ac",
       "sha256": "10zx23qkg5kvizz0nk9n70nrk3y4qqpr84a98xg9bzxh84hm4d4z",
       "cargoSha256": "1pp829azj6aw68ba637rm852sj61nxznxfzrlqs9ds6adk9h7abs"
     },
     "v0_7_0-rc1": {
       "version": "0.7.0-rc1",
+      "rev": "5583e5e82700c208070d265446ab6a0302713269",
       "sha256": "02ihnq7b32rwx7ychrj76rin1z3s9np5yjylppxm0qp5sjkik9ff",
       "cargoSha256": "1pp829azj6aw68ba637rm852sj61nxznxfzrlqs9ds6adk9h7abs"
     },
     "v0_7_0-alpha_dev_1": {
       "version": "0.7.0-alpha.dev.1",
+      "rev": "3af63d09c4f1a47dbe612965f32f734e59e36655",
       "sha256": "0r3icx42glrpa68sjxz4gr0z5660gh4n79lncy720s04cmgjcjci",
       "cargoSha256": "0f9b2lr2xxlcn9j33b5ahzbndz6sjm8ybhqm472bv5hzisqm4lg4"
     },
     "v0_7_0-alpha_dev": {
       "version": "0.7.0-alpha.dev",
+      "rev": "61fa89736d34ce754503a61dbf870dbc663c19ed",
       "sha256": "11xichsgvhinyva65xwl02pzbkjhbq9v9f94xlr639b7c3rzadyr",
       "cargoSha256": "0f9b2lr2xxlcn9j33b5ahzbndz6sjm8ybhqm472bv5hzisqm4lg4"
     },
     "v0_6_5": {
       "version": "0.6.5",
+      "rev": "052f7be7794b84145d0d6da92b0da3e842d1b56c",
       "sha256": "16s6ks63194w35xlgzbhjdb3h606hkj049bap52sd6qf637bw2p7",
       "cargoSha256": "1kba65rnm2vyqsjhcnfwy1m44x1w3xxlzinykmb89jy6qr8gvp42"
     },
     "v0_6_4": {
       "version": "0.6.4",
+      "rev": "63a169cc6fffcf9a275af52cc4d5a45f40006e63",
       "sha256": "0dpmz0qqlf20bnd43x3b6dg6ca20wyzraf8w5ybmcmkhh3svi29v",
       "cargoSha256": "1kba65rnm2vyqsjhcnfwy1m44x1w3xxlzinykmb89jy6qr8gvp42"
     },
     "v0_6_3": {
       "version": "0.6.3",
+      "rev": "cf872d454e454e0a9509ad7cea175421eb1fa365",
       "sha256": "0dac67qf9k0i10vdyac04iy2afgraj4sks2i62f6kabhvf7bawj1",
       "cargoSha256": "1kba65rnm2vyqsjhcnfwy1m44x1w3xxlzinykmb89jy6qr8gvp42"
     },
     "v0_6_2": {
       "version": "0.6.2",
+      "rev": "1d85d6891f59674be8ea77faa7afbb17046a11cf",
       "sha256": "0b79i16470a0r6k9j7yrzdljhyy5d1sl0vgkr124cfqkgx3p3f0i",
       "cargoSha256": "1kba65rnm2vyqsjhcnfwy1m44x1w3xxlzinykmb89jy6qr8gvp42"
     },
     "v0_8_0-rc11": {
       "version": "0.8.0-rc11",
+      "rev": "14a6e8f9ff70493d87e5203f3881e892b36f3f3e",
       "sha256": "0ndz2b0gdy03hskbb2fa0djw5czp8icw9pvf4v2s1mrqi60s4gcc",
       "cargoSha256": "1fppg1av71gzxzbmbi8zg2zma2zdzfqyxsgpribc455jm74g7pys"
     },
     "v0_8_0": {
       "version": "0.8.0",
+      "rev": "786835414e64b83dc7bd5977b18ec6cf8c527743",
       "sha256": "1bk4ih0d2dadxll6iih7pi8qr4ckpjgi4n4mfdr9l4g5p59xnrv0",
       "cargoSha256": "1fppg1av71gzxzbmbi8zg2zma2zdzfqyxsgpribc455jm74g7pys"
     },
     "v0_8_1": {
       "version": "0.8.1",
+      "rev": "e94ea3ddc1f8ed6e2d1c17ea553d883c972efce8",
       "sha256": "0405h7mgqi0rgl2zh7pbx2g0h1rfvjbvi4kk3is1rnz4rgra2rmv",
       "cargoSha256": "1fppg1av71gzxzbmbi8zg2zma2zdzfqyxsgpribc455jm74g7pys"
     },
     "v0_8_2": {
       "version": "0.8.2",
+      "rev": "fe327f9a0d70ee837ebb31d3df38afd90d858c7b",
       "sha256": "1y6brh47mqlrscp2cvy0lizyj85nia0ixz0xaxds4p96vx2n4s89",
       "cargoSha256": "1fppg1av71gzxzbmbi8zg2zma2zdzfqyxsgpribc455jm74g7pys"
     },
     "v0_8_3": {
       "version": "0.8.3",
+      "rev": "8f276c00d8494e56b371445339016cab48b2d8ee",
       "sha256": "0jsmk82hj4alka6iflj1dp1265qzjvwlvk48l7g221ggjgazax16",
       "cargoSha256": "1z6cm4v1lc5z8yx90cvqav98x6mm4wim2yckyxkasb7s29spvh6x"
     },
     "v0_8_4": {
       "version": "0.8.4",
+      "rev": "2227eb27163bc0cf6f79b876a52b6b78d32bfbf7",
       "sha256": "0r77phmlfzparg3mnkcg36b7xxkm2g0336xr48qqq3hhwxs0f0dk",
       "cargoSha256": "1z6cm4v1lc5z8yx90cvqav98x6mm4wim2yckyxkasb7s29spvh6x"
     },
     "v0_8_5-alpha1": {
       "version": "0.8.5-alpha1",
+      "rev": "5d2851656f63ea6fad92c193a17582108074ef80",
       "sha256": "1lmbbzlp3qw3lanqx1vbz1jxh8w3rvh8gjrxjhb3k7n4a13n8143",
       "cargoSha256": "1z6cm4v1lc5z8yx90cvqav98x6mm4wim2yckyxkasb7s29spvh6x"
     },
     "v0_8_5": {
       "version": "0.8.5",
+      "rev": "3db06807d6bc07490f35dc4938ca3dfb254a4e92",
       "sha256": "17z14ar4dh355ajjhf5r5kbn5rj6c1lw74sa36rdmaq66zn9jlfy",
       "cargoSha256": "1z6cm4v1lc5z8yx90cvqav98x6mm4wim2yckyxkasb7s29spvh6x"
     },
     "v0_8_5-alpha3": {
       "version": "0.8.5-alpha3",
+      "rev": "aa5f63bd081b753b2eb81ba179e60cbbf14fa9ce",
       "sha256": "1lmnvn7d4yp5lrp24gzj4ysz99ndwv6hn3kfb0krqpl418i727ds",
       "cargoSha256": "1z6cm4v1lc5z8yx90cvqav98x6mm4wim2yckyxkasb7s29spvh6x"
     },
     "v0_8_5-alpha2": {
       "version": "0.8.5-alpha2",
+      "rev": "71d252e21d08ba3cca8999b65603cb10cd2ef4ca",
       "sha256": "1l1lf83w1islvk0hmrql2ilpn4p66g7kdhdsf3h9dvprz15pg389",
       "cargoSha256": "1z6cm4v1lc5z8yx90cvqav98x6mm4wim2yckyxkasb7s29spvh6x"
     }

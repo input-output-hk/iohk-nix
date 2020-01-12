@@ -6,19 +6,22 @@ let
     master = {
       name = "jormungandr-master";
       version = "master";
-      rev = "29f1de21bcd01a9d5aec32fdf9498772ab8951e3";
-      sha256 = "049b8jvk1hsj37fmzzq3wdp093j1l6sfvw69m8yldxc2r33j77zi";
-      cargoSha256 = "1z6cm4v1lc5z8yx90cvqav98x6mm4wim2yckyxkasb7s29spvh6x";
+      rev = "b1c3b579752511759c91e116f4df42a31ad55b2b";
+      sha256 = "13wzys3qdaqcwlj621zdximk98g4dqpsi4dcpmqx300i8viy20yv";
+      cargoSha256 = "1vjlijccaxibn5i56x74rjzbqfrwhl1aq7l8rp6linnkvh01jx15";
     };
 
     release = calculatedVersions.v0_8_5;
   };
 
-  inherit (rust-packages.pkgs) makeJormungandr makeJcli;
+  inherit (rust-packages.pkgs) makeJormungandr makeJcli makeJormungandr-debug makeJcli-debug;
 
-  packages = builtins.mapAttrs (name: value:
-    { jormungandr = makeJormungandr value; jcli = makeJcli value; }
-  ) versions;
+  packages = builtins.mapAttrs (name: value: {
+    jormungandr = makeJormungandr value;
+    jormungandr-debug = makeJormungandr-debug value;
+    jcli = makeJcli value;
+    jcli-debug = makeJcli-debug value;
+  }) versions;
 
   mkConfig = environment: let
     envVersion = environment.packages.jormungandr.version;
