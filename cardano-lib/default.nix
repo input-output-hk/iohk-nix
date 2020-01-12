@@ -52,6 +52,10 @@ let
       private = false;
       networkConfig = import ./mainnet-config.nix;
       nodeConfig = networkConfig // defaultLogConfig;
+      txSubmitConfig = {
+        inherit genesisHash;
+        inherit (networkConfig) RequiresNetworkMagic;
+      } // defaultExplorerLogConfig;
     };
     staging = rec {
       relays = "relays.awstest.iohkdev.io";
@@ -67,6 +71,10 @@ let
       private = false;
       networkConfig = import ./staging-config.nix;
       nodeConfig = networkConfig // defaultLogConfig;
+      txSubmitConfig = {
+        inherit genesisHash;
+        inherit (networkConfig) RequiresNetworkMagic;
+      } // defaultExplorerLogConfig;
     };
     testnet = rec {
       relays = "relays.cardano-testnet.iohkdev.io";
@@ -83,6 +91,10 @@ let
       private = false;
       networkConfig = import ./testnet-config.nix;
       nodeConfig = networkConfig // defaultLogConfig;
+      txSubmitConfig = {
+        inherit genesisHash;
+        inherit (networkConfig) RequiresNetworkMagic;
+      } // defaultExplorerLogConfig;
     };
     shelley_staging = rec {
       relays = "relays.staging-shelley.aws.iohkdev.io";
@@ -98,6 +110,10 @@ let
       private = false;
       networkConfig = import ./shelley-staging-config.nix;
       nodeConfig = networkConfig // defaultLogConfig;
+      txSubmitConfig = {
+        inherit genesisHash;
+        inherit (networkConfig) RequiresNetworkMagic;
+      } // defaultExplorerLogConfig;
     };
     shelley_staging_short = rec {
       relays = "relays.staging-shelley-short.aws.iohkdev.io";
@@ -113,6 +129,10 @@ let
       private = false;
       networkConfig = import ./shelley-staging-short-config.nix;
       nodeConfig = networkConfig // defaultLogConfig;
+      txSubmitConfig = {
+        inherit genesisHash;
+        inherit (networkConfig) RequiresNetworkMagic;
+      } // defaultExplorerLogConfig;
     };
     latency-tests = {
       relays = "relays.latency-tests.aws.iohkdev.io";
