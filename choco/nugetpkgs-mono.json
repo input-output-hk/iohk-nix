@@ -1,0 +1,58 @@
+{
+  "AlphaFS": {
+    "ver": "2.1.3",
+    "sha256": "1xfjjj6667q4l9i1qlfxmg0vq8fndxkb25c17fvqs0y48fq8f9h5"
+   },
+  "Microsoft.Web.Xdt": {
+    "ver": "2.1.1",
+    "sha256": "1v0a3crqqy98w947d6j90zi14b39nacl79gvf41j2vwx32h8ip39"
+   },
+  "Moq": {
+    "ver": "4.2.1402.2112",
+    "sha256": "13x1x5ic3h023n1lz5cjikayf48r8igpbvms936s68a11046sczx"
+   },
+  "NUnit": {
+    "ver": "2.6.4",
+    "sha256": "19gj03ycc61j1qmn0fdv2knssyysjg8l93zwnaq9akxx0gfysira"
+  },
+  "NUnit.Runners": {
+    "ver": "2.6.4",
+    "sha256": "16kshzcy9clw8v9br82n118q2w15il8wa96mk9b0n67f9kksqxf9"
+   },
+  "PublishedApplications": {
+    "ver": "2.4.0.0",
+    "sha256": "0sfx7fn1vlzwwaa6d130an2gkmg8ns7064yv53194pamya2y66rn"
+   },
+  "Rx-Core": {
+    "ver": "2.1.30214.0",
+    "sha256": "1ki1l2gn3vsqyns1rrgp9nyn6jymkhkdpw5ipp01aqjhakhyk7qa"
+   },
+  "Rx-Interfaces": {
+    "ver": "2.1.30214.0",
+    "sha256": "0mim8dsfz49pi1pb80zg3ayh38b82d9lnyfdrx8927m57hk7dlyg"
+   },
+  "Rx-Linq": {
+    "ver": "2.1.30214.0",
+    "sha256": "0yf8jzd7rwhs5gbac2j9vh64lbf1cffsyl9pgfjcnynjsfc8b3gp"
+   },
+  "Should": {
+    "ver": "1.1.12.0",
+    "sha256": "0j18ckpbpbz1lhl5rqapqb99h0ic378falv09l9x96xlhj7yshr4"
+   },
+  "SimpleInjector": {
+    "ver": "2.5.0",
+    "sha256": "0g3xcdx4k707mmb35rf4cx0rbv53bl77czi0b2k351p21jqyiv63"
+   },
+  "TinySpec.NUnit": {
+    "ver": "0.9.5",
+    "sha256": "1msw4pmzjfx0df83zn2zfqmp007wmy0rzy7kzwpggpyrbm26xgid"
+   },
+  "coveralls.io": {
+    "ver": "1.1.86",
+    "sha256": "1g9avszpfn142zz2r56i9jh8f679j7fa8b1j0bncjng3d4ipyjm8"
+  },
+  "log4net": {
+    "ver": "2.0.3",
+    "sha256": "0n4wsxdcx1rywgpv2fqwnznq137ydgijgcqdbgz7mq4sgz4aq5r8"
+   }
+}

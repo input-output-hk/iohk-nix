@@ -1,0 +1,13 @@
+diff -ru source-orig/.uppercut source-modified/.uppercut
+--- source-orig/.uppercut	1969-12-31 19:00:01.000000000 -0500
++++ source-modified/.uppercut	2019-07-03 22:35:28.407141126 -0400
+@@ -4,6 +4,9 @@
+   <!-- Learn how to edit this file at http://uppercut.pbwiki.com -->
+   <!-- In the build folder there is a default.build.settings. You can override defaults by adding those here and changing the values -->
+ 
++  <!-- Nix Overrides -->
++  <property name="app.xbuild" value="@xbuild@" overwrite="false" if="${platform::is-unix()}" />
++
+   <!-- Required Items -->
+   <property name="project.name" value="chocolatey" overwrite="false" />
+   <property name="repository.path" value="https://github.com/chocolatey/choco" overwrite="false" />
