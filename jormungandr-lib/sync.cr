@@ -17,9 +17,9 @@ class JormungandrVersions
   end
 
   class Version
-    JSON.mapping(version: String, sha256: String, cargoSha256: String)
+    JSON.mapping(version: String, rev: String, sha256: String, cargoSha256: String)
 
-    def initialize(@version, @sha256 : String = EMPTY_HASH, @cargoSha256 : String = EMPTY_HASH)
+    def initialize(@version, @rev, @sha256 : String = EMPTY_HASH, @cargoSha256 : String = EMPTY_HASH)
       @version = version_without_v
     end
 
@@ -65,7 +65,7 @@ class JormungandrVersions
 
   def update!
     github_releases.each do |release|
-      version = JormungandrVersions::Version.new(release.tag_name)
+      version = JormungandrVersions::Version.new(release.tag_name, release.target_commitish)
 
       versions[release.nix_version]?.try do |existing_version|
         version.sha256 = existing_version.sha256
@@ -106,7 +106,7 @@ end
 alias GithubReleases = Array(GithubRelease)
 
 class GithubRelease
-  JSON.mapping(tag_name: String)
+  JSON.mapping(tag_name: String, target_commitish: String)
 
   def nix_version : String
     tag_name.gsub(/(\d+)\./) { "#{$1}_" }.gsub("+", "_").gsub(".", "_")

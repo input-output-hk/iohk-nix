@@ -20,6 +20,8 @@ in {
   jormungandr-cli-master = (super.pkgs.callPackage ./jormungandr.nix {}).jcli-master;
   makeJormungandr = (super.pkgs.callPackage ./jormungandr.nix {}).makeJormungandr;
   makeJcli = (super.pkgs.callPackage ./jormungandr.nix {}).makeJcli;
+  makeJormungandr-debug = (super.pkgs.callPackage ./jormungandr.nix { buildType = "debug"; }).makeJormungandr;
+  makeJcli-debug = (super.pkgs.callPackage ./jormungandr.nix { buildType = "debug"; }).makeJcli;
   cardano-http-bridge = super.pkgs.callPackage ./cardano-http-bridge.nix {};
   cardano-http-bridge-emurgo = super.pkgs.callPackage ./cardano-http-bridge-emurgo.nix {};
   cardano-cli = super.pkgs.callPackage ./cardano-cli.nix {};

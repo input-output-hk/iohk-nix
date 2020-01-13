@@ -29,14 +29,16 @@ let
       jormungandrLib.environments.${name} = {
         packages = {
           jcli = supportedSystems;
+          jcli-debug = supportedSystems;
           jormungandr = supportedSystems;
+          jormungandr-debug = supportedSystems;
         };
       };
     } sum
   ) {} (attrNames jormungandrLib.environments);
 
   usedJormungandrVersions = flatten (mapAttrsToList (name: env:
-    with env.packages; [ jcli jormungandr ]
+    with env.packages; [ jcli jcli-debug jormungandr jormungandr-debug ]
   ) jormungandrLib.environments);
 
   jormungandrConfigs = jormungandrLib.forEnvironments jormungandrLib.mkConfigHydra;
