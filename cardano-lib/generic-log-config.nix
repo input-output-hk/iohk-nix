@@ -54,6 +54,60 @@
     ]
   ];
 
+  #####         Tracing         #####
+
+  # MinimalVerbosity: Minimal level of the rendering of captured items
+  # MaximalVerbosity: Maximal level of the rendering of captured items
+  # NormalVerbosity: the default level of the rendering of captured items
+  TracingVerbosity = "MaximalVerbosity";
+
+  # Trace BlockFetch client.
+  TraceBlockFetchClient = false;
+  # Trace BlockFetch decisions made by the BlockFetch client.
+  TraceBlockFetchDecisions = true;
+  # Trace BlockFetch protocol messages.
+  TraceBlockFetchProtocol = false;
+  # Serialised Trace BlockFetch protocol messages.
+  TraceBlockFetchProtocolSerialised = false;
+  # Trace BlockFetch server.
+  TraceBlockFetchServer = false;
+  # Verbose tracer of ChainDB
+  TraceChainDb = true;
+  # Trace ChainSync client.
+  TraceChainSyncClient = false;
+  # Trace ChainSync server (blocks).
+  TraceChainSyncBlockServer = false;
+  # Trace ChainSync server (headers)
+  TraceChainSyncHeaderServer = false;
+  # Trace ChainSync protocol messages.
+  TraceChainSyncProtocol = false;
+  # Trace DNS Resolver messages.
+  TraceDNSResolver = false;
+  # Trace DNS Subscription messages.
+  TraceDNSSubscription = false;
+  # Trace error policy resolution.
+  TraceErrorPolicy = false;
+  # Trace block forging.
+  TraceForge = true;
+  # Trace IP Subscription messages.
+  TraceIpSubscription = false;
+  # Trace local ChainSync protocol messages.
+  TraceLocalChainSyncProtocol = false;
+  # Trace local TxSubmission protocol messages.
+  TraceLocalTxSubmissionProtocol = false;
+  # Trace local TxSubmission server.
+  TraceLocalTxSubmissionServer = false;
+  # Trace mempool.
+  TraceMempool = true;
+  # Trace Mux Events
+  TraceMux = false;
+  # Trace TxSubmission server (inbound transactions).
+  TraceTxInbound = false;
+  # Trace TxSubmission client (outbound transactions).
+  TraceTxOutbound = false;
+  # Trace TxSubmission protocol messages.
+  TraceTxSubmissionProtocol = false;
+
   # more options which can be passed as key-value pairs:
   options = {
     cfokey = {
