@@ -3,6 +3,9 @@
 Please read these notes when updating your project's `iohk-nix`
 version. There may have been changes which could break your build.
 
+## 2020-01-14
+   * Add a timeout parameter to the `Build.doBuild`, in `iohk-nix-utils`.
+
 ## 2019-10-27
    * Changes `mkRequired` of `release-lib` to return an attribute set
      containing `required` and `build-version`
