@@ -56,7 +56,7 @@ access, benchmarks, stack builds, or jobs which update a website.
 
 5. Grab the Build Badge link and put it in this file.
 
-6. The pipeline definition is in [`.buildkite/pipeline.yml`](./.buildkite/pipeline.yml).
+6. The pipeline definition is in [`.buildkite/pipeline.yml`](../skeleton/.buildkite/pipeline.yml).
    There is [documentation](https://buildkite.com/docs/pipelines) for this.
 
 See [buildkite-scripts.md](./buildkite-scripts.md) for information on
@@ -80,7 +80,7 @@ take too long to run on every git push.
 
 3. Create the pipeline. Skip the webhook setup.
 
-4. The pipeline definition is in [`.buildkite/nightly.yml`](./.buildkite/nightly.yml).
+4. The pipeline definition is in [`.buildkite/nightly.yml`](../skeleton/.buildkite/nightly.yml).
 
 ## How to setup coveralls
 
@@ -104,11 +104,11 @@ can done.
    a PR with a change according to the instructions at the top of
    [jobsets/default.nix](https://github.com/input-output-hk/iohk-ops/blob/master/jobsets/default.nix).
 
-2. The jobset for this project is in [`release.nix`](./release.nix). Add jobs to this
+2. The jobset for this project is in [`release.nix`](../skeleton/release.nix). Add jobs to this
    file to build them with Hydra.
 
 3. The purpose of `release.nix` is to select jobs defined in
-   [`default.nix`](./default.nix) and map them to all supported build
+   [`default.nix`](../skeleton/default.nix) and map them to all supported build
    platforms. After evaluating `release.nix`, Hydra will send the
    mapped jobs to its build farm.
 
@@ -124,7 +124,7 @@ can done.
 For general documenation about Bors, see
 [`iohk-nix/docs/bors.md`](../docs/bors.md).
 
-1. Most of the settings for Bors are in [`bors.toml`](./bors.toml).
+1. Most of the settings for Bors are in [`bors.toml`](../skeleton/bors.toml).
 
 2. The settings for branches and permissions are found in the web
    interface at https://bors-ng.aws.iohkdev.io/repositories .
