@@ -17,6 +17,7 @@ import Build
     , Optimizations (Fast)
     , StackExtraTestArgs (StackExtraTestArgs)
     , TestRun (TestRun)
+    , Timeout (Timeout)
     , doBuild
     , uploadCoverageIfBors
     )
@@ -56,3 +57,4 @@ main =
        (ExtraShcArgs [])
        (ExtraTixFilesDirectory "lib")
     )
+    (Timeout 30)

@@ -49,6 +49,9 @@ import System.Exit
     ( exitWith )
 
 
+newtype Timeout = Timeout { unTimeout :: Int }
+  deriving (Eq, Show)
+
 -- | Run the CI build step.
 --
 -- The specific command and its options can be passed as command line
@@ -59,12 +62,14 @@ doBuild
   -> ShouldUploadCoverage
   -> [TestRun]
   -> CoverallsConfig
+  -> Timeout
   -> IO ()
 doBuild (LibraryName whichLibrary)
         optimizations
         (ShouldUploadCoverage shouldUploadCoverage)
         testRuns
-        coverallsConfig                             = do
+        coverallsConfig
+        testsTimeout                               = do
   BuildArgs {options, command} <-
     parseArgs $ "Build " ++ whichLibrary ++ " with stack in Buildkite"
   let RebuildOpts { optBuildDirectory, optCacheDirectory, optDryRun } = options
@@ -76,7 +81,7 @@ doBuild (LibraryName whichLibrary)
       whenRun optDryRun $ do
         cacheGetStep cacheConfig
         cleanBuildDirectory (fromMaybe "." optBuildDirectory)
-      buildResult <- buildStep optDryRun optimizations optBuildkiteEnv testRuns
+      buildResult <- buildStep optDryRun optimizations optBuildkiteEnv testRuns testsTimeout
       when (shouldUploadCoverage optBuildkiteEnv) $
         uploadCoverageStep coverallsConfig optDryRun
       whenRun optDryRun $ cachePutStep cacheConfig
@@ -111,8 +116,10 @@ buildStep
   -> Maybe BuildkiteEnv
   -> [TestRun]
   -- ^ Used to specify different arguments for different test runs.
+  -> Timeout
+  -- ^ Test timeout.
   -> IO ExitCode
-buildStep dryRun optimizations optBuildkiteEnv testRuns =
+buildStep dryRun optimizations optBuildkiteEnv testRuns (Timeout testTimeout)=
   echo "--- Build LTS Snapshot"
     *> build Standard ["--only-snapshot"]  .&&.
   echo "--- Build dependencies"
@@ -120,7 +127,7 @@ buildStep dryRun optimizations optBuildkiteEnv testRuns =
   echo "+++ Build"
     *> build optimizations ["--test", "--no-run-tests"] .&&.
   echo "+++ Test"
-    *> foldr (.&&.) (pure ExitSuccess) (timeout 30 . test <$> testRuns)
+    *> foldr (.&&.) (pure ExitSuccess) (timeout testTimeout . test <$> testRuns)
   where
   build optimizations' args =
     run dryRun "stack" $ concat
