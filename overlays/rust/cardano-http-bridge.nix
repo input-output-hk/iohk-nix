@@ -16,8 +16,8 @@ in rustPlatform.buildRustPackage rec {
   src = fetchFromGitHub {
     owner = "input-output-hk";
     repo = "cardano-http-bridge";
-    rev = "0459acacce4bf5994d1eb0b4234318c691411f84";
-    sha256 = "1g76q98wrgaz3s97ki48wy7v0a357griwwh8hhrr6qm2fb4k6afm";
+    rev = "31cd4d48b3b65ef8d2d10c493a1191535b785923";
+    sha256 = "0xfbqaj9ksfx704pb65pccalhfx2p2z2lg4rsg12n58g3ih449k3";
     fetchSubmodules = true;
   };
 
