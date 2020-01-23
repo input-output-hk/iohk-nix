@@ -183,10 +183,17 @@
          subtrace = "NoTrace";
       };
       "cardano.node-metrics" = {
-         subtrace = "NoTrace";
+         subtrace = "Neutral";
       };
     };
     mapBackends = {
+      "cardano.node-metrics" = [
+         "EKGViewBK"
+         {
+            kind = "EKGViewBK";
+            name = "LiveViewBackend";
+         }
+      ];
       "cardano.node.metrics.ChainDB" = [
          "EKGViewBK"
          {
