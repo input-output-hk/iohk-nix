@@ -98,7 +98,7 @@ let
       } // defaultExplorerLogConfig;
     };
     shelley_staging = rec {
-      relays = "relays.staging-shelley.aws.iohkdev.io";
+      relays = "relays.staging-shelley.dev.iohkdev.io";
       edgeNodes = [
         "3.125.23.159"
         "18.177.133.109"
