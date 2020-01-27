@@ -27,7 +27,7 @@
 
   ApplicationName = "cardano-sl";
   ApplicationVersion = 0;
-  LastKnownBlockVersion-Major = 0;
+  LastKnownBlockVersion-Major = 1;
   LastKnownBlockVersion-Minor = 0;
   LastKnownBlockVersion-Alt = 0;
 
