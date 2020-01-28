@@ -11,6 +11,7 @@
   GenesisHash = "82995abf3e0e0f8ab9a6448875536a1cba305f3ddde18cd5ff54c32d7a5978c6";
   NumCoreNodes = 7;
   RequiresNetworkMagic = "RequiresMagic";
+  PBftSignatureThreshold = 0.5;
 
   ##### Network Time Parameters #####
 
