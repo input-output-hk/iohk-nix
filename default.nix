@@ -176,7 +176,7 @@ let
   shell = import ./shell.nix;
 
 in {
-  inherit sources shell tests nix-tools stack2nix jemallocOverlay rust-packages cardanoLib jormungandrLib;
+  inherit sources shell tests nix-tools stack2nix jemallocOverlay rust-packages cardanoLib jormungandrLib cabalProjectRegenerate;
   inherit (commonLib)
     # package sets
     nixpkgs
