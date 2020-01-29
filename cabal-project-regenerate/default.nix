@@ -1,6 +1,6 @@
-{ runCommand, python3, python3Packages }:
+{ runCommand, python37, python3Packages }:
 let
-  python = python3;
+  python = python37;
 in runCommand "cabal-project-regenerate" {} ''
   mkdir -p $out/bin
   cp ${./cabal-project-regenerate.py} $out/cabal-project-regenerate.py
