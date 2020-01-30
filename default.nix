@@ -116,12 +116,12 @@ let
     # Check scripts
     check-hydra = pkgsDefault.callPackage ./ci/check-hydra.nix {};
     check-nix-tools = pkgsDefault.callPackage ./ci/check-nix-tools.nix {};
+    inherit (pkgsDefault.callPackage ./cabal-project-regenerate {}) cabalProjectRegenerate checkCabalProject;
   };
 
   cardanoLib = commonLib.pkgsDefault.callPackage ./cardano-lib {};
   jormungandrLib = commonLib.pkgsDefault.callPackage ./jormungandr-lib { inherit rust-packages; };
 
-  cabalProjectRegenerate = commonLib.pkgsDefault.callPackage ./cabal-project-regenerate {};
   nix-tools = rec {
     # Programs for generating nix haskell package sets from cabal and
     # stack.yaml files.
@@ -176,7 +176,17 @@ let
   shell = import ./shell.nix;
 
 in {
-  inherit sources shell tests nix-tools stack2nix jemallocOverlay rust-packages cardanoLib jormungandrLib cabalProjectRegenerate;
+  inherit
+    sources
+    shell
+    tests
+    nix-tools
+    stack2nix
+    jemallocOverlay
+    rust-packages
+    cardanoLib
+    jormungandrLib;
+
   inherit (commonLib)
     # package sets
     nixpkgs
@@ -191,6 +201,7 @@ in {
     cleanSourceHaskell
     commitIdFromGitRepo
     commitIdFromGitRepoOrZero
+    cabalProjectRegenerate
 
     # packages
     cache-s3
@@ -203,6 +214,7 @@ in {
 
     # scripts
     check-hydra
+    checkCabalProject
     check-nix-tools;
   release-lib = ./lib/release-lib.nix;
   inherit (import sources.niv {}) niv;
