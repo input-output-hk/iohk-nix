@@ -1,6 +1,6 @@
 { stdenv
 , lib
-, writeScriptBin
+, writeScript
 , runCommand
 , python37
 , python3Packages
@@ -25,7 +25,7 @@ let
     cabalProjectRegenerate
     nix-prefetch-git
   ];
-  checkCabalProject = writeScriptBin "check-cabal-project" ''
+  checkCabalProject = writeScript "check-cabal-project" ''
     #!${stdenv.shell}
     PATH=${lib.makeBinPath checkDeps}
     set -euo pipefail
