@@ -66,12 +66,13 @@ let
       config' = config;
       crossSystem' = crossSystem;
     in { args ? {}
+       , overlays ? [ jemallocOverlay ]
        , extraOverlays ? nixpkgsOverlays
        , system ? system'
        , globalConfig ? globalConfig'
        , config ? config'
        , crossSystem ? crossSystem' }: import nixpkgs ({
-          overlays = [ jemallocOverlay ] ++ extraOverlays;
+          overlays = overlays ++ extraOverlays;
           config = globalConfig // config;
           inherit system crossSystem;
           } // args);
