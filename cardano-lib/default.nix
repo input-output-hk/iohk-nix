@@ -6,27 +6,19 @@ let
   , edgeHost ? "127.0.0.1"
   , edgeNodes ? []
   , edgePort ? if (edgeNodes != []) then 3001 else (if edgeHost == "127.0.0.1" then 7777 else 3001)
-  , nodeId ? 0
   , valency ? 1
   }:
   let
     mkProducers = map (edgeHost': { addr = edgeHost'; port = edgePort; inherit valency; }) edgeNodes;
-    topology = [
-      {
-        inherit nodeId;
-        nodeAddress = {
-          addr = hostAddr;
-          inherit port;
-        };
-        producers = if (edgeNodes != []) then mkProducers else [
-          {
-            addr = edgeHost;
-            port = edgePort;
-            inherit valency;
-          }
-        ];
-      }
-    ];
+    topology = {
+      Producers = if (edgeNodes != []) then mkProducers else [
+        {
+          addr = edgeHost;
+          port = edgePort;
+          inherit valency;
+        }
+      ];
+    };
   in builtins.toFile "topology.yaml" (builtins.toJSON topology);
 
   defaultLogConfig = import ./generic-log-config.nix;
