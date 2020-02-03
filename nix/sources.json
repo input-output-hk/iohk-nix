@@ -36,15 +36,15 @@
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nixpkgs": {
-        "branch": "iohk-18.09",
+        "branch": "release-19.03",
         "description": "Nix Packages collection",
         "homepage": null,
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "55db2a95eade4a80fadf85ae7fce7fa293f87f50",
-        "sha256": "0sll5drg4xrq4ap2lwpw9sr11003m0ampw0fs1xp7qgpi4dkp2rr",
+        "rev": "c7f0659e03467cd74c4f4608f99a62c4ac15b414",
+        "sha256": "0kjbgnjl3w0s4hfvm86crbzh2h6s7fl5vx0xpbg34rdx6zccb73d",
         "type": "tarball",
-        "url": "https://github.com/input-output-hk/nixpkgs/archive/55db2a95eade4a80fadf85ae7fce7fa293f87f50.tar.gz",
+        "url": "https://github.com/NixOS/nixpkgs/archive/c7f0659e03467cd74c4f4608f99a62c4ac15b414.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nixpkgs-cardano-sl": {
