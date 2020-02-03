@@ -10,3 +10,4 @@ TAGS
 
 ## Stack artifacts
 stack.yaml.lock
+result*
