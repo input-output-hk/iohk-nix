@@ -6,9 +6,9 @@ let
     master = {
       name = "jormungandr-master";
       version = "master";
-      rev = "e23c591f5600f6131fad0c944f4f850e56716ce7";
-      sha256 = "0k8mhwrybdzrpv4r17hh4y4631bzisqqfpckzyxh5kab0xng02zb";
-      cargoSha256 = "0gmpmgrq0xbdhik3ay96dkvx3g1q8hvr1dbilxanr9wiq4y5rp8a";
+      rev = "cfd1006d56e0619d14e4dd575a0164e3b9897974";
+      sha256 = "1r7ijb1xhcpzj2vlz3a7ips08l2drlx0n7jr3qjv2718yhjzxq9n";
+      cargoSha256 = "0nsww7sjay64nwd5851dsjdknwz8cp4x003ivz0xjsw226hdb0jp";
     };
 
     release = calculatedVersions.v0_8_5;
@@ -146,7 +146,7 @@ let
 
   environments = {
     itn_rewards_v1 = {
-      packages = packages.v0_8_7;
+      packages = packages.v0_8_9;
       genesisHash = "8e4d2a343f3dcf9330ad9035b3e8d168e6728904262f2c434a4f8f934ec7b676";
       genesisFile = ./genesis-itn_rewards_v1.yaml;
       registryUrl = "https://github.com/cardano-foundation/incentivized-testnet-stake-poolregistry/archive/master.zip";
@@ -344,7 +344,7 @@ let
     };
 
     qa = {
-      packages = packages.v0_8_7;
+      packages = packages.v0_8_9;
       genesisHash = "b5ada4577e10513240a5457490bd855c350b378fcd762d4354b443ba49b42dda";
       genesisFile = ./genesis-qa.yaml;
       registryUrl = "https://explorer.qa.jormungandr-testnet.iohkdev.io/stakepool-registry/registry.zip";
