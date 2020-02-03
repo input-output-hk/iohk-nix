@@ -208,5 +208,5 @@ in {
     checkCabalProject
     check-nix-tools;
   release-lib = ./lib/release-lib.nix;
-  inherit (import sources.niv {}) niv;
+  inherit (import sources.niv { pkgs = pkgsDefault; }) niv;
 }
