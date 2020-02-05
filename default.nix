@@ -15,7 +15,7 @@
 
 let
   defaultSources = import ./nix/sources.nix;
-  pkgsDefault = import defaultSources.nixpkgs (import defaultSources."haskell.nix");
+  pkgsDefault = import defaultSources.nixpkgs {};
 
   nixToolsDeprecation = __trace "WARNING: nix-tools integration is deprecated. Please upgrade haskell.nix and use overlays instead";
   upstreamedDeprecation = p: __trace "WARNING: commonLib.${p} is deprecated. Please use it from nixpkgs directly instead.";
@@ -116,15 +116,17 @@ let
   cardanoLib = commonLib.pkgsDefault.callPackage ./cardano-lib {};
   jormungandrLib = commonLib.pkgsDefault.callPackage ./jormungandr-lib { inherit rust-packages; };
 
-  nix-tools = rec {
+  nix-tools = let pkgs = import defaultSources.nixpkgs (import defaultSources."haskell.nix");
+    in rec {
+
     # Programs for generating nix haskell package sets from cabal and
     # stack.yaml files.
-    package = nixToolsDeprecation pkgsDefault.haskell-nix.nix-tools;
+    package = nixToolsDeprecation pkgs.haskell-nix.nix-tools;
     # A different haskell infrastructure
     haskell = _: nixToolsDeprecation (commonLib.getPkg {}).haskell-nix;
     # Script to invoke nix-tools stack-to-nix on a repo.
-    regenerateStackPackages = commonLib.pkgsDefault.callPackage ./nix-tools-regenerate.nix {
-      nix-tools = pkgsDefault.haskell-nix.nix-tools;
+    regenerateStackPackages = pkgs.callPackage ./nix-tools-regenerate.nix {
+      nix-tools = pkgs.haskell-nix.nix-tools;
     };
     # default and release templates that abstract
     # over the details for CI.
