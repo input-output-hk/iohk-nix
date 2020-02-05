@@ -123,7 +123,7 @@ let
     # A different haskell infrastructure
     haskell = _: nixToolsDeprecation (commonLib.getPkg {}).haskell-nix;
     # Script to invoke nix-tools stack-to-nix on a repo.
-    regeneratePackages = nixToolsDeprecation commonLib.pkgsDefault.callPackage ./nix-tools-regenerate.nix {
+    regenerateStackPackages = commonLib.pkgsDefault.callPackage ./nix-tools-regenerate.nix {
       nix-tools = pkgsDefault.haskell-nix.nix-tools;
     };
     # default and release templates that abstract
@@ -144,7 +144,7 @@ let
   };
 
   stack2nix = rec {
-    regeneratePackages = {hackageSnapshot}: __trace "NOTICE: stack2nix is deprecated. Please switch to haskell.nix" commonLib.pkgsDefault.callPackage ./stack2nix-regenerate.nix {
+    regenerateStackPackages = {hackageSnapshot}: __trace "NOTICE: stack2nix is deprecated. Please switch to haskell.nix" commonLib.pkgsDefault.callPackage ./stack2nix-regenerate.nix {
       inherit hackageSnapshot;
     };
   };
