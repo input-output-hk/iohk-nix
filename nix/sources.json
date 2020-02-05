@@ -1,16 +1,4 @@
 {
-    "gitignore": {
-        "branch": "master",
-        "description": "Nix function for filtering local git sources",
-        "homepage": "",
-        "owner": "hercules-ci",
-        "repo": "gitignore",
-        "rev": "dcd0b0e878009ef7b1425f8ca3e5b883f12459d8",
-        "sha256": "0ni9hl6j4l94mfwsdmrg5l0ffibfgd8amspda7vc5fb3wm8blxpy",
-        "type": "tarball",
-        "url": "https://github.com/hercules-ci/gitignore/archive/dcd0b0e878009ef7b1425f8ca3e5b883f12459d8.tar.gz",
-        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
-    },
     "haskell.nix": {
         "branch": "master",
         "description": "Alternative Haskell Infrastructure for Nixpkgs",
@@ -81,18 +69,6 @@
         "sha256": "04ygzqd4kayx1rnfgv6zl77k591lb29wh9a1zim78r1gacnxr7ng",
         "type": "tarball",
         "url": "https://github.com/NixOS/nixpkgs-channels/archive/e39e43a349d5f4f661d929fbe9a31129bda0acb2.tar.gz",
-        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
-    },
-    "nixpkgs-unstable": {
-        "branch": "nixpkgs-unstable",
-        "description": "Nixpkgs/NixOS branches that track the Nixpkgs/NixOS channels",
-        "homepage": null,
-        "owner": "NixOS",
-        "repo": "nixpkgs-channels",
-        "rev": "90441b4b47fc7280de6a5bd1a228017caaa0f97f",
-        "sha256": "1nz9lhk53m8j6xm1frs8hk7mb76axbs3wz8xg5mrvi28cv9jldbn",
-        "type": "tarball",
-        "url": "https://github.com/NixOS/nixpkgs-channels/archive/90441b4b47fc7280de6a5bd1a228017caaa0f97f.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     }
 }

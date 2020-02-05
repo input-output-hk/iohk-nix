@@ -2,7 +2,7 @@
 steps:
   - label: 'Benchmark'
     commands:
-      - 'cd skeleton'  # TODO: remove this line
+      - 'cd skeleton && nix-shell -p haskellPackages.niv --run "niv update iohk-nix -b $BUILDKITE_BRANCH"'  # TODO: remove this line
       - '.buildkite/bench.sh'
     timeout_in_minutes: 60
     agents:

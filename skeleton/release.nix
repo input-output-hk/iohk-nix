@@ -11,7 +11,10 @@
 { iohk-skeleton ? { outPath = ./.; rev = "abcdef"; }
 
 # Function arguments to pass to the project
-, projectArgs ? { config = { allowUnfree = false; inHydra = true; }; }
+, projectArgs ? {
+    config = { allowUnfree = false; inHydra = true; };
+    inherit sourcesOverride;
+  }
 
 # The systems that the jobset will be built for.
 , supportedSystems ? [ "x86_64-linux" "x86_64-darwin" ]
@@ -49,7 +52,7 @@ let
     native = mapTestOn (packagePlatforms project);
     "${mingwW64.config}" = mapTestOnCross mingwW64 (packagePlatformsCross project);
   } // (mkRequiredJob (
-      collectTests jobs.native.tests ++
+      collectTests jobs.native.checks.tests ++
       collectTests jobs.native.benchmarks ++
       # TODO: Add your project executables to this list
       [ jobs.native.iohk-skeleton.x86_64-linux

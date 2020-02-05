@@ -20,9 +20,6 @@ writeScript "check-nix-tools.sh" ''
     cd $(git rev-parse --show-toplevel)
   fi
 
-  # The regenerate script is here by convention
-  ./nix/regenerate.sh
-
   # The generated files will appear somewhere under ./nix
   git add -A nix
 

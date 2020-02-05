@@ -1,8 +1,7 @@
-{ iohkSkeletonPackages ? import ./.. {}
-, pkgs ? iohkSkeletonPackages.pkgs
+{ stdenv
+, lib
+, texlive
 }:
-with pkgs;
-
 {
   example = stdenv.mkDerivation {
     name = "iohk-skeleton-docs";

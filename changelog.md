@@ -3,6 +3,9 @@
 Please read these notes when updating your project's `iohk-nix`
 version. There may have been changes which could break your build.
 
+## 2020-02-06
+   * migrate skeleton to cabalProject and haskell.nix as overlay.
+
 ## 2020-01-14
    * Add a timeout parameter to the `Build.doBuild`, in `iohk-nix-utils`.
 
