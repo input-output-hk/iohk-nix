@@ -172,10 +172,6 @@ Now set up `./nix/default.nix`, which is pure boilerplate:
 let
   # use default stable nixpkgs from iohk-nix instead of our own:
   sources = removeAttrs (import ./sources.nix) [ "nixpkgs" ] //
-    {
-      # alternatively, use iohk-nix default unstable nixpkgs:
-      #nixpkgs = iohkNix.sources.nixpkgs-unstable;
-    } //
     sourcesOverride;
 
   # for inclusion in pkgs:
