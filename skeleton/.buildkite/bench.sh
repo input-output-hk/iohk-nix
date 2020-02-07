@@ -7,6 +7,7 @@ bench_name=iohk-skeleton-bench
 total_time=total-time.txt
 
 echo "--- Build"
+# TODO: remove sourcesOverride
 nix-build -A benchmarks.iohk-skeleton.iohk-skeleton-bench
 bench=./result/bin/iohk-skeleton-bench
 

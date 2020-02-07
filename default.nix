@@ -1,5 +1,4 @@
-{ globalConfig ? import ./config.nix
-, config ? {}
+{ config ? {}
 , system ? builtins.currentSystem
 , crossSystem ? null
 , sourcesOverride ? {}
@@ -16,8 +15,10 @@
 
 let
   defaultSources = import ./nix/sources.nix;
-  pkgsDefault = import (defaultSources.nixpkgs) {};
+  pkgsDefault = import defaultSources.nixpkgs {};
+
   nixToolsDeprecation = __trace "WARNING: nix-tools integration is deprecated. Please upgrade haskell.nix and use overlays instead";
+  upstreamedDeprecation = p: __trace "WARNING: commonLib.${p} is deprecated. Please use it from nixpkgs directly instead.";
   fetchTarballFromJson = jsonFile:
     let
       spec = builtins.fromJSON (builtins.readFile jsonFile);
@@ -50,30 +51,34 @@ let
         fetchTarballFromJson haskellNixJsonOverride;
     });
 
-  jemallocOverlay = import ./overlays/jemalloc.nix;
+  inherit (import defaultSources.niv { pkgs = pkgsDefault; }) niv;
 
   commonLib = rec {
-    fetchNixpkgs = builtins.trace ''
-      WARNING: iohk-nix 'fetchNixpkgs' function is deprecated.
-      Please use niv (https://github.com/input-output-hk/niv) to pin nixpkgs instead."
-    '' (import ./fetch-tarball-with-override.nix "custom_nixpkgs");
+    fetchNixpkgs = throw "Please use niv to pin nixpkgs instead.";
     # equivalent of <nixpkgs> but pinned instead of system
     inherit (sources) nixpkgs;
     inherit pkgsDefault;
     getPkgs = let
       system' = system;
-      globalConfig' = globalConfig;
       config' = config;
       crossSystem' = crossSystem;
+      haskellNixSrc = import sources."haskell.nix";
     in { args ? {}
        , extraOverlays ? nixpkgsOverlays
        , system ? system'
-       , globalConfig ? globalConfig'
        , config ? config'
-       , crossSystem ? crossSystem' }: import nixpkgs ({
-          overlays = [ jemallocOverlay ] ++ extraOverlays;
-          config = globalConfig // config;
-          inherit system crossSystem;
+       , crossSystem ? crossSystem' }: import nixpkgs (
+          let overlays = haskellNixSrc.overlays ++ [
+            (import ./overlays/haskell-nix-extra.nix)
+            (_:_: {
+              inherit niv sources;
+              iohkNix = self;
+              pkgsOverlays = overlays;
+            })
+          ] ++ extraOverlays;
+          in {
+            config = haskellNixSrc.config // config;
+            inherit system crossSystem overlays;
           } // args);
     pkgs = getPkgs {};
     getPackages = pkgs.callPackage ./get-packages.nix {};
@@ -100,17 +105,13 @@ let
     };
     cache-s3 = pkgsDefault.callPackage ./pkgs/cache-s3.nix {};
     stack-hpc-coveralls = pkgsDefault.haskellPackages.callPackage ./pkgs/stack-hpc-coveralls.nix {};
-    hlint = pkgsDefault.haskellPackages.callPackage ./pkgs/hlint.nix {};
-    openapi-spec-validator = pkgsDefault.python3Packages.callPackage ./pkgs/openapi-spec-validator.nix {
-      # Upstream PR: https://github.com/NixOS/nixpkgs/pull/65244
-      # It requires PyYAML >= 5.1.
-      pyyaml = pkgsDefault.python3Packages.callPackage ./pkgs/pyyaml51.nix {};
-    };
+    hlint = upstreamedDeprecation "hlint" pkgsDefault.hlint;
+    openapi-spec-validator = upstreamedDeprecation "openapi-spec-validator" pkgsDefault.python37Packages.openapi-spec-validator;
     cardano-repo-tool = pkgsDefault.callPackage ./pkgs/cardano-repo-tool.nix {
-      haskell = nix-tools.haskell { pkgs = pkgsDefault; };
+      haskell = nix-tools.default-haskell-nix;
     };
     stylish-haskell = pkgsDefault.callPackage ./pkgs/stylish-haskell.nix {
-      haskell = nix-tools.haskell { pkgs = pkgsDefault; };
+      haskell = nix-tools.default-haskell-nix;
     };
 
     # Check scripts
@@ -119,18 +120,21 @@ let
     inherit (pkgsDefault.callPackage ./cabal-project-regenerate {}) cabalProjectRegenerate checkCabalProject;
   };
 
+
   cardanoLib = commonLib.pkgsDefault.callPackage ./cardano-lib {};
   jormungandrLib = commonLib.pkgsDefault.callPackage ./jormungandr-lib { inherit rust-packages; };
 
-  nix-tools = rec {
+  nix-tools = let pkgs = import defaultSources.nixpkgs (import defaultSources."haskell.nix");
+    in rec {
+    default-haskell-nix = pkgs.haskell-nix;
     # Programs for generating nix haskell package sets from cabal and
     # stack.yaml files.
-    package = nixToolsDeprecation (haskell { pkgs = commonLib.pkgsDefault; }).nix-tools;
+    package = nixToolsDeprecation default-haskell-nix.nix-tools;
     # A different haskell infrastructure
-    haskell = { pkgs }: nixToolsDeprecation import sources.haskell { inherit pkgs; };
+    haskell = _: nixToolsDeprecation (commonLib.getPkg {}).haskell-nix;
     # Script to invoke nix-tools stack-to-nix on a repo.
-    regeneratePackages = nixToolsDeprecation commonLib.pkgsDefault.callPackage ./nix-tools-regenerate.nix {
-      nix-tools = package;
+    regenerateStackPackages = pkgs.callPackage ./nix-tools-regenerate.nix {
+      nix-tools = default-haskell-nix.nix-tools;
     };
     # default and release templates that abstract
     # over the details for CI.
@@ -150,7 +154,7 @@ let
   };
 
   stack2nix = rec {
-    regeneratePackages = {hackageSnapshot}: __trace "NOTICE: stack2nix is deprecated. Please switch to haskell.nix" commonLib.pkgsDefault.callPackage ./stack2nix-regenerate.nix {
+    regenerateStackPackages = {hackageSnapshot}: __trace "NOTICE: stack2nix is deprecated. Please switch to haskell.nix" commonLib.pkgsDefault.callPackage ./stack2nix-regenerate.nix {
       inherit hackageSnapshot;
     };
   };
@@ -166,56 +170,54 @@ let
       (commonLib.pkgsDefault.callPackage ./overlays/rust/mozilla.nix {})
       (import ./overlays/rust)
     ];
-    pkgs = import sources.nixpkgs-rust {
-      inherit overlays;
-      config = globalConfig // config;
-      inherit system crossSystem;
+    pkgs = import sources.nixpkgs {
+      inherit overlays config system crossSystem;
     };
   };
 
   shell = import ./shell.nix;
 
-in {
-  inherit
-    sources
-    shell
-    tests
-    nix-tools
-    stack2nix
-    jemallocOverlay
-    rust-packages
-    cardanoLib
-    jormungandrLib;
+  self = {
+    inherit
+      sources
+      niv
+      shell
+      tests
+      nix-tools
+      stack2nix
+      rust-packages
+      cardanoLib
+      jormungandrLib;
 
-  inherit (commonLib)
-    # package sets
-    nixpkgs
-    pkgs
-    haskellPackages
+    inherit (commonLib)
+      # package sets
+      nixpkgs
+      pkgs
+      haskellPackages
 
-    # library functions
-    fetchNixpkgs
-    getPkgs
-    getPackages
-    maybeEnv
-    cleanSourceHaskell
-    commitIdFromGitRepo
-    commitIdFromGitRepoOrZero
-    cabalProjectRegenerate
+      # library functions
+      fetchNixpkgs
+      getPkgs
+      getPackages
+      maybeEnv
+      cleanSourceHaskell
+      commitIdFromGitRepo
+      commitIdFromGitRepoOrZero
+      cabalProjectRegenerate
 
-    # packages
-    cache-s3
-    stack-hpc-coveralls
-    hlint
-    stylish-haskell
-    openapi-spec-validator
-    cardano-repo-tool
-    haskellBuildUtils
+      # packages
+      cache-s3
+      stack-hpc-coveralls
+      hlint
+      stylish-haskell
+      openapi-spec-validator
+      cardano-repo-tool
+      haskellBuildUtils
 
-    # scripts
-    check-hydra
-    checkCabalProject
-    check-nix-tools;
-  release-lib = ./lib/release-lib.nix;
-  inherit (import sources.niv {}) niv;
-}
+      # scripts
+      check-hydra
+      checkCabalProject
+      check-nix-tools;
+    release-lib = ./lib/release-lib.nix;
+  };
+in self

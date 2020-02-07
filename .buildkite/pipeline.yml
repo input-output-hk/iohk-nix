@@ -1,8 +1,9 @@
 steps:
-  - label: release.nix
-    command: 'nix-build -A check-hydra && ./result'
-    agents:
-      system: x86_64-linux
+  # FIXME, waiting for https://github.com/input-output-hk/haskell.nix/pull/426
+  #- label: release.nix
+  #  command: 'nix-build -A check-hydra && ./result'
+  #  agents:
+  #    system: x86_64-linux
 
   - label: ":pipeline: Skeleton project pipelines"
     command:

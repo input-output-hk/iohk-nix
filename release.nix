@@ -45,7 +45,7 @@ let
 
   mappedPkgs = mapTestOn ({
     nix-tools.package            = supportedSystems;
-    nix-tools.regeneratePackages = supportedSystems;
+    nix-tools.regenerateStackPackages = supportedSystems;
     rust-packages.pkgs.cardano-http-bridge = supportedSystems;
     niv = supportedSystems;
 
@@ -77,8 +77,8 @@ fix (self: mappedPkgs // {
       self.forceNewEval
       nix-tools.package.x86_64-linux
       nix-tools.package.x86_64-darwin
-      nix-tools.regeneratePackages.x86_64-linux
-      nix-tools.regeneratePackages.x86_64-darwin
+      nix-tools.regenerateStackPackages.x86_64-linux
+      nix-tools.regenerateStackPackages.x86_64-darwin
       rust-packages.pkgs.cardano-http-bridge.x86_64-linux
       niv.x86_64-linux
       niv.x86_64-darwin

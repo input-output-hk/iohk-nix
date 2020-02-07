@@ -1,6 +1,6 @@
 # TODO: choose your stack package resolver
 # Many Cardano packages snapshot.yaml from cardano-prelude.
-resolver: https://raw.githubusercontent.com/input-output-hk/cardano-prelude/d673b92f2a2d9354d102514d0a0fa74f8248b14a/snapshot.yaml
+resolver: https://raw.githubusercontent.com/input-output-hk/cardano-prelude/51a6c139f6d70515a99681b88fd90e5d2adb65b6/snapshot.yaml
 # resolver: 13.26
 
 packages:

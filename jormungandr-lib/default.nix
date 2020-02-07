@@ -1,8 +1,8 @@
 {lib, writeText, runCommand, jq, rust-packages }:
 let
-  calculatedVersions = ( __fromJSON (__readFile ./versions.json) );
+  calculatedVersions = ( __fromJSON (__readFile ./versions.json) ).versions;
 
-  versions =  calculatedVersions.versions // {
+  versions =  calculatedVersions // {
     master = {
       name = "jormungandr-master";
       version = "master";
@@ -11,7 +11,7 @@ let
       cargoSha256 = "0nsww7sjay64nwd5851dsjdknwz8cp4x003ivz0xjsw226hdb0jp";
     };
 
-    release = calculatedVersions.v0_8_5;
+    release = calculatedVersions.v0_8_9;
   };
 
   inherit (rust-packages.pkgs) makeJormungandr makeJcli makeJormungandr-debug makeJcli-debug;

@@ -9,7 +9,6 @@ NIV=`nix-build --no-out-link -E '(import ./. {}).niv'`/bin/niv
 $NIV init
 
 for p in nixpkgs \
-         nixpkgs-unstable \
          haskell \
          gitignore \
          niv \

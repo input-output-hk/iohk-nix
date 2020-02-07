@@ -31,10 +31,7 @@ Hydra and Buildkite, using the `iohk-nix` library.
 
 2. Run `./nix/update-iohk-nix.sh` to update the iohk-nix pin.
 
-3. Run `./nix/regenerate.sh` to regenerate Nix expressions (nothing
-   will change, but run it to make sure).
-
-4. Find all instances of `iohk-skeleton` or `iohkSkeleton` and replace
+3. Find all instances of `iohk-skeleton` or `iohkSkeleton` and replace
    them with your project name. Find all instances of `TODO` and
    address them. You can use the following commands to do that:
 
@@ -43,24 +40,20 @@ Hydra and Buildkite, using the `iohk-nix` library.
    nix-shell --run "lentil -T fixme ."
    ```
 
-5. Some of the `TODO` comments will say "remove the line below and uncomment the
+4. Some of the `TODO` comments will say "remove the line below and uncomment the
    next line." These are there just so that the `skeleton` project can be built
    in CI within `iohk-nix`.
 
    The config files should also have example code and comments with
    instructions. Have a skim through these.
 
-6. When finished, replace this file with your own, and delete
+5. When finished, replace this file with your own, and delete
    redundant comments from the config files.
 
-7. Run `./nix/regenerate.sh` to regenerate Nix expressions whenever
-   `*.cabal` or `stack.yaml` have changed. Add and remove the
-   generated files from git.
-
-8. Set up the GitHub repo, Buildkite pipelines, and Hydra jobset according to
+6. Set up the GitHub repo, Buildkite pipelines, and Hydra jobset according to
    the instructions in [`docs/start.md`](../docs/start.md).
 
-9. If something in this project needs to be improved, please
+7. If something in this project needs to be improved, please
    [open a PR](https://github.com/input-output-hk/iohk-nix/pulls).
    If you have any other problems, ask in
    [#devops-crossteam-ci](https://app.slack.com/client/T0N639Z4N/CAP8NM7N0).
