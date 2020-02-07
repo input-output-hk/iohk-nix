@@ -1,11 +1,16 @@
-pkgs: super: {
-  haskell-nix = pkgs.lib.recursiveUpdate super.haskell-nix {
-    haskellLib.extra = with pkgs.haskell-nix.haskellLib; {
+pkgs: super: with pkgs; with lib; {
+  haskell-nix = recursiveUpdate super.haskell-nix {
+    haskellLib.extra = with haskell-nix.haskellLib; rec {
 
-      collectChecks = pkgsSet: (pkgs.lib.mapAttrs (_: package: package.checks) pkgsSet)
+      collectChecks = pkgsSet: (mapAttrs (_: package: package.checks) pkgsSet)
          // { recurseForDerivations = true; };
 
       collectComponents' = group: collectComponents group (_:true);
+
+      recRecurseIntoAttrs = x:
+        if (isAttrs x && !isDerivation x)
+        then recurseIntoAttrs (mapAttrs (n: v: if n == "buildPackages" then v else recRecurseIntoAttrs v) x)
+        else x;
 
     };
   };

@@ -70,10 +70,13 @@ let
        , crossSystem ? crossSystem' }: import nixpkgs (
           let overlays = haskellNixSrc.overlays ++ [
             (import ./overlays/haskell-nix-extra.nix)
-            (_:_: {
+            (_:super: {
               inherit niv sources;
               iohkNix = self;
               pkgsOverlays = overlays;
+              haskellPackages = super.haskellPackages // {
+                inherit niv;
+              };
             })
           ] ++ extraOverlays;
           in {
