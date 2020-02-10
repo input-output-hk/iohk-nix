@@ -11,7 +11,7 @@ with pkgs;
 let
   # This provides a development environment that can be used with nix-shell or
   # lorri. See https://input-output-hk.github.io/haskell.nix/user-guide/development/
-  shell = haskellNixPackages.shellFor {
+  shell = skeletonHaskellPackages.shellFor {
     name = "cabal-dev-shell";
 
     # If shellFor local packages selection is wrong,

@@ -11,12 +11,11 @@
 , nixpkgsOverlays ? []
 # Override haskell-nix.json to a file in your repo
 , haskellNixJsonOverride ? ""
+, defaultSources ? import ./nix/sources.nix
+, pkgsDefault ? import defaultSources.nixpkgs { inherit config system crossSystem; }
 }:
 
 let
-  defaultSources = import ./nix/sources.nix;
-  pkgsDefault = import defaultSources.nixpkgs {};
-
   nixToolsDeprecation = __trace "WARNING: nix-tools integration is deprecated. Please upgrade haskell.nix and use overlays instead";
   upstreamedDeprecation = p: __trace "WARNING: commonLib.${p} is deprecated. Please use it from nixpkgs directly instead.";
   fetchTarballFromJson = jsonFile:
@@ -67,21 +66,10 @@ let
        , extraOverlays ? nixpkgsOverlays
        , system ? system'
        , config ? config'
-       , crossSystem ? crossSystem' }: import nixpkgs (
-          let overlays = haskellNixSrc.overlays ++ [
-            (import ./overlays/haskell-nix-extra.nix)
-            (_:super: {
-              inherit niv sources;
-              iohkNix = self;
-              pkgsOverlays = overlays;
-              haskellPackages = super.haskellPackages // {
-                inherit niv;
-              };
-            })
-          ] ++ extraOverlays;
-          in {
+       , crossSystem ? crossSystem' }: import nixpkgs ({
             config = haskellNixSrc.config // config;
-            inherit system crossSystem overlays;
+            overlays = haskellNixSrc.overlays ++ extraOverlays;
+            inherit system crossSystem;
           } // args);
     pkgs = getPkgs {};
     getPackages = pkgs.callPackage ./get-packages.nix {};
@@ -168,6 +156,21 @@ let
     stylishHaskell = ./tests/stylish-haskell.nix;
   };
 
+  overlays = {
+    haskell-nix-extra = [(import ./overlays/haskell-nix-extra.nix)];
+    rust-packages = rust-packages.overlays;
+    iohkNix = [(pkgs: super: rec {
+      iohkNix = import ./. {
+        inherit (pkgs) config system;
+        pkgsDefault = pkgs;
+      };
+      inherit (iohkNix) niv;
+      haskellPackages = super.haskellPackages // {
+        inherit (iohkNix) niv;
+      };
+    })];
+  };
+
   rust-packages = rec {
     overlays = [
       (commonLib.pkgsDefault.callPackage ./overlays/rust/mozilla.nix {})
@@ -182,6 +185,7 @@ let
 
   self = {
     inherit
+      overlays
       sources
       niv
       shell
