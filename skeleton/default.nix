@@ -25,8 +25,10 @@
 with pkgs; with commonLib;
 let
 
-  # the Haskell.nix package set, reduced to local packages.
-  haskellPackages = selectProjectPackages haskellNixPackages;
+
+  haskellPackages = recRecurseIntoAttrs
+    # the Haskell.nix package set, reduced to local packages.
+    (selectProjectPackages skeletonHaskellPackages);
 
   self = {
     inherit haskellPackages check-hydra;
@@ -41,12 +43,12 @@ let
     # `benchmarks` (only built, not run).
     benchmarks = collectComponents' "benchmarks" haskellPackages;
 
-    checks = {
+    checks = recurseIntoAttrs {
       # `checks.tests` collect results of executing the tests:
       tests = collectChecks haskellPackages;
       # Example of a linting script used by Buildkite.
       lint-fuzz = pkgs.callPackage ./nix/check-lint-fuzz.nix {};
-    } // { recurseForDerivations = true; };
+    };
 
     shell = import ./shell.nix {
       inherit pkgs;
