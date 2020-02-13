@@ -11,15 +11,6 @@ env:
   CACHE_DIR: "/cache/iohk-skeleton"
 
 steps:
-  - label: Check Hydra evaluation of release.nix
-    commands:
-      - 'cd skeleton && nix-shell -p haskellPackages.niv --run "niv update iohk-nix -b $BUILDKITE_BRANCH"'  # TODO: remove this line
-      - "nix-build -A check-hydra -o check-hydra.sh"
-      # TODO: uncomment the following line
-      # - "./check-hydra.sh"
-    agents:
-      system: x86_64-linux
-
   # TODO: Remove this and define your own build steps.
   - label: Lint the fuzz
     commands:
