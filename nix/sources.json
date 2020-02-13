@@ -1,4 +1,16 @@
 {
+    "cardano-repo-tool": {
+        "branch": "master",
+        "description": "A tool for handling the update of Cardano related git repos",
+        "homepage": "",
+        "owner": "input-output-hk",
+        "repo": "cardano-repo-tool",
+        "rev": "3a8a14d3f3f18f202fcc6d4ca03c1a3b098bf4f0",
+        "sha256": "0v1sydqwdd59lrsankhmsivmpicbrsg8fw9hmki1h2nf6a51imhi",
+        "type": "tarball",
+        "url": "https://github.com/input-output-hk/cardano-repo-tool/archive/3a8a14d3f3f18f202fcc6d4ca03c1a3b098bf4f0.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
     "haskell.nix": {
         "branch": "master",
         "description": "Alternative Haskell Infrastructure for Nixpkgs",

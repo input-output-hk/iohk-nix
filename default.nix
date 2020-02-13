@@ -98,9 +98,8 @@ let
     stack-hpc-coveralls = pkgsDefault.haskellPackages.callPackage ./pkgs/stack-hpc-coveralls.nix {};
     hlint = upstreamedDeprecation "hlint" pkgsDefault.hlint;
     openapi-spec-validator = upstreamedDeprecation "openapi-spec-validator" pkgsDefault.python37Packages.openapi-spec-validator;
-    cardano-repo-tool = pkgsDefault.callPackage ./pkgs/cardano-repo-tool.nix {
-      haskell = nix-tools.default-haskell-nix;
-    };
+    inherit (import sources.cardano-repo-tool {inherit system;}) cardano-repo-tool;
+    stack-cabal-sync-shell = pkgsDefault.callPackage ./pkgs/stack-cabal-sync-shell.nix { inherit cardano-repo-tool; };
     stylish-haskell = pkgsDefault.callPackage ./pkgs/stylish-haskell.nix {
       haskell = nix-tools.default-haskell-nix;
     };
@@ -220,6 +219,7 @@ let
       stylish-haskell
       openapi-spec-validator
       cardano-repo-tool
+      stack-cabal-sync-shell
       haskellBuildUtils
 
       # scripts
