@@ -69,7 +69,6 @@ class HydraEvalMonitor:
         pass
 
     def checkRequiredExists(self):
-        print(self.eval["builds"].sort(reverse=True))
         for build in self.eval["builds"]:
             hydra_build = self.getApi(f"build/{build}")
             if hydra_build["job"] == "required":
