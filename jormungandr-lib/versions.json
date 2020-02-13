@@ -266,7 +266,7 @@
     },
     "v0_8_10": {
       "version": "0.8.10",
-      "rev": "master",
+      "rev": "ed9f7550156fd118eedd1ba4bcd3e809bd17191f",
       "sha256": "0x5dmz29fpy22s63ckhhm4cvyczm2g4hpayxadz7w9rj0slnvkfj",
       "cargoSha256": "1vj151skq1l77rvgbxh93l4ra1gjhqxry887vi4d50c21q3ialjy"
     }
