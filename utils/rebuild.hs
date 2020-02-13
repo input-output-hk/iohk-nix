@@ -107,9 +107,6 @@ buildStep dryRun bk =
             , [ "build" ]
             , [ "--bench" ]
             , [ "--no-run-benchmarks" ]
-            , [ "--haddock" ]
-            , [ "--haddock-internal" ]
-            , [ "--no-haddock-deps" ]
             , [ "--coverage" ]
             , fast opt
             , args

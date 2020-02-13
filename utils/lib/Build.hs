@@ -136,9 +136,6 @@ buildStep dryRun optimizations optBuildkiteEnv testRuns (Timeout testTimeout)=
       , [ "--pedantic" ]
       , [ "--bench" ]
       , [ "--no-run-benchmarks" ]
-      , [ "--haddock" ]
-      , [ "--haddock-internal" ]
-      , [ "--no-haddock-deps" ]
       , [ "--coverage" ]
       , shouldUseFast optimizations'
       , args
