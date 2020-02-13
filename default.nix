@@ -106,9 +106,10 @@ let
     };
 
     # Check scripts
-    check-hydra = pkgsDefault.callPackage ./ci/check-hydra.nix {};
+    check-hydra = __trace "check-hydra is deprecated. Please use hydraEvalErrors" pkgsDefault.callPackage ./ci/check-hydra.nix {};
     check-nix-tools = pkgsDefault.callPackage ./ci/check-nix-tools.nix {};
-    inherit (pkgsDefault.callPackage ./cabal-project-regenerate {}) cabalProjectRegenerate checkCabalProject;
+    hydraEvalErrors = pkgsDefault.callPackage ./ci/hydra-eval-errors {};
+    inherit (pkgsDefault.callPackage ./ci/cabal-project-regenerate {}) cabalProjectRegenerate checkCabalProject;
   };
 
 
@@ -224,7 +225,8 @@ let
       # scripts
       check-hydra
       checkCabalProject
-      check-nix-tools;
+      check-nix-tools
+      hydraEvalErrors;
     release-lib = ./lib/release-lib.nix;
   };
 in self
