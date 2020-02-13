@@ -94,9 +94,9 @@ def main():
     elif BUILDKITE_BRANCH == "bors/trying":
         job = f"{BUILDKITE_REPO}-bors-trying"
     elif BUILDKITE_BRANCH == "master":
-        job = f"{BUILDKITE_REPO}-master"
+        job = f"{BUILDKITE_REPO}"
     elif BUILDKITE_BRANCH == "develop":
-        job = f"{BUILDKITE_REPO}-develop"
+        job = f"{BUILDKITE_REPO}"
     elif BUILDKITE_PR == "false":
         print("Please open a PR for hydra to evaluate")
         raise BaseException
