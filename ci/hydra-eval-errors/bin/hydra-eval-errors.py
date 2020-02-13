@@ -90,7 +90,7 @@ def main():
     BUILDKITE_REPO = os.getenv("BUILDKITE_PIPELINE_NAME", None)
 
     if BUILDKITE_REPO == "iohk-monitoring-framework":
-        BUILDKITE_REPO == "iohk-monitoring":
+        BUILDKITE_REPO = "iohk-monitoring":
 
     if BUILDKITE_BRANCH == "bors/staging":
         job = f"{BUILDKITE_REPO}-bors-staging"
