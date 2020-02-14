@@ -71,6 +71,16 @@ let
             overlays = haskellNixSrc.overlays ++ extraOverlays;
             inherit system crossSystem;
           } // args);
+    getPkgsDefault = let
+      system' = system;
+      config' = config;
+      crossSystem' = crossSystem;
+    in { args ? {}
+       , system ? system'
+       , config ? config'
+       , crossSystem ? crossSystem' }: import nixpkgs ({
+            inherit system crossSystem config;
+          } // args);
     pkgs = getPkgs {};
     getPackages = pkgs.callPackage ./get-packages.nix {};
     maybeEnv = import ./maybe-env.nix;
@@ -200,11 +210,13 @@ let
       # package sets
       nixpkgs
       pkgs
+      pkgsDefault
       haskellPackages
 
       # library functions
       fetchNixpkgs
       getPkgs
+      getPkgsDefault
       getPackages
       maybeEnv
       cleanSourceHaskell
