@@ -44,20 +44,10 @@ let
   jormungandrConfigs = jormungandrLib.forEnvironments jormungandrLib.mkConfigHydra;
 
   mappedPkgs = mapTestOn ({
-    nix-tools.package            = supportedSystems;
-    nix-tools.regenerateStackPackages = supportedSystems;
     rust-packages.pkgs.cardano-http-bridge = supportedSystems;
     niv = supportedSystems;
 
-    # this seems not to work :-/
-    # tests.hlint                  = supportedSystems;
-    # tests.shellcheck             = supportedSystems;
-    # tests.stylishHaskell         = supportedSystems;
-
     # Development tools
-    cache-s3 = supportedSystems;
-    stack-hpc-coveralls = supportedSystems;
-    openapi-spec-validator = supportedSystems;
   } // jormungandrPackages);
 
   skeletonJobset = import ./skeleton/release.nix {
@@ -75,10 +65,6 @@ fix (self: mappedPkgs // {
     name = "required";
     constituents = (with self; [
       self.forceNewEval
-      nix-tools.package.x86_64-linux
-      nix-tools.package.x86_64-darwin
-      nix-tools.regenerateStackPackages.x86_64-linux
-      nix-tools.regenerateStackPackages.x86_64-darwin
       rust-packages.pkgs.cardano-http-bridge.x86_64-linux
       niv.x86_64-linux
       niv.x86_64-darwin

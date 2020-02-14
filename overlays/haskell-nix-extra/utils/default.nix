@@ -1,12 +1,11 @@
-{ iohkLib ? import ../. {}
-, pkgs ? iohkLib.pkgs
+{ pkgs
 }:
 
 with pkgs;
 
 rec {
   # The utils derivation.
-  package = haskellPackages.callCabal2nix "iohk-nix-utils" ./. {};
+  package = buildPackages.haskellPackages.callCabal2nix "iohk-nix-utils" ./. {};
 
   # A function for building a script that can run in CI.
   # The given script path, which is Haskell file will be able to
@@ -15,12 +14,12 @@ rec {
    { script           # path to .hs file for building
    , buildTools ? []  # extra programs to add to PATH
    , libs ? (ps: [])  # selector function for extra haskell libraries
-   , shell ? null     # shell derivation to keep gc-rooted during build 
+   , shell ? null     # shell derivation to keep gc-rooted during build
    }:
    let
       buildTools' = [
         gnused coreutils git nix gnumake gnutar gzip lz4
-        stack iohkLib.stack-hpc-coveralls
+        stack pkgs.stack-hpc-coveralls
         haskellPackages.weeder
       ] ++ buildTools;
       libs' = ps: libs ps ++ [ package ];
