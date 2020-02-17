@@ -20,6 +20,13 @@ steps:
     agents:
       system: x86_64-linux
 
+  - label: Check repo dependency tags are present on master branches
+    commands:
+      - 'cd skeleton && nix-shell -p haskellPackages.niv --run "niv update iohk-nix -b $BUILDKITE_BRANCH"'  # TODO: remove this line
+      - "nix build -f ./nix iohkNix.checkRepoTagsOnMasterBranches --arg src ./. --show-trace"
+    agents:
+      system: x86_64-linux
+
   # Imperative build steps
   - label: Stack build
     commands:

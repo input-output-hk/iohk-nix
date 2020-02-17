@@ -47,7 +47,7 @@ let
       # `checks.tests` collect results of executing the tests:
       tests = collectChecks haskellPackages;
       # Example of a linting script used by Buildkite.
-      lint-fuzz = pkgs.callPackage ./nix/check-lint-fuzz.nix {};
+      lint-fuzz = callPackage ./nix/check-lint-fuzz.nix {};
     };
 
     shell = import ./shell.nix {

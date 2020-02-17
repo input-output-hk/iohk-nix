@@ -118,6 +118,7 @@ let
     check-hydra = __trace "check-hydra is deprecated. Please use hydraEvalErrors" pkgsDefault.callPackage ./ci/check-hydra.nix {};
     check-nix-tools = pkgsDefault.callPackage ./ci/check-nix-tools.nix {};
     hydraEvalErrors = pkgsDefault.callPackage ./ci/hydra-eval-errors {};
+    checkRepoTagsOnMasterBranches = pkgsDefault.callPackage ./ci/check-source-repo-tags-on-master.nix {};
     inherit (pkgsDefault.callPackage ./ci/cabal-project-regenerate {}) cabalProjectRegenerate checkCabalProject;
   };
 
@@ -238,7 +239,8 @@ let
       check-hydra
       checkCabalProject
       check-nix-tools
-      hydraEvalErrors;
+      hydraEvalErrors
+      checkRepoTagsOnMasterBranches;
     release-lib = ./lib/release-lib.nix;
   };
 in self
