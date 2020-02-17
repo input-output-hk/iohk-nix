@@ -25,9 +25,9 @@
   #####    Update Parameters    #####
 
   ApplicationName = "cardano-sl";
-  ApplicationVersion = 1;
-  LastKnownBlockVersion-Major = 0;
-  LastKnownBlockVersion-Minor = 2;
+  ApplicationVersion = 2;
+  LastKnownBlockVersion-Major = 1;
+  LastKnownBlockVersion-Minor = 0;
   LastKnownBlockVersion-Alt = 0;
 
   MemPoolLimitTx = 200;
