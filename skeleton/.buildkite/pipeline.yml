@@ -29,5 +29,6 @@ steps:
     agents:
       system: x86_64-linux
     timeout_in_minutes: 60
+    branches: master
     artifact_paths:
       - "/build/iohk-skeleton/.stack-work/logs/iohk-skeleton*.log"
