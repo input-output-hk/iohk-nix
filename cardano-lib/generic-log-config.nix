@@ -36,7 +36,7 @@
 
   # if wanted, the EKG interface is listening on this port:
   hasEKG = 12788;
-  hasPrometheus = [ "localhost" 12798 ];
+  hasPrometheus = [ "127.0.0.1" 12798 ];
 
   # here we set up outputs of logging in 'katip':
   setupScribes = [ {
