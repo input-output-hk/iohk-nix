@@ -32,6 +32,7 @@ let
   environments = {
     mainnet = rec {
       relays = "relays.cardano-mainnet.iohk.io";
+      relaysNew = "relays-new.cardano-mainnet.iohk.io";
       edgeNodes = [
         "3.125.75.199"
         "18.177.103.105"
@@ -52,6 +53,7 @@ let
     };
     staging = rec {
       relays = "relays.awstest.iohkdev.io";
+      relaysNew = "relays-new.awstest.iohkdev.io";
       edgeNodes = [
         "3.125.10.61"
         "52.192.59.170"
@@ -71,6 +73,7 @@ let
     };
     testnet = rec {
       relays = "relays.cardano-testnet.iohkdev.io";
+      relaysNew = "relays-new.cardano-testnet.iohkdev.io";
       edgeNodes = [
         "3.125.94.58"
         "18.176.19.63"
@@ -91,6 +94,7 @@ let
     };
     shelley_staging = rec {
       relays = "relays.staging-shelley.dev.iohkdev.io";
+      relaysNew = "relays-new.staging-shelley.dev.iohkdev.io";
       edgeNodes = [
         "3.125.23.159"
         "18.177.133.109"
@@ -110,6 +114,7 @@ let
     };
     shelley_staging_short = rec {
       relays = "relays.staging-shelley-short.aws.iohkdev.io";
+      relaysNew = "relays-new.staging-shelley-short.dev.iohkdev.io";
       edgeNodes = [
         "52.59.133.44"
         "3.114.127.167"
