@@ -1,4 +1,4 @@
-{lib, writeText, runCommand, jq, rust-packages }:
+{lib, writeText, runCommand, jq, rust-packages, fetchurl }:
 let
   calculatedVersions = ( __fromJSON (__readFile ./versions.json) ).versions;
 
@@ -151,6 +151,14 @@ let
       genesisFile = ./genesis-itn_rewards_v1.yaml;
       registryUrl = "https://github.com/cardano-foundation/incentivized-testnet-stake-poolregistry/archive/master.zip";
       syncTolerance = "600s";
+      genesisYaml = fetchurl {
+        url = "https://update-jormungandr-incentivized.iohk.io/genesis.yaml";
+        sha256 = "0188291c74ee88b1ee8b3d8c7cd93dabf88a1a098a7c94c45adc88ba56a791f6";
+      };
+      block0bin = fetchurl {
+        url = "https://update-jormungandr-incentivized.iohk.io/block-0.bin";
+        sha256 = "5cac56e9017dd033ecc650f63262c3c47e6272e4a0e4533b9f7f6f3ddab4838e";
+      };
       trustedPeers = [
         {
           address = "/ip4/13.56.0.226/tcp/3000";
