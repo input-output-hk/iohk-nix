@@ -41,10 +41,10 @@
         "homepage": null,
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "ea553d8c67c6a718448da50826ff5b6916dc9c59",
-        "sha256": "0g9smv36sk42rfyzi8wyq2wl11c5l0qaldij1zjdj60s57cl3wgj",
+        "rev": "ad952ac771964093dd060af3e11282e018ffbf82",
+        "sha256": "01b5h166jdd324k74c20mwr9sky73jbjk3f04zrssvw47cgcw2fb",
         "type": "tarball",
-        "url": "https://github.com/NixOS/nixpkgs/archive/ea553d8c67c6a718448da50826ff5b6916dc9c59.tar.gz",
+        "url": "https://github.com/NixOS/nixpkgs/archive/ad952ac771964093dd060af3e11282e018ffbf82.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nixpkgs-cardano-sl": {

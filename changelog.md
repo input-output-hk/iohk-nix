@@ -3,6 +3,10 @@
 Please read these notes when updating your project's `iohk-nix`
 version. There may have been changes which could break your build.
 
+## 2020-02-19
+   * remove support for haskell.nix (use overlays instead)
+   * removes numerous deprecations related to removal of haskell.nix support
+
 ## 2020-02-06
    * migrate skeleton to cabalProject and haskell.nix as overlay.
 

@@ -97,23 +97,6 @@ let
         packages.iohk-monitoring.package.identifier.name = "iohk-monitoring";
       }
 
-      # Allow reinstallation of Win32
-      { nonReinstallablePkgs =
-        [ "rts" "ghc-heap" "ghc-prim" "integer-gmp" "integer-simple" "base"
-          "deepseq" "array" "ghc-boot-th" "pretty" "template-haskell"
-          # ghcjs custom packages
-          "ghcjs-prim" "ghcjs-th"
-          "ghc-boot"
-          "ghc" "array" "binary" "bytestring" "containers"
-          "filepath" "ghc-boot" "ghc-compact" "ghc-prim"
-          # "ghci" "haskeline"
-          "hpc"
-          "mtl" "parsec" "text" "transformers"
-          "xhtml"
-          # "stm" "terminfo"
-        ];
-      }
-
       (lib.optionalAttrs stdenv.hostPlatform.isWindows {
         # Disable cabal-doctest tests by turning off custom setups
         packages.comonad.package.buildType = lib.mkForce "Simple";

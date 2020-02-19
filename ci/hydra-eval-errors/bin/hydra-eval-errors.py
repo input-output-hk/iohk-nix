@@ -54,6 +54,8 @@ class HydraEvalMonitor:
                         found = True
                         self.evalId = hydra_eval["id"]
                         self.eval = self.getApi(f"eval/{self.evalId}")
+                if not found:
+                    raise ApiNotFoundError(f"Eval not created")
             except ApiNotFoundError as e:
                 print(f"Hydra eval not created yet for {commit} - sleeping {retry_time} seconds")
                 retry_count = retry_count + 1

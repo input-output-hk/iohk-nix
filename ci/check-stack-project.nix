@@ -7,7 +7,7 @@
 
 with stdenv.lib;
 
-writeScript "check-nix-tools.sh" ''
+writeScript "check-stack-project.sh" ''
   #!${stdenv.shell}
 
   set -euo pipefail
@@ -40,7 +40,7 @@ writeScript "check-nix-tools.sh" ''
 
     # Create the commit
     export GIT_COMMITTER_NAME="IOHK"
-    export GIT_COMMITTER_EMAIL="devops+nix-tools@iohk.io"
+    export GIT_COMMITTER_EMAIL="devops+stack-project@iohk.io"
     export GIT_AUTHOR_NAME="$GIT_COMMITTER_NAME"
     export GIT_AUTHOR_EMAIL="$GIT_COMMITTER_EMAIL"
     if [ -n "$commit_fixup" ]; then
