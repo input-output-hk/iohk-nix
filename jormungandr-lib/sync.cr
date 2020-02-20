@@ -1,5 +1,5 @@
 #!/usr/bin/env nix-shell
-#!nix-shell -p rsync crystal -i crystal
+#!nix-shell -I nixpkgs=./nix -p rsync crystal -i crystal
 
 require "file_utils"
 require "http/client"
@@ -65,7 +65,7 @@ class JormungandrVersions
 
   def update!
     github_releases.each do |release|
-      version = JormungandrVersions::Version.new(release.tag_name, release.target_commitish)
+      version = JormungandrVersions::Version.new(release.tag_name, release.rev)
 
       versions[release.nix_version]?.try do |existing_version|
         version.sha256 = existing_version.sha256
@@ -106,10 +106,19 @@ end
 alias GithubReleases = Array(GithubRelease)
 
 class GithubRelease
-  JSON.mapping(tag_name: String, target_commitish: String)
+  JSON.mapping(tag_name: String)
 
   def nix_version : String
     tag_name.gsub(/(\d+)\./) { "#{$1}_" }.gsub("+", "_").gsub(".", "_")
+  end
+
+  def rev
+    args = ["ls-remote", "https://github.com/input-output-hk/jormungandr", tag_name]
+    puts "git #{args.join(" ")}"
+
+    IO::Memory.new.tap { |memory|
+      Process.run("git", args, output: memory, error: STDERR)
+    }.to_s.split.first
   end
 end
 
