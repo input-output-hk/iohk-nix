@@ -269,6 +269,18 @@
       "rev": "ed9f7550156fd118eedd1ba4bcd3e809bd17191f",
       "sha256": "0x5dmz29fpy22s63ckhhm4cvyczm2g4hpayxadz7w9rj0slnvkfj",
       "cargoSha256": "1vj151skq1l77rvgbxh93l4ra1gjhqxry887vi4d50c21q3ialjy"
+    },
+    "v0_8_11": {
+      "version": "0.8.11",
+      "rev": "3ee87e845813fd151114a19be678b5a65798a649",
+      "sha256": "0a4cgn8rdvm0wd6ma2k4krppxkks7kf4w19wbcd7j9636mb60fkx",
+      "cargoSha256": "102ka1lgfbgs5wc16vm3pv8dwxwwwhswp4ffcqbi2fv1xrmdhmiv"
+    },
+    "v0_8_10-2": {
+      "version": "0.8.10-2",
+      "rev": "42a2b574f3fae0d71f5d09f4a9360b791d924e1f",
+      "sha256": "0rzcamlyj5bx61lzbzqvdpxm5zv8fm4kjwpnwkmjf4w1fx8r54fa",
+      "cargoSha256": "04g1cd23vnlza4c7l2hsnrhy6mw78iz5fx6sflsxs8k04g5jcg94"
     }
   }
 }
