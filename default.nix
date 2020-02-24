@@ -129,7 +129,7 @@ let
     overlays = haskellNix.overlays ++ overlays.haskell-nix-extra;
   }); {
     inherit
-      regenerateStackPackages
+      stackNixRegenerate
     ;
   };
 
