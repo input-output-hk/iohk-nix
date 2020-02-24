@@ -1,7 +1,7 @@
 # A script for generating the nix haskell package set based on stackage,
 # using the common convention for repo layout.
 
-{ lib, stdenv, path, writeScript, nix-tools, coreutils, findutils }:
+{ lib, stdenv, path, writeScript, nix-tools, coreutils, findutils, glibcLocales }:
 
 let
   deps = [ nix-tools coreutils findutils ];
@@ -21,6 +21,10 @@ in
     # the PATH on darwin. The security-tool in nixpkgs is broken on macOS Mojave.
     export PATH=${(lib.makeBinPath deps) + lib.optionalString stdenv.isDarwin ":/usr/bin"}
     export NIX_PATH=nixpkgs=${path}
+    # Needed or stack-to-nix will die on unicode inputs
+    LOCALE_ARCHIVE=${lib.optionalString (stdenv.hostPlatform.libc == "glibc") "${glibcLocales}/lib/locale/locale-archive"};
+    LANG="en_US.UTF-8";
+    LC_ALL="en_US.UTF-8";
 
     tmp_dest=".stack-to-nix.tmp"
     mkdir -p "$tmp_dest"
