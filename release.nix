@@ -45,13 +45,17 @@ let
 
   mappedPkgs = mapTestOn ({
     rust-packages.pkgs.cardano-http-bridge = supportedSystems;
+    haskell-nix-extra-packages.stackNixRegenerate = supportedSystems;
     niv = supportedSystems;
 
     # Development tools
   } // jormungandrPackages);
 
   skeletonJobset = import ./skeleton/release.nix {
-    sourcesOverride = { iohk-nix = ./.; };
+    sourcesOverride = {
+      iohk-nix = ./.;
+      inherit (import ./nix/sources.nix) "haskell.nix";
+    };
   };
 
 in
@@ -66,6 +70,7 @@ fix (self: mappedPkgs // {
     constituents = (with self; [
       self.forceNewEval
       rust-packages.pkgs.cardano-http-bridge.x86_64-linux
+      haskell-nix-extra-packages.stackNixRegenerate.x86_64-linux
       niv.x86_64-linux
       niv.x86_64-darwin
     ]) ++ usedJormungandrVersions;
