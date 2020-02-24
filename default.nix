@@ -121,6 +121,18 @@ let
     };
   };
 
+  haskell-nix-extra-packages =
+    let haskellNix = import sources."haskell.nix";
+    in with (import sources.nixpkgs {
+    inherit system crossSystem;
+    config = haskellNix.config // config;
+    overlays = haskellNix.overlays ++ overlays.haskell-nix-extra;
+  }); {
+    inherit
+      regenerateStackPackages
+    ;
+  };
+
   shell = import ./shell.nix;
 
   self = {
@@ -131,6 +143,7 @@ let
       shell
       tests
       rust-packages
+      haskell-nix-extra-packages
       cardanoLib
       jormungandrLib;
 
