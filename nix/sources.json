@@ -59,6 +59,18 @@
         "url": "https://github.com/input-output-hk/nixpkgs/archive/38cae07c47c0be9bcf976170168d6775dc881a9e.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
+    "nixpkgs-crystal": {
+        "branch": "nixos-20.03",
+        "description": "A read-only mirror of NixOS/nixpkgs tracking the released channels. Send issues and PRs to",
+        "homepage": "https://github.com/NixOS/nixpkgs",
+        "owner": "NixOS",
+        "repo": "nixpkgs-channels",
+        "rev": "68df00b0ba61eb304549dd52154622fdcc4c806e",
+        "sha256": "1mjbhzvb9iy847mjjya0ssx9fx1hy9i2xjmakggqp70dx5n7lm8g",
+        "type": "tarball",
+        "url": "https://github.com/NixOS/nixpkgs-channels/archive/68df00b0ba61eb304549dd52154622fdcc4c806e.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
     "nixpkgs-daedalus": {
         "branch": "iohk-18.09",
         "description": "Nix Packages collection",
