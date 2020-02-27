@@ -54,11 +54,22 @@ let
     sourcesOverride = { iohk-nix = ./.; };
   };
 
+  mkPins = inputs: pkgs.runCommand "ifd-pins" {} ''
+    mkdir $out
+    cd $out
+    ${concatMapStringsSep "\n" (input: "ln -sv ${input.value} ${input.key}") (attrValues (mapAttrs (key: value: { inherit key value; }) inputs))}
+  '';
+
 in
 fix (self: mappedPkgs // {
   inherit (commonLib) check-hydra;
   inherit jormungandrConfigs;
   jormungandr-deployment = jormungandrLib.mkConfigHtml { inherit (jormungandrLib.environments) itn_rewards_v1 beta nightly legacy; };
+
+  ifd-pins = mkPins {
+    # todo, build it for both linux and darwin
+    iohk-nix-utils-cabal2nix = (packageSet.pkgs.extend (builtins.elemAt packageSet.overlays.haskell-nix-extra 0)).haskellBuildUtils.package.cabal2nixDeriver;
+  };
 
   forceNewEval = pkgs.writeText "forceNewEval" iohk-nix.rev;
   required = pkgs.lib.hydraJob (pkgs.releaseTools.aggregate {
