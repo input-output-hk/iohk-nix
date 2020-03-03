@@ -1,6 +1,6 @@
 {
   # global filter; messages must have at least this severity to pass:
-  minSeverity = "Debug";
+  minSeverity = "Info";
 
   TurnOnLogging = true;
   TurnOnLogMetrics = true;
@@ -21,9 +21,7 @@
 
   # these backends are initialized:
   setupBackends = [
-    "AggregationBK"
     "KatipBK"
-    "EKGViewBK"
   ];
 
   # if not indicated otherwise, then messages are passed to these backends:
@@ -59,7 +57,7 @@
   # MinimalVerbosity: Minimal level of the rendering of captured items
   # MaximalVerbosity: Maximal level of the rendering of captured items
   # NormalVerbosity: the default level of the rendering of captured items
-  TracingVerbosity = "MaximalVerbosity";
+  TracingVerbosity = "NormalVerbosity";
 
   # Trace BlockFetch client.
   TraceBlockFetchClient = false;
@@ -167,21 +165,6 @@
          # `UTxO`-related messages during epoch validation.
          subtrace = "NoTrace";
       };
-      "#messagecounters.aggregation" = {
-         subtrace = "NoTrace";
-      };
-      "#messagecounters.ekgview" = {
-         subtrace = "NoTrace";
-      };
-      "#messagecounters.switchboard" = {
-         subtrace = "NoTrace";
-      };
-      "#messagecounters.katip" = {
-         subtrace = "NoTrace";
-      };
-      "#messagecounters.monitoring" = {
-         subtrace = "NoTrace";
-      };
       "cardano.node-metrics" = {
          subtrace = "Neutral";
       };
@@ -190,14 +173,14 @@
       "cardano.node-metrics" = [
          "EKGViewBK"
          {
-            kind = "EKGViewBK";
+            kind = "UserDefinedBK";
             name = "LiveViewBackend";
          }
       ];
-      "cardano.node.metrics.ChainDB" = [
+      "cardano.node.ChainDB.metrics" = [
          "EKGViewBK"
          {
-            kind = "EKGViewBK";
+            kind = "UserDefinedBK";
             name = "LiveViewBackend";
          }
       ];
