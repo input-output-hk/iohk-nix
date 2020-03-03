@@ -184,13 +184,7 @@
             name = "LiveViewBackend";
          }
       ];
-      "cardano.node.BlockFetchDecision" = [
-         {
-            kind = "UserDefinedBK";
-            name = "LiveViewBackend";
-         }
-      ];
-      "cardano.node.peers.BlockFetchDecision" = [
+      "cardano.node.BlockFetchDecision.peers" = [
          {
             kind = "UserDefinedBK";
             name = "LiveViewBackend";
