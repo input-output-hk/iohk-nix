@@ -48,7 +48,7 @@ def repl(match):
     dict["subdir"] = ''
   if not (dict['loc'], dict['tag']) in globalCache:
     prefetchJSON = subprocess.run(
-      ["nix-prefetch-git", "--quiet", dict['loc'], dict['tag']],
+      ["nix-prefetch-git", "--fetch-submodules", "--quiet", dict['loc'], dict['tag']],
       capture_output=True, check=True).stdout
     globalCache[(dict['loc'], dict['tag'])] = json.loads(prefetchJSON)["sha256"]
   sha256 = globalCache[(dict['loc'], dict['tag'])]
