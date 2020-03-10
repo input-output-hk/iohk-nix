@@ -122,5 +122,10 @@
     };
     mapBackends = {
     };
+    mapSeverity = {
+      "db-sync-node.Subscription" = "Error";
+      "db-sync-node.Mux" = "Error";
+      "db-sync-node" = "Info";
+    };
   };
 }
