@@ -19,7 +19,7 @@ rec {
    let
       buildTools' = [
         gnused coreutils git nix gnumake gnutar gzip lz4
-        stack pkgs.stack-hpc-coveralls
+        stack stack-hpc-coveralls
         haskellPackages.weeder
       ] ++ buildTools;
       libs' = ps: libs ps ++ [ package ];
@@ -35,4 +35,3 @@ rec {
         --set NO_GC_STACK_SHELL "${toString shell}"
     '';
 }
-

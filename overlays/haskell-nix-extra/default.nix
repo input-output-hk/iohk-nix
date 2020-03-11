@@ -12,11 +12,11 @@ pkgs: super: with pkgs; with lib; {
 
     };
   };
-  stackNixRegenerate = pkgs.callPackage ./haskell-nix-extra/nix-tools-regenerate.nix {
+  stackNixRegenerate = pkgs.callPackage ./nix-tools-regenerate.nix {
     nix-tools = super.haskell-nix.nix-tools;
   };
-  haskellBuildUtils = import ./haskell-nix-extra/utils/default.nix {
-    pkgs = super;
+  haskellBuildUtils = import ./utils/default.nix {
+    inherit pkgs;
   };
   stack-hpc-coveralls = super.haskellPackages.callPackage ./stack-hpc-coveralls.nix {};
 }
