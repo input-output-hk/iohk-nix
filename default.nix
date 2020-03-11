@@ -76,7 +76,7 @@ let
           else zero;
 
     # Development tools
-    stack-hpc-coveralls = pkgsDefault.haskellPackages.callPackage ./pkgs/stack-hpc-coveralls.nix {};
+    inherit (haskell-nix-extra-packages) stack-hpc-coveralls;
     hlint = upstreamedDeprecation "hlint" pkgsDefault.hlint;
     openapi-spec-validator = upstreamedDeprecation "openapi-spec-validator" pkgsDefault.python37Packages.openapi-spec-validator;
     inherit (import sources.cardano-repo-tool {inherit system;}) cardano-repo-tool;
@@ -101,7 +101,7 @@ let
 
   overlays = {
     rust-packages = rust-packages.overlays;
-    haskell-nix-extra = [(import ./overlays/haskell-nix-extra.nix)];
+    haskell-nix-extra = [(import ./overlays/haskell-nix-extra)];
     iohkNix = [(pkgs: super: rec {
       iohkNix = import ./. {
         inherit (pkgs) config system;
@@ -122,16 +122,18 @@ let
   };
 
   haskell-nix-extra-packages =
-    let haskellNix = import sources."haskell.nix";
-    in with (import sources.nixpkgs {
-    inherit system crossSystem;
-    config = haskellNix.config // config;
-    overlays = haskellNix.overlays ++ overlays.haskell-nix-extra;
-  }); {
-    inherit
-      stackNixRegenerate
-    ;
-  };
+    let haskellNix = import defaultSources."haskell.nix";
+    in with (import defaultSources.nixpkgs {
+      inherit system crossSystem;
+      config = haskellNix.config // config;
+      overlays = haskellNix.overlays ++ overlays.haskell-nix-extra;
+      });
+    { inherit
+        haskellBuildUtils
+        stackNixRegenerate
+        stack-hpc-coveralls
+      ;
+    };
 
   shell = import ./shell.nix;
 
