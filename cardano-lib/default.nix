@@ -66,7 +66,7 @@ let
       private = false;
       networkConfig = import ./staging-config.nix;
       nodeConfig = networkConfig // defaultLogConfig;
-      txSubmitConfig = {
+      submitApiConfig = {
         GenesisHash = genesisHash;
         inherit (networkConfig) RequiresNetworkMagic;
       } // defaultExplorerLogConfig;
@@ -87,7 +87,7 @@ let
       private = false;
       networkConfig = import ./testnet-config.nix;
       nodeConfig = networkConfig // defaultLogConfig;
-      txSubmitConfig = {
+      submitApiConfig = {
         GenesisHash = genesisHash;
         inherit (networkConfig) RequiresNetworkMagic;
       } // defaultExplorerLogConfig;
@@ -107,7 +107,7 @@ let
       private = false;
       networkConfig = import ./shelley-staging-config.nix;
       nodeConfig = networkConfig // defaultLogConfig;
-      txSubmitConfig = {
+      submitApiConfig = {
         GenesisHash = genesisHash;
         inherit (networkConfig) RequiresNetworkMagic;
       } // defaultExplorerLogConfig;
@@ -127,7 +127,7 @@ let
       private = false;
       networkConfig = import ./shelley-staging-short-config.nix;
       nodeConfig = networkConfig // defaultLogConfig;
-      txSubmitConfig = {
+      submitApiConfig = {
         GenesisHash = genesisHash;
         inherit (networkConfig) RequiresNetworkMagic;
       } // defaultExplorerLogConfig;
