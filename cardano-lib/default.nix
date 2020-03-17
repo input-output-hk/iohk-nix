@@ -46,7 +46,7 @@ let
       private = false;
       networkConfig = import ./mainnet-config.nix;
       nodeConfig = networkConfig // defaultLogConfig;
-      txSubmitConfig = {
+      submitApiConfig = {
         GenesisHash = genesisHash;
         inherit (networkConfig) RequiresNetworkMagic;
       } // defaultExplorerLogConfig;
