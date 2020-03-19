@@ -185,6 +185,7 @@
          }
       ];
       "cardano.node.BlockFetchDecision.peers" = [
+         "EKGViewBK"
          {
             kind = "UserDefinedBK";
             name = "LiveViewBackend";
