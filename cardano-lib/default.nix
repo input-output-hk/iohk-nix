@@ -132,6 +132,16 @@ let
         inherit (networkConfig) RequiresNetworkMagic;
       } // defaultExplorerLogConfig;
     };
+    # used for daedalus/cardano-wallet for local development
+    selfnode = rec {
+      private = false;
+      networkConfig = import ./selfnode-config.nix;
+      nodeConfig = networkConfig // defaultLogConfig;
+      genesisFile = ./selfnode-genesis.json;
+      delegationCertificate = ./selfnode.cert;
+      signingKey = ./selfnode.key;
+      topology = ./selfnode-topology.json;
+    };
     latency-tests = {
       relays = "relays.latency-tests.aws.iohkdev.io";
       edgeNodes = [

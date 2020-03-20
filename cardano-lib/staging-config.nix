@@ -9,7 +9,6 @@
   NodePort = 3001;
   Protocol = "RealPBFT";
   GenesisFile = ./mainnet-genesis-dryrun-with-stakeholders.json;
-  GenesisHash = "c6a004d3d178f600cd8caa10abbebe1549bef878f0665aea2903472d5abf7323";
   NumCoreNodes = 7;
   RequiresNetworkMagic = "RequiresNoMagic";
 
