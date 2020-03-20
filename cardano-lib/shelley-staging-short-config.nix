@@ -8,6 +8,7 @@
   NodeHostAddress = "";
   NodePort = 3001;
   Protocol = "RealPBFT";
+  GenesisFile = ./shelley-staging-short-genesis.json;
   GenesisHash = "78be790c7c4dec7bd2f690c40296e130fefdd198d1175f2b0e9d7e53675f8779";
   NumCoreNodes = 7;
   RequiresNetworkMagic = "RequiresMagic";
