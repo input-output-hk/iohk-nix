@@ -1,16 +1,15 @@
 ##########################################################
-###############    Shelley Staging Short   ###############
+###############          Selfnode          ###############
 ############### Cardano Node Configuration ###############
 ##########################################################
 
 {
   NodeId = 0;
-  NodeHostAddress = "";
-  NodePort = 3001;
   Protocol = "RealPBFT";
-  GenesisFile = ./shelley-staging-short-genesis.json;
-  NumCoreNodes = 7;
-  RequiresNetworkMagic = "RequiresMagic";
+  GenesisFile = ./selfnode-genesis.json;
+  NumCoreNodes = 1;
+  PBftSignatureThreshold = 1000000000000000;
+  RequiresNetworkMagic = "RequiresNoMagic";
 
   ##### Network Time Parameters #####
 
