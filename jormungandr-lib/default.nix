@@ -406,7 +406,7 @@ let
     };
 
     nightly = {
-      packages = packages.v0_8_5-alpha1;
+      packages = packages.v0_8_15;
       genesisHash = "9409af111b04896c756c1cee3b7f9bae8b9ed1843c9e0a5f07d92ab9b62f6f78";
       genesisFile = ./genesis-nightly.yaml;
       registryUrl = "https://github.com/input-output-hk/testnet-stakepool-registry/archive/master.zip";
