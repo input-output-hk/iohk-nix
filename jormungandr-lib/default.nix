@@ -444,7 +444,7 @@ let
     };
 
     qa = {
-      packages = packages.v0_8_15;
+      packages = packages.v0_8_16;
       genesisHash = "b5ada4577e10513240a5457490bd855c350b378fcd762d4354b443ba49b42dda";
       genesisFile = ./genesis-qa.yaml;
       registryUrl = "https://explorer.qa.jormungandr-testnet.iohkdev.io/stakepool-registry/registry.zip";
