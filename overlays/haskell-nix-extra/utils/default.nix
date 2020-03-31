@@ -3,9 +3,16 @@
 
 with pkgs;
 
+let
+  cabal2nixAllowCache = self: super: {
+    haskellSrc2nix = args: (super.haskellSrc2nix args).overrideAttrs (old: {
+      allowSubstitutes = true;
+    });
+  };
+in
 rec {
   # The utils derivation.
-  package = buildPackages.haskellPackages.callCabal2nix "iohk-nix-utils" ./. {};
+  package = (buildPackages.haskellPackages.extend cabal2nixAllowCache).callCabal2nix "iohk-nix-utils" ./. {};
 
   # A function for building a script that can run in CI.
   # The given script path, which is Haskell file will be able to
