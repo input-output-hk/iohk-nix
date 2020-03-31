@@ -22,9 +22,8 @@ in
     export PATH=${(lib.makeBinPath deps) + lib.optionalString stdenv.isDarwin ":/usr/bin"}
     export NIX_PATH=nixpkgs=${path}
     # Needed or stack-to-nix will die on unicode inputs
-    LOCALE_ARCHIVE=${lib.optionalString (stdenv.hostPlatform.libc == "glibc") "${glibcLocales}/lib/locale/locale-archive"};
-    LANG="en_US.UTF-8";
-    LC_ALL="en_US.UTF-8";
+    export LANG=C.utf8
+    export LC_ALL=C.utf8
 
     tmp_dest=".stack-to-nix.tmp"
     mkdir -p "$tmp_dest"
