@@ -1,7 +1,7 @@
-# This is a a CI check script that runs nix/regenerate.sh in the
-# project repository. If anything changes, then it uploads the patch
-# to Buildkite. If run on a PR branch, and there is a SSH key present,
-# it will attempt to push the changes back to the PR.
+# This is a a CI check script that runs after nix/regenerate.sh in the project
+# repository. If anything changes, then it uploads the patch to Buildkite. If
+# run on a PR branch, and there is a SSH key present, it will attempt to push
+# the changes back to the PR.
 
 { stdenv, writeScript, coreutils, nixStable, git, gawk }:
 
@@ -74,6 +74,9 @@ writeScript "check-stack-project.sh" ''
         else
           echo "There is no SSH key at $sshkey"
           echo "The updates can't be pushed."
+          echo
+          echo "To add SSH keys, see: "
+          echo "https://github.com/input-output-hk/ci-ops/blob/0a35ebc25df1ca9e764ddd4739be3eb965ecbe2d/modules/buildkite-agent-containers.nix#L225-L230:
           echo
           echo "Error: The generated nix files are not up to date."
           printf 'Apply the patch \033]1339;url=artifact://'$patch';content='$patch'\a from the build artifacts.\n'
