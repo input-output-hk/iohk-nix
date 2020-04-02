@@ -24,7 +24,7 @@ writeScript "check-stack-project.sh" ''
   git add -A nix
 
   # Check if there are changes staged for commit.
-  if git diff-index --cached --quiet HEAD --; then
+  if git diff-index --ignore-all-space --cached --quiet HEAD --; then
     echo "Generated Nix code is up-to-date."
     exit 0
   else
