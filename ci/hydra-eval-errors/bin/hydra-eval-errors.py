@@ -60,7 +60,7 @@ class HydraEvalMonitor:
                 print(f"Hydra eval not created yet for {commit} - sleeping {retry_time} seconds")
                 retry_count = retry_count + 1
                 sleep(retry_time)
-                if retry_count > retries:
+                if retry_count == retries:
                     print("Retried 1 hour - exiting")
                     errormsg = self.job["errormsg"]
                     print("Errors below may be incomplete")
