@@ -82,7 +82,7 @@
   # Trace DNS Resolver messages.
   TraceDNSResolver = false;
   # Trace DNS Subscription messages.
-  TraceDNSSubscription = false;
+  TraceDNSSubscription = true;
   # Trace error policy resolution.
   TraceErrorPolicy = false;
   # Trace block forging.
