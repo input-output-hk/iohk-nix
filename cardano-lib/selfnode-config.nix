@@ -17,7 +17,7 @@
   Protocol = "RealPBFT";
 
   # The mainnet does not include the network magic into addresses. Testnets do.
-  RequiresNetworkMagic = "RequiresNoMagic";
+  RequiresNetworkMagic = "RequiresMagic";
 
   # Bounds the proportion of the latest K
   # blocks which is allowed to be signed by any single key.
