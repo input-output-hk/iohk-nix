@@ -4,50 +4,36 @@
 ##########################################################
 
 {
-  NodeId = 0;
-  NodeHostAddress = "";
-  NodePort = 3001;
+  ##### Locations #####
+
+  GenesisFile = ./shelley-staging-short-genesis.json;
+
+
+  ##### Core protocol parameters #####
+
+  # This is the instance of the Ouroboros family that we are running.
+  # The node also supports various test and mock instances.
+  # "RealPBFT" is the real (ie not mock) (permissive) OBFT protocol, which
+  # is what we use on mainnet in Byron era.
   Protocol = "RealPBFT";
-  GenesisFile = ./shelley-staging-genesis.json;
-  NumCoreNodes = 7;
+
+  # The mainnet does not include the network magic into addresses. Testnets do.
   RequiresNetworkMagic = "RequiresMagic";
+
+  # Bounds the proportion of the latest K
+  # blocks which is allowed to be signed by any single key.
   PBftSignatureThreshold = 0.5;
 
-  ##### Network Time Parameters #####
+  ##### Update system parameters #####
 
-  ResponseTimeout = 30000000;
-  PollDelay = 1800000000;
-  Servers = [
-    "0.pool.ntp.org"
-    "2.pool.ntp.org"
-    "3.pool.ntp.org"
-  ];
-
-  #####    Update Parameters    #####
-
-  ApplicationName = "cardano-sl";
-  ApplicationVersion = 0;
+  # This protocol version number gets used by by block producing nodes as part
+  # part of the system for agreeing on and synchronising protocol updates.
   LastKnownBlockVersion-Major = 1;
   LastKnownBlockVersion-Minor = 0;
   LastKnownBlockVersion-Alt = 0;
 
-  MemPoolLimitTx = 200;
-  AssetLockedSrcAddress = [];
-
-  CacheParameter = 500;
-  MessageCacheTimeout = 30;
-
-  NetworkDiameter = 18;
-  RecoveryHeadersMessage = 2200;
-  StreamWindow = 2048;
-  NonCriticalCQBootstrap = 0.95;
-  NonCriticalCQ = 0.8;
-  CriticalCQBootstrap = 0.8888;
-  CriticalCQ = 0.654321;
-  CriticalForkThreshold = 3;
-  FixedTimeCQ = 3600;
-
-  SlotLength = 20000;
-  NetworkConnectionTimeout = 15000;
-  HandshakeTimeout = 30000;
+  # In the Byron era some software versions are also published on the chain.
+  # We do this only for Byron compatibility now.
+  ApplicationName = "cardano-sl";
+  ApplicationVersion = 0;
 }
