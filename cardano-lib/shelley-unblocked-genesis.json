@@ -1,0 +1,16 @@
+{
+  "StartTime":"1970-01-01T00:00:00Z",
+  "NetworkMagic":42,
+  "ProtocolMagicId":42,   "SlotLength":1,
+  "ActiveSlotsCoeff": 5.0e-2,
+  "DecentralisationParam":1,
+  "SecurityParam":2160,
+  "EpochLength":21600,
+  "SlotsPerKESPeriod":86400,
+  "MaxKESEvolutions":90,
+  "UpdateQuorum":5,   "MaxMajorPV":1000,
+  "MaxBodySize":16384,
+  "MaxHeaderSize":1400,   "GenDelegs":{},
+  "InitialFunds":{},
+  "MaxLovelaceSupply":0
+}

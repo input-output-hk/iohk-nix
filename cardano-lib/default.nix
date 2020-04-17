@@ -142,6 +142,13 @@ let
       signingKey = ./selfnode.key;
       topology = ./selfnode-topology.json;
     };
+    shelley-unblocked = rec {
+      private = false;
+      networkConfig = import ./shelley-unblocked-config.nix;
+      nodeConfig = networkConfig // defaultLogConfig;
+      genesisFile = ./shelley-unblocked-genesis.json;
+      topology = ./selfnode-topology.json;
+    };
     latency-tests = {
       relays = "relays.latency-tests.aws.iohkdev.io";
       edgeNodes = [
