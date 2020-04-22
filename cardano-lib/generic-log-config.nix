@@ -87,7 +87,7 @@
   TraceBlockFetchClient = false;
 
   # Trace BlockFetch decisions made by the BlockFetch client.
-  TraceBlockFetchDecisions = true;
+  TraceBlockFetchDecisions = false;
 
   # Trace BlockFetch protocol messages.
   TraceBlockFetchProtocol = false;
