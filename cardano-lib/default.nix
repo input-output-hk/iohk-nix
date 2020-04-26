@@ -46,6 +46,7 @@ let
       private = false;
       networkConfig = import ./mainnet-config.nix;
       nodeConfig = networkConfig // defaultLogConfig;
+      consensusProtocol = networkConfig.Protocol;
       submitApiConfig = {
         GenesisHash = genesisHash;
         inherit (networkConfig) RequiresNetworkMagic;
@@ -66,6 +67,7 @@ let
       private = false;
       networkConfig = import ./staging-config.nix;
       nodeConfig = networkConfig // defaultLogConfig;
+      consensusProtocol = networkConfig.Protocol;
       submitApiConfig = {
         GenesisHash = genesisHash;
         inherit (networkConfig) RequiresNetworkMagic;
@@ -87,6 +89,7 @@ let
       private = false;
       networkConfig = import ./testnet-config.nix;
       nodeConfig = networkConfig // defaultLogConfig;
+      consensusProtocol = networkConfig.Protocol;
       submitApiConfig = {
         GenesisHash = genesisHash;
         inherit (networkConfig) RequiresNetworkMagic;
@@ -107,6 +110,7 @@ let
       private = false;
       networkConfig = import ./shelley-staging-config.nix;
       nodeConfig = networkConfig // defaultLogConfig;
+      consensusProtocol = networkConfig.Protocol;
       submitApiConfig = {
         GenesisHash = genesisHash;
         inherit (networkConfig) RequiresNetworkMagic;
@@ -127,6 +131,7 @@ let
       private = false;
       networkConfig = import ./shelley-staging-short-config.nix;
       nodeConfig = networkConfig // defaultLogConfig;
+      consensusProtocol = networkConfig.Protocol;
       submitApiConfig = {
         GenesisHash = genesisHash;
         inherit (networkConfig) RequiresNetworkMagic;
@@ -137,9 +142,21 @@ let
       private = false;
       networkConfig = import ./selfnode-config.nix;
       nodeConfig = networkConfig // defaultLogConfig;
+      consensusProtocol = networkConfig.Protocol;
       genesisFile = ./selfnode-genesis.json;
       delegationCertificate = ./selfnode.cert;
       signingKey = ./selfnode.key;
+      topology = ./selfnode-topology.json;
+    };
+    shelley_selfnode = rec {
+      private = false;
+      networkConfig = import ./shelley-selfnode/config.nix;
+      consensusProtocol = networkConfig.Protocol;
+      nodeConfig = networkConfig // defaultLogConfig;
+      genesisFile = ./shelley-selfnode/genesis.json;
+      operationalCertificate = ./shelley-selfnode/node.opcert;
+      kesKey = ./shelley-selfnode/node-kes.skey;
+      vrfKey = ./shelley-selfnode/node-vrf.skey;
       topology = ./selfnode-topology.json;
     };
     latency-tests = {

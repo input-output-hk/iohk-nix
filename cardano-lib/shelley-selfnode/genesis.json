@@ -1,0 +1,23 @@
+{
+   "StartTime": "2020-04-26T14:39:07Z",
+   "NetworkMagic":42,
+   "ProtocolMagicId":42,
+   "SlotLength":1,
+   "ActiveSlotsCoeff": 0.05,
+   "DecentralisationParam":1,
+   "SecurityParam":2160,
+   "EpochLength":21600,
+   "SlotsPerKESPeriod":86400,
+   "MaxKESEvolutions":90,
+   "UpdateQuorum":5,
+   "MaxMajorPV":1000,
+   "MaxBodySize":16384,
+   "MaxHeaderSize":10000,
+   "GenDelegs": {
+     "8be01e5bf23f62b24071102ba009ed470fc8f2036c7ea796a902051055cb7202":
+       "d68bb177e0395130c117c42865edfe073d713f917a15093f435020fa19fd4dd5"
+   },
+   "InitialFunds": {
+   },
+   "MaxLovelaceSupply": 1000000000
+}
