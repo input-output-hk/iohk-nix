@@ -1,0 +1,27 @@
+{
+  "DecentralisationParam": 1,
+  "ActiveSlotsCoeff": 0.05,
+  "ProtocolMagicId": 838299499,
+  "StartTime": "2020-04-28T15:20:00Z",
+  "GenDelegs": {
+      "a8a378a945906594b153e0ad8caabc0decb27ed8fd6c3b5d05a843515411ff73": "6e31ac9479e6aab5d59deccd385af84ae051dc075d15c57c9ab924509e7d8773",
+      "2d249218150ceb08ee1726d2dab89e4e76d1c64b03bb755dd17b9c19c3bb0658": "972d394a19a9044003a658e95851c622380a4ec4c0e29efd1114c38ab29bfd55",
+      "11c0d4e64b3ff7873a6ab292dff43ad57fdf3ae9cb20004ef71f24ee73cca531": "7526a5ceda8d8fcd67c225e864af86d5cac7d02d61f4efbbf64beaa1d445df7b"
+  },
+  "UpdateQuorum": 3,
+  "MaxHeaderSize": 8192,
+  "MaxMajorPV": 1000,
+  "MaxBodySize": 2097152,
+  "MaxLovelaceSupply": 10000000000,
+  "InitialFunds": {
+      "82085820616f07615aa82c2239de9bb232ab7b831c83815e275ec513400c80384758f56a": 3333333334,
+      "82085820a05416c8c149b205cc22d2bf68b0cb51d96e8cffb311b842810c091061186c89": 3333333333,
+      "820858207bd031abc34144f514f316a8a84d1b7a277d44d652f7b3b31f7b8f91479c1e2e": 3333333333
+  },
+  "NetworkMagic": 4036000900,
+  "EpochLength": 21600,
+  "SlotLength": 1,
+  "SlotsPerKESPeriod": 86400,
+  "MaxKESEvolutions": 90,
+  "SecurityParam": 2160
+}

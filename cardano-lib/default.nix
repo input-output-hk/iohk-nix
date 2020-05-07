@@ -159,6 +159,22 @@ let
       vrfKey = ./shelley-selfnode/node-vrf.skey;
       topology = ./selfnode-topology.json;
     };
+    alpha1 = rec {
+      private = true;
+      relaysNew = "relays-new.alpha1.dev.cardano.org";
+      networkConfig = import ./alpha1-config.nix;
+      consensusProtocol = networkConfig.Protocol;
+      nodeConfig = defaultLogConfig // networkConfig;
+      genesisFile = networkConfig.GenesisFile;
+    };
+    alpha2 = rec {
+      private = true;
+      relaysNew = "relays-new.alpha2.dev.cardano.org";
+      networkConfig = import ./alpha2-config.nix;
+      consensusProtocol = networkConfig.Protocol;
+      nodeConfig = defaultLogConfig // networkConfig;
+      genesisFile = networkConfig.GenesisFile;
+    };
     latency-tests = {
       relays = "relays.latency-tests.aws.iohkdev.io";
       edgeNodes = [
