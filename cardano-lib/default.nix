@@ -159,6 +159,14 @@ let
       vrfKey = ./shelley-selfnode/node-vrf.skey;
       topology = ./selfnode-topology.json;
     };
+    ff = rec {
+      private = false;
+      relaysNew = "relays-new.ff.dev.cardano.org";
+      networkConfig = import ./ff-config.nix;
+      consensusProtocol = networkConfig.Protocol;
+      nodeConfig = defaultLogConfig // networkConfig;
+      genesisFile = networkConfig.GenesisFile;
+    };
     alpha1 = rec {
       private = true;
       relaysNew = "relays-new.alpha1.dev.cardano.org";
