@@ -1,4 +1,4 @@
-{lib, writeText}:
+{lib, writeText, runCommand, jq}:
 let
   mkEdgeTopology = {
     hostAddr ? "127.0.0.1"
@@ -159,6 +159,14 @@ let
       vrfKey = ./shelley-selfnode/node-vrf.skey;
       topology = ./selfnode-topology.json;
     };
+    ff = rec {
+      private = false;
+      relaysNew = "relays-new.ff.dev.cardano.org";
+      networkConfig = import ./ff-config.nix;
+      consensusProtocol = networkConfig.Protocol;
+      nodeConfig = defaultLogConfig // networkConfig;
+      genesisFile = networkConfig.GenesisFile;
+    };
     alpha1 = rec {
       private = true;
       relaysNew = "relays-new.alpha1.dev.cardano.org";
@@ -206,7 +214,78 @@ let
     environments;
 
   cardanoConfig = ./.;
+  configHtml = environments:
+    ''
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>Cardano Configurations</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+        <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+      </head>
+      <body>
+        <section class="hero is-small is-primary">
+          <div class="hero-body">
+            <div class="container">
+              <h1 class="title is-1">
+                Cardano
+              </h1>
+              <h2 class="subtitle is-3">
+                Configurations
+              </h2>
+            </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="container">
+            <div class="table-container">
+              <table class="table is-narrow is-fullwidth">
+                <thead>
+                  <tr>
+                    <th>Cluster</th>
+                    <th>Config</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${toString (lib.mapAttrsToList (name: value:
+                    ''
+                    <tr>
+                      <td>${name}</td>
+                      <td>
+                        <div class="buttons has-addons">
+                          <a class="button is-primary" href="${name}-config.yaml">config</a>
+                          <a class="button is-info" href="${name}-genesis.yaml">genesis</a>
+                        </div>
+                      </td>
+                    </tr>
+                    ''
+                  ) environments) }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </body>
+    </html>
+  '';
+
+  mkConfigHtml = environments: runCommand "cardano-html" { buildInputs = [ jq ]; } ''
+    mkdir -p $out/nix-support
+    cp ${writeText "config.html" (configHtml environments)} $out/index.html
+    ${
+      toString (lib.mapAttrsToList (name: value:
+        ''
+          ${jq}/bin/jq . < ${__toFile "${name}-config.yaml" (__toJSON (value.nodeConfig))} > $out/${name}-config.yaml
+          ${jq}/bin/jq . < ${value.genesisFile} > $out/${name}-genesis.yaml
+        ''
+      ) environments )
+    }
+    echo "report cardano $out index.html" > $out/nix-support/hydra-build-products
+  '';
 
 in {
-  inherit environments forEnvironments forEnvironmentsCustom mkEdgeTopology mkProxyTopology cardanoConfig defaultLogConfig defaultExplorerLogConfig defaultProxyLogConfig;
+  inherit environments forEnvironments forEnvironmentsCustom mkEdgeTopology mkProxyTopology cardanoConfig defaultLogConfig defaultExplorerLogConfig defaultProxyLogConfig mkConfigHtml;
 }
