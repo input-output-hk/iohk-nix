@@ -258,6 +258,7 @@ let
                         <div class="buttons has-addons">
                           <a class="button is-primary" href="${name}-config.json">config</a>
                           <a class="button is-info" href="${name}-genesis.json">genesis</a>
+                          <a class="button is-info" href="${name}-topology.json">topology</a>
                         </div>
                       </td>
                     </tr>
@@ -280,6 +281,7 @@ let
         ''
           ${jq}/bin/jq . < ${__toFile "${name}-config.json" (__toJSON (value.nodeConfig // { GenesisFile = "${name}-genesis.json"; }))} > $out/${name}-config.json
           ${jq}/bin/jq . < ${value.genesisFile} > $out/${name}-genesis.json
+          ${jq}/bin/jq . < ${mkEdgeTopology { edgeNodes = [ value.relaysNew ];}} > $out/${name}-topology.json
         ''
       ) environments )
     }
