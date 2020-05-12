@@ -3,6 +3,9 @@
 Please read these notes when updating your project's `iohk-nix`
 version. There may have been changes which could break your build.
 
+## 2020-05-11
+   * remove skeleton. Moved to new repo cardano-skeleton to reduce CI pressure.
+
 ## 2020-02-19
    * remove support for haskell.nix (use overlays instead)
    * removes numerous deprecations related to removal of haskell.nix support
