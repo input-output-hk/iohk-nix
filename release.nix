@@ -51,13 +51,6 @@ let
     # Development tools
   } // jormungandrPackages);
 
-  skeletonJobset = import ./skeleton/release.nix {
-    sourcesOverride = {
-      iohk-nix = ./.;
-      inherit (import ./nix/sources.nix) "haskell.nix";
-    };
-  };
-
 in
 fix (self: mappedPkgs // {
   inherit (commonLib) check-hydra;
@@ -77,5 +70,4 @@ fix (self: mappedPkgs // {
     ]) ++ usedJormungandrVersions;
   });
 } // {
-  skeleton = skeletonJobset;
 })
