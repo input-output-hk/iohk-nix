@@ -281,7 +281,7 @@ let
         ''
           ${jq}/bin/jq . < ${__toFile "${name}-config.json" (__toJSON (value.nodeConfig // { GenesisFile = "${name}-genesis.json"; }))} > $out/${name}-config.json
           ${jq}/bin/jq . < ${value.genesisFile} > $out/${name}-genesis.json
-          ${jq}/bin/jq . < ${mkEdgeTopology { edgeNodes = [ value.relaysNew ];}} > $out/${name}-topology.json
+          ${jq}/bin/jq . < ${mkEdgeTopology { edgeNodes = [ value.relaysNew ]; valency = 2; }} > $out/${name}-topology.json
         ''
       ) environments )
     }
