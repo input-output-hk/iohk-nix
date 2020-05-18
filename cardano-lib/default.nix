@@ -154,9 +154,13 @@ let
       consensusProtocol = networkConfig.Protocol;
       nodeConfig = networkConfig // defaultLogConfig;
       genesisFile = ./shelley-selfnode/genesis.json;
-      operationalCertificate = ./shelley-selfnode/node.opcert;
-      kesKey = ./shelley-selfnode/node-kes.skey;
-      vrfKey = ./shelley-selfnode/node-vrf.skey;
+      operationalCertificate = ./shelley-selfnode/node-keys/node.opcert;
+      kesKey = ./shelley-selfnode/node-keys/node-kes.skey;
+      vrfKey = ./shelley-selfnode/node-keys/node-vrf.skey;
+      utxo = {
+        signing = ./shelley-selfnode/utxo-keys/utxo1.skey;
+        verification = ./shelley-selfnode/utxo-keys/utxo1.vkey;
+      };
       topology = ./selfnode-topology.json;
     };
     ff = rec {

@@ -1,0 +1,4 @@
+type: VerKeyVRF SimpleVRF
+title: VRF Verification Key
+cbor-hex:
+ 582000007576727e651cd1662eadccd5b515000131eb0c86492503d70fe6506c395d

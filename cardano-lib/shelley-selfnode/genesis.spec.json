@@ -27,21 +27,17 @@
         "a0": 0
     },
     "protocolMagicId": 42,
-    "startTime": "2020-05-18T01:37:00.744065924Z",
-    "genDelegs": {
-        "2ae235e890a858186737f794e0a4f2fe83f228a9557254ab48803a646934c210": "d99f97d73fa7998276f87b063f6f0bdc5ca728c9716fd7d0eb0be03b75757a71"
-    },
+    "startTime": "1970-01-01T00:00:00Z",
+    "genDelegs": {},
     "updateQuorum": 5,
     "maxMajorPV": 1,
-    "initialFunds": {
-        "617bd3aca2167984f92acff85e35e0251614927efeea935151d8d4b7986b9d617b": 4500000000000000
-    },
-    "maxLovelaceSupply": 4500000000000000,
+    "initialFunds": {},
+    "maxLovelaceSupply": 0,
     "networkMagic": 42,
     "epochLength": 432000,
     "staking": null,
-    "slotsPerKESPeriod": 900,
-    "slotLength": 0.2,
+    "slotsPerKESPeriod": 129600,
+    "slotLength": 1,
     "maxKESEvolutions": 60,
-    "securityParam": 18
+    "securityParam": 2160
 }
