@@ -178,6 +178,7 @@ let
       consensusProtocol = networkConfig.Protocol;
       nodeConfig = defaultLogConfig // networkConfig;
       genesisFile = networkConfig.GenesisFile;
+      edgePort = 3001;
     };
     alpha1 = rec {
       useByronWallet = false;
