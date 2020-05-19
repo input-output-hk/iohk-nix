@@ -9,6 +9,7 @@
         },
         "decentralisationParam": 1,
         "maxTxSize": 16384,
+        "minUTxOValue": 0,
         "minFeeA": 0,
         "maxBlockBodySize": 65536,
         "keyMinRefund": 0,

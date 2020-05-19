@@ -1,5 +1,5 @@
 {
-    "activeSlotsCoeff": 5.0e-2,
+    "activeSlotsCoeff": 0.1,
     "protocolParams": {
         "poolDecayRate": 0,
         "poolDeposit": 0,
@@ -7,8 +7,9 @@
             "minor": 0,
             "major": 0
         },
-        "decentralisationParam": 1,
+        "decentralisationParam": 0.7,
         "maxTxSize": 16384,
+        "minUTxOValue": 0,
         "minFeeA": 0,
         "maxBlockBodySize": 65536,
         "keyMinRefund": 0,
@@ -34,14 +35,14 @@
     "updateQuorum": 5,
     "maxMajorPV": 1,
     "initialFunds": {
-        "617bd3aca2167984f92acff85e35e0251614927efeea935151d8d4b7986b9d617b": 4500000000000000
+        "607bd3aca2167984f92acff85e35e0251614927efeea935151d8d4b7986b9d617b": 4500000000000000
     },
     "maxLovelaceSupply": 4500000000000000,
     "networkMagic": 42,
-    "epochLength": 432000,
+    "epochLength": 1500,
     "staking": null,
-    "slotsPerKESPeriod": 900,
-    "slotLength": 0.2,
-    "maxKESEvolutions": 60,
-    "securityParam": 18
+    "slotsPerKESPeriod": 7200,
+    "slotLength": 0.1,
+    "maxKESEvolutions": 120,
+    "securityParam": 10
 }
