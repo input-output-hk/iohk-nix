@@ -31,6 +31,7 @@ let
   '';
   environments = {
     mainnet = rec {
+      useByronWallet = true;
       relays = "relays.cardano-mainnet.iohk.io";
       relaysNew = "relays-new.cardano-mainnet.iohk.io";
       edgeNodes = [
@@ -53,6 +54,7 @@ let
       } // defaultExplorerLogConfig;
     };
     staging = rec {
+      useByronWallet = true;
       relays = "relays.awstest.iohkdev.io";
       relaysNew = "relays-new.awstest.iohkdev.io";
       edgeNodes = [
@@ -74,6 +76,7 @@ let
       } // defaultExplorerLogConfig;
     };
     testnet = rec {
+      useByronWallet = true;
       relays = "relays.cardano-testnet.iohkdev.io";
       relaysNew = "relays-new.cardano-testnet.iohkdev.io";
       edgeNodes = [
@@ -96,6 +99,7 @@ let
       } // defaultExplorerLogConfig;
     };
     shelley_staging = rec {
+      useByronWallet = true;
       relays = "relays.staging-shelley.dev.iohkdev.io";
       relaysNew = "relays-new.staging-shelley.dev.iohkdev.io";
       edgeNodes = [
@@ -117,6 +121,7 @@ let
       } // defaultExplorerLogConfig;
     };
     shelley_staging_short = rec {
+      useByronWallet = false;
       relays = "relays.staging-shelley-short.aws.iohkdev.io";
       relaysNew = "relays-new.staging-shelley-short.dev.iohkdev.io";
       edgeNodes = [
@@ -139,6 +144,7 @@ let
     };
     # used for daedalus/cardano-wallet for local development
     selfnode = rec {
+      useByronWallet = true;
       private = false;
       networkConfig = import ./selfnode-config.nix;
       nodeConfig = networkConfig // defaultLogConfig;
@@ -149,6 +155,7 @@ let
       topology = ./selfnode-topology.json;
     };
     shelley_selfnode = rec {
+      useByronWallet = false;
       private = false;
       networkConfig = import ./shelley-selfnode/config.nix;
       consensusProtocol = networkConfig.Protocol;
@@ -164,14 +171,17 @@ let
       topology = ./selfnode-topology.json;
     };
     ff = rec {
+      useByronWallet = false;
       private = false;
       relaysNew = "relays-new.ff.dev.cardano.org";
       networkConfig = import ./ff-config.nix;
       consensusProtocol = networkConfig.Protocol;
       nodeConfig = defaultLogConfig // networkConfig;
       genesisFile = networkConfig.GenesisFile;
+      edgePort = 3001;
     };
     alpha1 = rec {
+      useByronWallet = false;
       private = true;
       relaysNew = "relays-new.alpha1.dev.cardano.org";
       networkConfig = import ./alpha1-config.nix;
@@ -180,6 +190,7 @@ let
       genesisFile = networkConfig.GenesisFile;
     };
     alpha2 = rec {
+      useByronWallet = false;
       private = true;
       relaysNew = "relays-new.alpha2.dev.cardano.org";
       networkConfig = import ./alpha2-config.nix;
@@ -188,6 +199,7 @@ let
       genesisFile = networkConfig.GenesisFile;
     };
     latency-tests = {
+      useByronWallet = false;
       relays = "relays.latency-tests.aws.iohkdev.io";
       edgeNodes = [
         "18.231.36.12"
@@ -199,6 +211,7 @@ let
       private = false;
     };
     mainnet-ci = {
+      useByronWallet = false;
       relays = "";
       edgeNodes = [
         "10.1.0.8"

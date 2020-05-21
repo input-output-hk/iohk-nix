@@ -197,6 +197,7 @@
             name = "LiveViewBackend";
          }
       ];
+      "cardano.node.Forge.metrics" = [ "EKGViewBK" ];
       "cardano.node.BlockFetchDecision.peers" = [
          "EKGViewBK"
          {
