@@ -101,7 +101,7 @@ let
     shelley_staging = rec {
       useByronWallet = true;
       relays = "relays.staging-shelley.dev.iohkdev.io";
-      relaysNew = "relays-new.staging-shelley.dev.iohkdev.io";
+      relaysNew = "relays-new.staging-shelley.dev.cardano.org";
       edgeNodes = [
         "3.125.23.159"
         "18.177.133.109"
