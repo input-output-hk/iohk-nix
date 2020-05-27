@@ -76,7 +76,7 @@ writeScript "check-stack-project.sh" ''
           echo "The updates can't be pushed."
           echo
           echo "To add SSH keys, see: "
-          echo "https://github.com/input-output-hk/ci-ops/blob/0a35ebc25df1ca9e764ddd4739be3eb965ecbe2d/modules/buildkite-agent-containers.nix#L225-L230:
+          echo "https://github.com/input-output-hk/ci-ops/blob/0a35ebc25df1ca9e764ddd4739be3eb965ecbe2d/modules/buildkite-agent-containers.nix#L225-L230"
           echo
           echo "Error: The generated nix files are not up to date."
           printf 'Apply the patch \033]1339;url=artifact://'$patch';content='$patch'\a from the build artifacts.\n'
