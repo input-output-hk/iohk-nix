@@ -14,7 +14,7 @@
 
   # Global logging severity filter. Messages must have at least this severity to
   # pass. Typical values would be Warning, Notice, Info or Debug.
-  minSeverity = "Notice";
+  minSeverity = "Info";
 
   # Log items can be rendered with more or less verbose detail.
   # The verbosity can be: MinimalVerbosity, NormalVerbosity
