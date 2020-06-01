@@ -180,6 +180,16 @@ let
       genesisFile = networkConfig.GenesisFile;
       edgePort = 3001;
     };
+    shelley_qa = rec {
+      useByronWallet = false;
+      private = false;
+      relaysNew = "relays-new.shelley-qa.dev.cardano.org";
+      networkConfig = import ./shelley-qa-config.nix;
+      consensusProtocol = networkConfig.Protocol;
+      nodeConfig = defaultLogConfig // networkConfig;
+      genesisFile = networkConfig.GenesisFile;
+      edgePort = 3001;
+    };
     alpha1 = rec {
       useByronWallet = false;
       private = true;
