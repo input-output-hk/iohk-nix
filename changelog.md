@@ -3,6 +3,10 @@
 Please read these notes when updating your project's `iohk-nix`
 version. There may have been changes which could break your build.
 
+## 2020-05-27
+   * Switch default nixpkgs to 20.03
+   * Remove skeleton (moved to https://github.com/input-output-hk/cardano-skeleton/)
+
 ## 2020-02-19
    * remove support for haskell.nix (use overlays instead)
    * removes numerous deprecations related to removal of haskell.nix support
