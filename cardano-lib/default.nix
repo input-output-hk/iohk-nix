@@ -178,6 +178,18 @@ let
       consensusProtocol = networkConfig.Protocol;
       nodeConfig = defaultLogConfig // networkConfig;
       genesisFile = networkConfig.GenesisFile;
+      genesisHash = "";
+      edgePort = 3001;
+    };
+    shelley_qa = rec {
+      useByronWallet = false;
+      private = false;
+      relaysNew = "relays-new.shelley-qa.dev.cardano.org";
+      networkConfig = import ./shelley-qa-config.nix;
+      consensusProtocol = networkConfig.Protocol;
+      nodeConfig = defaultLogConfig // networkConfig;
+      genesisFile = networkConfig.GenesisFile;
+      genesisHash = "";
       edgePort = 3001;
     };
     alpha1 = rec {
@@ -188,6 +200,7 @@ let
       consensusProtocol = networkConfig.Protocol;
       nodeConfig = defaultLogConfig // networkConfig;
       genesisFile = networkConfig.GenesisFile;
+      genesisHash = "";
     };
     alpha2 = rec {
       useByronWallet = false;
@@ -197,6 +210,7 @@ let
       consensusProtocol = networkConfig.Protocol;
       nodeConfig = defaultLogConfig // networkConfig;
       genesisFile = networkConfig.GenesisFile;
+      genesisHash = "";
     };
     latency-tests = {
       useByronWallet = false;
