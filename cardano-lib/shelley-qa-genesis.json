@@ -14,7 +14,7 @@
         "maxBlockBodySize": 65536,
         "keyMinRefund": 0,
         "minFeeB": 155381,
-        "eMax": 1,
+        "eMax": 100,
         "extraEntropy": {
             "tag": "NeutralNonce"
         },
@@ -28,23 +28,32 @@
         "a0": 0.1
     },
     "protocolMagicId": 3,
-    "systemStart": "2020-06-02T16:30:00.000000000Z",
     "genDelegs": {
-        "29211b27af637ce50cf165d13611b34481ecd182a49efb81c6f2d2feef5e5348": "c0f8fb996d21308cc8dfd17efba98cd00401b7077274e7d5c986a1263702151e",
-        "19a33716072c92528933bd40e6983c25c7f11b9eda52e6292f9d7b4bef64231e": "3898758ada0cc7a703109b37ebc2a09d37540f707f09fd7d9eb88bad54f0de5d",
-        "18ea1c5cba370c2e3ee016f54b3bdce288478e9ba333f9390fb894c9f6984ef4": "152c972886b690f79fb7a0f55de5e75aafd882ffb4c32b7a4ae4b74d8dba87e3"
+        "3c57fab638003bebb98544bb7df45e197515b71787db3ebc59cbe2b2ff78e58b": {
+            "delegate": "d70fa9901c3a283eee3eabc72dd603c27fb21b3d9d932660174f50086d8da23c",
+            "vrf": "3ddd68a2d11c3f5233279b9ec464c136072cc070edf43542727e18031cba95ad"
+        },
+        "73c751e82881f4745e6c717cb8ba902f1a6283a6dc2b9012627c3b3b75ba35f9": {
+            "delegate": "518327f04aea6a036884ab34c56335dfcf630c3ee4fd27c02b92348636a9a6c4",
+            "vrf": "a72f2b6475b5020bc1ece8066a769f5a5c371f4ee5db80959ba31f3a2c2837e8"
+        },
+        "59dc63f260a0ebaa67b4989144c0ca08a01a3763efdd915c8bac09d73074fdff": {
+            "delegate": "bf6a963a31fd39581ad6b65c45dc22294c068a7bf923abbebc8bcf00687901ed",
+            "vrf": "937dc1d3f12c965c8add6f7b7b98730e8b66bb5f8fa845bd9d3a30bf06124bce"
+        }
     },
     "updateQuorum": 3,
     "networkId": "Testnet",
     "maxMajorPV": 1,
     "initialFunds": {
-        "61575c7e51c1a4d9dc2b6e446623dd451ba849ac6dbaf6c61518a544d881cd8fe8": 4000000000000000,
-        "612e5d307a017c54b73048745cf5f6f532f64da53d88a8fd56c61e8a556ac2b61e": 20000000000000000
+        "60e7a6abff9689fb5fb7780f41394691bcbd002b544a0752efc489728ff422e21a": 10000000000000000,
+        "60480b09e953878268b741064e6997473c1fd7f41d7f0bbc80ec28398db439c9c1": 1000000000000000
     },
     "maxLovelaceSupply": 45000000000000000,
     "networkMagic": 3,
     "epochLength": 21600,
     "staking": null,
+    "systemStart": "2020-06-05T01:00:00.000000000Z",
     "slotsPerKESPeriod": 86400,
     "slotLength": 1,
     "maxKESEvolutions": 120,
