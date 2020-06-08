@@ -1,7 +1,6 @@
 steps:
   - label: ":pipeline: Skeleton project pipelines"
     command:
-      - 'buildkite-agent pipeline upload skeleton/.buildkite/pipeline.yml'
-      - 'buildkite-agent pipeline upload skeleton/.buildkite/nightly.yml'
+      - 'echo "TODO: trigger skeleton build using current branch"'
     agents:
       system: x86_64-linux

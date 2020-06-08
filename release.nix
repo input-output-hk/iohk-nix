@@ -21,8 +21,7 @@ with (import (commonLib.nixpkgs + "/pkgs/top-level/release-lib.nix") {
 with pkgs.lib;
 
 let
-  packageSet = import ./. {};
-  inherit (packageSet) jormungandrLib cardanoLib;
+  inherit (commonLib) jormungandrLib cardanoLib sources;
 
   jormungandrPackages = foldl' (sum: name:
     recursiveUpdate {
@@ -51,13 +50,6 @@ let
     # Development tools
   } // jormungandrPackages);
 
-  skeletonJobset = import ./skeleton/release.nix {
-    sourcesOverride = {
-      iohk-nix = ./.;
-      inherit (import ./nix/sources.nix) "haskell.nix";
-    };
-  };
-
 in
 fix (self: mappedPkgs // {
   inherit (commonLib) check-hydra;
@@ -76,6 +68,4 @@ fix (self: mappedPkgs // {
       niv.x86_64-darwin
     ]) ++ usedJormungandrVersions;
   });
-} // {
-  skeleton = skeletonJobset;
 })

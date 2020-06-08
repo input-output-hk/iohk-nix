@@ -116,7 +116,7 @@ let
       (commonLib.pkgsDefault.callPackage ./overlays/rust/mozilla.nix {})
       (import ./overlays/rust)
     ];
-    pkgs = import sources.nixpkgs {
+    pkgs = import sources."nixpkgs-19.09" {
       inherit overlays config system crossSystem;
     };
   };

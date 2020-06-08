@@ -17,10 +17,10 @@
         "homepage": "https://input-output-hk.github.io/haskell.nix",
         "owner": "input-output-hk",
         "repo": "haskell.nix",
-        "rev": "29e42da7fb7d8836a0354dc194cdd2a6a955979c",
-        "sha256": "0p2vb6da3gr74sjwm2dkzx985l5394g2axz2dyr5189i5fqifam1",
+        "rev": "91a7ac7aab9766ba6f699c5fb1ddc0827b6044b1",
+        "sha256": "02166pr6hkzq3n6pf94qh6g0n1f8rzrsyh8ll5wak87arycsjjb1",
         "type": "tarball",
-        "url": "https://github.com/input-output-hk/haskell.nix/archive/29e42da7fb7d8836a0354dc194cdd2a6a955979c.tar.gz",
+        "url": "https://github.com/input-output-hk/haskell.nix/archive/91a7ac7aab9766ba6f699c5fb1ddc0827b6044b1.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "niv": {
@@ -29,13 +29,25 @@
         "homepage": "https://github.com/input-output-hk/niv",
         "owner": "input-output-hk",
         "repo": "niv",
-        "rev": "2ecfd86b631714b457e56d70dd83fa60435baeb6",
-        "sha256": "01j6727cws8blg1npp54b4w6xa0gpgyzhyws2vqgp8clnlnmqqhi",
+        "rev": "f73bf8d584148677b01859677a63191c31911eae",
+        "sha256": "0jlmrx633jvqrqlyhlzpvdrnim128gc81q5psz2lpp2af8p8q9qs",
         "type": "tarball",
-        "url": "https://github.com/input-output-hk/niv/archive/2ecfd86b631714b457e56d70dd83fa60435baeb6.tar.gz",
+        "url": "https://github.com/input-output-hk/niv/archive/f73bf8d584148677b01859677a63191c31911eae.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nixpkgs": {
+        "branch": "nixos-20.03",
+        "description": "Nix Packages collection",
+        "homepage": null,
+        "owner": "NixOS",
+        "repo": "nixpkgs-channels",
+        "rev": "05a32d8e771dc39438835ba0e3141d68ad4e3068",
+        "sha256": "0w8824m4f15km3mngji35qjs9sgfvfpl57b0dq6hch5gmhlal679",
+        "type": "tarball",
+        "url": "https://github.com/NixOS/nixpkgs-channels/archive/05a32d8e771dc39438835ba0e3141d68ad4e3068.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "nixpkgs-19.09": {
         "branch": "nixos-19.09",
         "description": "Nix Packages collection",
         "homepage": null,
