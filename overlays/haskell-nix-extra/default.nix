@@ -6,7 +6,7 @@ pkgs: super: with pkgs; with lib; {
          // { recurseForDerivations = true; };
 
       recRecurseIntoAttrs = x:
-        if (isAttrs x && !isDerivation x)
+        if (isAttrs x && !isDerivation x && x.recurseForDerivations or true)
         then recurseIntoAttrs (mapAttrs (n: v: if n == "buildPackages" then v else recRecurseIntoAttrs v) x)
         else x;
 
