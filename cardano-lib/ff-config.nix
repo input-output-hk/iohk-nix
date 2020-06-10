@@ -19,10 +19,6 @@
   # The mainnet does not include the network magic into addresses. Testnets do.
   RequiresNetworkMagic = "RequiresMagic";
 
-  #### LOGGING Debug
-
-  minSeverity = "Debug";
-
   ##### Update system parameters #####
 
   # This protocol version number gets used by by block producing nodes as part
