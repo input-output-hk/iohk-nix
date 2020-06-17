@@ -81,6 +81,7 @@ let
     openapi-spec-validator = upstreamedDeprecation "openapi-spec-validator" pkgsDefault.python37Packages.openapi-spec-validator;
     inherit (import sources.cardano-repo-tool {inherit system;}) cardano-repo-tool;
     stack-cabal-sync-shell = pkgsDefault.callPackage ./pkgs/stack-cabal-sync-shell.nix { inherit cardano-repo-tool; };
+    supervisord = pkgsDefault.callPackage ./supervisord {};
 
     # Check scripts
     check-hydra = __trace "check-hydra is deprecated. Please use hydraEvalErrors" pkgsDefault.callPackage ./ci/check-hydra.nix {};
@@ -164,6 +165,7 @@ let
       commitIdFromGitRepo
       commitIdFromGitRepoOrZero
       cabalProjectRegenerate
+      supervisord
 
       # packages
       stack-hpc-coveralls
