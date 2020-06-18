@@ -46,10 +46,21 @@ class JormungandrVersions
       puts "nix #{args.join(" ")}"
 
       Process.run("nix", args) do |process|
-        process.error.gets_to_end.match(/^\s*got:\s*sha256:(.\S+)/m).try(&.[1]).try do |sum|
+        output = process.error.gets_to_end
+        output.match(/^\s*got:\s*sha256:(.\S+)/m).try(&.[1]).try do |sum|
           yield sum
         end
+
+        output.match(/^\s*got:\s*sha256-(.\S+)/m).try(&.[1]).try do |sum|
+          yield convert_to_old(sum)
+        end
       end
+    end
+
+    def convert_to_old(hash)
+      output = IO::Memory.new
+      Process.run("nix-hash", [ "--to-base32", "--type", "sha256", hash ], output: output, error: STDERR)
+      output.to_s.strip
     end
 
     def version_without_v
