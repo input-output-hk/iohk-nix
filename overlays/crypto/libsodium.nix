@@ -10,7 +10,7 @@ stdenv.mkDerivation rec {
     sha256 = "12g2wz3gyi69d87nipzqnq4xc6nky3xbmi2i2pb2hflddq8ck72f";
   };
 
-  buildInputs = with pkgs;
+  nativeBuildInputs = with pkgs.buildPackages;
     [ autoconf automake libtool ];
 
   outputs = [ "out" "dev" ];
@@ -20,9 +20,8 @@ stdenv.mkDerivation rec {
 
   doCheck = true;
 
-  configurePhase = ''
+  preConfigure = ''
     ./autogen.sh
-    ./configure --prefix "$out"
   '';
 
   meta = with stdenv.lib; {
