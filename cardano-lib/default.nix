@@ -181,6 +181,17 @@ let
       genesisHash = "";
       edgePort = 3001;
     };
+    shelley_testnet = rec {
+      useByronWallet = false;
+      private = false;
+      relaysNew = "relays-new.shelley-testnet.dev.cardano.org";
+      networkConfig = import ./shelley-testnet-config.nix;
+      consensusProtocol = networkConfig.Protocol;
+      nodeConfig = defaultLogConfig // networkConfig;
+      genesisFile = networkConfig.GenesisFile;
+      genesisHash = "";
+      edgePort = 3001;
+    };
     shelley_qa = rec {
       useByronWallet = false;
       private = false;
