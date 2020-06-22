@@ -1,4 +1,4 @@
-{ stdenv, fetchFromGitHub, pkgs }:
+{ stdenv, fetchFromGitHub, autoreconfHook }:
 
 stdenv.mkDerivation rec {
   name = "libsodium-1.0.18";
@@ -10,8 +10,7 @@ stdenv.mkDerivation rec {
     sha256 = "12g2wz3gyi69d87nipzqnq4xc6nky3xbmi2i2pb2hflddq8ck72f";
   };
 
-  nativeBuildInputs = with pkgs.buildPackages;
-    [ autoconf automake libtool ];
+  nativeBuildInputs = [ autoreconfHook ];
 
   outputs = [ "out" "dev" ];
   separateDebugInfo = stdenv.isLinux && stdenv.hostPlatform.libc != "musl";
@@ -19,10 +18,6 @@ stdenv.mkDerivation rec {
   enableParallelBuilding = true;
 
   doCheck = true;
-
-  preConfigure = ''
-    ./autogen.sh
-  '';
 
   meta = with stdenv.lib; {
     description = "A modern and easy-to-use crypto library";
