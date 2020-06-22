@@ -102,6 +102,7 @@ let
   overlays = {
     rust-packages = rust-packages.overlays;
     haskell-nix-extra = [(import ./overlays/haskell-nix-extra)];
+    crypto = [(import ./overlays/crypto)];
     iohkNix = [(pkgs: super: rec {
       iohkNix = import ./. {
         inherit (pkgs) config system;
