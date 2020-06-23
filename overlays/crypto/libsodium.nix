@@ -12,6 +12,8 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ autoreconfHook ];
 
+  configureFlags = "--enable-static";
+
   outputs = [ "out" "dev" ];
   separateDebugInfo = stdenv.isLinux && stdenv.hostPlatform.libc != "musl";
 
