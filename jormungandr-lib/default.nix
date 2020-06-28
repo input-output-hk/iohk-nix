@@ -146,7 +146,7 @@ let
 
   environments = {
     itn_rewards_v1 = {
-      packages = packages.v0_9_0;
+      packages = packages.v0_9_1;
       genesisHash = "8e4d2a343f3dcf9330ad9035b3e8d168e6728904262f2c434a4f8f934ec7b676";
       genesisFile = ./genesis-itn_rewards_v1.yaml;
       registryUrl = "https://github.com/cardano-foundation/incentivized-testnet-stake-poolregistry/archive/master.zip";
@@ -365,7 +365,7 @@ let
     };
 
     nightly = {
-      packages = packages.v0_9_0-rc3;
+      packages = packages.v0_9_1;
       genesisHash = "9409af111b04896c756c1cee3b7f9bae8b9ed1843c9e0a5f07d92ab9b62f6f78";
       genesisFile = ./genesis-nightly.yaml;
       registryUrl = "https://github.com/input-output-hk/testnet-stakepool-registry/archive/master.zip";
@@ -396,7 +396,7 @@ let
     };
 
     qa = {
-      packages = packages.v0_9_0-rc3;
+      packages = packages.v0_9_1;
       genesisHash = "b5ada4577e10513240a5457490bd855c350b378fcd762d4354b443ba49b42dda";
       genesisFile = ./genesis-qa.yaml;
       registryUrl = "https://explorer.qa.jormungandr-testnet.iohkdev.io/stakepool-registry/registry.zip";
