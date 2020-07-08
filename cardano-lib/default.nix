@@ -53,6 +53,17 @@ let
         inherit (networkConfig) RequiresNetworkMagic;
       } // defaultExplorerLogConfig;
     };
+    mainnet_candidate = rec {
+      useByronWallet = true;
+      relaysNew = "relays-new.mainnet-candidate.dev.cardano.org";
+      edgePort = 3001;
+      private = false;
+      networkConfig = import ./mainnet-candidate-config.nix;
+      nodeConfig = networkConfig // defaultLogConfig;
+      consensusProtocol = networkConfig.Protocol;
+      genesisFile = nodeConfig.ByronGenesisFile;
+      genesisHash = "214f022ffc617843a237a88104f7140bfc19e308ac38129d47fd0ab37d8c7591";
+    };
     staging = rec {
       useByronWallet = true;
       relays = "relays.awstest.iohkdev.io";
