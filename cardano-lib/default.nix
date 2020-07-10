@@ -62,6 +62,7 @@ let
       nodeConfig = networkConfig // defaultLogConfig;
       consensusProtocol = networkConfig.Protocol;
       genesisFile = nodeConfig.ByronGenesisFile;
+      genesisFileHfc = nodeConfig.ShelleyGenesisFile;
       genesisHash = "214f022ffc617843a237a88104f7140bfc19e308ac38129d47fd0ab37d8c7591";
     };
     staging = rec {
@@ -267,6 +268,13 @@ let
     environments;
 
   cardanoConfig = ./.;
+
+  protNames = {
+    RealPBFT = { n = "byron"; };
+    TPraos   = { n = "shelley"; };
+    Cardano  = { n = "byron"; nHfc = "shelley"; };
+  };
+
   configHtml = environments:
     ''
     <!DOCTYPE html>
@@ -303,15 +311,19 @@ let
                   </tr>
                 </thead>
                 <tbody>
-                  ${toString (lib.mapAttrsToList (name: value:
-                    ''
+                  ${toString (lib.mapAttrsToList (env: value:
+                    let p = value.consensusProtocol;
+                    in ''
                     <tr>
-                      <td>${name}</td>
+                      <td>${env}</td>
                       <td>
                         <div class="buttons has-addons">
-                          <a class="button is-primary" href="${name}-config.json">config</a>
-                          <a class="button is-info" href="${name}-genesis.json">genesis</a>
-                          <a class="button is-info" href="${name}-topology.json">topology</a>
+                          <a class="button is-primary" href="${env}-config.json">config</a>
+                          <a class="button is-info" href="${env}-${protNames.${p}.n}-genesis.json">${protNames.${p}.n}Genesis</a>
+                          ${if p == "Cardano" then ''
+                            <a class="button is-info" href="${env}-${protNames.${p}.nHfc}-genesis.json">${protNames.${p}.nHfc}Genesis</a>
+                          '' else ""}
+                          <a class="button is-info" href="${env}-topology.json">topology</a>
                         </div>
                       </td>
                     </tr>
@@ -326,15 +338,26 @@ let
     </html>
   '';
 
+  # Any environments using the HFC protocol of "Cardano" need a second genesis file attribute of
+  # genesisFileHfc in order to generate the html table in mkConfigHtml
   mkConfigHtml = environments: runCommand "cardano-html" { buildInputs = [ jq ]; } ''
     mkdir -p $out/nix-support
     cp ${writeText "config.html" (configHtml environments)} $out/index.html
     ${
-      toString (lib.mapAttrsToList (name: value:
-        ''
-          ${jq}/bin/jq . < ${__toFile "${name}-config.json" (__toJSON (value.nodeConfig // { GenesisFile = "${name}-genesis.json"; }))} > $out/${name}-config.json
-          ${jq}/bin/jq . < ${value.genesisFile} > $out/${name}-genesis.json
-          ${jq}/bin/jq . < ${mkEdgeTopology { edgeNodes = [ value.relaysNew ]; valency = 2; }} > $out/${name}-topology.json
+      toString (lib.mapAttrsToList (env: value:
+        let p = value.consensusProtocol;
+        in ''
+          ${if p != "Cardano" then ''
+            ${jq}/bin/jq . < ${__toFile "${env}-config.json" (__toJSON (value.nodeConfig // { GenesisFile = "${env}-genesis.json"; }))} > $out/${env}-config.json
+          '' else ''
+            ${jq}/bin/jq . < ${__toFile "${env}-config.json" (__toJSON (value.nodeConfig // {
+              ByronGenesisFile = "${env}-${protNames.${p}.n}-genesis.json";
+              ShelleyGenesisFile = "${env}-${protNames.${p}.nHfc}-genesis.json";
+            }))} > $out/${env}-config.json
+          ''}
+          ${jq}/bin/jq . < ${value.genesisFile} > $out/${env}-${protNames.${p}.n}-genesis.json
+          ${if p == "Cardano" then "${jq}/bin/jq . < ${value.genesisFileHfc} > $out/${env}-${protNames.${p}.nHfc}-genesis.json" else ""}
+          ${jq}/bin/jq . < ${mkEdgeTopology { edgeNodes = [ value.relaysNew ]; valency = 2; }} > $out/${env}-topology.json
         ''
       ) environments )
     }
