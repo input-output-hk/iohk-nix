@@ -260,9 +260,10 @@ let
       private = false;
     };
   };
+  # TODO: add flag to disable with forEnvironments instead of hard-coded list?
   forEnvironments = f: lib.mapAttrs
     (name: env: f (env // { inherit name; }))
-    environments;
+    (builtins.removeAttrs environments [ "mainnet-ci" "latency-tests" ]);
   forEnvironmentsCustom = f: environments: lib.mapAttrs
     (name: env: f (env // { inherit name; }))
     environments;
