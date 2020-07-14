@@ -3,6 +3,10 @@
 Please read these notes when updating your project's `iohk-nix`
 version. There may have been changes which could break your build.
 
+## 2020-07-14
+   * Bump Haskell.nix to latest. There are [multiple API changes](https://github.com/input-output-hk/haskell.nix/blob/master/changelog.md).
+   * Fix `stackNixRegenerate` script for latest Haskell.nix.
+
 ## 2020-05-27
    * Switch default nixpkgs to 20.03
    * Remove skeleton (moved to https://github.com/input-output-hk/cardano-skeleton/)

@@ -124,7 +124,7 @@ let
   };
 
   haskell-nix-extra-packages =
-    let haskellNix = import defaultSources."haskell.nix";
+    let haskellNix = (import defaultSources."haskell.nix" { inherit system sourcesOverride; }).nixpkgsArgs;
     in with (import defaultSources.nixpkgs {
       inherit system crossSystem;
       config = haskellNix.config // config;
