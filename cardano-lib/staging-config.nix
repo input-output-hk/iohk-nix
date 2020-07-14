@@ -6,7 +6,7 @@
 {
   ##### Locations #####
 
-  GenesisFile = ./mainnet-genesis-dryrun-with-stakeholders.json;
+  GenesisFile = ./mainnet-dryrun-with-stakeholders-byron-genesis.json;
 
 
   ##### Core protocol parameters #####

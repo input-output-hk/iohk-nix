@@ -1,14 +1,12 @@
 ##########################################################
-###############      Mainnet Candidate     ###############
+###############         Shelley QA         ###############
 ############### Cardano Node Configuration ###############
 ##########################################################
 
 {
   ##### Locations #####
 
-  ByronGenesisFile = ./mainnet-candidate-byron-genesis.json;
-  ShelleyGenesisFile = ./mainnet-candidate-shelley-genesis.json;
-
+  GenesisFile = ./shelley_qa-shelley-genesis.json;
 
   ##### Core protocol parameters #####
 
@@ -16,21 +14,20 @@
   # The node also supports various test and mock instances.
   # "RealPBFT" is the real (ie not mock) (permissive) OBFT protocol, which
   # is what we use on mainnet in Byron era.
-  Protocol = "Cardano";
+  Protocol = "TPraos";
 
-  PBftSignatureThreshold = 0.9;
+  # The mainnet does not include the network magic into addresses. Testnets do.
+  RequiresNetworkMagic = "RequiresMagic";
 
-  # The mainnet candidate utilizes same addresses as mainnet
-  RequiresNetworkMagic = "RequiresNoMagic";
+  #### LOGGING Debug
 
-  MaxKnownMajorProtocolVersion = 2;
-
+  minSeverity = "Debug";
 
   ##### Update system parameters #####
 
   # This protocol version number gets used by by block producing nodes as part
   # part of the system for agreeing on and synchronising protocol updates.
-  LastKnownBlockVersion-Major = 2;
+  LastKnownBlockVersion-Major = 0;
   LastKnownBlockVersion-Minor = 0;
   LastKnownBlockVersion-Alt = 0;
 

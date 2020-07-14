@@ -1,12 +1,12 @@
 ##########################################################
-###############           Alpha1           ###############
+###############       Shelley Testnet      ###############
 ############### Cardano Node Configuration ###############
 ##########################################################
 
 {
   ##### Locations #####
 
-  GenesisFile = ./alpha1-genesis.json;
+  GenesisFile = ./shelley_testnet-shelley-genesis.json;
 
   ##### Core protocol parameters #####
 
@@ -18,10 +18,6 @@
 
   # The mainnet does not include the network magic into addresses. Testnets do.
   RequiresNetworkMagic = "RequiresMagic";
-
-  #### LOGGING Debug
-
-  minSeverity = "Debug";
 
   ##### Update system parameters #####
 

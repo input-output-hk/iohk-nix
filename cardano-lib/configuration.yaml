@@ -14840,7 +14840,7 @@ mainnet_full: &mainnet_full
     <<: *mainnet_base_core
     genesis:
       src:
-        file: mainnet-genesis.json
+        file: mainnet-byron-genesis.json
         hash: 5f20df933584822601f9e3f8c024eb5eb252fe8cefb24d1317dc3d432e940ebb
     requiresNetworkMagic: RequiresNoMagic
   txValidationRules:
@@ -14909,7 +14909,7 @@ mainnet_ci_full: &mainnet_ci_full
     genesis:
       <<: *mainnet_base_genesis
       src:
-        file: mainnet-ci-genesis.json
+        file: mainnet-ci-byron-genesis.json
         hash: 12da51c484b5310fe26ca06ab24b94b323cde3698a0a50cb3f212abd08c2731e
     requiresNetworkMagic: RequiresNoMagic
   txValidationRules:
@@ -14977,7 +14977,7 @@ testnet_full: &testnet_full
     genesis:
       <<: *testnet_gen_genesis
       src:
-        file: testnet-genesis.json
+        file: testnet-byron-genesis.json
         hash: 96fceff972c2c06bd3bb5243c39215333be6d56aaf4823073dca31afe5038471
 
   update: &testnet_full_update
@@ -15053,7 +15053,7 @@ shelley_staging_full: &shelley_staging_full
     genesis:
       <<: *shelley_staging_gen_genesis
       src:
-        file: shelley-staging-genesis.json
+        file: shelley_staging-byron-genesis.json
         hash: 82995abf3e0e0f8ab9a6448875536a1cba305f3ddde18cd5ff54c32d7a5978c6
 
   update: &shelley_staging_full_update
@@ -15083,81 +15083,6 @@ shelley_staging_wallet_macos64: &shelley_staging_wallet_macos64
 shelley_staging_wallet_linux64: &shelley_staging_wallet_linux64
   <<: *shelley_staging_wallet
 
-shelley_staging_short_launch: &shelley_staging_short_launch
-  <<: *mainnet_base
-  core: &shelley_staging_short_gen_core
-    <<: *mainnet_base_core
-    genesis: &shelley_staging_short_gen_genesis
-      <<: *mainnet_base_genesis
-      spec: &shelley_staging_short_gen_spec
-        <<: *mainnet_base_spec
-        protocolConstants:
-          k: 18
-          protocolMagic: 1097911066
-          vssMinTTL: 2
-          vssMaxTTL: 6
-        avvmDistr: {}
-        initializer:
-          testBalance:
-            poors:        100
-            richmen:      7
-            richmenShare: 0.95
-            totalBalance: 42000000000000000 # 42e9 ADA
-            useHDAddresses: True
-          fakeAvvmBalance:
-            count: 100
-            oneBalance: 20000000000000 # 2e7 ADA
-          avvmBalanceFactor: 1
-          useHeavyDlg: True
-          seed: 0 # should be overridden using --configuration-seed
-        blockVersionData:
-          <<: *mainnet_base_blockVersionData
-          maxHeaderSize:      2000
-          maxProposalSize:   70000 # 70KB
-          maxTxSize:         65536 # 64KiB
-    requiresNetworkMagic: RequiresMagic
-  txValidationRules:
-    attribResrictEpoch: 2
-    addrAttribSize: 128
-    txAttribSize: 128
-
-shelley_staging_short_full: &shelley_staging_short_full
-  <<: *shelley_staging_short_launch
-  core: &shelley_staging_short_full_core
-    <<: *shelley_staging_short_gen_core
-    genesis:
-      <<: *shelley_staging_short_gen_genesis
-      src:
-        file: shelley-staging-short-genesis.json
-        hash: 78be790c7c4dec7bd2f690c40296e130fefdd198d1175f2b0e9d7e53675f8779
-
-  update: &shelley_staging_short_full_update
-    applicationName: cardano-sl
-    applicationVersion: 0
-    lastKnownBlockVersion:
-      bvMajor: 0
-      bvMinor: 0
-      bvAlt: 0
-
-shelley_staging_short_wallet: &shelley_staging_short_wallet
-  <<: *shelley_staging_short_full
-  update: &shelley_staging_short_wallet_update
-    applicationName: csl-daedalus
-    applicationVersion: 0
-    lastKnownBlockVersion:
-      bvMajor: 0
-      bvMinor: 0
-      bvAlt: 0
-
-shelley_staging_short_wallet_win64: &shelley_staging_short_wallet_win64
-  <<: *shelley_staging_short_wallet
-
-shelley_staging_short_wallet_macos64: &shelley_staging_short_wallet_macos64
-  <<: *shelley_staging_short_wallet
-
-shelley_staging_short_wallet_linux64: &shelley_staging_short_wallet_linux64
-  <<: *shelley_staging_short_wallet
-
 ##############################################################################
 ##                                                                          ##
 ##   Mainnet dryrun config sample                                           ##
@@ -15170,7 +15095,7 @@ mainnet_dryrun_full: &mainnet_dryrun_full
     <<: *mainnet_base_core
     genesis:
       src:
-        file: mainnet-genesis-dryrun-with-stakeholders.json
+        file: mainnet-dryrun-with-stakeholders-byron-genesis.json
         hash: c6a004d3d178f600cd8caa10abbebe1549bef878f0665aea2903472d5abf7323
     requiresNetworkMagic: RequiresNoMagic
   txValidationRules:
@@ -15228,7 +15153,7 @@ mainnet_staging_short_epoch_full: &mainnet_staging_short_epoch_full
     <<: *mainnet_base_core
     genesis:
       src:
-        file: mainnet-staging-short-epoch-genesis.json
+        file: mainnet-staging-short-epoch-byron-genesis.json
         hash: 82f274fb611a7637c8162ebd2a5b2b2852fa82e5230e206e87d4eac97aa96016
   update:
     applicationName: cardano-sl
@@ -15401,7 +15326,7 @@ internal_staging_full: &internal_staging_full
     <<: *internal_staging_gen_core
     genesis:
       src:  # TODO: it doesn't exist yet
-        file: internal-staging-genesis.json
+        file: internal-staging-byron-genesis.json
         hash: f73231256fe6784c408e8a31b7bb8250f80ce64fdbdec137ad1da2faa257a166
   update:
     applicationName: cardano-sl
