@@ -132,28 +132,6 @@ let
         inherit (networkConfig) RequiresNetworkMagic;
       } // defaultExplorerLogConfig;
     };
-    shelley_staging_short = rec {
-      useByronWallet = false;
-      relays = "relays.staging-shelley-short.aws.iohkdev.io";
-      relaysNew = "relays-new.staging-shelley-short.dev.iohkdev.io";
-      edgeNodes = [
-        "52.59.133.44"
-        "3.114.127.167"
-        "18.138.87.237"
-      ];
-      edgePort = 3001;
-      confKey = "shelley_staging_short_full";
-      genesisFile = ./shelley_staging_short-byron-genesis.json;
-      genesisHash = "78be790c7c4dec7bd2f690c40296e130fefdd198d1175f2b0e9d7e53675f8779";
-      private = false;
-      networkConfig = import ./shelley_staging_short-config.nix;
-      nodeConfig = networkConfig // defaultLogConfig;
-      consensusProtocol = networkConfig.Protocol;
-      submitApiConfig = {
-        GenesisHash = genesisHash;
-        inherit (networkConfig) RequiresNetworkMagic;
-      } // defaultExplorerLogConfig;
-    };
     # used for daedalus/cardano-wallet for local development
     selfnode = rec {
       useByronWallet = true;
@@ -182,17 +160,6 @@ let
       };
       topology = ./selfnode-topology.json;
     };
-    ff = rec {
-      useByronWallet = false;
-      private = false;
-      relaysNew = "relays-new.ff.dev.cardano.org";
-      networkConfig = import ./ff-config.nix;
-      consensusProtocol = networkConfig.Protocol;
-      nodeConfig = defaultLogConfig // networkConfig;
-      genesisFile = networkConfig.GenesisFile;
-      genesisHash = "";
-      edgePort = 3001;
-    };
     shelley_testnet = rec {
       useByronWallet = false;
       private = false;
@@ -214,26 +181,6 @@ let
       genesisFile = networkConfig.GenesisFile;
       genesisHash = "";
       edgePort = 3001;
-    };
-    alpha1 = rec {
-      useByronWallet = false;
-      private = true;
-      relaysNew = "relays-new.alpha1.dev.cardano.org";
-      networkConfig = import ./alpha1-config.nix;
-      consensusProtocol = networkConfig.Protocol;
-      nodeConfig = defaultLogConfig // networkConfig;
-      genesisFile = networkConfig.GenesisFile;
-      genesisHash = "";
-    };
-    alpha2 = rec {
-      useByronWallet = false;
-      private = true;
-      relaysNew = "relays-new.alpha2.dev.cardano.org";
-      networkConfig = import ./alpha2-config.nix;
-      consensusProtocol = networkConfig.Protocol;
-      nodeConfig = defaultLogConfig // networkConfig;
-      genesisFile = networkConfig.GenesisFile;
-      genesisHash = "";
     };
     latency-tests = {
       useByronWallet = false;
