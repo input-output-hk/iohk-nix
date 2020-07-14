@@ -1,12 +1,12 @@
 ##########################################################
-###############           Alpha1           ###############
+###############           Alpha2           ###############
 ############### Cardano Node Configuration ###############
 ##########################################################
 
 {
   ##### Locations #####
 
-  GenesisFile = ./alpha2-genesis.json;
+  GenesisFile = ./alpha2-shelley-genesis.json;
 
   ##### Core protocol parameters #####
 

@@ -6,7 +6,7 @@
 {
   ##### Locations #####
 
-  GenesisFile = ./alpha1-genesis.json;
+  GenesisFile = ./alpha1-shelley-genesis.json;
 
   ##### Core protocol parameters #####
 

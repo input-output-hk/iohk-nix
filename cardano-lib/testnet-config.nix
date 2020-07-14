@@ -6,7 +6,7 @@
 {
   ##### Locations #####
 
-  GenesisFile = ./testnet-genesis.json;
+  GenesisFile = ./testnet-byron-genesis.json;
 
 
   ##### Core protocol parameters #####

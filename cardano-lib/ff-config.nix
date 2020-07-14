@@ -1,12 +1,12 @@
 ##########################################################
-###############           Alpha1           ###############
+###############             FF             ###############
 ############### Cardano Node Configuration ###############
 ##########################################################
 
 {
   ##### Locations #####
 
-  GenesisFile = ./ff-genesis.json;
+  GenesisFile = ./ff-shelley-genesis.json;
 
   ##### Core protocol parameters #####
 

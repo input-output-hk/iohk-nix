@@ -42,7 +42,7 @@ let
       ];
       edgePort = 3001;
       confKey = "mainnet_full";
-      genesisFile = ./mainnet-genesis.json;
+      genesisFile = ./mainnet-byron-genesis.json;
       genesisHash = "5f20df933584822601f9e3f8c024eb5eb252fe8cefb24d1317dc3d432e940ebb";
       private = false;
       networkConfig = import ./mainnet-config.nix;
@@ -58,7 +58,7 @@ let
       relaysNew = "relays-new.mainnet-candidate.dev.cardano.org";
       edgePort = 3001;
       private = false;
-      networkConfig = import ./mainnet-candidate-config.nix;
+      networkConfig = import ./mainnet_candidate-config.nix;
       nodeConfig = networkConfig // defaultLogConfig;
       consensusProtocol = networkConfig.Protocol;
       genesisFile = nodeConfig.ByronGenesisFile;
@@ -76,7 +76,7 @@ let
       ];
       edgePort = 3001;
       confKey = "mainnet_dryrun_full";
-      genesisFile = ./mainnet-genesis-dryrun-with-stakeholders.json;
+      genesisFile = ./mainnet-dryrun-with-stakeholders-byron-genesis.json;
       genesisHash = "c6a004d3d178f600cd8caa10abbebe1549bef878f0665aea2903472d5abf7323";
       private = false;
       networkConfig = import ./staging-config.nix;
@@ -99,7 +99,7 @@ let
       ];
       edgePort = 3001;
       confKey = "testnet_full";
-      genesisFile = ./testnet-genesis.json;
+      genesisFile = ./testnet-byron-genesis.json;
       genesisHash = "96fceff972c2c06bd3bb5243c39215333be6d56aaf4823073dca31afe5038471";
       private = false;
       networkConfig = import ./testnet-config.nix;
@@ -121,10 +121,10 @@ let
       ];
       edgePort = 3001;
       confKey = "shelley_staging_full";
-      genesisFile = ./shelley-staging-genesis.json;
+      genesisFile = ./shelley_staging-byron-genesis.json;
       genesisHash = "82995abf3e0e0f8ab9a6448875536a1cba305f3ddde18cd5ff54c32d7a5978c6";
       private = false;
-      networkConfig = import ./shelley-staging-config.nix;
+      networkConfig = import ./shelley_staging-config.nix;
       nodeConfig = networkConfig // defaultLogConfig;
       consensusProtocol = networkConfig.Protocol;
       submitApiConfig = {
@@ -143,10 +143,10 @@ let
       ];
       edgePort = 3001;
       confKey = "shelley_staging_short_full";
-      genesisFile = ./shelley-staging-short-genesis.json;
+      genesisFile = ./shelley_staging_short-byron-genesis.json;
       genesisHash = "78be790c7c4dec7bd2f690c40296e130fefdd198d1175f2b0e9d7e53675f8779";
       private = false;
-      networkConfig = import ./shelley-staging-short-config.nix;
+      networkConfig = import ./shelley_staging_short-config.nix;
       nodeConfig = networkConfig // defaultLogConfig;
       consensusProtocol = networkConfig.Protocol;
       submitApiConfig = {
@@ -161,7 +161,7 @@ let
       networkConfig = import ./selfnode-config.nix;
       nodeConfig = networkConfig // defaultLogConfig;
       consensusProtocol = networkConfig.Protocol;
-      genesisFile = ./selfnode-genesis.json;
+      genesisFile = ./selfnode-byron-genesis.json;
       delegationCertificate = ./selfnode.cert;
       signingKey = ./selfnode.key;
       topology = ./selfnode-topology.json;
@@ -169,10 +169,10 @@ let
     shelley_selfnode = rec {
       useByronWallet = false;
       private = false;
-      networkConfig = import ./shelley-selfnode/config.nix;
+      networkConfig = import ./shelley-selfnode/shelley_selfnode-config.nix;
       consensusProtocol = networkConfig.Protocol;
       nodeConfig = networkConfig // defaultLogConfig;
-      genesisFile = ./shelley-selfnode/genesis.json;
+      genesisFile = ./shelley-selfnode/shelley_selfnode-shelley-genesis.json;
       operationalCertificate = ./shelley-selfnode/node-keys/node.opcert;
       kesKey = ./shelley-selfnode/node-keys/node-kes.skey;
       vrfKey = ./shelley-selfnode/node-keys/node-vrf.skey;
@@ -197,7 +197,7 @@ let
       useByronWallet = false;
       private = false;
       relaysNew = "relays-new.shelley-testnet.dev.cardano.org";
-      networkConfig = import ./shelley-testnet-config.nix;
+      networkConfig = import ./shelley_testnet-config.nix;
       consensusProtocol = networkConfig.Protocol;
       nodeConfig = defaultLogConfig // networkConfig;
       genesisFile = networkConfig.GenesisFile;
@@ -208,7 +208,7 @@ let
       useByronWallet = false;
       private = false;
       relaysNew = "relays-new.shelley-qa.dev.cardano.org";
-      networkConfig = import ./shelley-qa-config.nix;
+      networkConfig = import ./shelley_qa-config.nix;
       consensusProtocol = networkConfig.Protocol;
       nodeConfig = defaultLogConfig // networkConfig;
       genesisFile = networkConfig.GenesisFile;
@@ -243,7 +243,7 @@ let
       ];
       edgePort = 3001;
       confKey = "latency_tests_full";
-      genesisFile = ./latency-tests-genesis.json;
+      genesisFile = ./latency-tests-byron-genesis.json;
       genesisHash = "c8b2ef02574d10bf23c2cd4a8c4022a9285f366af64b2544b317e2175b94f5a3";
       private = false;
     };
@@ -255,7 +255,7 @@ let
       ];
       edgePort = 3000;
       confKey = "mainnet_ci_full";
-      genesisFile = ./mainnet-ci-genesis.json;
+      genesisFile = ./mainnet-ci-byron-genesis.json;
       genesisHash = "12da51c484b5310fe26ca06ab24b94b323cde3698a0a50cb3f212abd08c2731e";
       private = false;
     };
@@ -349,7 +349,9 @@ let
         let p = value.consensusProtocol;
         in ''
           ${if p != "Cardano" then ''
-            ${jq}/bin/jq . < ${__toFile "${env}-config.json" (__toJSON (value.nodeConfig // { GenesisFile = "${env}-genesis.json"; }))} > $out/${env}-config.json
+            ${jq}/bin/jq . < ${__toFile "${env}-config.json" (__toJSON (value.nodeConfig // {
+              GenesisFile = "${env}-${protNames.${p}.n}-genesis.json";
+            }))} > $out/${env}-config.json
           '' else ''
             ${jq}/bin/jq . < ${__toFile "${env}-config.json" (__toJSON (value.nodeConfig // {
               ByronGenesisFile = "${env}-${protNames.${p}.n}-genesis.json";

@@ -6,7 +6,7 @@
 {
   ##### Locations #####
 
-  GenesisFile = ./selfnode-genesis.json;
+  GenesisFile = ./selfnode-byron-genesis.json;
 
   ##### Core protocol parameters #####
 

@@ -6,7 +6,7 @@
 {
   ##### Locations #####
 
-  GenesisFile = ./mainnet-genesis.json;
+  GenesisFile = ./mainnet-byron-genesis.json;
 
 
   ##### Core protocol parameters #####

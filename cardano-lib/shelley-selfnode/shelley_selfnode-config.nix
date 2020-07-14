@@ -6,7 +6,7 @@
 {
   ##### Locations #####
 
-  GenesisFile = ./genesis.json;
+  GenesisFile = ./shelley_selfnode-shelley-genesis.json;
 
   ##### Core protocol parameters #####
 

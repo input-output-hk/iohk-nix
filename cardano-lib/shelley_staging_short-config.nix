@@ -1,12 +1,13 @@
 ##########################################################
-###############       Shelley Testnet      ###############
+###############    Shelley Staging Short   ###############
 ############### Cardano Node Configuration ###############
 ##########################################################
 
 {
   ##### Locations #####
 
-  GenesisFile = ./shelley-testnet-genesis.json;
+  GenesisFile = ./shelley_staging_short-byron-genesis.json;
+
 
   ##### Core protocol parameters #####
 
@@ -14,10 +15,11 @@
   # The node also supports various test and mock instances.
   # "RealPBFT" is the real (ie not mock) (permissive) OBFT protocol, which
   # is what we use on mainnet in Byron era.
-  Protocol = "TPraos";
+  Protocol = "RealPBFT";
 
   # The mainnet does not include the network magic into addresses. Testnets do.
   RequiresNetworkMagic = "RequiresMagic";
+
 
   ##### Update system parameters #####
 
