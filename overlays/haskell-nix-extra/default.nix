@@ -13,7 +13,7 @@ pkgs: super: with pkgs; with lib; {
     };
   };
   stackNixRegenerate = pkgs.callPackage ./nix-tools-regenerate.nix {
-    nix-tools = super.haskell-nix.nix-tools;
+    nix-tools = super.haskell-nix.nix-tools.ghc865;
   };
   haskellBuildUtils = import ./utils/default.nix {
     inherit pkgs;
