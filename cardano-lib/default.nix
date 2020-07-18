@@ -178,8 +178,9 @@ let
       networkConfig = import ./shelley_qa-config.nix;
       consensusProtocol = networkConfig.Protocol;
       nodeConfig = defaultLogConfig // networkConfig;
-      genesisFile = networkConfig.GenesisFile;
-      genesisHash = "";
+      genesisFile = networkConfig.ByronGenesisFile;
+      genesisFileHfc = networkConfig.ShelleyGenesisFile;
+      genesisHash = "129fa7c21f52ecd7d7620000a43e2beba9910cce45b3a027a730023120162273";
       edgePort = 3001;
     };
     latency-tests = {

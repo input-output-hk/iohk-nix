@@ -4,7 +4,7 @@
         "poolDeposit": 500000000,
         "protocolVersion": {
             "minor": 0,
-            "major": 0
+            "major": 2
         },
         "minUTxOValue": 0,
         "decentralisationParam": 1,
@@ -24,37 +24,33 @@
         "tau": 0.1,
         "a0": 0.1
     },
-    "protocolMagicId": 3,
     "genDelegs": {
-        "b155826854985f5411f6a33e98dcef614b590c6913428453437d390a": {
-            "delegate": "1aad5e54808e20a626e01b0b3ee448dbb205ca3c3f205842ddec8431",
-            "vrf": "4e7fd3b1bc15471d98030165fdebb87d7386a2e5860e4c62f26bc11f62182735"
+        "489c900ca42a9e690678f777552f70cabcb49e28ad4126a902e1fbfa": {
+            "delegate": "a38dcd095ad126eac1f64d99ec64c3de63b14e90009f5e4b4e451b86",
+            "vrf": "df85ffa44aed49ef1e9dda28dab48592143668ac0fb1f1df1a8ec6b771223b53"
         },
-        "da2f854307ca4d807cf88c6abe151078287d4914d6079b650605c6af": {
-            "delegate": "9084c6134cab178a3a561cb86f6ab3db83f8b70835a40ae23c4d860b",
-            "vrf": "aa0de8b2e30c1fc98c6b30700db12fd38c7b467df8858a7c3385034afe28cc53"
+        "fe4a70e2858afa3487ac582eb7f8a9fb2538d186e71263beb497d017": {
+            "delegate": "399752c39cdc628950ec4a62c09482b6ba8d65f79bcd41d7ff620273",
+            "vrf": "64f241c7929da8e8fb5af2b4f7779fbb18e06e6240276fb54efdddda5b7d427b"
         },
-        "aa75b06c8c4389686262204ccfaaafcdcae5b817d056b27e3bc675e7": {
-            "delegate": "ba8a2ecb96f617061e38eb4cc6ce77b47f15d000076fba6c541b0167",
-            "vrf": "ccb9461cc3506f56300a89f80afd2390b790c8a523623f1021fb22e7c52bc8e9"
+        "a5f87e4f6eac5fcfcaf18beadf14f4142e7bd26bac9e4951b2918811": {
+            "delegate": "ea6a83bfaba85ebf3dcf4fe9a701c991fabc2e229217734fea6ec5e2",
+            "vrf": "524fb631fd92ae561f09f7631a1c6239dc40f242b5f7bcc3a7840aac6b403643"
         }
     },
     "updateQuorum": 3,
-    "networkId": "Testnet",
-    "initialFunds": {
-        "60257176211c72ad82e307decf81d5736ccedc87c05c98cbb2c404c922": 10000000000000000,
-        "60bee6815324f15c75ae5630e66b17fe746b13a723026758ce6ecc3951": 1000000000000000
-    },
+    "networkId": "Mainnet",
+    "initialFunds": {},
     "maxLovelaceSupply": 45000000000000000,
-    "networkMagic": 3,
+    "networkMagic": 42,
     "epochLength": 21600,
     "staking": {
         "pools": {},
         "stake": {}
     },
-    "systemStart": "2020-06-22T20:45:00Z",
-    "slotsPerKESPeriod": 86400,
+    "systemStart": "2020-07-17T21:00:00Z",
+    "slotsPerKESPeriod": 7200,
     "slotLength": 1,
-    "maxKESEvolutions": 120,
+    "maxKESEvolutions": 60,
     "securityParam": 108
 }
