@@ -62,8 +62,8 @@ let
       nodeConfig = networkConfig // defaultLogConfig;
       consensusProtocol = networkConfig.Protocol;
       genesisFile = nodeConfig.ByronGenesisFile;
-      genesisFileHfc = nodeConfig.ShelleyGenesisFile;
       genesisHash = "214f022ffc617843a237a88104f7140bfc19e308ac38129d47fd0ab37d8c7591";
+      genesisFileHfc = nodeConfig.ShelleyGenesisFile;
     };
     staging = rec {
       useByronWallet = true;
@@ -76,8 +76,9 @@ let
       ];
       edgePort = 3001;
       confKey = "mainnet_dryrun_full";
-      genesisFile = ./mainnet-dryrun-with-stakeholders-byron-genesis.json;
+      genesisFile = nodeConfig.ByronGenesisFile;
       genesisHash = "c6a004d3d178f600cd8caa10abbebe1549bef878f0665aea2903472d5abf7323";
+      genesisFileHfc = nodeConfig.ShelleyGenesisFile;
       private = false;
       networkConfig = import ./staging-config.nix;
       nodeConfig = networkConfig // defaultLogConfig;
