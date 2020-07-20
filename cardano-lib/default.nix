@@ -50,15 +50,12 @@ let
       ];
       edgePort = 3001;
       confKey = "mainnet_full";
-      genesisFile = nodeConfig.ByronGenesisFile;
-      genesisHash = "5f20df933584822601f9e3f8c024eb5eb252fe8cefb24d1317dc3d432e940ebb";
-      genesisFileHfc = nodeConfig.ShelleyGenesisFile;
       private = false;
       networkConfig = import ./mainnet-config.nix;
       nodeConfig = networkConfig // defaultLogConfig;
       consensusProtocol = networkConfig.Protocol;
       submitApiConfig = {
-        GenesisHash = genesisHash;
+        GenesisHash = nodeConfig.ByronGenesisHash;
         inherit (networkConfig) RequiresNetworkMagic;
       } // defaultExplorerLogConfig;
       explorerConfig = mkExplorerConfig "mainnet" networkConfig;
@@ -71,9 +68,6 @@ let
       networkConfig = import ./mainnet_candidate-config.nix;
       nodeConfig = networkConfig // defaultLogConfig;
       consensusProtocol = networkConfig.Protocol;
-      genesisFile = nodeConfig.ByronGenesisFile;
-      genesisHash = "214f022ffc617843a237a88104f7140bfc19e308ac38129d47fd0ab37d8c7591";
-      genesisFileHfc = nodeConfig.ShelleyGenesisFile;
       explorerConfig = mkExplorerConfig "mainnet_candidate" networkConfig;
     };
     staging = rec {
@@ -87,15 +81,12 @@ let
       ];
       edgePort = 3001;
       confKey = "mainnet_dryrun_full";
-      genesisFile = nodeConfig.ByronGenesisFile;
-      genesisHash = "c6a004d3d178f600cd8caa10abbebe1549bef878f0665aea2903472d5abf7323";
-      genesisFileHfc = nodeConfig.ShelleyGenesisFile;
       private = false;
       networkConfig = import ./staging-config.nix;
       nodeConfig = networkConfig // defaultLogConfig;
       consensusProtocol = networkConfig.Protocol;
       submitApiConfig = {
-        GenesisHash = genesisHash;
+        GenesisHash = nodeConfig.ByronGenesisHash;
         inherit (networkConfig) RequiresNetworkMagic;
       } // defaultExplorerLogConfig;
       explorerConfig = mkExplorerConfig "staging" networkConfig;
@@ -112,14 +103,12 @@ let
       ];
       edgePort = 3001;
       confKey = "testnet_full";
-      genesisFile = ./testnet-byron-genesis.json;
-      genesisHash = "96fceff972c2c06bd3bb5243c39215333be6d56aaf4823073dca31afe5038471";
       private = false;
       networkConfig = import ./testnet-config.nix;
       nodeConfig = networkConfig // defaultLogConfig;
       consensusProtocol = networkConfig.Protocol;
       submitApiConfig = {
-        GenesisHash = genesisHash;
+        GenesisHash = nodeConfig.ByronGenesisHash;
         inherit (networkConfig) RequiresNetworkMagic;
       } // defaultExplorerLogConfig;
       explorerConfig = mkExplorerConfig "testnet" networkConfig;
@@ -135,15 +124,12 @@ let
       ];
       edgePort = 3001;
       confKey = "shelley_staging_full";
-      genesisFile = nodeConfig.ByronGenesisFile;
-      genesisHash = "82995abf3e0e0f8ab9a6448875536a1cba305f3ddde18cd5ff54c32d7a5978c6";
-      genesisFileHfc = nodeConfig.ShelleyGenesisFile;
       private = false;
       networkConfig = import ./shelley_staging-config.nix;
       nodeConfig = networkConfig // defaultLogConfig;
       consensusProtocol = networkConfig.Protocol;
       submitApiConfig = {
-        GenesisHash = genesisHash;
+        GenesisHash = nodeConfig.ByronGenesisHash;
         inherit (networkConfig) RequiresNetworkMagic;
       } // defaultExplorerLogConfig;
       explorerConfig = mkExplorerConfig "shelley_staging" networkConfig;
@@ -184,7 +170,6 @@ let
       consensusProtocol = networkConfig.Protocol;
       nodeConfig = defaultLogConfig // networkConfig;
       genesisFile = networkConfig.GenesisFile;
-      genesisHash = "";
       edgePort = 3001;
       explorerConfig = mkExplorerConfig "shelley_testnet" networkConfig;
     };
@@ -195,9 +180,6 @@ let
       networkConfig = import ./shelley_qa-config.nix;
       consensusProtocol = networkConfig.Protocol;
       nodeConfig = defaultLogConfig // networkConfig;
-      genesisFile = networkConfig.ByronGenesisFile;
-      genesisFileHfc = networkConfig.ShelleyGenesisFile;
-      genesisHash = "129fa7c21f52ecd7d7620000a43e2beba9910cce45b3a027a730023120162273";
       edgePort = 3001;
       explorerConfig = mkExplorerConfig "shelley_qa" networkConfig;
     };
@@ -324,8 +306,16 @@ let
               ShelleyGenesisFile = "${env}-${protNames.${p}.nHfc}-genesis.json";
             }))} > $out/${env}-config.json
           ''}
-          ${jq}/bin/jq . < ${value.genesisFile} > $out/${env}-${protNames.${p}.n}-genesis.json
-          ${if p == "Cardano" then "${jq}/bin/jq . < ${value.genesisFileHfc} > $out/${env}-${protNames.${p}.nHfc}-genesis.json" else ""}
+          ${lib.optionalString (p == "RealPBFT" || p == "Byron") ''
+            ${jq}/bin/jq . < ${value.nodeConfig.GenesisFile} > $out/${env}-${protNames.${p}.n}-genesis.json
+          ''}
+          ${lib.optionalString (p == "TPraos") ''
+            ${jq}/bin/jq . < ${value.nodeConfig.GenesisFile} > $out/${env}-${protNames.${p}.n}-genesis.json
+          ''}
+          ${lib.optionalString (p == "Cardano") ''
+            ${jq}/bin/jq . < ${value.nodeConfig.ShelleyGenesisFile} > $out/${env}-${protNames.${p}.nHfc}-genesis.json
+            ${jq}/bin/jq . < ${value.nodeConfig.ByronGenesisFile} > $out/${env}-${protNames.${p}.n}-genesis.json
+          ''}
           ${jq}/bin/jq . < ${mkEdgeTopology { edgeNodes = [ value.relaysNew ]; valency = 2; }} > $out/${env}-topology.json
         ''
       ) environments )
