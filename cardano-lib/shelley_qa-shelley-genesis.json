@@ -42,13 +42,13 @@
     "networkId": "Mainnet",
     "initialFunds": {},
     "maxLovelaceSupply": 45000000000000000,
-    "networkMagic": 42,
+    "networkMagic": 3,
     "epochLength": 21600,
     "staking": {
         "pools": {},
         "stake": {}
     },
-    "systemStart": "2020-07-17T21:00:00Z",
+    "systemStart": "2020-07-19T13:00:00Z",
     "slotsPerKESPeriod": 7200,
     "slotLength": 1,
     "maxKESEvolutions": 60,

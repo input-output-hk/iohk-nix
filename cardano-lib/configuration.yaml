@@ -15095,7 +15095,7 @@ mainnet_dryrun_full: &mainnet_dryrun_full
     <<: *mainnet_base_core
     genesis:
       src:
-        file: mainnet-dryrun-with-stakeholders-byron-genesis.json
+        file: staging-byron-genesis.json
         hash: c6a004d3d178f600cd8caa10abbebe1549bef878f0665aea2903472d5abf7323
     requiresNetworkMagic: RequiresNoMagic
   txValidationRules:
