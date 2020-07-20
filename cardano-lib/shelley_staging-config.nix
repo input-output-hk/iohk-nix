@@ -6,7 +6,8 @@
 {
   ##### Locations #####
 
-  GenesisFile = ./shelley_staging-byron-genesis.json;
+  ByronGenesisFile = ./shelley_staging-byron-genesis.json;
+  ShelleyGenesisFile = ./shelley_staging-shelley-genesis.json;
 
 
   ##### Core protocol parameters #####
@@ -15,10 +16,12 @@
   # The node also supports various test and mock instances.
   # "RealPBFT" is the real (ie not mock) (permissive) OBFT protocol, which
   # is what we use on mainnet in Byron era.
-  Protocol = "RealPBFT";
+  Protocol = "Cardano";
 
   # The mainnet does not include the network magic into addresses. Testnets do.
   RequiresNetworkMagic = "RequiresMagic";
+
+  MaxKnownMajorProtocolVersion = 2;
 
   # Bounds the proportion of the latest K
   # blocks which is allowed to be signed by any single key.

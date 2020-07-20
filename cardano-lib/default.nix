@@ -122,8 +122,9 @@ let
       ];
       edgePort = 3001;
       confKey = "shelley_staging_full";
-      genesisFile = ./shelley_staging-byron-genesis.json;
+      genesisFile = nodeConfig.ByronGenesisFile;
       genesisHash = "82995abf3e0e0f8ab9a6448875536a1cba305f3ddde18cd5ff54c32d7a5978c6";
+      genesisFileHfc = nodeConfig.ShelleyGenesisFile;
       private = false;
       networkConfig = import ./shelley_staging-config.nix;
       nodeConfig = networkConfig // defaultLogConfig;
