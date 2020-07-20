@@ -23,6 +23,14 @@ let
 
   defaultLogConfig = import ./generic-log-config.nix;
   defaultExplorerLogConfig = import ./explorer-log-config.nix;
+  mkExplorerConfig = name: networkConfig: lib.filterAttrs (k: v: v != null) {
+    NetworkName = name;
+    inherit (networkConfig) Protocol RequiresNetworkMagic;
+    ByronGenesisFile = networkConfig.ByronGenesisFile or null;
+    ByronGenesisHash = networkConfig.ByronGenesisHash or null;
+    ShelleyGenesisFile = networkConfig.ShelleyGenesisFile or null;
+    ShelleyGenesisHash = networkConfig.ShelleyGenesisHash or null;
+  };
   defaultProxyLogConfig = import ./proxy-log-config.nix;
 
   mkProxyTopology = relay: writeText "proxy-topology-file" ''
@@ -42,8 +50,9 @@ let
       ];
       edgePort = 3001;
       confKey = "mainnet_full";
-      genesisFile = ./mainnet-byron-genesis.json;
+      genesisFile = nodeConfig.ByronGenesisFile;
       genesisHash = "5f20df933584822601f9e3f8c024eb5eb252fe8cefb24d1317dc3d432e940ebb";
+      genesisFileHfc = nodeConfig.ShelleyGenesisFile;
       private = false;
       networkConfig = import ./mainnet-config.nix;
       nodeConfig = networkConfig // defaultLogConfig;
@@ -52,6 +61,7 @@ let
         GenesisHash = genesisHash;
         inherit (networkConfig) RequiresNetworkMagic;
       } // defaultExplorerLogConfig;
+      explorerConfig = mkExplorerConfig "mainnet" networkConfig;
     };
     mainnet_candidate = rec {
       useByronWallet = true;
@@ -64,6 +74,7 @@ let
       genesisFile = nodeConfig.ByronGenesisFile;
       genesisHash = "214f022ffc617843a237a88104f7140bfc19e308ac38129d47fd0ab37d8c7591";
       genesisFileHfc = nodeConfig.ShelleyGenesisFile;
+      explorerConfig = mkExplorerConfig "mainnet_candidate" networkConfig;
     };
     staging = rec {
       useByronWallet = true;
@@ -87,6 +98,7 @@ let
         GenesisHash = genesisHash;
         inherit (networkConfig) RequiresNetworkMagic;
       } // defaultExplorerLogConfig;
+      explorerConfig = mkExplorerConfig "staging" networkConfig;
     };
     testnet = rec {
       useByronWallet = true;
@@ -110,6 +122,7 @@ let
         GenesisHash = genesisHash;
         inherit (networkConfig) RequiresNetworkMagic;
       } // defaultExplorerLogConfig;
+      explorerConfig = mkExplorerConfig "testnet" networkConfig;
     };
     shelley_staging = rec {
       useByronWallet = true;
@@ -133,6 +146,7 @@ let
         GenesisHash = genesisHash;
         inherit (networkConfig) RequiresNetworkMagic;
       } // defaultExplorerLogConfig;
+      explorerConfig = mkExplorerConfig "shelley_staging" networkConfig;
     };
     # used for daedalus/cardano-wallet for local development
     selfnode = rec {
@@ -172,6 +186,7 @@ let
       genesisFile = networkConfig.GenesisFile;
       genesisHash = "";
       edgePort = 3001;
+      explorerConfig = mkExplorerConfig "shelley_testnet" networkConfig;
     };
     shelley_qa = rec {
       useByronWallet = false;
@@ -184,6 +199,7 @@ let
       genesisFileHfc = networkConfig.ShelleyGenesisFile;
       genesisHash = "129fa7c21f52ecd7d7620000a43e2beba9910cce45b3a027a730023120162273";
       edgePort = 3001;
+      explorerConfig = mkExplorerConfig "shelley_qa" networkConfig;
     };
     latency-tests = {
       useByronWallet = false;
