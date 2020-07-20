@@ -7,7 +7,9 @@
   ##### Locations #####
 
   ByronGenesisFile = ./testnet-byron-genesis.json;
+  ByronGenesisHash = "96fceff972c2c06bd3bb5243c39215333be6d56aaf4823073dca31afe5038471";
   ShelleyGenesisFile = ./testnet-shelley-genesis.json;
+  ShelleyGenesisHash = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
 
 
   ##### Core protocol parameters #####

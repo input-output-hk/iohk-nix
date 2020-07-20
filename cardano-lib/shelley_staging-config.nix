@@ -7,7 +7,9 @@
   ##### Locations #####
 
   ByronGenesisFile = ./shelley_staging-byron-genesis.json;
+  ByronGenesisHash = "82995abf3e0e0f8ab9a6448875536a1cba305f3ddde18cd5ff54c32d7a5978c6";
   ShelleyGenesisFile = ./shelley_staging-shelley-genesis.json;
+  ShelleyGenesisHash = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
 
 
   ##### Core protocol parameters #####
