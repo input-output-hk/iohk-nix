@@ -42,8 +42,9 @@ let
       ];
       edgePort = 3001;
       confKey = "mainnet_full";
-      genesisFile = ./mainnet-byron-genesis.json;
+      genesisFile = nodeConfig.ByronGenesisFile;
       genesisHash = "5f20df933584822601f9e3f8c024eb5eb252fe8cefb24d1317dc3d432e940ebb";
+      genesisFileHfc = nodeConfig.ShelleyGenesisFile;
       private = false;
       networkConfig = import ./mainnet-config.nix;
       nodeConfig = networkConfig // defaultLogConfig;
