@@ -23,6 +23,8 @@
   # The mainnet does not include the network magic into addresses. Testnets do.
   RequiresNetworkMagic = "RequiresMagic";
 
+  TestShelleyHardForkAtEpoch = 2;
+
   MaxKnownMajorProtocolVersion = 2;
   #### LOGGING Debug
 
