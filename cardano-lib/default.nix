@@ -307,14 +307,14 @@ let
             }))} > $out/${env}-config.json
           ''}
           ${lib.optionalString (p == "RealPBFT" || p == "Byron") ''
-            ${jq}/bin/jq . < ${value.nodeConfig.GenesisFile} > $out/${env}-${protNames.${p}.n}-genesis.json
+            cp ${value.nodeConfig.GenesisFile} $out/${env}-${protNames.${p}.n}-genesis.json
           ''}
           ${lib.optionalString (p == "TPraos") ''
-            ${jq}/bin/jq . < ${value.nodeConfig.GenesisFile} > $out/${env}-${protNames.${p}.n}-genesis.json
+            cp ${value.nodeConfig.GenesisFile} $out/${env}-${protNames.${p}.n}-genesis.json
           ''}
           ${lib.optionalString (p == "Cardano") ''
-            ${jq}/bin/jq . < ${value.nodeConfig.ShelleyGenesisFile} > $out/${env}-${protNames.${p}.nHfc}-genesis.json
-            ${jq}/bin/jq . < ${value.nodeConfig.ByronGenesisFile} > $out/${env}-${protNames.${p}.n}-genesis.json
+            cp ${value.nodeConfig.ShelleyGenesisFile} $out/${env}-${protNames.${p}.nHfc}-genesis.json
+            cp ${value.nodeConfig.ByronGenesisFile} $out/${env}-${protNames.${p}.n}-genesis.json
           ''}
           ${jq}/bin/jq . < ${mkEdgeTopology { edgeNodes = [ value.relaysNew ]; valency = 2; }} > $out/${env}-topology.json
         ''
