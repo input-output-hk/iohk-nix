@@ -1,5 +1,5 @@
 ##########################################################
-###############      Mainnet Candidate     ###############
+###############     Mainnet Candidate 2    ###############
 ############### Cardano Node Configuration ###############
 ##########################################################
 
@@ -32,7 +32,7 @@
 
   # This protocol version number gets used by by block producing nodes as part
   # part of the system for agreeing on and synchronising protocol updates.
-  LastKnownBlockVersion-Major = 0;
+  LastKnownBlockVersion-Major = 1;
   LastKnownBlockVersion-Minor = 0;
   LastKnownBlockVersion-Alt = 0;
 
