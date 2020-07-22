@@ -11,6 +11,7 @@
   ShelleyGenesisFile = ./mainnet_candidate_3-shelley-genesis.json;
   ShelleyGenesisHash = "17cd10bbb47b31abe44440164409004a14c33e56fe946ae09b9dcd3c9b7c3bbd";
 
+  TestShelleyHardForkAtVersion = 1;
 
   ##### Core protocol parameters #####
 
