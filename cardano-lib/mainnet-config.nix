@@ -9,7 +9,7 @@
   ByronGenesisFile = ./mainnet-byron-genesis.json;
   ByronGenesisHash = "5f20df933584822601f9e3f8c024eb5eb252fe8cefb24d1317dc3d432e940ebb";
   ShelleyGenesisFile = ./mainnet-shelley-genesis.json;
-  ShelleyGenesisHash = "a2e97dd33198dad739e40a45b49be916ce66361ee65554405ef35da770861b4f";
+  ShelleyGenesisHash = "3cc503155a18726c054fd847e0534f6cceb6e60778fbe30b1445a8006d76a4fb";
 
 
   ##### Core protocol parameters #####
