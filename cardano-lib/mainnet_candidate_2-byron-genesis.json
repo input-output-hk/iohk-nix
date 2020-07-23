@@ -32,14 +32,10 @@
             "62bebade1f68f2bfc1c897e247eb1195828cf2647a6cf0ef62877365c94c9ae692f7af6e097d063082b19f30c690828965a777d47fdeada2815d1f552c3b5b02"
         }
     }
-, "startTime": 1595430000
+, "startTime": 1595473200
 , "nonAvvmBalances":
-    { "2657WMsDfac6aHut7ZybVQgaLsWUt4cFQ7VLzHzZJAj1X2YnURFR5ZHJntNgqtkcV":
-        "15000000000000000"
-    , "2657WMsDfac79E4a5saL3G6qzjv7UA6V1vYM8vW1kqKq3CpthmhuX6JBY72EWgSFV":
-        "15000000000000000"
-    , "2657WMsDfac7FUVFh5Rm6tZZLW3Y9jYbuuFo1Thkj8snmS6fZykwCdFLjFwreDJZs":
-        "15000000000000000"
+    { "Ae2tdPwUPEZD2tYyf8794Fvjy9sUFbeumjiwKd65xs2fgR22RnSa9Tjg4zS":
+        "33000000000000000"
     }
 , "blockVersionData":
     { "scriptVersion": 0
@@ -62,6 +58,6 @@
         { "summand": "155381000000000" , "multiplier": "43946000000" }
     , "unlockStakeEpoch": "18446744073709551615"
     }
-, "protocolConsts": { "k": 108 , "protocolMagic": 42 }
+, "protocolConsts": { "k": 36 , "protocolMagic": 42 }
 , "avvmDistr": {}
 }

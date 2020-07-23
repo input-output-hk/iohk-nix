@@ -9,7 +9,7 @@
         "minUTxOValue": 1000000,
         "decentralisationParam": 1,
         "maxTxSize": 16384,
-        "minPoolCost": 228000000,
+        "minPoolCost": 340000000,
         "minFeeA": 44,
         "maxBlockBodySize": 65536,
         "minFeeB": 155381,
@@ -18,13 +18,12 @@
             "tag": "NeutralNonce"
         },
         "maxBlockHeaderSize": 1100,
-        "keyDeposit": 400000,
+        "keyDeposit": 2000000,
         "nOpt": 150,
         "rho": 0.0022,
         "tau": 0.05,
         "a0": 0.3
     },
-    "protocolMagicId": 42,
     "genDelegs": {
         "7862443207c96d21454c853b5fe6a33a559752a06086e09adae611a9": {
             "delegate": "39d5a6578c3793a07321c14477dd15a060de17a49d3c30004ce8ccd7",
@@ -44,14 +43,10 @@
     "initialFunds": {},
     "maxLovelaceSupply": 45000000000000000,
     "networkMagic": 42,
-    "epochLength": 21600,
-    "staking": {
-        "pools": {},
-        "stake": {}
-    },
-    "systemStart": "2020-07-22T15:00:00Z",
-    "slotsPerKESPeriod": 3600,
+    "epochLength": 7200,
+    "systemStart": "2020-07-23T03:00:00Z",
+    "slotsPerKESPeriod": 7200,
     "slotLength": 1,
-    "maxKESEvolutions": 120,
-    "securityParam": 108
+    "maxKESEvolutions": 60,
+    "securityParam": 36
 }
