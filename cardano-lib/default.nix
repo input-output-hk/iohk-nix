@@ -70,6 +70,26 @@ let
       consensusProtocol = networkConfig.Protocol;
       explorerConfig = mkExplorerConfig "mainnet_candidate" networkConfig;
     };
+    mainnet_candidate_2 = rec {
+      useByronWallet = true;
+      relaysNew = "relays-new.mainnet-candidate-2.dev.cardano.org";
+      edgePort = 3001;
+      private = false;
+      networkConfig = import ./mainnet_candidate_2-config.nix;
+      nodeConfig = networkConfig // defaultLogConfig;
+      consensusProtocol = networkConfig.Protocol;
+      explorerConfig = mkExplorerConfig "mainnet_candidate_2" networkConfig;
+    };
+    mainnet_candidate_3 = rec {
+      useByronWallet = true;
+      relaysNew = "relays-new.mainnet-candidate-3.dev.cardano.org";
+      edgePort = 3001;
+      private = false;
+      networkConfig = import ./mainnet_candidate_3-config.nix;
+      nodeConfig = networkConfig // defaultLogConfig;
+      consensusProtocol = networkConfig.Protocol;
+      explorerConfig = mkExplorerConfig "mainnet_candidate_3" networkConfig;
+    };
     staging = rec {
       useByronWallet = true;
       relays = "relays.awstest.iohkdev.io";

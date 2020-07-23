@@ -1,16 +1,15 @@
 ##########################################################
-###############          Mainnet           ###############
+###############     Mainnet Candidate 3    ###############
 ############### Cardano Node Configuration ###############
 ##########################################################
 
 {
   ##### Locations #####
 
-  ByronGenesisFile = ./mainnet-byron-genesis.json;
-  ByronGenesisHash = "5f20df933584822601f9e3f8c024eb5eb252fe8cefb24d1317dc3d432e940ebb";
-  ShelleyGenesisFile = ./mainnet-shelley-genesis.json;
-  ShelleyGenesisHash = "a2e97dd33198dad739e40a45b49be916ce66361ee65554405ef35da770861b4f";
-
+  ByronGenesisFile = ./mainnet_candidate_3-byron-genesis.json;
+  ByronGenesisHash = "56dccc51d1c42eba9383aeb9463dfadbe90d2913fe3d0d72010f40288163ffad";
+  ShelleyGenesisFile = ./mainnet_candidate_3-shelley-genesis.json;
+  ShelleyGenesisHash = "0319fc22b752664188106bcc124a0f6e624de94a24b22d3aa2f1ec858c4901f0";
 
   ##### Core protocol parameters #####
 
@@ -20,21 +19,24 @@
   # is what we use on mainnet in Byron era.
   Protocol = "Cardano";
 
-  # The mainnet does not include the network magic into addresses. Testnets do.
+  PBftSignatureThreshold = 0.9;
+
+  # The mainnet candidate utilizes same addresses as mainnet
   RequiresNetworkMagic = "RequiresNoMagic";
 
   MaxKnownMajorProtocolVersion = 2;
+
 
   ##### Update system parameters #####
 
   # This protocol version number gets used by block producing nodes as part
   # part of the system for agreeing on and synchronising protocol updates.
-  LastKnownBlockVersion-Major = 1;
+  LastKnownBlockVersion-Major = 2;
   LastKnownBlockVersion-Minor = 0;
   LastKnownBlockVersion-Alt = 0;
 
   # In the Byron era some software versions are also published on the chain.
   # We do this only for Byron compatibility now.
   ApplicationName = "cardano-sl";
-  ApplicationVersion = 1;
+  ApplicationVersion = 0;
 }
