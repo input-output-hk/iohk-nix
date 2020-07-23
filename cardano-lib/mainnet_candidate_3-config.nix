@@ -7,11 +7,9 @@
   ##### Locations #####
 
   ByronGenesisFile = ./mainnet_candidate_3-byron-genesis.json;
-  ByronGenesisHash = "03c8bb47e437dab5bc78548462cd3d682fe631765a0adf4fa06c88e4115285a9";
+  ByronGenesisHash = "56dccc51d1c42eba9383aeb9463dfadbe90d2913fe3d0d72010f40288163ffad";
   ShelleyGenesisFile = ./mainnet_candidate_3-shelley-genesis.json;
-  ShelleyGenesisHash = "17cd10bbb47b31abe44440164409004a14c33e56fe946ae09b9dcd3c9b7c3bbd";
-
-  TestShelleyHardForkAtVersion = 1;
+  ShelleyGenesisHash = "5c34446998f47242f7f1ab39c81be56c60ab324aac2b0665b68e6ea78943bffd";
 
   ##### Core protocol parameters #####
 
@@ -33,7 +31,7 @@
 
   # This protocol version number gets used by by block producing nodes as part
   # part of the system for agreeing on and synchronising protocol updates.
-  LastKnownBlockVersion-Major = 1;
+  LastKnownBlockVersion-Major = 0;
   LastKnownBlockVersion-Minor = 0;
   LastKnownBlockVersion-Alt = 0;
 

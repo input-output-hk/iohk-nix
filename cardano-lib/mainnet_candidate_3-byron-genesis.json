@@ -32,14 +32,10 @@
             "cc6d1fd828841c47adbb9968f7cfd86770380001762b354a09fc84a6d17d05c116e8723f90b70469a5231a7f35851b79b2ed9f1526ade3f1f5c65ae9def56a09"
         }
     }
-, "startTime": 1595444400
+, "startTime": 1595466000
 , "nonAvvmBalances":
-    { "2657WMsDfac4zLnctxMCbWmYp5ZbW2DSTLX4oqTdUCAhxsvsUrjYYPnQ5ppq7bzGq":
-        "15000000000000000"
-    , "2657WMsDfac5f69iT5xoFsFqkSNBKUJ9bNQTLTgLaFvTHzUaNJVvnUfYB9sQbbsVx":
-        "15000000000000000"
-    , "2657WMsDfac6rMxSXC2M1X59VkMn5tHFymt2xMMYBv3PAfSPQnabDNLDwWh6SnJwo":
-        "15000000000000000"
+    { "Ae2tdPwUPEYyv5UFN9PSgqfquhfkpxsv6M8h7K223pSL4JAnxGCGSGJq6wU":
+        "33000000000000000"
     }
 , "blockVersionData":
     { "scriptVersion": 0
