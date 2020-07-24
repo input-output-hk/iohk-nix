@@ -7,10 +7,11 @@
   ##### Locations #####
 
   ByronGenesisFile = ./mainnet_candidate_2-byron-genesis.json;
-  ByronGenesisHash = "df8e9d99b1044e4f43b75f584436e1981b7abd824f3203ec8613e7aa66591dbe";
+  ByronGenesisHash = "3f98cee6c4831065617e0494a58a10c4245552820fe0725ce0dbc97127056e15";
   ShelleyGenesisFile = ./mainnet_candidate_2-shelley-genesis.json;
-  ShelleyGenesisHash = "f7245ec099eada149bf3b9ecc60827df07fa446522bb37944219bba116e33a63";
+  ShelleyGenesisHash = "42e45c1710975a2c166d38a9a3f971e456f854adf215860918db4d2bda5cc424";
 
+  TestShelleyHardForkAtEpoch = 1;
 
   ##### Core protocol parameters #####
 
