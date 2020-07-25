@@ -20,8 +20,8 @@
         "maxBlockHeaderSize": 1100,
         "keyDeposit": 2000000,
         "nOpt": 150,
-        "rho": 0.0022,
-        "tau": 0.05,
+        "rho": 0.003,
+        "tau": 0.20,
         "a0": 0.3
     },
     "genDelegs": {
@@ -44,7 +44,7 @@
     "maxLovelaceSupply": 45000000000000000,
     "networkMagic": 42,
     "epochLength": 7200,
-    "systemStart": "2020-07-23T03:00:00Z",
+    "systemStart": "2020-07-25T00:00:00Z",
     "slotsPerKESPeriod": 7200,
     "slotLength": 1,
     "maxKESEvolutions": 60,
