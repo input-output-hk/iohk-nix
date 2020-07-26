@@ -7,9 +7,9 @@
   ##### Locations #####
 
   ByronGenesisFile = ./mainnet_candidate_2-byron-genesis.json;
-  ByronGenesisHash = "097eeb739b495b3954e859c0e825bed0a4cb465e059fe01fc80e86fbbc0e63eb";
+  ByronGenesisHash = "c15c651a112fd3269f3fc5b0025397d76293f01c746ca33a7aa6b538f5c12ea4";
   ShelleyGenesisFile = ./mainnet_candidate_2-shelley-genesis.json;
-  ShelleyGenesisHash = "d7bd78c1306c29540ec44f7a7793c0f7e3551c01a3fd27afef2aa15d885f44a0";
+  ShelleyGenesisHash = "973276af2a37b04b6874c5c6b0ead6645fea126536f7fd2edb9892975fbe9abe";
 
   TestShelleyHardForkAtEpoch = 1;
 
