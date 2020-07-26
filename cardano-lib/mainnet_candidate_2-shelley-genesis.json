@@ -44,7 +44,7 @@
     "maxLovelaceSupply": 45000000000000000,
     "networkMagic": 42,
     "epochLength": 7200,
-    "systemStart": "2020-07-25T00:00:00Z",
+    "systemStart": "2020-07-26T17:00:00Z",
     "slotsPerKESPeriod": 7200,
     "slotLength": 1,
     "maxKESEvolutions": 60,
