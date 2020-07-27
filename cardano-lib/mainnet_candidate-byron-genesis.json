@@ -32,9 +32,9 @@
             "a8c7509317b6c242a88f15199d33bb7cf0678c1ecd786107893a29a208b05a2e0078d14771670d2834c1b12041af45661565a5b9896a1cf5fdeb5d9765119b0e"
         }
     }
-, "startTime": 1595012400
+, "startTime": 1595860200
 , "nonAvvmBalances":
-    { "2657WMsDfac61hnkvpPkUonfxNWpoW77QiQLfxUPiWZYW4r2694YGviDzpR7wkyuH":
+    { "Ae2tdPwUPEZ5HJeCBACm91EqZaKKAsXcSmaWkdGAcTvyjSozMMtm5BDn9Ny":
         "32000000000000000"
     }
 , "blockVersionData":
@@ -58,6 +58,6 @@
         { "summand": "155381000000000" , "multiplier": "43946000000" }
     , "unlockStakeEpoch": "18446744073709551615"
     }
-, "protocolConsts": { "k": 108 , "protocolMagic": 42 }
+, "protocolConsts": { "k": 36 , "protocolMagic": 42 }
 , "avvmDistr": {}
 }

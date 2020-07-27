@@ -303,6 +303,8 @@ let
                             <a class="button is-info" href="${env}-${protNames.${p}.nHfc}-genesis.json">${protNames.${p}.nHfc}Genesis</a>
                           '' else ""}
                           <a class="button is-info" href="${env}-topology.json">topology</a>
+                          <a class="button is-primary" href="${env}-db-sync-config.json">db-sync config</a>
+                          <a class="button is-primary" href="rest-config.json">rest config</a>
                         </div>
                       </td>
                     </tr>
@@ -347,9 +349,11 @@ let
             cp ${value.nodeConfig.ByronGenesisFile} $out/${env}-${protNames.${p}.n}-genesis.json
           ''}
           ${jq}/bin/jq . < ${mkEdgeTopology { edgeNodes = [ value.relaysNew ]; valency = 2; }} > $out/${env}-topology.json
+          ${jq}/bin/jq . < ${__toFile "${env}-db-sync-config.json" (__toJSON (value.explorerConfig // defaultExplorerLogConfig))} > $out/${env}-db-sync-config.json
         ''
       ) environments )
     }
+    ${jq}/bin/jq . < ${__toFile "rest-config.json" (__toJSON defaultExplorerLogConfig)} > $out/rest-config.json
     echo "report cardano $out index.html" > $out/nix-support/hydra-build-products
   '';
 
