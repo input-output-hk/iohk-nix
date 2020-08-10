@@ -93,6 +93,7 @@ let
     mainnet_candidate_4 = rec {
       useByronWallet = true;
       relaysNew = "relays-new.mainnet-candidate-4.dev.cardano.org";
+      smashUrl = "https://smash.mainnet-candidate-4.dev.cardano.org";
       edgePort = 3001;
       private = false;
       networkConfig = import ./mainnet_candidate_4-config.nix;
@@ -104,6 +105,7 @@ let
       useByronWallet = true;
       relays = "relays.awstest.iohkdev.io";
       relaysNew = "relays-new.awstest.iohkdev.io";
+      smashUrl = "https://smash.awstest.iohkdev.io";
       edgeNodes = [
         "3.125.10.61"
         "52.192.59.170"
@@ -125,6 +127,7 @@ let
       useByronWallet = true;
       relays = "relays.cardano-testnet.iohkdev.io";
       relaysNew = "relays-new.cardano-testnet.iohkdev.io";
+      smashUrl = "https://smash.cardano-testnet.iohkdev.io";
       edgeNodes = [
         "3.125.94.58"
         "18.176.19.63"
