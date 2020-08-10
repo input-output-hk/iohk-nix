@@ -23,28 +23,16 @@
         "url": "https://github.com/input-output-hk/haskell.nix/archive/54130f0106576632f6051f409af8e93550ce37bf.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
-    "niv": {
-        "branch": "master",
-        "description": "Easy dependency management for Nix projects",
-        "homepage": "https://github.com/input-output-hk/niv",
-        "owner": "input-output-hk",
-        "repo": "niv",
-        "rev": "f73bf8d584148677b01859677a63191c31911eae",
-        "sha256": "0jlmrx633jvqrqlyhlzpvdrnim128gc81q5psz2lpp2af8p8q9qs",
-        "type": "tarball",
-        "url": "https://github.com/input-output-hk/niv/archive/f73bf8d584148677b01859677a63191c31911eae.tar.gz",
-        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
-    },
     "nixpkgs": {
         "branch": "nixos-20.03",
         "description": "Nix Packages collection",
         "homepage": null,
         "owner": "NixOS",
-        "repo": "nixpkgs-channels",
-        "rev": "db31e48c5c8d99dcaf4e5883a96181f6ac4ad6f6",
-        "sha256": "1j5j7vbnq2i5zyl8498xrf490jca488iw6hylna3lfwji6rlcaqr",
+        "repo": "nixpkgs",
+        "rev": "3a78bb222c585baf3a48740e1887e4fd71e7a35e",
+        "sha256": "05xjj3jdmzi7qmh0hxgc8kmzm919kd94r91dmb8dhjf4fhsjb6fk",
         "type": "tarball",
-        "url": "https://github.com/NixOS/nixpkgs-channels/archive/db31e48c5c8d99dcaf4e5883a96181f6ac4ad6f6.tar.gz",
+        "url": "https://github.com/NixOS/nixpkgs/archive/3a78bb222c585baf3a48740e1887e4fd71e7a35e.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nixpkgs-19.09": {
