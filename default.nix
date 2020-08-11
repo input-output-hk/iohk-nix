@@ -9,7 +9,7 @@
 , nixpkgsJsonOverride ? ""
 # Modify nixpkgs with overlays
 , nixpkgsOverlays ? []
-, defaultSources ? import ./nix/sources.nix
+, defaultSources ? import ./nix/sources.nix { pkgs = pkgsDefault; }
 , pkgsDefault ? import defaultSources.nixpkgs { inherit config system crossSystem; }
 }:
 
