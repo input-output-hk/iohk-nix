@@ -76,7 +76,7 @@ let
           else zero;
 
     # Development tools
-    inherit (haskell-nix-extra-packages) stack-hpc-coveralls;
+    inherit (haskell-nix-extra-packages) stack-hpc-coveralls hpc-coveralls;
     hlint = upstreamedDeprecation "hlint" pkgsDefault.hlint;
     openapi-spec-validator = upstreamedDeprecation "openapi-spec-validator" pkgsDefault.python37Packages.openapi-spec-validator;
     inherit (import sources.cardano-repo-tool {inherit system;}) cardano-repo-tool;
@@ -134,6 +134,7 @@ let
         haskellBuildUtils
         stackNixRegenerate
         stack-hpc-coveralls
+        hpc-coveralls
       ;
     };
 
@@ -170,6 +171,7 @@ let
 
       # packages
       stack-hpc-coveralls
+      hpc-coveralls
       hlint
       openapi-spec-validator
       cardano-repo-tool

@@ -19,4 +19,5 @@ pkgs: super: with pkgs; with lib; {
     inherit pkgs;
   };
   stack-hpc-coveralls = super.haskellPackages.callPackage ./stack-hpc-coveralls.nix {};
+  hpc-coveralls = super.haskellPackages.callPackage ./hpc-coveralls.nix {};
 }
