@@ -61,36 +61,6 @@ let
       } // defaultExplorerLogConfig;
       explorerConfig = mkExplorerConfig "mainnet" networkConfig;
     };
-    mainnet_candidate = rec {
-      useByronWallet = true;
-      relaysNew = "relays-new.mainnet-candidate.dev.cardano.org";
-      edgePort = 3001;
-      private = false;
-      networkConfig = import ./mainnet_candidate-config.nix;
-      nodeConfig = networkConfig // defaultLogConfig;
-      consensusProtocol = networkConfig.Protocol;
-      explorerConfig = mkExplorerConfig "mainnet_candidate" networkConfig;
-    };
-    mainnet_candidate_2 = rec {
-      useByronWallet = true;
-      relaysNew = "relays-new.mainnet-candidate-2.dev.cardano.org";
-      edgePort = 3001;
-      private = false;
-      networkConfig = import ./mainnet_candidate_2-config.nix;
-      nodeConfig = networkConfig // defaultLogConfig;
-      consensusProtocol = networkConfig.Protocol;
-      explorerConfig = mkExplorerConfig "mainnet_candidate_2" networkConfig;
-    };
-    mainnet_candidate_3 = rec {
-      useByronWallet = true;
-      relaysNew = "relays-new.mainnet-candidate-3.dev.cardano.org";
-      edgePort = 3001;
-      private = false;
-      networkConfig = import ./mainnet_candidate_3-config.nix;
-      nodeConfig = networkConfig // defaultLogConfig;
-      consensusProtocol = networkConfig.Protocol;
-      explorerConfig = mkExplorerConfig "mainnet_candidate_3" networkConfig;
-    };
     mainnet_candidate_4 = rec {
       useByronWallet = true;
       relaysNew = "relays-new.mainnet-candidate-4.dev.cardano.org";
@@ -147,27 +117,6 @@ let
       } // defaultExplorerLogConfig;
       explorerConfig = mkExplorerConfig "testnet" networkConfig;
     };
-    shelley_staging = rec {
-      useByronWallet = true;
-      relays = "relays.staging-shelley.dev.iohkdev.io";
-      relaysNew = "relays-new.staging-shelley.dev.cardano.org";
-      edgeNodes = [
-        "3.125.23.159"
-        "18.177.133.109"
-        "18.141.119.164"
-      ];
-      edgePort = 3001;
-      confKey = "shelley_staging_full";
-      private = false;
-      networkConfig = import ./shelley_staging-config.nix;
-      nodeConfig = networkConfig // defaultLogConfig;
-      consensusProtocol = networkConfig.Protocol;
-      submitApiConfig = {
-        GenesisHash = nodeConfig.ByronGenesisHash;
-        inherit (networkConfig) RequiresNetworkMagic;
-      } // defaultExplorerLogConfig;
-      explorerConfig = mkExplorerConfig "shelley_staging" networkConfig;
-    };
     # used for daedalus/cardano-wallet for local development
     selfnode = rec {
       useByronWallet = true;
@@ -195,17 +144,6 @@ let
         verification = ./shelley-selfnode/utxo-keys/utxo1.vkey;
       };
       topology = ./selfnode-topology.json;
-    };
-    shelley_testnet = rec {
-      useByronWallet = false;
-      private = false;
-      relaysNew = "relays-new.shelley-testnet.dev.cardano.org";
-      networkConfig = import ./shelley_testnet-config.nix;
-      consensusProtocol = networkConfig.Protocol;
-      nodeConfig = defaultLogConfig // networkConfig;
-      genesisFile = networkConfig.GenesisFile;
-      edgePort = 3001;
-      explorerConfig = mkExplorerConfig "shelley_testnet" networkConfig;
     };
     shelley_qa = rec {
       useByronWallet = false;
