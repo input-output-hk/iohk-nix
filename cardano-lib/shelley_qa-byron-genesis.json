@@ -32,7 +32,7 @@
             "19734d0d61c97fe7b9f63cf5b0a1dc62e8fd4ef943b3312986d693a8ee4f2b1f75105c60eed99c4ff4f681629ea7a50e6963359cd2f904111dab4730d168330b"
         }
     }
-, "startTime": 1595268000
+, "startTime": 1597669200
 , "nonAvvmBalances":
     { "FHnt4NL7yPXuxDkiWXYeRaYGtuLXGuFSazA2okS5s1UbRJin8xr8ySEAuZ6mcEY":
         "15000000000000000"
@@ -58,6 +58,6 @@
         { "summand": "155381000000000" , "multiplier": "43946000000" }
     , "unlockStakeEpoch": "18446744073709551615"
     }
-, "protocolConsts": { "k": 108, "protocolMagic": 3 }
+, "protocolConsts": { "k": 36, "protocolMagic": 3 }
 , "avvmDistr": {}
 }
