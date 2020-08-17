@@ -12,16 +12,16 @@
     },
     "maxTxSize": 16384,
     "maxBlockBodySize": 65536,
-    "maxBlockHeaderSize": 1400,
+    "maxBlockHeaderSize": 1100,
     "minFeeA": 44,
     "minFeeB": 155381,
     "minUTxOValue": 1000000,
     "poolDeposit": 500000000,
-    "minPoolCost": 228000000,
-    "keyDeposit": 400000,
+    "minPoolCost": 340000000,
+    "keyDeposit": 2000000,
     "nOpt": 150,
-    "rho": 0.0022,
-    "tau": 0.05,
+    "rho": 0.003,
+    "tau": 0.20,
     "a0": 0.3
   },
   "genDelegs": {
@@ -43,14 +43,10 @@
   "initialFunds": {},
   "maxLovelaceSupply": 45000000000000000,
   "networkMagic": 3,
-  "epochLength": 21600,
-  "staking": {
-    "pools": {},
-    "stake": {}
-  },
-  "systemStart": "2020-07-20T18:00:00Z",
-  "slotsPerKESPeriod": 7200,
+  "epochLength": 7200,
+  "systemStart": "2020-08-17T13:00:00Z",
+  "slotsPerKESPeriod": 129600,
   "slotLength": 1,
-  "maxKESEvolutions": 60,
-  "securityParam": 108
+  "maxKESEvolutions": 62,
+  "securityParam": 36
 }
