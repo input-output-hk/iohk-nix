@@ -42,7 +42,7 @@ let
       useByronWallet = true;
       relays = "relays.cardano-mainnet.iohk.io";
       relaysNew = "relays-new.cardano-mainnet.iohk.io";
-      smashUrl = "https://api.cardano.org/smash/v1/metadata";
+      smashUrl = "https://smash.cardano-mainnet.iohk.io/api/v1/metadata";
       edgeNodes = [
         "3.125.75.199"
         "18.177.103.105"
