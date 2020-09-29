@@ -5,11 +5,11 @@
 }:
 mkDerivation {
   pname = "hpc-coveralls";
-  version = "1.1.0";
+  version = "1.2.0";
   src = fetchgit {
     url = "https://github.com/sevanspowell/hpc-coveralls.git";
-    sha256 = "0qw5x7bhcmma90yp97m1y6si8idapxlbmy62rcnnni2avyi1aski";
-    rev = "c73e59fbd39ad20e3ab0ad050533496ec8512dbe";
+    sha256 = "1bygx1j7jzlxfaq2hvcpd9nqmy3wvpsvfw5l3ly0783fy6bnkj4b";
+    rev = "225074ef0ca317a266b3da2986b1ff4c33120ea7";
     fetchSubmodules = true;
   };
   isLibrary = true;
