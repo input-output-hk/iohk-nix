@@ -23,13 +23,10 @@ let
 
   defaultLogConfig = import ./generic-log-config.nix;
   defaultExplorerLogConfig = import ./explorer-log-config.nix;
-  mkExplorerConfig = name: networkConfig: lib.filterAttrs (k: v: v != null) {
+  mkExplorerConfig = name: nodeConfig: lib.filterAttrs (k: v: v != null) {
     NetworkName = name;
-    inherit (networkConfig) Protocol RequiresNetworkMagic;
-    ByronGenesisFile = networkConfig.ByronGenesisFile or null;
-    ByronGenesisHash = networkConfig.ByronGenesisHash or null;
-    ShelleyGenesisFile = networkConfig.ShelleyGenesisFile or null;
-    ShelleyGenesisHash = networkConfig.ShelleyGenesisHash or null;
+    inherit (nodeConfig) Protocol RequiresNetworkMagic;
+    NodeConfigFile = "${__toFile "config-${toString name}.json" (__toJSON nodeConfig)}";
   };
   defaultProxyLogConfig = import ./proxy-log-config.nix;
 
@@ -59,7 +56,7 @@ let
         GenesisHash = nodeConfig.ByronGenesisHash;
         inherit (networkConfig) RequiresNetworkMagic;
       } // defaultExplorerLogConfig;
-      explorerConfig = mkExplorerConfig "mainnet" networkConfig;
+      explorerConfig = mkExplorerConfig "mainnet" nodeConfig;
     };
     staging = rec {
       useByronWallet = true;
@@ -81,7 +78,7 @@ let
         GenesisHash = nodeConfig.ByronGenesisHash;
         inherit (networkConfig) RequiresNetworkMagic;
       } // defaultExplorerLogConfig;
-      explorerConfig = mkExplorerConfig "staging" networkConfig;
+      explorerConfig = mkExplorerConfig "staging" nodeConfig;
     };
     testnet = rec {
       useByronWallet = true;
@@ -104,7 +101,7 @@ let
         GenesisHash = nodeConfig.ByronGenesisHash;
         inherit (networkConfig) RequiresNetworkMagic;
       } // defaultExplorerLogConfig;
-      explorerConfig = mkExplorerConfig "testnet" networkConfig;
+      explorerConfig = mkExplorerConfig "testnet" nodeConfig;
     };
     # used for daedalus/cardano-wallet for local development
     selfnode = rec {
@@ -142,7 +139,7 @@ let
       consensusProtocol = networkConfig.Protocol;
       nodeConfig = defaultLogConfig // networkConfig;
       edgePort = 3001;
-      explorerConfig = mkExplorerConfig "shelley_qa" networkConfig;
+      explorerConfig = mkExplorerConfig "shelley_qa" nodeConfig;
     };
     latency-tests = {
       useByronWallet = false;
