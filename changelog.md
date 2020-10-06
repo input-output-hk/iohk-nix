@@ -3,6 +3,10 @@
 Please read these notes when updating your project's `iohk-nix`
 version. There may have been changes which could break your build.
 
+## 2020-10-06
+   * Bump Haskell.nix to latest. There are [multiple API changes](https://github.com/input-output-hk/haskell.nix/blob/master/changelog.md) and nix-tools improvements.
+   * Fix locales issue on non-nix systems in `stackNixRegenerate` script.
+
 ## 2020-07-14
    * Bump Haskell.nix to latest. There are [multiple API changes](https://github.com/input-output-hk/haskell.nix/blob/master/changelog.md).
    * Fix `stackNixRegenerate` script for latest Haskell.nix.
