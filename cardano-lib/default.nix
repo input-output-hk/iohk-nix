@@ -25,7 +25,7 @@ let
   defaultExplorerLogConfig = import ./explorer-log-config.nix;
   mkExplorerConfig = name: nodeConfig: lib.filterAttrs (k: v: v != null) {
     NetworkName = name;
-    inherit (nodeConfig) Protocol RequiresNetworkMagic;
+    inherit (nodeConfig) RequiresNetworkMagic;
     NodeConfigFile = "${__toFile "config-${toString name}.json" (__toJSON nodeConfig)}";
   };
   defaultProxyLogConfig = import ./proxy-log-config.nix;
