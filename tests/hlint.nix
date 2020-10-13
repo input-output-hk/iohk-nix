@@ -1,4 +1,4 @@
-{ runCommand, hlint, src, lib, projects }:
+{ runCommand, hlint, src, lib, }:
 
 let
   # just haskell sources and the hlint config file
@@ -12,10 +12,10 @@ let
     );
   };
 in
-runCommand "hlint-check" { inherit projects; buildInputs = [ hlint ]; } ''
+runCommand "hlint-check" { buildInputs = [ hlint ]; } ''
   set +e
   cd ${src'}
-  hlint $projects
+  hlint . --ignore-glob='dist-newstyle/*'
   EXIT_CODE=$?
   if [[ $EXIT_CODE != 0 ]]
   then
