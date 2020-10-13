@@ -98,6 +98,7 @@ let
   tests = {
     hlint = ./tests/hlint.nix;
     shellcheck = ./tests/shellcheck.nix;
+    stylish-haskell = ./tests/stylish-haskell.nix;
   };
 
   overlays = {
@@ -173,6 +174,7 @@ let
       stack-hpc-coveralls
       hpc-coveralls
       hlint
+      stylish-haskell
       openapi-spec-validator
       cardano-repo-tool
       stack-cabal-sync-shell
