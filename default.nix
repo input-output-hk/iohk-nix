@@ -82,6 +82,7 @@ let
     inherit (import sources.cardano-repo-tool {inherit system;}) cardano-repo-tool;
     stack-cabal-sync-shell = pkgsDefault.callPackage ./pkgs/stack-cabal-sync-shell.nix { inherit cardano-repo-tool; };
     supervisord = pkgsDefault.callPackage ./supervisord {};
+    fixStylishHaskell = pkgsDefault.callPackage ./tests/fix-stylish-haskell.nix {};
 
     # Check scripts
     check-hydra = __trace "check-hydra is deprecated. Please use hydraEvalErrors" pkgsDefault.callPackage ./ci/check-hydra.nix {};
@@ -184,7 +185,8 @@ let
       checkCabalProject
       hydraEvalErrors
       checkRepoTagsOnMasterBranches
-      checkStackProject;
+      checkStackProject
+      fixStylishHaskell;
     release-lib = ./lib/release-lib.nix;
   };
 in self
