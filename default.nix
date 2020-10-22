@@ -24,11 +24,9 @@ let
     };
   deprecationWarning = parameter: builtins.trace ''
     WARNING: iohk-nix \"${parameter}\" parameter is deprecated.
-    Please use niv (https://github.com/input-output-hk/niv/) and the \"sourcesOverride\" parameter instead.
+    Please use niv (https://github.com/nmattia/niv/) and the \"sourcesOverride\" parameter instead.
   '';
   sources = defaultSources // sourcesOverride;
-
-  inherit (import defaultSources.niv { pkgs = pkgsDefault; }) niv;
 
   commonLib = rec {
     fetchNixpkgs = throw "Please use niv to pin nixpkgs instead.";
@@ -110,7 +108,6 @@ let
         inherit (pkgs) config system;
         pkgsDefault = pkgs;
       };
-      inherit (iohkNix) niv;
     })];
   };
 
@@ -145,13 +142,15 @@ let
     inherit
       overlays
       sources
-      niv
       shell
       tests
       rust-packages
       haskell-nix-extra-packages
       cardanoLib
       jormungandrLib;
+
+    inherit (pkgsDefault)
+      niv;
 
     inherit (commonLib)
       # package sets

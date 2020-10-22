@@ -3,7 +3,7 @@ let
   pkgs = commonLib.pkgs;
   shell = pkgs.stdenv.mkDerivation {
     name = "shell";
-    buildInputs = [ commonLib.niv ];
+    buildInputs = [ pkgs.niv ];
     shellHook = ''
       echo "IOHK NIX" \
       | ${pkgs.figlet}/bin/figlet -f banner -c \
