@@ -135,6 +135,7 @@ let
       useByronWallet = false;
       private = false;
       relaysNew = "relays-new.shelley-qa.dev.cardano.org";
+      smashUrl = "https://smash.shelley-qa.dev.cardano.org/api/v1/metadata";
       networkConfig = import ./shelley_qa-config.nix;
       consensusProtocol = networkConfig.Protocol;
       nodeConfig = defaultLogConfig // networkConfig;
