@@ -9,5 +9,4 @@ in {
     nixpkgs.recurseIntoAttrs {
       inherit (env.packages) jcli jcli-debug jormungandr jormungandr-debug;
     }) iohk-nix.jormungandrLib.environments);
-  niv = iohk-nix.niv;
 }
