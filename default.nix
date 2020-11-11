@@ -60,14 +60,14 @@ let
     getPackages = pkgs.callPackage ./get-packages.nix {};
     maybeEnv = import ./maybe-env.nix;
 
-    # Example usage: commitIdFromGitRepo ./.git
-    commitIdFromGitRepo = pkgs.callPackage ./commit-id.nix {};
-    # A variant of the above which provides a default rev, instead of
+    commitIdFromGitRepo = upstreamedDeprecation "commitIdFromGitRepo" pkgs.lib.commitIdFromGitRepo;
+    # A variant of lib.commitIdFromGitRepo which provides a default rev, instead of
     # throwing an exception in cases of error.
+    # Example usage: commitIdFromGitRepoOrZero ./.git
     commitIdFromGitRepoOrZero = path:
       let
         zero = "0000000000000000000000000000000000000000";
-        res = builtins.tryEval (commitIdFromGitRepo path);
+        res = builtins.tryEval (pkgs.lib.commitIdFromGitRepo path);
       in
         if builtins.pathExists path
           then (if res.success then res.value else zero)
