@@ -1,10 +1,5 @@
 {
 
-  # The node can run in either the SimpleView or LiveView. The SimpleView just
-  # uses standard output, optionally with log output. The LiveView is a text
-  # console with a live view of various node metrics.
-  ViewMode = "SimpleView";
-
   # Enable or disable logging overall
   TurnOnLogging = true;
 
@@ -176,35 +171,11 @@
     # and override and not an extension so anything matched here will not
     # go to the default backend, only to the explicitly listed backends.
     mapBackends = {
-      "cardano.node.ChainDB.metrics" = [
-         "EKGViewBK"
-         {
-            kind = "UserDefinedBK";
-            name = "LiveViewBackend";
-         }
-      ];
-      "cardano.node.metrics" = [
-         "EKGViewBK"
-         {
-            kind = "UserDefinedBK";
-            name = "LiveViewBackend";
-         }
-      ];
-      "cardano.node-metrics" = [
-         "EKGViewBK"
-         {
-            kind = "UserDefinedBK";
-            name = "LiveViewBackend";
-         }
-      ];
+      "cardano.node.ChainDB.metrics" = [];
+      "cardano.node.metrics" = [];
+      "cardano.node-metrics" = [];
       "cardano.node.Forge.metrics" = [ "EKGViewBK" ];
-      "cardano.node.BlockFetchDecision.peers" = [
-         "EKGViewBK"
-         {
-            kind = "UserDefinedBK";
-            name = "LiveViewBackend";
-         }
-      ];
+      "cardano.node.BlockFetchDecision.peers" = [];
     };
 
     # This section is more expressive still, and needs to be properly documented.
