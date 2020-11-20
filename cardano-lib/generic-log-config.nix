@@ -171,11 +171,12 @@
     # and override and not an extension so anything matched here will not
     # go to the default backend, only to the explicitly listed backends.
     mapBackends = {
-      "cardano.node.ChainDB.metrics" = [];
-      "cardano.node.metrics" = [];
-      "cardano.node-metrics" = [];
+      "cardano.node.ChainDB.metrics" = [ "EKGViewBK" ];
+      "cardano.node.metrics" = [ "EKGViewBK" ];
+      "cardano.node-metrics" = [ "EKGViewBK" ];
       "cardano.node.Forge.metrics" = [ "EKGViewBK" ];
-      "cardano.node.BlockFetchDecision.peers" = [];
+      "cardano.node.BlockFetchDecision.peers" = [ "EKGViewBK" ];
+
     };
 
     # This section is more expressive still, and needs to be properly documented.
