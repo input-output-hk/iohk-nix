@@ -176,7 +176,7 @@
       "cardano.node-metrics" = [ "EKGViewBK" ];
       "cardano.node.Forge.metrics" = [ "EKGViewBK" ];
       "cardano.node.BlockFetchDecision.peers" = [ "EKGViewBK" ];
-
+      "cardano.node.basicInfo.metrics" = [ "EKGViewBK" ];
     };
 
     # This section is more expressive still, and needs to be properly documented.
