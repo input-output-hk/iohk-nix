@@ -29,7 +29,7 @@
 
   # This protocol version number gets used by block producing nodes as part
   # part of the system for agreeing on and synchronising protocol updates.
-  LastKnownBlockVersion-Major = 2;
+  LastKnownBlockVersion-Major = 3;
   LastKnownBlockVersion-Minor = 0;
   LastKnownBlockVersion-Alt = 0;
 
