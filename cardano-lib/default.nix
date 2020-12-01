@@ -152,6 +152,16 @@ let
       edgePort = 3001;
       explorerConfig = mkExplorerConfig "launchpad" nodeConfig;
     };
+    allegra = rec {
+      useByronWallet = false;
+      private = false;
+      relaysNew = "relays-new.allegra.dev.cardano.org";
+      networkConfig = import ./allegra-config.nix;
+      consensusProtocol = networkConfig.Protocol;
+      nodeConfig = defaultLogConfig // networkConfig;
+      edgePort = 3001;
+      explorerConfig = mkExplorerConfig "allegra" nodeConfig;
+    };
     latency-tests = {
       useByronWallet = false;
       relays = "relays.latency-tests.aws.iohkdev.io";
