@@ -7,9 +7,9 @@
   ##### Locations #####
 
   ByronGenesisFile = ./allegra-byron-genesis.json;
-  ByronGenesisHash = "3815702729e4ba80ed3b6fc900be90a4b276daf5fcb4132c588cb038bff611f0";
+  ByronGenesisHash = "04d639973b562991027c0e08dff352831b5f3f6aca745a069ab9e13d94a51113";
   ShelleyGenesisFile = ./allegra-shelley-genesis.json;
-  ShelleyGenesisHash = "8587fca9128b0470dcaf928f00bb2bd99dec5047e080a2da3aa419bd17023d75";
+  ShelleyGenesisHash = "f7d4be92d9edb28f36b167b2b841bcd93650759dd00a7327d6fe27aff9e76d76";
 
   ##### Core protocol parameters #####
 
@@ -23,7 +23,8 @@
   # The mainnet does not include the network magic into addresses. Testnets do.
   RequiresNetworkMagic = "RequiresMagic";
 
-  TestShelleyHardForkAtEpoch = 2;
+  TestShelleyHardForkAtEpoch = 1;
+  TestAllegraHardForkAtEpoch = 2;
 
   MaxKnownMajorProtocolVersion = 2;
   #### LOGGING Debug
