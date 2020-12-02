@@ -9,7 +9,7 @@
   ByronGenesisFile = ./allegra-byron-genesis.json;
   ByronGenesisHash = "04d639973b562991027c0e08dff352831b5f3f6aca745a069ab9e13d94a51113";
   ShelleyGenesisFile = ./allegra-shelley-genesis.json;
-  ShelleyGenesisHash = "f7d4be92d9edb28f36b167b2b841bcd93650759dd00a7327d6fe27aff9e76d76";
+  ShelleyGenesisHash = "2e2b1fb4d41da94bf5b92bbba11f341be652e4f99b9a197e7b9cd8bc59cd05da";
 
   ##### Core protocol parameters #####
 
