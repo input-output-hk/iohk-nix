@@ -7,9 +7,9 @@
   ##### Locations #####
 
   ByronGenesisFile = ./allegra-byron-genesis.json;
-  ByronGenesisHash = "04d639973b562991027c0e08dff352831b5f3f6aca745a069ab9e13d94a51113";
+  ByronGenesisHash = "2f0801338d792a3cc20260a90b19102a9a4acafc33558e6781c827efc96f42df";
   ShelleyGenesisFile = ./allegra-shelley-genesis.json;
-  ShelleyGenesisHash = "2e2b1fb4d41da94bf5b92bbba11f341be652e4f99b9a197e7b9cd8bc59cd05da";
+  ShelleyGenesisHash = "47daa6201f436c90f9c76e343e0fd6536262b7ca2455ec306aa2fcc45c97bb4d";
 
   ##### Core protocol parameters #####
 

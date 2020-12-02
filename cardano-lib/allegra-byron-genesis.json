@@ -32,7 +32,7 @@
             "20228ec16da6c1b932e61e418949e20005557928fa6c1d4f3a5ccb419b5a4559d5a6fc3b0a1e3ef31c1428c741ef94301ddf5fd3df73cceaa7eac42695c91404"
         }
     }
-, "startTime": 1606935600
+, "startTime": 1606946400
 , "nonAvvmBalances":
     { "FHnt4NL7yPXtYyP5D7zcndtFzuY1mKycssjJWyfUxmMBKt7X9dSqiKKS82474rE":
         "15000000000000000"
@@ -43,7 +43,7 @@
     }
 , "blockVersionData":
     { "scriptVersion": 0
-    , "slotDuration": "1000"
+    , "slotDuration": "20000"
     , "maxBlockSize": "2000000"
     , "maxHeaderSize": "2000000"
     , "maxTxSize": "4096"
