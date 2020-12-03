@@ -162,6 +162,16 @@ let
       edgePort = 3001;
       explorerConfig = mkExplorerConfig "allegra" nodeConfig;
     };
+    mary_qa = rec {
+      useByronWallet = false;
+      private = false;
+      relaysNew = "relays-new.mary-qa.dev.cardano.org";
+      networkConfig = import ./mary_qa-config.nix;
+      consensusProtocol = networkConfig.Protocol;
+      nodeConfig = defaultLogConfig // networkConfig;
+      edgePort = 3001;
+      explorerConfig = mkExplorerConfig "mary_qa" nodeConfig;
+    };
     latency-tests = {
       useByronWallet = false;
       relays = "relays.latency-tests.aws.iohkdev.io";

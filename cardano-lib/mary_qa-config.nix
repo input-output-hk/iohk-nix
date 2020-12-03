@@ -1,15 +1,15 @@
 ##########################################################
-###############         Allegra            ###############
+###############         Mary QA            ###############
 ############### Cardano Node Configuration ###############
 ##########################################################
 
 {
   ##### Locations #####
 
-  ByronGenesisFile = ./allegra-byron-genesis.json;
-  ByronGenesisHash = "2f0801338d792a3cc20260a90b19102a9a4acafc33558e6781c827efc96f42df";
-  ShelleyGenesisFile = ./allegra-shelley-genesis.json;
-  ShelleyGenesisHash = "47daa6201f436c90f9c76e343e0fd6536262b7ca2455ec306aa2fcc45c97bb4d";
+  ByronGenesisFile = ./mary_qa-byron-genesis.json;
+  ByronGenesisHash = "abe9a943551a13099064d66df69d0d56e87409e8f8818b1afdc58e445f1e4cbc";
+  ShelleyGenesisFile = ./mary_qa-shelley-genesis.json;
+  ShelleyGenesisHash = "e426eeaa113cb12be63606c8f60b6c3bdaa40c3e3e6775ec22e7ae8c441e6ff6";
 
   ##### Core protocol parameters #####
 
@@ -25,6 +25,7 @@
 
   TestShelleyHardForkAtEpoch = 1;
   TestAllegraHardForkAtEpoch = 2;
+  TestMaryHardForkAtEpoch = 3;
 
   MaxKnownMajorProtocolVersion = 2;
   #### LOGGING Debug
