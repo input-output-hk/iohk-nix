@@ -7,9 +7,9 @@
   ##### Locations #####
 
   ByronGenesisFile = ./mary_qa-byron-genesis.json;
-  ByronGenesisHash = "abe9a943551a13099064d66df69d0d56e87409e8f8818b1afdc58e445f1e4cbc";
+  ByronGenesisHash = "992aac83a03ba7b8ca50fd3af29c527dfcfa4a8b3c1a1273c698d95fd7c519d3";
   ShelleyGenesisFile = ./mary_qa-shelley-genesis.json;
-  ShelleyGenesisHash = "e426eeaa113cb12be63606c8f60b6c3bdaa40c3e3e6775ec22e7ae8c441e6ff6";
+  ShelleyGenesisHash = "d80b878ca5fbaa54977eaa07d18b31afdca5527b231e93a5a34437f0f81b36d6";
 
   ##### Core protocol parameters #####
 
@@ -25,7 +25,7 @@
 
   TestShelleyHardForkAtEpoch = 1;
   TestAllegraHardForkAtEpoch = 2;
-  TestMaryHardForkAtEpoch = 3;
+  #TestMaryHardForkAtEpoch = 3;
 
   MaxKnownMajorProtocolVersion = 2;
   #### LOGGING Debug
