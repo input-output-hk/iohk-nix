@@ -27,7 +27,6 @@
   TestAllegraHardForkAtEpoch = 2;
   #TestMaryHardForkAtEpoch = 3;
 
-  MaxKnownMajorProtocolVersion = 2;
   #### LOGGING Debug
 
   minSeverity = "Debug";
@@ -36,7 +35,7 @@
 
   # This protocol version number gets used by block producing nodes as part
   # part of the system for agreeing on and synchronising protocol updates.
-  LastKnownBlockVersion-Major = 3;
+  LastKnownBlockVersion-Major = 4;
   LastKnownBlockVersion-Minor = 0;
   LastKnownBlockVersion-Alt = 0;
 
