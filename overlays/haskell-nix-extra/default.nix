@@ -1,9 +1,12 @@
 pkgs: super: with pkgs; with lib; {
   haskell-nix = recursiveUpdate super.haskell-nix {
-    haskellLib.extra = with haskell-nix.haskellLib; rec {
-
-      collectChecks = pkgsSet: (mapAttrs (_: package: package.checks) pkgsSet)
-         // { recurseForDerivations = true; };
+    # TODO: remove this haskellLib.extra
+    haskellLib.extra = rec {
+      collectChecks =
+        trace ( "Warning: `haskell-nix.haskellLib.extra.collectChecks`"
+              + " is deprecated and will be removed. Please use"
+              + " `haskell-nix.haskellLib.collectChecks'`.")
+        haskell-nix.haskellLib.collectChecks';
 
       recRecurseIntoAttrs = x:
         if (isAttrs x && !isDerivation x && x.recurseForDerivations or true)
@@ -12,12 +15,10 @@ pkgs: super: with pkgs; with lib; {
 
     };
   };
+
   stackNixRegenerate = pkgs.callPackage ./nix-tools-regenerate.nix {
     nix-tools = super.haskell-nix.nix-tools.ghc865;
   };
-  haskellBuildUtils = import ./utils/default.nix {
-    inherit pkgs;
-  };
-  stack-hpc-coveralls = super.haskellPackages.callPackage ./stack-hpc-coveralls.nix {};
-  hpc-coveralls = super.haskellPackages.callPackage ./hpc-coveralls.nix {};
+
+  haskellBuildUtils = pkgs.callPackage ./utils/default.nix {};
 }
