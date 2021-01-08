@@ -34,7 +34,7 @@ in
     }
     trap cleanup EXIT
 
-    stack-to-nix --output "$tmp_dest/.stack.nix"
+    stack-to-nix --output "$tmp_dest/.stack.nix" "$@"
     (
       cd $tmp_dest/.stack.nix
       mv pkgs.nix default.nix
