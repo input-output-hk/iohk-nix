@@ -60,9 +60,8 @@ let
     };
     staging = rec {
       useByronWallet = true;
-      relays = "relays.awstest.iohkdev.io";
-      relaysNew = "relays-new.awstest.iohkdev.io";
-      smashUrl = "https://smash.awstest.iohkdev.io";
+      relaysNew = "relays.staging.cardano.org";
+      smashUrl = "https://smash.staging.cardano.org";
       edgeNodes = [
         "3.125.10.61"
         "52.192.59.170"
