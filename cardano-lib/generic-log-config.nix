@@ -172,7 +172,6 @@
     # go to the default backend, only to the explicitly listed backends.
     mapBackends = {
       "cardano.node.metrics" = [ "EKGViewBK" ];
-      "cardano.node.BlockFetchDecision.peers" = [ "EKGViewBK" ];
       "cardano.node.resources" = [ "EKGViewBK" ];
     };
 
