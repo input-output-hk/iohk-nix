@@ -7,9 +7,9 @@
   ##### Locations #####
 
   ByronGenesisFile = ./mary_qa-byron-genesis.json;
-  ByronGenesisHash = "992aac83a03ba7b8ca50fd3af29c527dfcfa4a8b3c1a1273c698d95fd7c519d3";
+  ByronGenesisHash = "98a97e7a45c116dc796a168cf1ab6004b487a0b39e5b13e77d9b1ef869206c4a";
   ShelleyGenesisFile = ./mary_qa-shelley-genesis.json;
-  ShelleyGenesisHash = "d80b878ca5fbaa54977eaa07d18b31afdca5527b231e93a5a34437f0f81b36d6";
+  ShelleyGenesisHash = "acadf76c1d83ab3d65da935c7bf4853513e3a0b284c8b6d2e39f78a90ee04f14";
 
   ##### Core protocol parameters #####
 
@@ -23,13 +23,9 @@
   # The mainnet does not include the network magic into addresses. Testnets do.
   RequiresNetworkMagic = "RequiresMagic";
 
-  TestShelleyHardForkAtEpoch = 1;
-  TestAllegraHardForkAtEpoch = 2;
-  #TestMaryHardForkAtEpoch = 3;
-
-  #### LOGGING Debug
-
-  minSeverity = "Debug";
+  #TestShelleyHardForkAtEpoch = 1;
+  #TestAllegraHardForkAtEpoch = 2;
+  TestMaryHardForkAtEpoch = 0;
 
   ##### Update system parameters #####
 
