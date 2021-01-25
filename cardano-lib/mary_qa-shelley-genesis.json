@@ -41,14 +41,14 @@
   "updateQuorum": 3,
   "networkId": "Testnet",
   "initialFunds": {},
-  "maxLovelaceSupply": 45000000000000000,
+  "maxLovelaceSupply": 60000000000000000,
   "networkMagic": 3,
   "epochLength": 7200,
   "staking": {
     "pools": {},
     "stake": {}
   },
-  "systemStart": "2021-01-22T12:15:00.000000000Z",
+  "systemStart": "2021-01-25T15:50:00.000000000Z",
   "slotsPerKESPeriod": 129600,
   "slotLength": 1,
   "maxKESEvolutions": 62,

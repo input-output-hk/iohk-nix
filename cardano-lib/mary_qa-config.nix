@@ -7,9 +7,9 @@
   ##### Locations #####
 
   ByronGenesisFile = ./mary_qa-byron-genesis.json;
-  ByronGenesisHash = "7696054d29f9f5a0ca2b44cd288a0dc45ca5ca1c57d71e039c1823d60a089f6e";
+  ByronGenesisHash = "0b42d633773377f0197096542946f306dcf309ecee2b27e32c34aa1caf1cf7dc";
   ShelleyGenesisFile = ./mary_qa-shelley-genesis.json;
-  ShelleyGenesisHash = "897646144f87589b3c68c62ea6cd4ef7d28c95e0b65d40bfa26580d28d40c6e7";
+  ShelleyGenesisHash = "84a14a5f1d159e8704ca370c8387b3713a9f9c52a5acc603f7b1b546e9c083e9";
 
   ##### Core protocol parameters #####
 
