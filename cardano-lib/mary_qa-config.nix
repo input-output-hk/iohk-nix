@@ -7,9 +7,9 @@
   ##### Locations #####
 
   ByronGenesisFile = ./mary_qa-byron-genesis.json;
-  ByronGenesisHash = "48035be7321dca3d6db9f6c8f5450d67a13be7e3287ab7800b4f43596597be6f";
+  ByronGenesisHash = "5fabaf2188b1b2a0dde0046ad564ca37c5d92e67b6d7e92da72b2bbc35dfed7e";
   ShelleyGenesisFile = ./mary_qa-shelley-genesis.json;
-  ShelleyGenesisHash = "66a44eb1803fbc0c3d24ded56a0fb31c1291c0eb1016568405e884d468c02834";
+  ShelleyGenesisHash = "93cfc4fcb0061ae69960efb328d88cf0ab3d709049c0675714c1dd41312d7be7";
 
   ##### Core protocol parameters #####
 
@@ -24,8 +24,8 @@
   RequiresNetworkMagic = "RequiresMagic";
 
   TestShelleyHardForkAtEpoch = 1;
-  TestAllegraHardForkAtEpoch = 1;
-  TestMaryHardForkAtEpoch = 1;
+  TestAllegraHardForkAtEpoch = 2;
+  TestMaryHardForkAtEpoch = 3;
 
   ##### Update system parameters #####
 
