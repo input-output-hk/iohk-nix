@@ -151,6 +151,16 @@ let
       edgePort = 3001;
       explorerConfig = mkExplorerConfig "launchpad" nodeConfig;
     };
+    ppe = rec {
+      useByronWallet = false;
+      private = false;
+      relaysNew = "relays.ppe.dev.cardano.org";
+      networkConfig = import ./ppe-config.nix;
+      consensusProtocol = networkConfig.Protocol;
+      nodeConfig = defaultLogConfig // networkConfig;
+      edgePort = 3001;
+      explorerConfig = mkExplorerConfig "ppe" nodeConfig;
+    };
     allegra = rec {
       useByronWallet = false;
       private = false;
