@@ -40,7 +40,7 @@ let
       relays = "relays.cardano-mainnet.iohk.io";
       relaysNew = "relays-new.cardano-mainnet.iohk.io";
       smashUrl = "https://smash.cardano-mainnet.iohk.io";
-      metadataUrl = "https://metadata.cardano-mainnet.iohk.io";
+      metadataUrl = "https://tokens.cardano.org";
       edgeNodes = [
         "3.125.75.199"
         "18.177.103.105"
