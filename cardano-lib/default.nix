@@ -40,6 +40,7 @@ let
       relays = "relays.cardano-mainnet.iohk.io";
       relaysNew = "relays-new.cardano-mainnet.iohk.io";
       smashUrl = "https://smash.cardano-mainnet.iohk.io";
+      metadataUrl = "https://tokens.cardano.org";
       edgeNodes = [
         "3.125.75.199"
         "18.177.103.105"
@@ -62,6 +63,7 @@ let
       useByronWallet = true;
       relaysNew = "relays.staging.cardano.org";
       smashUrl = "https://smash.staging.cardano.org";
+      metadataUrl = "https://metadata.cardano-testnet.iohkdev.io";
       edgeNodes = [
         "3.125.10.61"
         "52.192.59.170"
@@ -84,6 +86,7 @@ let
       relays = "relays.cardano-testnet.iohkdev.io";
       relaysNew = "relays-new.cardano-testnet.iohkdev.io";
       smashUrl = "https://smash.cardano-testnet.iohkdev.io";
+      metadataUrl = "https://metadata.cardano-testnet.iohkdev.io";
       edgeNodes = [
         "3.125.94.58"
         "18.176.19.63"
@@ -135,6 +138,7 @@ let
       private = false;
       relaysNew = "relays-new.shelley-qa.dev.cardano.org";
       smashUrl = "https://smash.shelley-qa.dev.cardano.org";
+      metadataUrl = "https://metadata.cardano-testnet.iohkdev.io";
       networkConfig = import ./shelley_qa-config.nix;
       consensusProtocol = networkConfig.Protocol;
       nodeConfig = defaultLogConfig // networkConfig;
