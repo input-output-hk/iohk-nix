@@ -39,6 +39,7 @@ let
       useByronWallet = true;
       relays = "relays.cardano-mainnet.iohk.io";
       relaysNew = "relays-new.cardano-mainnet.iohk.io";
+      explorerUrl = "https://explorer.cardano.org";
       smashUrl = "https://smash.cardano-mainnet.iohk.io";
       metadataUrl = "https://tokens.cardano.org";
       edgeNodes = [
@@ -62,6 +63,7 @@ let
     staging = rec {
       useByronWallet = true;
       relaysNew = "relays.staging.cardano.org";
+      explorerUrl = "https://explorer.staging.cardano.org";
       smashUrl = "https://smash.staging.cardano.org";
       metadataUrl = "https://metadata.cardano-testnet.iohkdev.io";
       edgeNodes = [
@@ -85,6 +87,7 @@ let
       useByronWallet = true;
       relays = "relays.cardano-testnet.iohkdev.io";
       relaysNew = "relays-new.cardano-testnet.iohkdev.io";
+      explorerUrl = "https://explorer.cardano-testnet.iohkdev.io";
       smashUrl = "https://smash.cardano-testnet.iohkdev.io";
       metadataUrl = "https://metadata.cardano-testnet.iohkdev.io";
       edgeNodes = [
@@ -137,6 +140,7 @@ let
       useByronWallet = false;
       private = false;
       relaysNew = "relays-new.shelley-qa.dev.cardano.org";
+      explorerUrl = "https://explorer.shelley-qa.dev.cardano.org";
       smashUrl = "https://smash.shelley-qa.dev.cardano.org";
       metadataUrl = "https://metadata.cardano-testnet.iohkdev.io";
       networkConfig = import ./shelley_qa-config.nix;
@@ -144,36 +148,6 @@ let
       nodeConfig = defaultLogConfig // networkConfig;
       edgePort = 3001;
       explorerConfig = mkExplorerConfig "shelley_qa" nodeConfig;
-    };
-    launchpad = rec {
-      useByronWallet = false;
-      private = false;
-      relaysNew = "relays-new.launchpad.dev.cardano.org";
-      networkConfig = import ./launchpad-config.nix;
-      consensusProtocol = networkConfig.Protocol;
-      nodeConfig = defaultLogConfig // networkConfig;
-      edgePort = 3001;
-      explorerConfig = mkExplorerConfig "launchpad" nodeConfig;
-    };
-    allegra = rec {
-      useByronWallet = false;
-      private = false;
-      relaysNew = "relays-new.allegra.dev.cardano.org";
-      networkConfig = import ./allegra-config.nix;
-      consensusProtocol = networkConfig.Protocol;
-      nodeConfig = defaultLogConfig // networkConfig;
-      edgePort = 3001;
-      explorerConfig = mkExplorerConfig "allegra" nodeConfig;
-    };
-    mary_qa = rec {
-      useByronWallet = false;
-      private = false;
-      relaysNew = "relays-new.mary-qa.dev.cardano.org";
-      networkConfig = import ./mary_qa-config.nix;
-      consensusProtocol = networkConfig.Protocol;
-      nodeConfig = defaultLogConfig // networkConfig;
-      edgePort = 3001;
-      explorerConfig = mkExplorerConfig "mary_qa" nodeConfig;
     };
     latency-tests = {
       useByronWallet = false;
