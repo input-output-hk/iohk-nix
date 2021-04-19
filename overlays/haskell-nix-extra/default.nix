@@ -1,5 +1,5 @@
-pkgs: super: with pkgs; with lib; {
-  haskell-nix = recursiveUpdate super.haskell-nix {
+final: prev: with final; with lib; {
+  haskell-nix = recursiveUpdate prev.haskell-nix {
     # TODO: remove this haskellLib.extra
     haskellLib.extra = rec {
       collectChecks =
@@ -17,7 +17,7 @@ pkgs: super: with pkgs; with lib; {
   };
 
   stackNixRegenerate = pkgs.callPackage ./nix-tools-regenerate.nix {
-    nix-tools = super.haskell-nix.nix-tools.ghc865;
+    nix-tools = haskell-nix.nix-tools.ghc865;
   };
 
   haskellBuildUtils = pkgs.callPackage ./utils/default.nix {};
