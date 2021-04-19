@@ -25,24 +25,6 @@ library
                    , BuildArgs
                    , CommonBuild
   hs-source-dirs:    lib
-
-executable rebuild
-  buildable:           False
-  main-is:             rebuild.hs
-  build-depends:       iohk-nix-utils
-                     , async
-                     , base
-                     , extra
-                     , foldl
-                     , optparse-applicative
-                     , safe
-                     , system-filepath
-                     , text
-                     , transformers
-                     , turtle
-  ghc-options:       -Wall
-  default-language:  Haskell2010
-
 executable set-git-rev
   main-is:             set-git-rev.hs
   build-depends:       base
