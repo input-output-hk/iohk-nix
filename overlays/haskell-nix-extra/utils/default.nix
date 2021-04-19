@@ -2,7 +2,7 @@
 
 let
   project = haskell-nix.stackProject {
-    src = haskell-nix.cleanSourceHaskell {
+    src = haskell-nix.haskellLib.cleanGit {
       name = "iohk-nix-utils-src";
       src = ./.;
     };
