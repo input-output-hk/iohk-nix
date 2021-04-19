@@ -1,11 +1,13 @@
 { lib, haskell-nix, symlinkJoin }:
 
 let
-  project = haskell-nix.stackProject {
+  project = haskell-nix.cabalProject {
     src = haskell-nix.haskellLib.cleanGit {
       name = "iohk-nix-utils-src";
       src = ./.;
     };
+    compiler-nix-name = "ghc8104";
+    index-state = "2021-03-15T00:00:00Z";
   };
 in
   symlinkJoin {
