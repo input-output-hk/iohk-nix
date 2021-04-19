@@ -1,3 +1,3 @@
-self: super: {
-  libsodium = self.callPackage ./libsodium.nix {};
+final: prev: {
+  libsodium = final.callPackage ./libsodium.nix {};
 }
