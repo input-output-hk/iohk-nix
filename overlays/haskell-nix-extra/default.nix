@@ -21,4 +21,18 @@ final: prev: with final; with lib; {
   };
 
   haskellBuildUtils = pkgs.callPackage ./utils/default.nix {};
+
+  rewriteStatic = _: p: if (pkgs.stdenv.hostPlatform.isDarwin) then
+    pkgs.runCommandCC p.name {
+      nativeBuildInputs = [ pkgs.haskellBuildUtils pkgs.buildPackages.binutils pkgs.buildPackages.nix ];
+    } ''
+      cp -R ${p} $out
+      chmod -R +w $out
+      rewrite-libs $out/bin $out/bin/*
+    '' else if (pkgs.stdenv.hostPlatform.isMusl) then
+    pkgs.runCommandCC p.name { } ''
+      cp -R ${p} $out
+      chmod -R +w $out
+      $STRIP $out/bin/*
+    '' else p;
 }
