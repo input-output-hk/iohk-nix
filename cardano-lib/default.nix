@@ -181,6 +181,10 @@ let
   forEnvironmentsCustom = f: environments: lib.mapAttrs
     (name: env: f (env // { inherit name; }))
     environments;
+  eachEnv = lib.flip lib.pipe [
+    (lib.forEach (builtins.attrNames environments))
+    lib.listToAttrs
+  ];
 
   cardanoConfig = ./.;
 
@@ -294,5 +298,5 @@ let
   '';
 
 in {
-  inherit environments forEnvironments forEnvironmentsCustom mkEdgeTopology mkProxyTopology cardanoConfig defaultLogConfig defaultExplorerLogConfig defaultProxyLogConfig mkConfigHtml mkExplorerConfig;
+  inherit environments forEnvironments forEnvironmentsCustom eachEnv mkEdgeTopology mkProxyTopology cardanoConfig defaultLogConfig defaultExplorerLogConfig defaultProxyLogConfig mkConfigHtml mkExplorerConfig;
 }
