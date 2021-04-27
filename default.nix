@@ -108,6 +108,7 @@ let
         inherit (pkgs) config system;
         pkgsDefault = pkgs;
       };
+      iohk-nix.lib = import ./lib pkgs.lib;
     })];
   };
 

@@ -1,7 +1,9 @@
 {
-  description = "IOHK nix overlays";
+  description = "IOHK nix lib, packages and overlays";
 
-  outputs = { self }: {
+  outputs = { self, nixpkgs }: {
+
+    lib = import ./lib nixpkgs.lib;
 
     overlays = {
       crypto = import ./overlays/crypto;
