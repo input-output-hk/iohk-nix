@@ -108,6 +108,7 @@ let
         inherit (pkgs) config system;
         pkgsDefault = pkgs;
       };
+      iohk-nix.lib = import ./lib pkgs.lib;
     })];
   };
 
@@ -121,20 +122,20 @@ let
     };
   };
 
-  haskell-nix-extra-packages =
-    let haskellNix = (import defaultSources."haskell.nix" { inherit system sourcesOverride; }).nixpkgsArgs;
-    in with (import defaultSources.nixpkgs {
+  haskell-nix-extra-packages = let
+    haskellNix = (import defaultSources."haskell.nix" { inherit system sourcesOverride; }).nixpkgsArgs;
+    pkgs = import defaultSources.nixpkgs {
       inherit system crossSystem;
       config = haskellNix.config // config;
       overlays = haskellNix.overlays ++ overlays.haskell-nix-extra;
-      });
-    { inherit
-        haskellBuildUtils
-        stackNixRegenerate
-        stack-hpc-coveralls
-        hpc-coveralls
-      ;
-    };
+      };
+    removedWarnings = names: pkgs.lib.genAttrs names
+      (pkg: builtins.trace "WARNING: iohk-nix `haskellBuildUtils.${pkg}` has been removed." null);
+  in {
+    inherit (pkgs)
+      haskellBuildUtils
+      stackNixRegenerate;
+  } // removedWarnings [ "stack-hpc-coveralls" "hpc-coveralls" ];
 
   shell = import ./shell.nix;
 
