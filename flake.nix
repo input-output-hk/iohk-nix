@@ -11,6 +11,7 @@
       cardano-lib = (final: prev: {
         cardanoLib = final.callPackage ./cardano-lib {};
       });
+      utils = import ./overlays/utils;
     };
 
   };

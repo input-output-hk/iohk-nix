@@ -13,4 +13,5 @@ lib: with lib; {
     let m = builtins.match ".+:exe:(.+)" n;
     in if m == null then [] else [ (nameValuePair (head m) p.${n}) ]
   ) (attrNames p));
+
 }
