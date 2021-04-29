@@ -3,6 +3,11 @@
 Please read these notes when updating your project's `iohk-nix`
 version. There may have been changes which could break your build.
 
+## 2021-04-29
+   * Removed `haskell-nix-extra-packages` attrset - add
+     `overlays.haskell-nix-extra` to your project's nixpkgs overlays
+     instead.
+
 ## 2021-02-21
    * Reduce build closure size and the amount of code in iohk-nix.
    * Removed `haskell-nix-extra.stack-hpc-coveralls` - use

@@ -122,20 +122,9 @@ let
     };
   };
 
-  haskell-nix-extra-packages = let
-    haskellNix = (import defaultSources."haskell.nix" { inherit system sourcesOverride; }).nixpkgsArgs;
-    pkgs = import defaultSources.nixpkgs {
-      inherit system crossSystem;
-      config = haskellNix.config // config;
-      overlays = haskellNix.overlays ++ overlays.haskell-nix-extra;
-      };
-    removedWarnings = names: pkgs.lib.genAttrs names
-      (pkg: builtins.trace "WARNING: iohk-nix `haskellBuildUtils.${pkg}` has been removed." null);
-  in {
-    inherit (pkgs)
-      haskellBuildUtils
-      stackNixRegenerate;
-  } // removedWarnings [ "stack-hpc-coveralls" "hpc-coveralls" ];
+  haskell-nix-extra-packages = pkgsDefault.lib.genAttrs
+    [ "stackNixRegenerate" "haskellBuildUtils" "stack-hpc-coveralls" "hpc-coveralls" ]
+    (pkg: throw "ERROR: iohk-nix `haskell-nix-extra-packages.${pkg}` has been removed.");
 
   shell = import ./shell.nix;
 
