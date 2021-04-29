@@ -1,4 +1,7 @@
-final: prev: with final; with lib; {
+let
+  compiler-nix-name = "ghc8104";
+  index-state = "2021-04-29T00:00:00Z";
+in final: prev: with final; with lib; {
   haskell-nix = recursiveUpdate prev.haskell-nix {
     # TODO: remove this haskellLib.extra
     haskellLib.extra = rec {
@@ -17,10 +20,12 @@ final: prev: with final; with lib; {
   };
 
   stackNixRegenerate = pkgs.callPackage ./nix-tools-regenerate.nix {
-    nix-tools = haskell-nix.nix-tools.ghc865;
+    nix-tools = haskell-nix.nix-tools.${compiler-nix-name};
   };
 
-  haskellBuildUtils = pkgs.callPackage ./utils/default.nix {};
+  haskellBuildUtils = pkgs.callPackage ./utils/default.nix {
+    inherit compiler-nix-name index-state;
+  };
 
   rewriteStatic = _: p: if (pkgs.stdenv.hostPlatform.isDarwin) then
     pkgs.runCommandCC p.name {

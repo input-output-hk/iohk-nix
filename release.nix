@@ -45,6 +45,7 @@ let
   mappedPkgs = mapTestOn ({
     rust-packages.pkgs.cardano-http-bridge = supportedSystems;
     haskell-nix-extra-packages.stackNixRegenerate = supportedSystems;
+    haskell-nix-extra-packages.haskellBuildUtils = supportedSystems;
 
     # Development tools
   } // jormungandrPackages);
@@ -63,6 +64,7 @@ fix (self: mappedPkgs // {
       self.forceNewEval
       rust-packages.pkgs.cardano-http-bridge.x86_64-linux
       haskell-nix-extra-packages.stackNixRegenerate.x86_64-linux
+      haskell-nix-extra-packages.haskellBuildUtils.x86_64-linux
     ]) ++ usedJormungandrVersions;
   });
 })
