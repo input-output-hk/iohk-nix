@@ -11,6 +11,18 @@
         "url": "https://github.com/input-output-hk/cardano-repo-tool/archive/3a8a14d3f3f18f202fcc6d4ca03c1a3b098bf4f0.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
+    "haskell.nix": {
+        "branch": "master",
+        "description": "Alternative Haskell Infrastructure for Nixpkgs",
+        "homepage": "https://input-output-hk.github.io/haskell.nix",
+        "owner": "input-output-hk",
+        "repo": "haskell.nix",
+        "rev": "66f90fc17682636bfc60b8df47c075cd58599afe",
+        "sha256": "0ikdwdgc3gdjc16qxsjcrqbf2jn97znpdc42zbbnqp90y68zmjb5",
+        "type": "tarball",
+        "url": "https://github.com/input-output-hk/haskell.nix/archive/66f90fc17682636bfc60b8df47c075cd58599afe.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
     "nixpkgs": {
         "branch": "nixos-unstable",
         "description": "Nix Packages collection",

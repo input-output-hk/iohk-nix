@@ -122,8 +122,23 @@ let
     };
   };
 
-  haskell-nix-extra-packages = pkgsDefault.lib.genAttrs
-    [ "stackNixRegenerate" "haskellBuildUtils" "stack-hpc-coveralls" "hpc-coveralls" ]
+  # This attribute is here for iohk-nix/release.nix Hydra builds.
+  # Projects should generally use the haskell-nix-extra overlay directly.
+  haskell-nix-extra-packages = let
+    baseOverlays = overlays;
+    baseConfig = config;
+    haskellNix = (import defaultSources."haskell.nix" {
+      inherit system sourcesOverride;
+    }).nixpkgsArgs;
+  in rec {
+    overlays = haskellNix.overlays ++ baseOverlays.haskell-nix-extra;
+    config = haskellNix.config // baseConfig;
+    pkgs = import defaultSources.nixpkgs {
+      inherit overlays config system crossSystem;
+    };
+    inherit (pkgs) stackNixRegenerate haskellBuildUtils;
+  } // pkgsDefault.lib.genAttrs
+    [ "stack-hpc-coveralls" "hpc-coveralls" ]
     (pkg: throw "ERROR: iohk-nix `haskell-nix-extra-packages.${pkg}` has been removed.");
 
   shell = import ./shell.nix;

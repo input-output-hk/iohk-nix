@@ -1,4 +1,5 @@
-{ lib, haskell-nix, symlinkJoin }:
+{ lib, haskell-nix, symlinkJoin
+, compiler-nix-name, index-state }:
 
 let
   project = mkProject {};
@@ -7,8 +8,7 @@ let
       name = "iohk-nix-utils";
       src = ./.;
     };
-    compiler-nix-name = "ghc8104";
-    index-state = "2021-03-15T00:00:00Z";
+    inherit compiler-nix-name index-state;
   } // args);
 in
   symlinkJoin {
