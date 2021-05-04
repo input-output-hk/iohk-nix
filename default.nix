@@ -110,6 +110,7 @@ let
       };
       iohk-nix.lib = import ./lib pkgs.lib;
     })];
+    utils = [(import ./overlays/utils)];
   };
 
   rust-packages = rec {
