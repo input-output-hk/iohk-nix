@@ -108,6 +108,12 @@
   # Trace ChainSync protocol messages.
   TraceChainSyncProtocol = false;
 
+  # Trace connection manager
+  TraceConnectionManager = true;
+
+  # Trace diffusion initialization messages
+  TraceDiffusionInitialization = true;
+
   # Trace DNS Resolver messages.
   TraceDNSResolver = true;
 
@@ -126,14 +132,22 @@
   # Trace Handshake protocol messages.
   TraceHandshake = false;
 
+  TraceInboundGovernor = true;
+
   # Trace IP Subscription messages.
   TraceIpSubscription = true;
+
+  # Trace ledger peers.
+  TraceLedgerPeers = true;
 
   # Trace local ChainSync protocol messages.
   TraceLocalChainSyncProtocol = false;
 
   # Trace local Handshake protocol messages.
   TraceLocalHandshake = false;
+
+  # Trace local root peers
+  TraceLocalRootPeers = true;
 
   # Trace local TxSubmission protocol messages.
   TraceLocalTxSubmissionProtocol = false;
@@ -146,6 +160,19 @@
 
   # Trace Mux Events
   TraceMux = false;
+
+  # Trace peer selection
+  TracePeerSelection = true;
+
+  # Trace peer selection actions (demotion / protmotion between cold / warm and
+  # hot peers).
+  TracePeerSelectionActions = true;
+
+  # Trace public root peers
+  TracePublicRootPeers = true;
+
+  # Trace server
+  TraceServer = true;
 
   # Trace TxSubmission server (inbound transactions).
   TraceTxInbound = false;
