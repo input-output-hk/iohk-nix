@@ -59,6 +59,7 @@ let
         inherit (networkConfig) RequiresNetworkMagic;
       } // defaultExplorerLogConfig;
       explorerConfig = mkExplorerConfig "mainnet" nodeConfig;
+      usePeersFromLedgerAfterSlot = 29691317;
     };
     staging = rec {
       useByronWallet = true;
@@ -82,6 +83,7 @@ let
         inherit (networkConfig) RequiresNetworkMagic;
       } // defaultExplorerLogConfig;
       explorerConfig = mkExplorerConfig "staging" nodeConfig;
+      usePeersFromLedgerAfterSlot = 29444240;
     };
     testnet = rec {
       useByronWallet = true;
@@ -107,6 +109,21 @@ let
         inherit (networkConfig) RequiresNetworkMagic;
       } // defaultExplorerLogConfig;
       explorerConfig = mkExplorerConfig "testnet" nodeConfig;
+      usePeersFromLedgerAfterSlot = 26888469;
+    };
+    p2p = rec {
+      useByronWallet = false;
+      private = false;
+      relaysNew = "relays.p2p.dev.cardano.org";
+      explorerUrl = "https://explorer.p2p.dev.cardano.org";
+      smashUrl = "https://smash.p2p.dev.cardano.org";
+      metadataUrl = "https://metadata.cardano-testnet.iohkdev.io";
+      networkConfig = import ./p2p-config.nix;
+      consensusProtocol = networkConfig.Protocol;
+      nodeConfig = defaultLogConfig // networkConfig;
+      edgePort = 3001;
+      explorerConfig = mkExplorerConfig "p2p" nodeConfig;
+      usePeersFromLedgerAfterSlot = 320000;
     };
     # used for daedalus/cardano-wallet for local development
     selfnode = rec {
@@ -148,6 +165,7 @@ let
       nodeConfig = defaultLogConfig // networkConfig;
       edgePort = 3001;
       explorerConfig = mkExplorerConfig "shelley_qa" nodeConfig;
+      usePeersFromLedgerAfterSlot = 23574838;
     };
     latency-tests = {
       useByronWallet = false;
