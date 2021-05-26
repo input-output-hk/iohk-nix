@@ -28,7 +28,6 @@
   TestShelleyHardForkAtEpoch = 1;
   TestAllegraHardForkAtEpoch = 2;
   TestMaryHardForkAtEpoch = 3;
-  TestAlonzoHardForkAtEpoch = 4;
 
   TestEnableDevelopmentHardForkEras = true;
   TestEnableDevelopmentNetworkProtocols = true;
