@@ -125,6 +125,19 @@ let
       explorerConfig = mkExplorerConfig "p2p" nodeConfig;
       usePeersFromLedgerAfterSlot = 320000;
     };
+    alonzo-blue = rec {
+      useByronWallet = false;
+      private = false;
+      relaysNew = "relays.alonzo-blue.dev.cardano.org";
+      explorerUrl = "https://explorer.alonzo-blue.dev.cardano.org";
+      smashUrl = "https://smash.alonzo-blue.dev.cardano.org";
+      metadataUrl = "https://metadata.cardano-testnet.iohkdev.io";
+      networkConfig = import ./alonzo-blue-config.nix;
+      consensusProtocol = networkConfig.Protocol;
+      nodeConfig = defaultLogConfig // networkConfig;
+      edgePort = 3001;
+      explorerConfig = mkExplorerConfig "alonzo-blue" nodeConfig;
+    };
     # used for daedalus/cardano-wallet for local development
     shelley_qa = rec {
       useByronWallet = false;
