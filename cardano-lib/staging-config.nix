@@ -6,10 +6,12 @@
 {
   ##### Locations #####
 
-  ByronGenesisFile = ./staging-byron-genesis.json;
+  ByronGenesisFile = ./staging + "/byron-genesis.json";
   ByronGenesisHash = "c6a004d3d178f600cd8caa10abbebe1549bef878f0665aea2903472d5abf7323";
-  ShelleyGenesisFile = ./staging-shelley-genesis.json;
+  ShelleyGenesisFile = ./staging + "/shelley-genesis.json";
   ShelleyGenesisHash = "cbb0f57a001120ef11d97b943ce6953b75d26adc11dc68451e9dec7989a62c85";
+  AlonzoGenesisFile = ./staging + "/alonzo-genesis.json";
+  AlonzoGenesisHash = "06cc024b823b6d20f5dde2faf8de2d895f47983ab584db38ea62111b61038e35";
 
 
   ##### Core protocol parameters #####

@@ -1,4 +1,0 @@
-type: Genesis UTxO verification key
-title: Genesis initial UTxO key
-cbor-hex:
- 5820323d40279b9499cf21d3f0b7cfb30db917dfe7b5e069491c541a15f247d16af4

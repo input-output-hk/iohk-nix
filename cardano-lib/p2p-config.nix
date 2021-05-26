@@ -6,10 +6,12 @@
 {
   ##### Locations #####
 
-  ByronGenesisFile = ./p2p-byron-genesis.json;
+  ByronGenesisFile = ./p2p + "/byron-genesis.json";
   ByronGenesisHash = "610d9d846768180f90e547cefcffc7c50cc593d492fb219691f3f90fd37ea9f1";
-  ShelleyGenesisFile = ./p2p-shelley-genesis.json;
+  ShelleyGenesisFile = ./p2p + "/shelley-genesis.json";
   ShelleyGenesisHash = "9a41ac9f125995c0a558614a8e130fc5530972bb7f6ed11b5003e2cebc48ca1b";
+  AlonzoGenesisFile = ./p2p + "/alonzo-genesis.json";
+  AlonzoGenesisHash = "06cc024b823b6d20f5dde2faf8de2d895f47983ab584db38ea62111b61038e35";
 
   ##### Core protocol parameters #####
 
