@@ -126,33 +126,6 @@ let
       usePeersFromLedgerAfterSlot = 320000;
     };
     # used for daedalus/cardano-wallet for local development
-    selfnode = rec {
-      useByronWallet = true;
-      private = false;
-      networkConfig = import ./selfnode-config.nix;
-      nodeConfig = networkConfig // defaultLogConfig;
-      consensusProtocol = networkConfig.Protocol;
-      genesisFile = ./selfnode-byron-genesis.json;
-      delegationCertificate = ./selfnode.cert;
-      signingKey = ./selfnode.key;
-      topology = ./selfnode-topology.json;
-    };
-    shelley_selfnode = rec {
-      useByronWallet = false;
-      private = false;
-      networkConfig = import ./shelley-selfnode/shelley_selfnode-config.nix;
-      consensusProtocol = networkConfig.Protocol;
-      nodeConfig = networkConfig // defaultLogConfig;
-      genesisFile = ./shelley-selfnode/shelley_selfnode-shelley-genesis.json;
-      operationalCertificate = ./shelley-selfnode/node-keys/node.opcert;
-      kesKey = ./shelley-selfnode/node-keys/node-kes.skey;
-      vrfKey = ./shelley-selfnode/node-keys/node-vrf.skey;
-      utxo = {
-        signing = ./shelley-selfnode/utxo-keys/utxo1.skey;
-        verification = ./shelley-selfnode/utxo-keys/utxo1.vkey;
-      };
-      topology = ./selfnode-topology.json;
-    };
     shelley_qa = rec {
       useByronWallet = false;
       private = false;
@@ -167,35 +140,11 @@ let
       explorerConfig = mkExplorerConfig "shelley_qa" nodeConfig;
       usePeersFromLedgerAfterSlot = 23574838;
     };
-    latency-tests = {
-      useByronWallet = false;
-      relays = "relays.latency-tests.aws.iohkdev.io";
-      edgeNodes = [
-        "18.231.36.12"
-      ];
-      edgePort = 3001;
-      confKey = "latency_tests_full";
-      genesisFile = ./latency-tests-byron-genesis.json;
-      genesisHash = "c8b2ef02574d10bf23c2cd4a8c4022a9285f366af64b2544b317e2175b94f5a3";
-      private = false;
-    };
-    mainnet-ci = {
-      useByronWallet = false;
-      relays = "";
-      edgeNodes = [
-        "10.1.0.8"
-      ];
-      edgePort = 3000;
-      confKey = "mainnet_ci_full";
-      genesisFile = ./mainnet-ci-byron-genesis.json;
-      genesisHash = "12da51c484b5310fe26ca06ab24b94b323cde3698a0a50cb3f212abd08c2731e";
-      private = false;
-    };
   };
   # TODO: add flag to disable with forEnvironments instead of hard-coded list?
   forEnvironments = f: lib.mapAttrs
     (name: env: f (env // { inherit name; }))
-    (builtins.removeAttrs environments [ "mainnet-ci" "latency-tests" ]);
+    environments;
   forEnvironmentsCustom = f: environments: lib.mapAttrs
     (name: env: f (env // { inherit name; }))
     environments;
@@ -209,7 +158,7 @@ let
   protNames = {
     RealPBFT = { n = "byron"; };
     TPraos   = { n = "shelley"; };
-    Cardano  = { n = "byron"; nHfc = "shelley"; };
+    Cardano  = { n = "byron"; shelley = "shelley"; alonzo = "alonzo"; };
   };
 
   configHtml = environments:
@@ -258,7 +207,8 @@ let
                           <a class="button is-primary" href="${env}-config.json">config</a>
                           <a class="button is-info" href="${env}-${protNames.${p}.n}-genesis.json">${protNames.${p}.n}Genesis</a>
                           ${if p == "Cardano" then ''
-                            <a class="button is-info" href="${env}-${protNames.${p}.nHfc}-genesis.json">${protNames.${p}.nHfc}Genesis</a>
+                            <a class="button is-info" href="${env}-${protNames.${p}.shelley}-genesis.json">${protNames.${p}.shelley}Genesis</a>
+                            <a class="button is-info" href="${env}-${protNames.${p}.alonzo}-genesis.json">${protNames.${p}.alonzo}Genesis</a>
                           '' else ""}
                           <a class="button is-info" href="${env}-topology.json">topology</a>
                           <a class="button is-primary" href="${env}-db-sync-config.json">db-sync config</a>
@@ -293,7 +243,8 @@ let
           '' else ''
             ${jq}/bin/jq . < ${__toFile "${env}-config.json" (__toJSON (value.nodeConfig // {
               ByronGenesisFile = "${env}-${protNames.${p}.n}-genesis.json";
-              ShelleyGenesisFile = "${env}-${protNames.${p}.nHfc}-genesis.json";
+              ShelleyGenesisFile = "${env}-${protNames.${p}.shelley}-genesis.json";
+              AlonzoGenesisFile = "${env}-${protNames.${p}.alonzo}-genesis.json";
             }))} > $out/${env}-config.json
           ''}
           ${lib.optionalString (p == "RealPBFT" || p == "Byron") ''
@@ -303,8 +254,9 @@ let
             cp ${value.nodeConfig.GenesisFile} $out/${env}-${protNames.${p}.n}-genesis.json
           ''}
           ${lib.optionalString (p == "Cardano") ''
-            cp ${value.nodeConfig.ShelleyGenesisFile} $out/${env}-${protNames.${p}.nHfc}-genesis.json
+            cp ${value.nodeConfig.ShelleyGenesisFile} $out/${env}-${protNames.${p}.shelley}-genesis.json
             cp ${value.nodeConfig.ByronGenesisFile} $out/${env}-${protNames.${p}.n}-genesis.json
+            cp ${value.nodeConfig.AlonzoGenesisFile} $out/${env}-${protNames.${p}.alonzo}-genesis.json
           ''}
           ${jq}/bin/jq . < ${mkEdgeTopology { edgeNodes = [ value.relaysNew ]; valency = 2; }} > $out/${env}-topology.json
           ${jq}/bin/jq . < ${__toFile "${env}-db-sync-config.json" (__toJSON (value.explorerConfig // defaultExplorerLogConfig))} > $out/${env}-db-sync-config.json
