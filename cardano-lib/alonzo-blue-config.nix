@@ -7,9 +7,9 @@
   ##### Locations #####
 
   ByronGenesisFile = ./alonzo-blue + "/byron-genesis.json";
-  ByronGenesisHash = "56a3821501bce3dd17e39f17e8f6f35445e5a226ee93cca8a6acd330690bc238";
+  ByronGenesisHash = "954fd1fc35329395ae5ec031d5bd4621d6293d82b922a88132ec1d20c0d648f9";
   ShelleyGenesisFile = ./alonzo-blue + "/shelley-genesis.json";
-  ShelleyGenesisHash = "3b202522d958490b9c2a5fdbda3c2b27fc858c2603854b06180249aec1c03806";
+  ShelleyGenesisHash = "60ba98183b381c933acaa298a815e090bdb86726fd19562e12f6ed6aa78caef2";
   AlonzoGenesisFile = ./alonzo-blue + "/alonzo-genesis.json";
   AlonzoGenesisHash = "06cc024b823b6d20f5dde2faf8de2d895f47983ab584db38ea62111b61038e35";
 
@@ -25,10 +25,9 @@
   # The mainnet does not include the network magic into addresses. Testnets do.
   RequiresNetworkMagic = "RequiresMagic";
 
-  TestShelleyHardForkAtEpoch = 0;
-  TestAllegraHardForkAtEpoch = 0;
-  TestMaryHardForkAtEpoch = 0;
-  TestAlonzoHardForkAtEpoch = 0;
+  TestShelleyHardForkAtEpoch = 1;
+  TestAllegraHardForkAtEpoch = 2;
+  TestMaryHardForkAtEpoch = 3;
 
   TestEnableDevelopmentHardForkEras = true;
   TestEnableDevelopmentNetworkProtocols = true;
