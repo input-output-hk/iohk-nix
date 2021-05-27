@@ -1,5 +1,5 @@
 {
-    "maxLovelaceSupply": 30000000000000000,
+    "maxLovelaceSupply": 45000000000000000,
     "securityParam": 36,
     "collateralPercentage": 1,
     "slotsPerKESPeriod": 129600,
@@ -33,95 +33,16 @@
         },
         "a0": 0.3,
         "rho": 3.0e-3,
-        "decentralisationParam": 1
-    },
-    "costModels": {
-        "\"PlutusV1\"": {
-            "memobytes": "b84878236164645f696e74656765722d6370752d617267756d656e74732d696e74657263657074190845781f6164645f696e74656765722d6370752d617267756d656e74732d736c6f70650178266164645f696e74656765722d6d656d6f72792d617267756d656e74732d696e746572636570741903e878226164645f696e74656765722d6d656d6f72792d617267756d656e74732d736c6f70651903e87823636f6e636174656e6174652d6370752d617267756d656e74732d696e74657263657074190a6f781f636f6e636174656e6174652d6370752d617267756d656e74732d736c6f7065007826636f6e636174656e6174652d6d656d6f72792d617267756d656e74732d696e74657263657074007822636f6e636174656e6174652d6d656d6f72792d617267756d656e74732d736c6f70651903e878386469766964655f696e74656765722d6370752d617267756d656e74732d6d6f64656c5f73706c69745f636f6e73745f696e7465726365707419089078346469766964655f696e74656765722d6370752d617267756d656e74732d6d6f64656c5f73706c69745f636f6e73745f736c6f70650078296469766964655f696e74656765722d6d656d6f72792d617267756d656e74732d696e746572636570740078276469766964655f696e74656765722d6d656d6f72792d617267756d656e74732d6d696e696d756d1903e878256469766964655f696e74656765722d6d656d6f72792d617267756d656e74732d736c6f70651903e8781e64726f705f627974655f737472696e672d6370752d617267756d656e74731907f0782164726f705f627974655f737472696e672d6d656d6f72792d617267756d656e74731907d0782665715f627974655f737472696e672d6370752d617267756d656e74732d696e7465726365707419082d782265715f627974655f737472696e672d6370752d617267756d656e74732d736c6f706500781f65715f627974655f737472696e672d6d656d6f72792d617267756d656e74731903e8782265715f696e74656765722d6370752d617267756d656e74732d696e74657263657074190828781e65715f696e74656765722d6370752d617267756d656e74732d736c6f706500781b65715f696e74656765722d6d656d6f72792d617267756d656e74731903e8782f677265617465725f7468616e5f65715f696e74656765722d6370752d617267756d656e74732d696e74657263657074190831782b677265617465725f7468616e5f65715f696e74656765722d6370752d617267756d656e74732d736c6f7065007828677265617465725f7468616e5f65715f696e74656765722d6d656d6f72792d617267756d656e74731903e8782c677265617465725f7468616e5f696e74656765722d6370752d617267756d656e74732d696e746572636570741908397828677265617465725f7468616e5f696e74656765722d6370752d617267756d656e74732d736c6f7065007825677265617465725f7468616e5f696e74656765722d6d656d6f72792d617267756d656e74731903e8782667745f627974655f737472696e672d6370752d617267756d656e74732d696e7465726365707419081a782267745f627974655f737472696e672d6370752d617267756d656e74732d736c6f706500781f67745f627974655f737472696e672d6d656d6f72792d617267756d656e74731903e8781a69665f7468656e5f656c73652d6370752d617267756d656e74731903e8781d69665f7468656e5f656c73652d6d656d6f72792d617267756d656e74731903e8782c6c6573735f7468616e5f65715f696e74656765722d6370752d617267756d656e74732d696e7465726365707419083178286c6573735f7468616e5f65715f696e74656765722d6370752d617267756d656e74732d736c6f70650078256c6573735f7468616e5f65715f696e74656765722d6d656d6f72792d617267756d656e74731903e878296c6573735f7468616e5f696e74656765722d6370752d617267756d656e74732d696e7465726365707419083978256c6573735f7468616e5f696e74656765722d6370752d617267756d656e74732d736c6f70650078226c6573735f7468616e5f696e74656765722d6d656d6f72792d617267756d656e74731903e878266c745f627974655f737472696e672d6370752d617267756d656e74732d696e7465726365707419081a78226c745f627974655f737472696e672d6370752d617267756d656e74732d736c6f706500781f6c745f627974655f737472696e672d6d656d6f72792d617267756d656e74731903e878356d6f645f696e74656765722d6370752d617267756d656e74732d6d6f64656c5f73706c69745f636f6e73745f696e7465726365707419089078316d6f645f696e74656765722d6370752d617267756d656e74732d6d6f64656c5f73706c69745f636f6e73745f736c6f70650078266d6f645f696e74656765722d6d656d6f72792d617267756d656e74732d696e746572636570740078246d6f645f696e74656765722d6d656d6f72792d617267756d656e74732d6d696e696d756d1903e878226d6f645f696e74656765722d6d656d6f72792d617267756d656e74732d736c6f70651903e878286d756c7469706c795f696e74656765722d6370752d617267756d656e74732d696e7465726365707419078478246d756c7469706c795f696e74656765722d6370752d617267756d656e74732d736c6f70650b782b6d756c7469706c795f696e74656765722d6d656d6f72792d617267756d656e74732d696e746572636570740078276d756c7469706c795f696e74656765722d6d656d6f72792d617267756d656e74732d736c6f70651903e8783a71756f7469656e745f696e74656765722d6370752d617267756d656e74732d6d6f64656c5f73706c69745f636f6e73745f696e74657263657074190890783671756f7469656e745f696e74656765722d6370752d617267756d656e74732d6d6f64656c5f73706c69745f636f6e73745f736c6f706500782b71756f7469656e745f696e74656765722d6d656d6f72792d617267756d656e74732d696e7465726365707400782771756f7469656e745f696e74656765722d6d656d6f72792d617267756d656e74732d736c6f70651903e8783b72656d61696e6465725f696e74656765722d6370752d617267756d656e74732d6d6f64656c5f73706c69745f636f6e73745f696e74657263657074190890783772656d61696e6465725f696e74656765722d6370752d617267756d656e74732d6d6f64656c5f73706c69745f636f6e73745f736c6f706500782c72656d61696e6465725f696e74656765722d6d656d6f72792d617267756d656e74732d696e7465726365707400782872656d61696e6465725f696e74656765722d6d656d6f72792d617267756d656e74732d736c6f70651903e8781c736861322d6370752d617267756d656e74732d696e74657263657074190f1c7818736861322d6370752d617267756d656e74732d736c6f7065181d75736861322d6d656d6f72792d617267756d656e7473190fa0781c736861332d6370752d617267756d656e74732d696e746572636570741904a27818736861332d6370752d617267756d656e74732d736c6f7065185175736861332d6d656d6f72792d617267756d656e7473190fa0782873756274726163745f696e74656765722d6370752d617267756d656e74732d696e7465726365707419083e782473756274726163745f696e74656765722d6370752d617267756d656e74732d736c6f706501782b73756274726163745f696e74656765722d6d656d6f72792d617267756d656e74732d696e746572636570741903e8782773756274726163745f696e74656765722d6d656d6f72792d617267756d656e74732d736c6f70651903e8781e74616b655f627974655f737472696e672d6370752d617267756d656e74731907f4782174616b655f627974655f737472696e672d6d656d6f72792d617267756d656e74731907d0781e7665726966795f7369676e61747572652d6370752d617267756d656e7473190a9a78217665726966795f7369676e61747572652d6d656d6f72792d617267756d656e74731903e8",
-            "memotype": {
-                "multiply_integer-memory-arguments-intercept": 0,
-                "remainder_integer-memory-arguments-intercept": 0,
-                "remainder_integer-cpu-arguments-model_split_const_intercept": 2192,
-                "sha3-cpu-arguments-intercept": 1186,
-                "subtract_integer-memory-arguments-slope": 1000,
-                "gt_byte_string-cpu-arguments-intercept": 2074,
-                "less_than_eq_integer-cpu-arguments-slope": 0,
-                "concatenate-cpu-arguments-slope": 0,
-                "less_than_integer-cpu-arguments-intercept": 2105,
-                "quotient_integer-memory-arguments-slope": 1000,
-                "greater_than_integer-cpu-arguments-slope": 0,
-                "if_then_else-cpu-arguments": 1000,
-                "quotient_integer-cpu-arguments-model_split_const_slope": 0,
-                "lt_byte_string-cpu-arguments-slope": 0,
-                "mod_integer-cpu-arguments-model_split_const_slope": 0,
-                "eq_byte_string-cpu-arguments-intercept": 2093,
-                "eq_integer-cpu-arguments-slope": 0,
-                "multiply_integer-cpu-arguments-slope": 11,
-                "sha3-memory-arguments": 4000,
-                "divide_integer-memory-arguments-intercept": 0,
-                "subtract_integer-cpu-arguments-intercept": 2110,
-                "divide_integer-cpu-arguments-model_split_const_intercept": 2192,
-                "less_than_integer-memory-arguments": 1000,
-                "mod_integer-memory-arguments-minimum": 1000,
-                "gt_byte_string-memory-arguments": 1000,
-                "eq_byte_string-cpu-arguments-slope": 0,
-                "mod_integer-cpu-arguments-model_split_const_intercept": 2192,
-                "greater_than_eq_integer-cpu-arguments-slope": 0,
-                "add_integer-memory-arguments-intercept": 1000,
-                "eq_byte_string-memory-arguments": 1000,
-                "verify_signature-cpu-arguments": 2714,
-                "take_byte_string-cpu-arguments": 2036,
-                "remainder_integer-cpu-arguments-model_split_const_slope": 0,
-                "sha3-cpu-arguments-slope": 81,
-                "drop_byte_string-memory-arguments": 2000,
-                "remainder_integer-memory-arguments-slope": 1000,
-                "subtract_integer-memory-arguments-intercept": 1000,
-                "eq_integer-memory-arguments": 1000,
-                "multiply_integer-memory-arguments-slope": 1000,
-                "add_integer-memory-arguments-slope": 1000,
-                "sha2-memory-arguments": 4000,
-                "greater_than_eq_integer-cpu-arguments-intercept": 2097,
-                "less_than_eq_integer-memory-arguments": 1000,
-                "if_then_else-memory-arguments": 1000,
-                "add_integer-cpu-arguments-slope": 1,
-                "concatenate-memory-arguments-slope": 1000,
-                "lt_byte_string-memory-arguments": 1000,
-                "sha2-cpu-arguments-slope": 29,
-                "mod_integer-memory-arguments-slope": 1000,
-                "greater_than_integer-memory-arguments": 1000,
-                "divide_integer-memory-arguments-slope": 1000,
-                "subtract_integer-cpu-arguments-slope": 1,
-                "divide_integer-cpu-arguments-model_split_const_slope": 0,
-                "eq_integer-cpu-arguments-intercept": 2088,
-                "multiply_integer-cpu-arguments-intercept": 1924,
-                "drop_byte_string-cpu-arguments": 2032,
-                "divide_integer-memory-arguments-minimum": 1000,
-                "greater_than_eq_integer-memory-arguments": 1000,
-                "take_byte_string-memory-arguments": 2000,
-                "add_integer-cpu-arguments-intercept": 2117,
-                "sha2-cpu-arguments-intercept": 3868,
-                "mod_integer-memory-arguments-intercept": 0,
-                "verify_signature-memory-arguments": 1000,
-                "concatenate-memory-arguments-intercept": 0,
-                "less_than_integer-cpu-arguments-slope": 0,
-                "lt_byte_string-cpu-arguments-intercept": 2074,
-                "less_than_eq_integer-cpu-arguments-intercept": 2097,
-                "concatenate-cpu-arguments-intercept": 2671,
-                "quotient_integer-cpu-arguments-model_split_const_intercept": 2192,
-                "quotient_integer-memory-arguments-intercept": 0,
-                "greater_than_integer-cpu-arguments-intercept": 2105,
-                "gt_byte_string-cpu-arguments-slope": 0
-            }
-        }
+        "decentralisationParam": 0.25
     },
     "networkMagic": 5,
     "initialFunds": {
-        "00477c19d20decda1d198917714d0ebb34883004d5c8f338411d91c395c6346879ea6a58dc283275c854085a92518b0e1fe85407b0ce957670": 5000000000000000,
-        "608cd788650f3565a45ca5ab16a8557d4d190c1188e8b4f5fe7b259e4f": 5000000000000000,
-        "00f6f3b3372da895c8fb28f1745a0975eb461b390d32e87990df01cf15882341ec47eb24174b87021029bbb1ef0bce8d7c54e3b156a415679a": 5000000000000000,
-        "601e7fb65ed9195b9f27f58e8b4c1d4c42973013d6d2623a5ef9d71351": 5000000000000000,
-        "60b4627b4bc85ae024dc6cd34e43b1808919241e0359e327fd3037333f": 5000000000000000,
-        "0069b7e179ee962207cc6f6d3b85274f50dd65cec2062d8daa54fd2506af553d4f89b085548a7b5d503b263e268b55310b53f4aa3be164b214": 5000000000000000
+        "004d381c64594ed7915a324b1fea783388b71a51be9861c3ab997d7acaff609353c732ff3ee66eca2d9d9fbb02f20e132c64947e2dd5ba2a96": 5000000000000000,
+        "602be5a5d252e4c7394c711daf7f2dd93df5411c3cbb57670dd50915b1": 5000000000000000,
+        "6015cab62b2cde6ada0e63a58b824aa304c100cd84db7f7e7a91a2bea6": 5000000000000000,
+        "005b5cff7b5463c48976ea3afa3290ce64c1ed10a4cc6cbc3f3ec5aa24367da584c0e260576852b363371cc8da0c03ae883d091a0ec49368ea": 5000000000000000,
+        "009f96502ffece2a49a0a4d9702a82b78edfa76fe477a9f9bd3f9864dd84426861630795862d5036cc2efc0db904da28294bb656744ae4aa46": 5000000000000000,
+        "606844d5acd08e81c7439c6f1030572574f2df6fb7e2bffebc2eba7abd": 5000000000000000
     },
     "executionPrices": {
         "prMem": 1,
@@ -131,9 +52,9 @@
     "adaPerUTxOWord": 10,
     "maxKESEvolutions": 62,
     "genDelegs": {
-        "1f61ea7a60515b94d4fbca71b2882ea5c2d5ed65dab8b94f30fe2e1b": {
-            "delegate": "65fa2d39c2e67afbefde9aea61cfe2abf30b6f97d88f0278dd16539d",
-            "vrf": "f41862ef8909e0c205452f7e33acc84e0121a27fe17262a579467651932f1969"
+        "757c852d8bd6a552854ee1ef5d7311af24ead910cc50142655218012": {
+            "delegate": "9a7c0f0c43b688f30ee6fb8a5517789c34cc772692c20dc657d6681b",
+            "vrf": "917d4fcca47efff1ff77769eb48a60750a826c0c4ad05dd05c06441817b40288"
         }
     },
     "slotLength": 1,
@@ -141,63 +62,63 @@
         "exUnitsMem": 1,
         "exUnitsSteps": 1
     },
-    "systemStart": "2021-05-26T15:55:44Z",
+    "systemStart": "2021-05-27T13:04:20Z",
     "epochLength": 7200,
     "staking": {
         "pools": {
-            "8d7f2f74083957215fdda3a58b622c3f8b4f061b1ba328f8f1b7f951": {
-                "publicKey": "8d7f2f74083957215fdda3a58b622c3f8b4f061b1ba328f8f1b7f951",
+            "49b7d21050b6f3d9a63451c903f8b723a1ccd006960fdea6ec097290": {
+                "publicKey": "49b7d21050b6f3d9a63451c903f8b723a1ccd006960fdea6ec097290",
                 "cost": 0,
                 "metadata": null,
                 "owners": [],
-                "vrf": "920ba273ddedd215fb55c9b03a37fb3365c31039cc24e8f5ce7e9f8834f987ce",
+                "vrf": "6459c115e9e3d50eb6b8ad1c545ce60c4a59bab2a77ee943927731a6bafe0967",
                 "pledge": 0,
                 "margin": 0,
                 "rewardAccount": {
                     "network": "Testnet",
                     "credential": {
-                        "key hash": "3c3b311d5081eb75e994f53adac5c4f18d5b3eac7c1f1bdf5949e806"
+                        "key hash": "dec779ba4eec1c6e7b3c92e9a8b2f4cdf3cb1b97f7a63aceed31049e"
                     }
                 },
                 "relays": []
             },
-            "ef4ed103ef967672c45cb7dbd3fb0a60295d6ac6db58c72dadbcc0aa": {
-                "publicKey": "ef4ed103ef967672c45cb7dbd3fb0a60295d6ac6db58c72dadbcc0aa",
+            "51d4e80ceec703ac973e491f8959239b361b4883b3e16fa98896010a": {
+                "publicKey": "51d4e80ceec703ac973e491f8959239b361b4883b3e16fa98896010a",
                 "cost": 0,
                 "metadata": null,
                 "owners": [],
-                "vrf": "8d4f195b77750b02b8cd059dbcafea494bded113f65e55a280b058f8a39a58fc",
+                "vrf": "a9c4365fdc364fbbdd44af5a40dd726a0a439563f32ece20378c53e3a378166e",
                 "pledge": 0,
                 "margin": 0,
                 "rewardAccount": {
                     "network": "Testnet",
                     "credential": {
-                        "key hash": "3ecabbf74cc867faa423fc517b98de7daf04f3c2cdd311b39497b8d0"
+                        "key hash": "c3a62d1da925d771a5cfd486dd203e74a2f573befffa88b487c994d8"
                     }
                 },
                 "relays": []
             },
-            "44e9d9eb9a7fa352ac11d79604cebeb5a4e39afc1554ea6f44a45889": {
-                "publicKey": "44e9d9eb9a7fa352ac11d79604cebeb5a4e39afc1554ea6f44a45889",
+            "3e7795c08885253743a43de88bf66c33a9661b7c1ca84542084211e7": {
+                "publicKey": "3e7795c08885253743a43de88bf66c33a9661b7c1ca84542084211e7",
                 "cost": 0,
                 "metadata": null,
                 "owners": [],
-                "vrf": "d060a26f27b7ce4024b985d5aed9e7aaa569d0d93e9adb1ba719fd5b7cca207b",
+                "vrf": "9c150e58d8f0d5982a909dcaa681b0bfc2fcec475f221f2716425f4e46c1669d",
                 "pledge": 0,
                 "margin": 0,
                 "rewardAccount": {
                     "network": "Testnet",
                     "credential": {
-                        "key hash": "2f3c8c3a1cc8f9e7792d86f57818ab9c738cb5dc9ee642c4e7554011"
+                        "key hash": "d223823f74bdee6f37b4dcf7db54cd670c20290cf6796b198143d29a"
                     }
                 },
                 "relays": []
             }
         },
         "stake": {
-            "882341ec47eb24174b87021029bbb1ef0bce8d7c54e3b156a415679a": "ef4ed103ef967672c45cb7dbd3fb0a60295d6ac6db58c72dadbcc0aa",
-            "c6346879ea6a58dc283275c854085a92518b0e1fe85407b0ce957670": "8d7f2f74083957215fdda3a58b622c3f8b4f061b1ba328f8f1b7f951",
-            "af553d4f89b085548a7b5d503b263e268b55310b53f4aa3be164b214": "44e9d9eb9a7fa352ac11d79604cebeb5a4e39afc1554ea6f44a45889"
+            "84426861630795862d5036cc2efc0db904da28294bb656744ae4aa46": "49b7d21050b6f3d9a63451c903f8b723a1ccd006960fdea6ec097290",
+            "367da584c0e260576852b363371cc8da0c03ae883d091a0ec49368ea": "51d4e80ceec703ac973e491f8959239b361b4883b3e16fa98896010a",
+            "ff609353c732ff3ee66eca2d9d9fbb02f20e132c64947e2dd5ba2a96": "3e7795c08885253743a43de88bf66c33a9661b7c1ca84542084211e7"
         }
     }
 }
