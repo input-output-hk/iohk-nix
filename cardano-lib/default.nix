@@ -138,6 +138,19 @@ let
       edgePort = 3001;
       explorerConfig = mkExplorerConfig "alonzo-blue" nodeConfig;
     };
+    alonzo-qa = rec {
+      useByronWallet = false;
+      private = false;
+      relaysNew = "relays.alonzo-qa.dev.cardano.org";
+      explorerUrl = "https://explorer.alonzo-qa.dev.cardano.org";
+      smashUrl = "https://smash.alonzo-qa.dev.cardano.org";
+      metadataUrl = "https://metadata.cardano-testnet.iohkdev.io";
+      networkConfig = import ./alonzo-qa-config.nix;
+      consensusProtocol = networkConfig.Protocol;
+      nodeConfig = defaultLogConfig // networkConfig;
+      edgePort = 3001;
+      explorerConfig = mkExplorerConfig "alonzo-qa" nodeConfig;
+    };
     # used for daedalus/cardano-wallet for local development
     shelley_qa = rec {
       useByronWallet = false;
