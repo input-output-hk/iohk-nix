@@ -13,7 +13,7 @@ in {
       }
       trap atexit EXIT
     fi
-    GC_DONT_GC=1 ${nixFlakes}/bin/nix "$@"
+    GC_DONT_GC=1 ${nixFlakes}/bin/nix --experimental-features "nix-command flakes" "$@"
   '';
   cabalWrapped = writeShellScriptBin "cabal" ''
     echo 'Temporary modify `cabal.project` to use nix builds of `source-repository-package`s (haskell/cabal#5444 and haskell/cabal#6249).'
@@ -25,7 +25,7 @@ in {
         mv "$BACKUP" "$PROJECT"
     }
     trap atexit EXIT
-    ${cabal}/bin/cabal "$@"
+    ${final.cabal or final.cabal-install}/bin/cabal "$@"
   '';
 
   hlintCheck = ../../tests/hlint.nix;
