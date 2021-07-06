@@ -138,6 +138,19 @@ let
       edgePort = 3001;
       explorerConfig = mkExplorerConfig "alonzo-blue" nodeConfig;
     };
+    alonzo-white = rec {
+      useByronWallet = false;
+      private = false;
+      relaysNew = "relays.alonzo-white.dev.cardano.org";
+      explorerUrl = "https://explorer.alonzo-white.dev.cardano.org";
+      smashUrl = "https://smash.alonzo-white.dev.cardano.org";
+      metadataUrl = "https://metadata.cardano-testnet.iohkdev.io";
+      networkConfig = import ./alonzo-white-config.nix;
+      consensusProtocol = networkConfig.Protocol;
+      nodeConfig = defaultLogConfig // networkConfig;
+      edgePort = 3001;
+      explorerConfig = mkExplorerConfig "alonzo-white" nodeConfig;
+    };
     alonzo-qa = rec {
       useByronWallet = false;
       private = false;
