@@ -1,14 +1,14 @@
 # A script for generating the nix haskell package set based on stackage,
 # using the common convention for repo layout.
 
-{ lib, stdenv, path, writeScript, nix-tools, coreutils, findutils, glibcLocales }:
+{ lib, stdenv, runtimeShell, path, writeScript, nix-tools, coreutils, findutils, glibcLocales }:
 
 let
   deps = [ nix-tools coreutils findutils ];
 
 in
   writeScript "nix-tools-regenerate" ''
-    #!${stdenv.shell}
+    #!${runtimeShell}
     #
     # Haskell package set regeneration script.
     #

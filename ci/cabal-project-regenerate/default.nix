@@ -1,5 +1,6 @@
 { stdenv
 , lib
+, runtimeShell
 , writeScript
 , runCommand
 , python37
@@ -26,7 +27,7 @@ let
     nix-prefetch-git
   ];
   checkCabalProject = writeScript "check-cabal-project" ''
-    #!${stdenv.shell}
+    #!${runtimeShell}
     PATH=${lib.makeBinPath checkDeps}
     set -euo pipefail
     cp ./cabal.project ./cabal.project.old
