@@ -3,16 +3,16 @@
 # run on a PR branch, and there is a SSH key present, it will attempt to push
 # the changes back to the PR.
 
-{ stdenv, writeScript, coreutils, nixStable, git, gawk }:
+{ lib, runtimeShell, writeScript, coreutils, nixStable, git, gawk }:
 
-with stdenv.lib;
+with lib;
 
 writeScript "check-stack-project.sh" ''
-  #!${stdenv.shell}
+  #!${runtimeShell}
 
   set -euo pipefail
 
-  export PATH="${makeBinPath [ stdenv.shellPackage coreutils nixStable git gawk ]}:$PATH"
+  export PATH="${makeBinPath [ runtimeShell coreutils nixStable git gawk ]}:$PATH"
 
   if [ -z "''${BUILDKITE:-}" ]; then
     # Go to top of project repo, unless running under CI.
