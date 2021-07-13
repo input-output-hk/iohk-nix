@@ -12,7 +12,7 @@
     "exUnitsMem": 1,
     "exUnitsSteps": 1
   },
-  "maxValueSize": 1000,
+  "maxValueSize": 4000,
   "collateralPercentage": 100,
   "maxCollateralInputs": 1
 }
