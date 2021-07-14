@@ -11,7 +11,7 @@
   ShelleyGenesisFile = ./alonzo-white + "/shelley-genesis.json";
   ShelleyGenesisHash = "b72001cddc21713dd63d899c1993a5b0728cd909eb261fff0e50d10f46340f1f";
   AlonzoGenesisFile = ./alonzo-white + "/alonzo-genesis.json";
-  AlonzoGenesisHash = "dfdbcb0e55a2e389e69e703797b945b52aae500db33fcd2301f0c328afe4f7e2";
+  AlonzoGenesisHash = "c7cdcccbc6adec169f74784de720db8414665591d87498b513266d41680c587f";
 
   ##### Core protocol parameters #####
 
