@@ -7,9 +7,9 @@
   ##### Locations #####
 
   ByronGenesisFile = ./alonzo-qa + "/byron-genesis.json";
-  ByronGenesisHash = "0f192fec1b02283025cef1f8936224e69b37cff565c54ab59c3a88468c6811be";
+  ByronGenesisHash = "427e57feb8a142ad02281249f53d1e810fb30b4480a247b7bf1d7b3ea042c450";
   ShelleyGenesisFile = ./alonzo-qa + "/shelley-genesis.json";
-  ShelleyGenesisHash = "0103899136eacc050911157a6cb4047010da72442e53a673afbc58c161353c27";
+  ShelleyGenesisHash = "76b558a3fa118b45077d96e222d8bfe60122fda2fb81b39025c64012684c4260";
   AlonzoGenesisFile = ./alonzo-qa + "/alonzo-genesis.json";
   AlonzoGenesisHash = "c7cdcccbc6adec169f74784de720db8414665591d87498b513266d41680c587f";
 
