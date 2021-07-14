@@ -11,7 +11,7 @@
   ShelleyGenesisFile = ./alonzo-qa + "/shelley-genesis.json";
   ShelleyGenesisHash = "0103899136eacc050911157a6cb4047010da72442e53a673afbc58c161353c27";
   AlonzoGenesisFile = ./alonzo-qa + "/alonzo-genesis.json";
-  AlonzoGenesisHash = "dfdbcb0e55a2e389e69e703797b945b52aae500db33fcd2301f0c328afe4f7e2";
+  AlonzoGenesisHash = "c7cdcccbc6adec169f74784de720db8414665591d87498b513266d41680c587f";
 
   ##### Core protocol parameters #####
 
@@ -25,10 +25,10 @@
   # The mainnet does not include the network magic into addresses. Testnets do.
   RequiresNetworkMagic = "RequiresMagic";
 
-  TestShelleyHardForkAtEpoch = 0;
-  TestAllegraHardForkAtEpoch = 0;
-  TestMaryHardForkAtEpoch = 0;
-  TestAlonzoHardForkAtEpoch = 0;
+  TestShelleyHardForkAtEpoch = 1;
+  TestAllegraHardForkAtEpoch = 2;
+  TestMaryHardForkAtEpoch = 3;
+  TestAlonzoHardForkAtEpoch = 4;
 
   TestEnableDevelopmentHardForkEras = true;
   TestEnableDevelopmentNetworkProtocols = true;
