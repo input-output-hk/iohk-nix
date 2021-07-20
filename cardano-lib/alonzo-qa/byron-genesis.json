@@ -1,18 +1,18 @@
 { "bootStakeholders":
-    { "386c6f735abf378e9d8f214ddf8ea6cace9e1cde3e17df3b268505fd": 1 }
+    { "ba449bbb3d6edb9744d52901f6cfad9a3da8baaa3fe3b21fd87e77c8": 1 }
 , "heavyDelegation":
-    { "386c6f735abf378e9d8f214ddf8ea6cace9e1cde3e17df3b268505fd":
+    { "ba449bbb3d6edb9744d52901f6cfad9a3da8baaa3fe3b21fd87e77c8":
         { "omega": 0
         , "issuerPk":
-            "e+s3roMWHhVS3hVInciAsLz4w6KQtSjKnCS5bwWy4Dfz5cwilQxtBGFMp/u4aC2vrKsgVinYDvkMiTlnNd495A=="
+            "1m8dM4JYq1jyDkfD7yFbiiPxS5IpifLYP0IV41ui7vwGh6ofCHG8BPUaxJITKSoMQn1YoW4DNuxzQkoZD28j3g=="
         , "delegatePk":
-            "A7W8O1FevGEuzXVHcsBB6mVVeY3UPejhF4VoxdwNKwVRUwEg06UtI//oqce1SHT3XbIA75Gdb6JO3EuGgkORJg=="
+            "FxC514VYqnf/hZ0KKqUGVMfqgWKiTzrpEpuSNRKVtEmVEYq0FfX4xsab+Ydz771tNp/y2kICddrZOzzFTY91Og=="
         , "cert":
-            "6275e02774fad9ec5b667e625b39e9c2ec60703cddac5aa7c3fb0a6bd40441a048390985f7b0f0db430454da89f1d263bb7b9290f291f3651abfbc45cae85008"
+            "c61d76d1907138b6273abac00affbe9b455d922a13a371735931c003945784276d41c63abbf00597b51615108f287bc126e040f54cdb393cb66b5945a710b402"
         } }
-, "startTime": 1626282000
+, "startTime": 1626823673
 , "nonAvvmBalances":
-    { "FHnt4NL7yPXpZMmG6vBSq4kbfAq5TZB211at5gq2aB6LNxBvDY7GiPduYZTf6Dc":
+    { "FHnt4NL7yPYGGDLCgh86v2s3jXbCXjwoqCgHCXsHWC8CbspGL3r4rafehn4Qxan":
         "30000015000000000" }
 , "blockVersionData":
     { "scriptVersion": 0
