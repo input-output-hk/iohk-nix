@@ -3,28 +3,44 @@
 Please read these notes when updating your project's `iohk-nix`
 version. There may have been changes which could break your build.
 
+## 2021-07-22
+  * Renamed `libsodium` to `libsodium-vrf` in the crypto overlay. This
+    allows much more sharing from the binary caches.
+
+    Any package which has dependencies on the VRF fork of libsodium
+    must now add a Haskell.nix module to select the forked package.
+    For example:
+
+    ```nix
+    ({ lib, pkgs, ...}: {
+      # Use our forked libsodium from iohk-nix crypto overlay.
+      packages.cardano-crypto-praos.components.library.pkgconfig = lib.mkForce [ [ pkgs.libsodium-vrf ] ];
+      packages.cardano-crypto-class.components.library.pkgconfig = lib.mkForce [ [ pkgs.libsodium-vrf ] ];
+    })
+    ```
+
 ## 2021-02-21
-   * Reduce build closure size and the amount of code in iohk-nix.
-   * Removed `haskell-nix-extra.stack-hpc-coveralls` - use
-     ```
-     haskell-nix.tool "ghc865" "stack-hpc-coveralls" "1.2.0"
-     ```
-     instead.
-   * Removed `haskell-nix-extra.hpc-coveralls` - use
-     ```
-     haskell-nix.tool "ghc865" "hpc-coveralls" "0.0.4.0"
-     ```
-     instead.
-   * Deprecated the `haskell-nix.haskellLib.extra.collectChecks` function
-     in favour of `haskell-nix.haskellLib.collectChecks'`.
-   * Removed `haskell-nix-extra.haskellBuildUtils.stackRebuild`.
-   * Renamed `haskell-nix-extra.haskellBuildUtils.package`
-     to  `haskell-nix-extra.haskellBuildUtils`.
-   * `haskellBuildUtils` changed build system from `callCabal2nix`
-     to Haskell.nix. It requires another overlay
-     to provide `pkg.haskell-nix`.
-   * When using `haskellBuildUtils`, also add `haskellBuildUtils.roots`
-     to your `release.nix`, so that eval-time dependencies are cached.
+  * Reduce build closure size and the amount of code in iohk-nix.
+  * Removed `haskell-nix-extra.stack-hpc-coveralls` - use
+    ```
+    haskell-nix.tool "ghc865" "stack-hpc-coveralls" "1.2.0"
+    ```
+    instead.
+  * Removed `haskell-nix-extra.hpc-coveralls` - use
+    ```
+    haskell-nix.tool "ghc865" "hpc-coveralls" "0.0.4.0"
+    ```
+    instead.
+  * Deprecated the `haskell-nix.haskellLib.extra.collectChecks` function
+    in favour of `haskell-nix.haskellLib.collectChecks'`.
+  * Removed `haskell-nix-extra.haskellBuildUtils.stackRebuild`.
+  * Renamed `haskell-nix-extra.haskellBuildUtils.package`
+    to  `haskell-nix-extra.haskellBuildUtils`.
+  * `haskellBuildUtils` changed build system from `callCabal2nix`
+    to Haskell.nix. It requires another overlay
+    to provide `pkg.haskell-nix`.
+  * When using `haskellBuildUtils`, also add `haskellBuildUtils.roots`
+    to your `release.nix`, so that eval-time dependencies are cached.
 
 ## 2021-01-04
   * Switch default nixpkgs to nixos-unstable

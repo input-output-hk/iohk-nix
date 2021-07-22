@@ -22,7 +22,7 @@ stdenv.mkDerivation rec {
   doCheck = true;
 
   meta = with lib; {
-    description = "A modern and easy-to-use crypto library";
+    description = "A modern and easy-to-use crypto library - VRF fork";
     homepage = "http://doc.libsodium.org/";
     license = licenses.isc;
     maintainers = [ "tdammers" "nclarke" ];

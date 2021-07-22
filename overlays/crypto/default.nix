@@ -1,3 +1,3 @@
 final: prev: {
-  libsodium = final.callPackage ./libsodium.nix {};
+  libsodium-vrf = final.callPackage ./libsodium.nix {};
 }
