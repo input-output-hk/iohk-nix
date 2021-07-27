@@ -16,16 +16,13 @@ in {
     GC_DONT_GC=1 ${nixFlakes}/bin/nix --experimental-features "nix-command flakes" "$@"
   '';
   cabalWrapped = writeShellScriptBin "cabal" ''
-    >&2 echo 'Temporary modify `cabal.project` to use nix builds of `source-repository-package`s (haskell/cabal#5444 and haskell/cabal#6249).'
-    PROJECT="$(${git}/bin/git rev-parse --show-toplevel)/cabal.project"
-    BACKUP="$(mktemp)"
-    cp -a "$PROJECT" "$BACKUP"
-    sed -ni '1,/--- 8< ---/ p' $PROJECT
-    function atexit() {
-        mv "$BACKUP" "$PROJECT"
-    }
-    trap atexit EXIT
-    ${final.cabal or final.cabal-install}/bin/cabal "$@"
+    TOPLEVEL="$(${git}/bin/git rev-parse --show-toplevel)"
+    ORIG_PROJECT="$TOPLEVEL/cabal.project"
+    # Should be in .gitignore:
+    NIXSHELL_PROJECT="$TOPLEVEL/.nix-shell-cabal.project"
+    
+    sed -n '1,/--- 8< ---/ p' $PROJECT > "$NIXSHELL_PROJECT"
+    exec ${final.cabal or final.cabal-install}/bin/cabal --project-file="$NIXSHELL_PROJECT" "$@"
   '';
 
   hlintCheck = ../../tests/hlint.nix;
