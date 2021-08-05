@@ -55,7 +55,7 @@ fix (self: mappedPkgs // {
   inherit (commonLib) check-hydra;
   inherit jormungandrConfigs;
   jormungandr-deployment = jormungandrLib.mkConfigHtml { inherit (jormungandrLib.environments) itn_rewards_v1 beta nightly legacy; };
-  cardano-deployment = cardanoLib.mkConfigHtml { inherit (cardanoLib.environments) mainnet testnet p2p alonzo-blue alonzo-white alonzo-qa staging shelley_qa; };
+  cardano-deployment = cardanoLib.mkConfigHtml { inherit (cardanoLib.environments) mainnet testnet p2p alonzo-blue alonzo-white alonzo-purple alonzo-qa staging shelley_qa; };
 
   forceNewEval = pkgs.writeText "forceNewEval" iohk-nix.rev;
   required = pkgs.lib.hydraJob (pkgs.releaseTools.aggregate {
