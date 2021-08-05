@@ -7,11 +7,11 @@
   ##### Locations #####
 
   ByronGenesisFile = ./alonzo-qa + "/byron-genesis.json";
-  ByronGenesisHash = "78d34abac0fb75dfc090d7780a38f72011feecb1ff69a888fbb0d9b8128c1951";
+  ByronGenesisHash = "579ab2b6080b31fa9bcc84fb4b1466190e1440d0cc40188b767bc715296803e5";
   ShelleyGenesisFile = ./alonzo-qa + "/shelley-genesis.json";
-  ShelleyGenesisHash = "dcefde8004a9861c42860aa4637114a0b2303cba6635ea28c1976e792cbc9f74";
+  ShelleyGenesisHash = "e0a81a6dfba7e9283f2a2bc273ee367549946f372ad6278cebd9d1d5b927caf4";
   AlonzoGenesisFile = ./alonzo-qa + "/alonzo-genesis.json";
-  AlonzoGenesisHash = "c7cdcccbc6adec169f74784de720db8414665591d87498b513266d41680c587f";
+  AlonzoGenesisHash = "44d65c89cce5f717e839a86fed28af924252ff46eca5aaf15b47ec0dd6a59578";
 
   ##### Core protocol parameters #####
 
