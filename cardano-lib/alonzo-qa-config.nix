@@ -30,8 +30,8 @@
   TestMaryHardForkAtEpoch = 3;
   TestAlonzoHardForkAtEpoch = 4;
 
-  TestEnableDevelopmentHardForkEras = true;
-  TestEnableDevelopmentNetworkProtocols = true;
+  TestEnableDevelopmentHardForkEras = false;
+  TestEnableDevelopmentNetworkProtocols = false;
 
   MaxKnownMajorProtocolVersion = 5;
   #### LOGGING Debug
