@@ -7,11 +7,11 @@
   ##### Locations #####
 
   ByronGenesisFile = ./alonzo-qa + "/byron-genesis.json";
-  ByronGenesisHash = "579ab2b6080b31fa9bcc84fb4b1466190e1440d0cc40188b767bc715296803e5";
+  ByronGenesisHash = "b8463f6ff3f703e70240956e6d860f89682b13752af32b36b76a3272adb3ddb0";
   ShelleyGenesisFile = ./alonzo-qa + "/shelley-genesis.json";
-  ShelleyGenesisHash = "e0a81a6dfba7e9283f2a2bc273ee367549946f372ad6278cebd9d1d5b927caf4";
+  ShelleyGenesisHash = "28933eae65bda7d11c793c5e17fc0d3b83b2b4272ec6c63bd052b4660c97d08a";
   AlonzoGenesisFile = ./alonzo-qa + "/alonzo-genesis.json";
-  AlonzoGenesisHash = "44d65c89cce5f717e839a86fed28af924252ff46eca5aaf15b47ec0dd6a59578";
+  AlonzoGenesisHash = "7e94a15f55d1e82d10f09203fa1d40f8eede58fd8066542cf6566008068ed874";
 
   ##### Core protocol parameters #####
 
@@ -25,10 +25,10 @@
   # The mainnet does not include the network magic into addresses. Testnets do.
   RequiresNetworkMagic = "RequiresMagic";
 
-  TestShelleyHardForkAtEpoch = 1;
-  TestAllegraHardForkAtEpoch = 2;
-  TestMaryHardForkAtEpoch = 3;
-  TestAlonzoHardForkAtEpoch = 4;
+  TestShelleyHardForkAtEpoch = 0;
+  TestAllegraHardForkAtEpoch = 0;
+  TestMaryHardForkAtEpoch = 0;
+  TestAlonzoHardForkAtEpoch = 0;
 
   TestEnableDevelopmentHardForkEras = false;
   TestEnableDevelopmentNetworkProtocols = false;
