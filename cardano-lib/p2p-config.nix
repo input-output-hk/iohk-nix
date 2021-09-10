@@ -7,9 +7,9 @@
   ##### Locations #####
 
   ByronGenesisFile = ./p2p + "/byron-genesis.json";
-  ByronGenesisHash = "610d9d846768180f90e547cefcffc7c50cc593d492fb219691f3f90fd37ea9f1";
+  ByronGenesisHash = "414e27b56b4b147e40bd95cc5552a2c97043c04e3de8b4c7ea5fc90fce25a68e";
   ShelleyGenesisFile = ./p2p + "/shelley-genesis.json";
-  ShelleyGenesisHash = "9a41ac9f125995c0a558614a8e130fc5530972bb7f6ed11b5003e2cebc48ca1b";
+  ShelleyGenesisHash = "a0e8e5520ab7c452c4e36020ded12c791a10abd7ca25c083af6149fe269ddb67";
   AlonzoGenesisFile = ./p2p + "/alonzo-genesis.json";
   AlonzoGenesisHash = "7e94a15f55d1e82d10f09203fa1d40f8eede58fd8066542cf6566008068ed874";
 
@@ -28,6 +28,7 @@
   TestShelleyHardForkAtEpoch = 1;
   TestAllegraHardForkAtEpoch = 2;
   TestMaryHardForkAtEpoch = 3;
+  TestAlonzoHardForkAtEpoch = 4;
 
   ### P2P
 
