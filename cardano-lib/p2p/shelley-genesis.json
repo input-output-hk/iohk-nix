@@ -3,7 +3,7 @@
     "securityParam": 36,
     "slotsPerKESPeriod": 129600,
     "updateQuorum": 1,
-    "activeSlotsCoeff": 0.050000,
+    "activeSlotsCoeff": 5.0e-2,
     "protocolParams": {
         "minUTxOValue": 1000000,
         "eMax": 18,
@@ -29,80 +29,16 @@
         "decentralisationParam": 0.25
     },
     "networkMagic": 4,
-    "initialFunds": {
-        "604b9a6f87a7cb683c6273e75acdb234795a56935d59424b1c9066ae27": 5714285714285714,
-        "605439a059318756118e4f6a22b95e7b3e59aae0615bcc18e57d601300": 5714285714285714,
-        "00eef3d4607e9b1b6dc995c3aaa1a126e8a87699c14924bf5e9293f7515154118e66bcc5063be9572a0cb18851b3c013890739ade393ca914b": 4285714285714285,
-        "60a36ebe4722b818e36274b1a29a48e3cd26ba71557a09da205818343a": 5714285714285714,
-        "00c9e51d949d3b3c859a9ee560171a32c36b71ee014be4d8e4461409a73aa95f650c384f78c533c5bec129fe71b391abdb5b9289be179abbb1": 4285714285714285,
-        "009e5ed640545c047c375f6317eebc3a885486c243c2a9155c3a6fda5f885afa866d55643285281568067048c7808bb85c2f960767ea5132b1": 4285714285714287
-    },
+    "initialFunds": {},
     "networkId": "Testnet",
     "maxKESEvolutions": 62,
     "genDelegs": {
-        "c09977501ac6bc968813702879b2c2b384e2810260b2ed8aa104fc8b": {
-            "delegate": "96e9806b0cdc6ec173c53bc18dcdb7fdc8706ada4a64a52251eacd29",
-            "vrf": "977e8416e0c79d64e426ec68453a3408a6cd9122d5d36498795f04e8167d5baa"
+        "ade76c3577b4ea58f5081dfcc8b92af37f1c31d3680bb7703d9c189f": {
+            "delegate": "9ff5d99c1b4ba934f80913ac8c4a7bb94af2ae0367b61dbd39d30ed7",
+            "vrf": "786e48aad33d21a82201f390ce8eea0649e08e4407425073484426beec5a48d2"
         }
     },
     "slotLength": 1,
-    "systemStart": "2021-05-21T14:29:45Z",
-    "epochLength": 7200,
-    "staking": {
-        "pools": {
-            "2cc7711ee8035bd2b2a0ffd15000f9e6d0a85708c6820617432a0967": {
-                "publicKey": "2cc7711ee8035bd2b2a0ffd15000f9e6d0a85708c6820617432a0967",
-                "cost": 0,
-                "metadata": null,
-                "owners": [],
-                "vrf": "227278d16fbd169be7c2aed1b969cc3d06b92cdbfc54f3ddb2feec4db50561bc",
-                "pledge": 0,
-                "margin": 0,
-                "rewardAccount": {
-                    "network": "Testnet",
-                    "credential": {
-                        "key hash": "668e8db7d77074e4e1ec5aac2de95325d641597d76148520a2de19cb"
-                    }
-                },
-                "relays": []
-            },
-            "f1ba3acf48d9345853e05ee0db60eaf6444ab3bffe82c94575c254c7": {
-                "publicKey": "f1ba3acf48d9345853e05ee0db60eaf6444ab3bffe82c94575c254c7",
-                "cost": 0,
-                "metadata": null,
-                "owners": [],
-                "vrf": "72a1339fedb1d056fe4997dbb3375ed522319e54715f78a77a3aff2093ea4fb0",
-                "pledge": 0,
-                "margin": 0,
-                "rewardAccount": {
-                    "network": "Testnet",
-                    "credential": {
-                        "key hash": "757f39186a6595da8ad425fe1235a589fcf3700a8c3358d63646ed6d"
-                    }
-                },
-                "relays": []
-            },
-            "735fad848fb50fad03b3e904d0211bc1e01cc028092d656fc6171ad7": {
-                "publicKey": "735fad848fb50fad03b3e904d0211bc1e01cc028092d656fc6171ad7",
-                "cost": 0,
-                "metadata": null,
-                "owners": [],
-                "vrf": "6ce9be11c81ad1e0e6d2bdac216adb7321df828b6431bb6e3bd0e1edd882ba53",
-                "pledge": 0,
-                "margin": 0,
-                "rewardAccount": {
-                    "network": "Testnet",
-                    "credential": {
-                        "key hash": "ad15a6c1438a145a36ee3039eb278a3835c4a660a195e3b6743f6155"
-                    }
-                },
-                "relays": []
-            }
-        },
-        "stake": {
-            "885afa866d55643285281568067048c7808bb85c2f960767ea5132b1": "735fad848fb50fad03b3e904d0211bc1e01cc028092d656fc6171ad7",
-            "3aa95f650c384f78c533c5bec129fe71b391abdb5b9289be179abbb1": "f1ba3acf48d9345853e05ee0db60eaf6444ab3bffe82c94575c254c7",
-            "5154118e66bcc5063be9572a0cb18851b3c013890739ade393ca914b": "2cc7711ee8035bd2b2a0ffd15000f9e6d0a85708c6820617432a0967"
-        }
-    }
+    "systemStart": "2021-09-10T15:40:47Z",
+    "epochLength": 7200
 }
