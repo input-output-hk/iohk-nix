@@ -29,6 +29,12 @@
   TestAllegraHardForkAtEpoch = 2;
   TestMaryHardForkAtEpoch = 3;
 
+  ### P2P
+
+  EnableP2P = true;
+  TestEnableDevelopmentNetworkProtocols = true;
+  TraceInboundGovernorCounters = true;
+
   MaxKnownMajorProtocolVersion = 2;
   #### LOGGING Debug
 
