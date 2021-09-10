@@ -120,6 +120,8 @@
   # Trace DNS Subscription messages.
   TraceDNSSubscription = true;
 
+  TraceAcceptPolicy = true;
+
   # Trace error policy resolution.
   TraceErrorPolicy = true;
 
