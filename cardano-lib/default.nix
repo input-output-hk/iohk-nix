@@ -123,7 +123,7 @@ let
       nodeConfig = defaultLogConfig // networkConfig;
       edgePort = 3001;
       explorerConfig = mkExplorerConfig "p2p" nodeConfig;
-      usePeersFromLedgerAfterSlot = 320000;
+      usePeersFromLedgerAfterSlot = 14680;
     };
     alonzo-blue = rec {
       useByronWallet = false;
