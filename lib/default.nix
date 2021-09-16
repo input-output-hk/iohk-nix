@@ -10,8 +10,11 @@ lib: with lib; rec {
   prefixNamesWith = p: mapAttrs' (n: v: nameValuePair "${p}${n}" v);
 
   collectExes = p: listToAttrs (concatMap (n:
-    let m = builtins.match ".+:exe:(.+)" n;
-    in if m == null then [] else [ (nameValuePair (head m) p.${n}) ]
+    let s = lib.splitString ":" n;
+    in if (lib.length s == 3)
+      then [ (nameValuePair (lib.elemAt s 2) p.${n}) ]
+      # exclude cross-compiled exes:
+      else []
   ) (attrNames p));
 
   evalService = { pkgs, serviceName, modules, customConfigs }:
