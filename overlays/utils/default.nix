@@ -2,9 +2,23 @@ final: prev: let
   inherit (final) system git nixFlakes cabal writeShellScriptBin;
 in {
   nixWrapped = writeShellScriptBin "nix" ''
-    if [[ "$@" == "flake show"* ]] || [[ "$@" == "flake check"* ]]; then
+    find_up() {
+      while [[ $PWD != / ]] ; do
+        if [[ -e "$1" ]]; then
+          echo "$PWD"
+          return
+        fi
+        if [[ -e "nix/$1" ]]; then
+          echo "$PWD/nix"
+          return
+        fi
+        cd ..
+      done
+    }
+    if [[ "$@" == *"flake"*" "*"show"* ]] || [[ "$@" == *"flake"*" "*"check"* ]]; then
       >&2 echo 'Temporary override `supported-systems.nix` original content to be able to use `nix flake show|check` on dev machines (workaround for https://github.com/NixOS/nix/issues/4265)'
-      SYSTEMS="$(${git}/bin/git rev-parse --show-toplevel)/supported-systems.nix"
+      nixdir=$(find_up "supported-systems.nix")
+      SYSTEMS="$nixdir/supported-systems.nix"
       BACKUP="$(mktemp)"
       mv "$SYSTEMS" "$BACKUP"
       echo '[ "${system}" ]' > "$SYSTEMS"
