@@ -125,32 +125,6 @@ let
       explorerConfig = mkExplorerConfig "p2p" nodeConfig;
       usePeersFromLedgerAfterSlot = 14680;
     };
-    alonzo-blue = rec {
-      useByronWallet = false;
-      private = false;
-      relaysNew = "relays.alonzo-blue.dev.cardano.org";
-      explorerUrl = "https://explorer.alonzo-blue.dev.cardano.org";
-      smashUrl = "https://smash.alonzo-blue.dev.cardano.org";
-      metadataUrl = "https://metadata.cardano-testnet.iohkdev.io";
-      networkConfig = import ./alonzo-blue-config.nix;
-      consensusProtocol = networkConfig.Protocol;
-      nodeConfig = defaultLogConfig // networkConfig;
-      edgePort = 3001;
-      explorerConfig = mkExplorerConfig "alonzo-blue" nodeConfig;
-    };
-    alonzo-white = rec {
-      useByronWallet = false;
-      private = false;
-      relaysNew = "relays.alonzo-white.dev.cardano.org";
-      explorerUrl = "https://explorer.alonzo-white.dev.cardano.org";
-      smashUrl = "https://smash.alonzo-white.dev.cardano.org";
-      metadataUrl = "https://metadata.cardano-testnet.iohkdev.io";
-      networkConfig = import ./alonzo-white-config.nix;
-      consensusProtocol = networkConfig.Protocol;
-      nodeConfig = defaultLogConfig // networkConfig;
-      edgePort = 3001;
-      explorerConfig = mkExplorerConfig "alonzo-white" nodeConfig;
-    };
     alonzo-purple = rec {
       useByronWallet = false;
       private = false;
@@ -163,19 +137,6 @@ let
       nodeConfig = defaultLogConfig // networkConfig;
       edgePort = 3001;
       explorerConfig = mkExplorerConfig "alonzo-purple" nodeConfig;
-    };
-    alonzo-qa = rec {
-      useByronWallet = false;
-      private = false;
-      relaysNew = "relays.alonzo-qa.dev.cardano.org";
-      explorerUrl = "https://explorer.alonzo-qa.dev.cardano.org";
-      smashUrl = "https://smash.alonzo-qa.dev.cardano.org";
-      metadataUrl = "https://metadata.cardano-testnet.iohkdev.io";
-      networkConfig = import ./alonzo-qa-config.nix;
-      consensusProtocol = networkConfig.Protocol;
-      nodeConfig = defaultLogConfig // networkConfig;
-      edgePort = 3001;
-      explorerConfig = mkExplorerConfig "alonzo-qa" nodeConfig;
     };
     # used for daedalus/cardano-wallet for local development
     shelley_qa = rec {
