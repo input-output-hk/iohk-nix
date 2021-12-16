@@ -3,11 +3,7 @@
 , crossSystem ? null
 , config ? {}
 }:
-let
-  overlay = final: prev: {
-    inherit (import sources.nixpkgs-crystal {}) crystal;
-  };
-in import sources.nixpkgs {
+import sources.nixpkgs {
   inherit system crossSystem config;
   overlays = [ overlay ];
 }

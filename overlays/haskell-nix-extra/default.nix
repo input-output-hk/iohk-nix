@@ -1,6 +1,6 @@
 let
-  compiler-nix-name = "ghc8104";
-  index-state = "2021-04-29T00:00:00Z";
+  compiler-nix-name = "ghc8107";
+  index-state = "2021-12-13T00:00:00Z";
 in final: prev: with final; with lib; {
   haskell-nix = recursiveUpdate prev.haskell-nix {
     # TODO: remove this haskellLib.extra
