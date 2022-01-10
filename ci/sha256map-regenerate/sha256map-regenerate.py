@@ -1,4 +1,4 @@
-#!/usr/local/python3
+#!/usr/bin/env python3
 #
 # This script is intended to be run as
 #
@@ -15,13 +15,11 @@
 import re
 import subprocess
 import json
+import sys
 from os import path
 
-if not path.exists("stack.yaml"):
-    print("ERROR: No stack.yaml exists in current directory")
-    exit(1)
-
-project = open("stack.yaml").read()
+# Read stack.yaml from stin
+project = sys.stdin.read()
 
 # match looks like this:
 
@@ -37,15 +35,10 @@ def sha256entry(match):
     ["nix-prefetch-git", "--fetch-submodules", "--quiet", dict['loc'], dict['tag']],
     capture_output=True, check=True).stdout
   sha256 = json.loads(prefetchJSON)["sha256"]
-  return """
-  "{loc}"."{tag}" = "{sha256}";
-""".format(**{**dict, **{"sha256": sha256}})
+  return '"{loc}"."{tag}" = "{sha256}";'.format(**{**dict, **{"sha256": sha256}})
 
-f = open("nix/sha256map.nix",'w')
-
-f.write("{")
+# Write sha256map to stdout
+print("{")
 for match in re.finditer(pattern, project):
-  f.write(sha256entry(match))
-f.write("}\n")
-
-f.close()
+  print(" ", sha256entry(match))
+print("}")
