@@ -16,7 +16,6 @@ import re
 import subprocess
 import json
 import sys
-from os import path
 
 # Read stack.yaml from stin
 project = sys.stdin.read()
