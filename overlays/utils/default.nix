@@ -82,6 +82,6 @@ in {
   stylishHaskellCheck = ../../tests/stylish-haskell.nix;
 
   checkStackProject = final.callPackage ../../ci/check-stack-project.nix { };
-  sha256mapRegenerate = final.callPackage ../../ci/sha256map-regenerate { };
+  sha256map-regenerate = final.callPackage ../../ci/sha256map-regenerate { };
 
 }
