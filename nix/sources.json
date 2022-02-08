@@ -14,13 +14,13 @@
     "haskell.nix": {
         "branch": "master",
         "description": "Alternative Haskell Infrastructure for Nixpkgs",
-        "homepage": "https://input-output-hk.github.io/haskell.nix",
-        "owner": "input-output-hk",
+        "homepage": "https://github.com/mlabs-haskell/haskell.nix",
+        "owner": "mlabs-haskell",
         "repo": "haskell.nix",
         "rev": "fd13635f705956a85b8f59dd90b4bdc6a1319d44",
         "sha256": "0lswqqsjw101fwdjnh54z4vvlgcndp988qcg7sa5d71iwdi9j3z5",
         "type": "tarball",
-        "url": "https://github.com/input-output-hk/haskell.nix/archive/fd13635f705956a85b8f59dd90b4bdc6a1319d44.tar.gz",
+        "url": "https://github.com/mlabs-haskell/haskell.nix/archive/5740b3ee01ab28d142923847a68dfdcba0aee12f.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nixpkgs": {
@@ -29,10 +29,10 @@
         "homepage": null,
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "b3d86c56c786ad9530f1400adbd4dfac3c42877b",
+        "rev": "34fbb68d2e83586cda5fe8a86fd2557270571507",
         "sha256": "09nslcjdgwwb6j9alxrsnq1wvhifq1nmzl2w02l305j0wsmgdial",
         "type": "tarball",
-        "url": "https://github.com/NixOS/nixpkgs/archive/b3d86c56c786ad9530f1400adbd4dfac3c42877b.tar.gz",
+        "url": "https://github.com/NixOS/nixpkgs/archive/34fbb68d2e83586cda5fe8a86fd2557270571507.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nixpkgs-19.09": {

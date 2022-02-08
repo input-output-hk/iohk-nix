@@ -3,6 +3,10 @@
 Please read these notes when updating your project's `iohk-nix`
 version. There may have been changes which could break your build.
 
+## 2022-02-10
+
+  * Bump `haskell.nix`.
+
 ## 2021-07-22
   * Renamed `libsodium` to `libsodium-vrf` in the crypto overlay. This
     allows much more sharing from the binary caches.
