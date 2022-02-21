@@ -83,5 +83,6 @@ in {
 
   checkStackProject = final.callPackage ../../ci/check-stack-project.nix { };
   sha256map-regenerate = final.callPackage ../../ci/sha256map-regenerate { };
+  inherit (final.callPackages ../../ci/cabal-project-regenerate {}) cabalProjectRegenerate checkCabalProject;
 
 }
