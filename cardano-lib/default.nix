@@ -153,6 +153,21 @@ let
       explorerConfig = mkExplorerConfig "shelley_qa" nodeConfig;
       usePeersFromLedgerAfterSlot = 23574838;
     };
+    # used for SRE development
+    sre = rec {
+      useByronWallet = false;
+      private = false;
+      relaysNew = "relays.sre.dev.cardano.org";
+      explorerUrl = "https://explorer.sre.dev.cardano.org";
+      smashUrl = "https://smash.sre.dev.cardano.org";
+      metadataUrl = "https://metadata.cardano-testnet.iohkdev.io";
+      networkConfig = import ./shelley_qa-config.nix;
+      consensusProtocol = networkConfig.Protocol;
+      nodeConfig = defaultLogConfig // networkConfig;
+      edgePort = 3001;
+      explorerConfig = mkExplorerConfig "sre" nodeConfig;
+      usePeersFromLedgerAfterSlot = 122760;
+    };
   };
   # TODO: add flag to disable with forEnvironments instead of hard-coded list?
   forEnvironments = f: lib.mapAttrs
