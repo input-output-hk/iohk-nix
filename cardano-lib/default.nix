@@ -138,6 +138,20 @@ let
       edgePort = 3001;
       explorerConfig = mkExplorerConfig "alonzo-purple" nodeConfig;
     };
+    marlowe-pioneers = rec {
+      useByronWallet = false;
+      private = false;
+      relaysNew = "relays.marlowe-pioneers.dev.cardano.org";
+      explorerUrl = "https://explorer.marlowe-pioneers.dev.cardano.org";
+      smashUrl = "https://smash.marlowe-pioneers.dev.cardano.org";
+      metadataUrl = "https://metadata.cardano-testnet.iohkdev.io";
+      networkConfig = import ./marlowe-pioneers-config.nix;
+      consensusProtocol = networkConfig.Protocol;
+      nodeConfig = defaultLogConfig // networkConfig;
+      edgePort = 3001;
+      explorerConfig = mkExplorerConfig "marlowe-pioneers" nodeConfig;
+      usePeersFromLedgerAfterSlot = 40000;
+    };
     # used for daedalus/cardano-wallet for local development
     shelley_qa = rec {
       useByronWallet = false;
