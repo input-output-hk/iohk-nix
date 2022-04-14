@@ -141,9 +141,9 @@ let
     marlowe-pioneers = rec {
       useByronWallet = false;
       private = false;
-      relaysNew = "relays.marlowe-pioneers.dev.cardano.org";
-      explorerUrl = "https://explorer.marlowe-pioneers.dev.cardano.org";
-      smashUrl = "https://smash.marlowe-pioneers.dev.cardano.org";
+      relaysNew = "relays.pioneers.testnet.marlowe-finance.io";
+      explorerUrl = "https://explorer.pioneers.testnet.marlowe-finance.io";
+      smashUrl = "https://smash.pioneers.testnet.marlowe-finance.io";
       metadataUrl = "https://metadata.cardano-testnet.iohkdev.io";
       networkConfig = import ./marlowe-pioneers-config.nix;
       consensusProtocol = networkConfig.Protocol;

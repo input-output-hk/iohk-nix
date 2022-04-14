@@ -20,24 +20,24 @@
       "major": 2
     },
     "eMax": 18,
-    "decentralisationParam": 0.25,
+    "decentralisationParam": 1,
     "maxTxSize": 16384,
     "minFeeA": 44,
     "maxBlockBodySize": 65536
   },
   "slotLength": 1,
-  "securityParam": 36,
+  "securityParam": 3,
   "genDelegs": {
-    "b21e431bcc896e94a32a18ec93c8100cacdde2a4a2c89f95bd6bf929": {
-      "vrf": "1e424505dbfd552b663e9c3cdea84f5bc06de41585b7a3d79a4b03b954fb22c3",
-      "delegate": "a8552daf87cd632e3e41d96f43e6619a6b80c61d17e84fe78b024f69"
+    "ba891a8b5dca9ddd50a95cd86a1e24ec460679f62115fe77fda64d0c": {
+      "vrf": "dc55c2892ec435f28a42b713baff5845983c340c10da7c269c2e6e63a64375bc",
+      "delegate": "861970695d6a266180cd9314fe49a7a589c9d06b860d46e2f4710a5e"
     }
   },
   "slotsPerKESPeriod": 129600,
-  "networkMagic": 1565,
+  "networkMagic": 1567,
   "maxLovelaceSupply": 45000000000000000,
-  "systemStart": "2022-03-29T20:18:40Z",
-  "epochLength": 7200,
+  "systemStart": "2022-04-14T14:52:01Z",
+  "epochLength": 600,
   "networkId": "Testnet",
   "activeSlotsCoeff": 0.05,
   "initialFunds": {}
