@@ -138,6 +138,20 @@ let
       edgePort = 3001;
       explorerConfig = mkExplorerConfig "alonzo-purple" nodeConfig;
     };
+    marlowe-dev = rec {
+      useByronWallet = false;
+      private = false;
+      relaysNew = "relays.dev.testnet.marlowe-finance.io";
+      explorerUrl = "https://explorer.dev.testnet.marlowe-finance.io";
+      smashUrl = "https://smash.dev.testnet.marlowe-finance.io";
+      metadataUrl = "https://metadata.cardano-testnet.iohkdev.io";
+      networkConfig = import ./marlowe-dev-config.nix;
+      consensusProtocol = networkConfig.Protocol;
+      nodeConfig = defaultLogConfig // networkConfig;
+      edgePort = 3001;
+      explorerConfig = mkExplorerConfig "marlowe-dev" nodeConfig;
+      usePeersFromLedgerAfterSlot = 40000;
+    };
     marlowe-pioneers = rec {
       useByronWallet = false;
       private = false;
