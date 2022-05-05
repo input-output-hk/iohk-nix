@@ -14,5 +14,7 @@
       utils = import ./overlays/utils;
     };
 
+    cabal-wrapper = ./pkgs/cabal-wrapper.nix;
+
   };
 }
