@@ -22,6 +22,7 @@ let
   in builtins.toFile "topology.yaml" (builtins.toJSON topology);
 
   defaultLogConfig = import ./generic-log-config.nix;
+  legacyLogConfig = import ./generic-log-config-legacy.nix;
   defaultExplorerLogConfig = import ./explorer-log-config.nix;
   mkExplorerConfig = name: nodeConfig: lib.filterAttrs (k: v: v != null) {
     NetworkName = name;
@@ -311,4 +312,5 @@ let
 
 in {
   inherit environments forEnvironments forEnvironmentsCustom eachEnv mkEdgeTopology mkProxyTopology cardanoConfig defaultLogConfig defaultExplorerLogConfig defaultProxyLogConfig mkConfigHtml mkExplorerConfig;
+  inherit legacyLogConfig;
 }
