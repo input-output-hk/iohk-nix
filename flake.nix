@@ -16,5 +16,15 @@
 
     cabal-wrapper = ./pkgs/cabal-wrapper.nix;
 
+    checks = {
+      hlint = ./tests/hlint.nix;
+      shell = ./tests/shellcheck.nix;
+      stylish-haskell = ./tests/stylish-haskell.nix;
+    };
+
+    utils = {
+      cabal-project = ./ci/cabal-project-regenerate;
+    };
+
   };
 }
