@@ -28,7 +28,6 @@ let
     inherit (nodeConfig) RequiresNetworkMagic;
     NodeConfigFile = "${__toFile "config-${toString name}.json" (__toJSON nodeConfig)}";
   };
-  defaultProxyLogConfig = import ./proxy-log-config.nix;
 
   mkProxyTopology = relay: writeText "proxy-topology-file" ''
     wallet:
@@ -310,5 +309,5 @@ let
   '';
 
 in {
-  inherit environments forEnvironments forEnvironmentsCustom eachEnv mkEdgeTopology mkProxyTopology cardanoConfig defaultLogConfig defaultExplorerLogConfig defaultProxyLogConfig mkConfigHtml mkExplorerConfig;
+  inherit environments forEnvironments forEnvironmentsCustom eachEnv mkEdgeTopology mkProxyTopology cardanoConfig defaultLogConfig defaultExplorerLogConfig mkConfigHtml mkExplorerConfig;
 }
