@@ -15,7 +15,7 @@
 
 module Main where
 
-import           System.Directory (copyFile, getPermissions, setOwnerWritable, setPermissions)
+import           System.Directory (createDirectoryIfMissing, copyFile, getPermissions, setOwnerWritable, setPermissions)
 import           Text.Megaparsec (Parsec, eof, manyTill, parse, someTill)
 import           Text.Megaparsec.Char (eol, spaceChar)
 import           Turtle (procStrict, procs)
@@ -73,15 +73,17 @@ patchLib source dir lib
     | (filter (\pattern -> T.isSuffixOf pattern lib) systemLibs) /= mempty = do
         -- if it's a system lib, just point to correct folder and be done
         print $ "Patching " <> lib <> " as system in " <> source
-        procs "install_name_tool" ["-change", lib, "/usr/lib/" <> (filename lib), (T.pack dir) <> "/" <> (filename source)] mempty
+        procs "install_name_tool" ["-change", lib, "/usr/lib/" <> (filename lib), (T.pack dir) <> "/../" <> (dirfilename source) <> "/" <> (filename source)] mempty
         return Nothing
     | otherwise = do
         -- otherwise, copy it to dist and change where it points
         print $ "Bundling " <> lib <> " in " <> source
         -- substitute store path if they are missing
         procs "nix-store" ["-r", lib] mempty
-        procs "install_name_tool" ["-change", lib, "@executable_path/" <> (filename lib), (T.pack dir) <> "/" <> (filename source)] mempty
-        let dest = dir <> "/" <> (T.unpack $ filename lib)
+        procs "install_name_tool" ["-change", lib, "@executable_path/../lib/" <> (filename lib), (T.pack dir) <> "/../" <> (dirfilename source) <> "/" <> (filename source)] mempty
+        let destDir = dir <> "/../lib/"
+            dest = destDir <> (T.unpack $ filename lib)
+        createDirectoryIfMissing False destDir
         copyFile (T.unpack lib) dest
         permissions <- getPermissions dest
         setPermissions dest $ setOwnerWritable True permissions
@@ -89,6 +91,9 @@ patchLib source dir lib
 
 filename :: Text -> Text
 filename path = last $ T.splitOn "/" path
+
+dirfilename :: Text -> Text
+dirfilename path = last $ init $ T.splitOn "/" path
 
 -- otool parser
 
