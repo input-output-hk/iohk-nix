@@ -181,6 +181,48 @@ let
       explorerConfig = mkExplorerConfig "sre" nodeConfig;
       usePeersFromLedgerAfterSlot = 122760;
     };
+    vasil-dev = rec {
+      useByronWallet = false;
+      private = false;
+      relaysNew = "vasil-dev-node.world.dev.cardano.org";
+      explorerUrl = "https://explorer.vasil-dev.world.dev.cardano.org";
+      smashUrl = "https://smash.vasil-dev.world.dev.cardano.org";
+      metadataUrl = "https://metadata.cardano-testnet.iohkdev.io";
+      networkConfig = import ./vasil-dev-config.nix;
+      consensusProtocol = networkConfig.Protocol;
+      nodeConfig = defaultLogConfig // networkConfig;
+      edgePort = 30001;
+      explorerConfig = mkExplorerConfig "vasil-dev" nodeConfig;
+      usePeersFromLedgerAfterSlot = 60000;
+    };
+    preprod = rec {
+      useByronWallet = false;
+      private = false;
+      relaysNew = "preprod-node.world.dev.cardano.org";
+      explorerUrl = "https://explorer.preprod.world.dev.cardano.org";
+      smashUrl = "https://smash.preprod.world.dev.cardano.org";
+      metadataUrl = "https://metadata.cardano-testnet.iohkdev.io";
+      networkConfig = import ./preprod-config.nix;
+      consensusProtocol = networkConfig.Protocol;
+      nodeConfig = defaultLogConfig // networkConfig;
+      edgePort = 30000;
+      explorerConfig = mkExplorerConfig "preprod" nodeConfig;
+      usePeersFromLedgerAfterSlot = 4642000;
+    };
+    preview = rec {
+      useByronWallet = false;
+      private = false;
+      relaysNew = "preview-node.world.dev.cardano.org";
+      explorerUrl = "https://explorer.preview.world.dev.cardano.org";
+      smashUrl = "https://smash.preview.world.dev.cardano.org";
+      metadataUrl = "https://metadata.cardano-testnet.iohkdev.io";
+      networkConfig = import ./preview-config.nix;
+      consensusProtocol = networkConfig.Protocol;
+      nodeConfig = defaultLogConfig // networkConfig;
+      edgePort = 30002;
+      explorerConfig = mkExplorerConfig "preview" nodeConfig;
+      usePeersFromLedgerAfterSlot = 322000;
+    };
   };
   # TODO: add flag to disable with forEnvironments instead of hard-coded list?
   forEnvironments = f: lib.mapAttrs
