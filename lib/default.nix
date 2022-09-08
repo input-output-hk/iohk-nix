@@ -36,10 +36,14 @@ lib: with lib; rec {
     in (lib.modules.evalModules {
       prefix = [];
       modules = modules ++ [
-        { services.${serviceName}.enable = true; }
+        {
+          services.${serviceName}.enable = true;
+          _module = {
+            args = { inherit pkgs; };
+            check = false;
+          };
+        }
         systemdCompatModule
       ] ++ (map mkConfig customConfigs);
-      args = { inherit pkgs; };
-      check = false;
     }).config.services.${serviceName};
 }
