@@ -1,15 +1,20 @@
 { lib, haskell-nix, symlinkJoin
-, compiler-nix-name, index-state }:
+, compiler-nix-name, index-state
+, evalSystem ? null }:
 
 let
   project = mkProject {};
+
+  evalSystemArg = if evalSystem == null
+    then {}
+    else { inherit evalSystem; };
   mkProject = args: haskell-nix.cabalProject ({
     src = haskell-nix.haskellLib.cleanSourceWith {
       name = "iohk-nix-utils";
       src = ./.;
     };
     inherit compiler-nix-name index-state;
-  } // args);
+  } // evalSystemArg // args);
 in
   symlinkJoin {
     name = "iohk-nix-utils";
