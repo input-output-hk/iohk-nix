@@ -60,12 +60,8 @@
               buildInputs = [
                 compiler
                 pkgs.haskell-nix.cabal-install.${compiler-nix-name}
-                (pkgs.lib.getDev pkgs.libsodium-vrf)
-                (pkgs.lib.getDev pkgs.secp256k1)
-                (pkgs.lib.getDev pkgs.systemd)
-                (pkgs.lib.getDev pkgs.R)
                 pkgs.pkgconfig
-              ];
+              ] ++ map pkgs.lib.getDev (with pkgs; [ libsodium-vrf secp256k1 systemd R zlib ]);
             }
           ) (builtins.removeAttrs pkgs.haskell-nix.compiler
               # Exclude old versions of GHC to speed up `nix flake check`
