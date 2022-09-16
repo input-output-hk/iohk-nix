@@ -62,6 +62,8 @@
                 pkgs.haskell-nix.cabal-install.${compiler-nix-name}
                 (pkgs.lib.getDev pkgs.libsodium-vrf)
                 (pkgs.lib.getDev pkgs.secp256k1)
+                (pkgs.lib.getDev pkgs.systemd)
+                (pkgs.lib.getDev pkgs.R)
                 pkgs.pkgconfig
               ];
             }
