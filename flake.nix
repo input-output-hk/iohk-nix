@@ -61,7 +61,7 @@
                 compiler
                 pkgs.haskell-nix.cabal-install.${compiler-nix-name}
                 pkgs.pkgconfig
-              ] ++ map pkgs.lib.getDev (with pkgs; [ libsodium-vrf secp256k1 systemd R zlib openssl ]);
+              ] ++ map pkgs.lib.getDev (with pkgs; [ libsodium-vrf secp256k1 R zlib openssl ] ++ pkgs.lib.optional pkgs.stdenv.hostPlatform.isLinux systemd);
             }
           ) (builtins.removeAttrs pkgs.haskell-nix.compiler
               # Exclude old versions of GHC to speed up `nix flake check`
