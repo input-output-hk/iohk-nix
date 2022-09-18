@@ -61,6 +61,10 @@
                 compiler
                 pkgs.haskell-nix.cabal-install.${compiler-nix-name}
                 pkgs.pkgconfig
+
+                # for libstdc++; ghc not being able to find this properly is bad,
+                # it _should_ probably call out to a g++ or clang++ but doesn't.
+                pkgs.stdenv.cc.cc.lib
               ] ++ map pkgs.lib.getDev (with pkgs; [ libsodium-vrf secp256k1 R zlib openssl ] ++ pkgs.lib.optional pkgs.stdenv.hostPlatform.isLinux systemd);
             }
           ) (builtins.removeAttrs pkgs.haskell-nix.compiler
