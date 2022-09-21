@@ -15,11 +15,14 @@
           cardanoLib = final.callPackage ./cardano-lib {};
         });
         utils = import ./overlays/utils;
+        # the haskell inline-r package depends on internals of the R
+        # project that have been hidden in R 4.2+. See
+        # https://github.com/tweag/HaskellR/issues/374
         oldR = (final: prev: {
           R_4_1_3 = final.R.overrideDerivation (old: rec {
             version = "4.1.3";
             src = final.fetchurl {
-              url = "https://cran.r-project.org/src/base/R-${lib.versions.major version}/${old.pname}-${version}.tar.gz";
+              url = "https://cran.r-project.org/src/base/R-${final.lib.versions.major version}/${old.pname}-${version}.tar.gz";
               sha256 = "sha256-Ff9bMzxhCUBgsqUunB2OxVzELdAp45yiKr2qkJUm/tY="; };
             });
         });
