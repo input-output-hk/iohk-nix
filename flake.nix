@@ -15,6 +15,14 @@
           cardanoLib = final.callPackage ./cardano-lib {};
         });
         utils = import ./overlays/utils;
+        oldR = (final: prev: {
+          R_4_1_3 = final.R.overrideDerivation (old: rec {
+            version = "4.1.3";
+            src = fetchurl {
+              url = "https://cran.r-project.org/src/base/R-${lib.versions.major version}/${old.pname}-${version}.tar.gz";
+              sha256 = "sha256-Ff9bMzxhCUBgsqUunB2OxVzELdAp45yiKr2qkJUm/tY="; };
+            });
+        });
       };
 
       cabal-wrapper = ./pkgs/cabal-wrapper.nix;
@@ -65,7 +73,7 @@
                 # for libstdc++; ghc not being able to find this properly is bad,
                 # it _should_ probably call out to a g++ or clang++ but doesn't.
                 pkgs.stdenv.cc.cc.lib
-              ] ++ map pkgs.lib.getDev (with pkgs; [ libsodium-vrf secp256k1 R zlib openssl ] ++ pkgs.lib.optional pkgs.stdenv.hostPlatform.isLinux systemd);
+              ] ++ map pkgs.lib.getDev (with pkgs; [ libsodium-vrf secp256k1 R_4_1_3 zlib openssl ] ++ pkgs.lib.optional pkgs.stdenv.hostPlatform.isLinux systemd);
             }
           ) (builtins.removeAttrs pkgs.haskell-nix.compiler
               # Exclude old versions of GHC to speed up `nix flake check`
