@@ -18,7 +18,7 @@
         oldR = (final: prev: {
           R_4_1_3 = final.R.overrideDerivation (old: rec {
             version = "4.1.3";
-            src = fetchurl {
+            src = final.fetchurl {
               url = "https://cran.r-project.org/src/base/R-${lib.versions.major version}/${old.pname}-${version}.tar.gz";
               sha256 = "sha256-Ff9bMzxhCUBgsqUunB2OxVzELdAp45yiKr2qkJUm/tY="; };
             });
