@@ -24,6 +24,7 @@
 
     utils = {
       cabal-project = ./ci/cabal-project-regenerate;
+      ciJobsAggregates = ./ci/aggregates.nix;
     };
 
   };
