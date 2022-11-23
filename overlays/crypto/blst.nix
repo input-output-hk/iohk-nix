@@ -11,10 +11,11 @@ stdenv.mkDerivation rec {
   };
 
   installPhase = ''
-    mkdir $out
     ./build.sh
-    install ./libblst.a /usr/local/lib/
-    cp bindings/*.h /usr/local/include/
+    mkdir -p $out/bin
+    cp ./libblst.a $out/bin/libblst.a
+    chmod +x $out/bin/libblst.a
+    ls $out/bin/
   '';
 
   enableParallelBuilding = true;
