@@ -12,10 +12,8 @@ stdenv.mkDerivation rec {
 
   installPhase = ''
     ./build.sh
-    mkdir -p $out/bin
-    cp ./libblst.a $out/bin/libblst.a
-    chmod +x $out/bin/libblst.a
-    ls $out/bin/
+    mkdir -p $out/lib
+    cp ./libblst.a $out/lib/libblst.a
   '';
 
   enableParallelBuilding = true;
