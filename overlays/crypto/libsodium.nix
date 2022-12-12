@@ -12,7 +12,11 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ autoreconfHook ];
 
-  configureFlags = [ "--enable-static" ];
+  configureFlags = [ "--enable-static" ]
+    # Fixes a compilation failure: "undefined reference to `__memcpy_chk'". Note
+    # that the more natural approach of adding "stackprotector" to
+    # `hardeningDisable` does not resolve the issue.
+    ++ lib.optional stdenv.hostPlatform.isMinGW "CFLAGS=-fno-stack-protector";
 
   outputs = [ "out" "dev" ];
   separateDebugInfo = stdenv.isLinux && stdenv.hostPlatform.libc != "musl";
