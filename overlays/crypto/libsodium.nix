@@ -6,8 +6,8 @@ stdenv.mkDerivation rec {
   src = fetchFromGitHub {
     owner = "input-output-hk";
     repo = "libsodium";
-    rev = "cd731e523a3725283fcf55376cf83b27f6f0f335";
-    sha256 = "1la3pkd07jkfqvbw7wrbi5mkjw58b9mcm82zqyv7qnq0vwa5piqq";
+    rev = "a5baeccc5be38dda54dd85eba58fdd929b2b8387";
+    sha256 = "0cgml4b7365q87385xxi0q0882b82d3x1whp6i7qa7x4w1gvgqk0";
   };
 
   nativeBuildInputs = [ autoreconfHook ];
