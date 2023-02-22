@@ -76,7 +76,7 @@ let
     # Development tools
     inherit (haskell-nix-extra-packages) stack-hpc-coveralls hpc-coveralls;
     hlint = upstreamedDeprecation "hlint" pkgsDefault.hlint;
-    openapi-spec-validator = upstreamedDeprecation "openapi-spec-validator" pkgsDefault.python37Packages.openapi-spec-validator;
+    openapi-spec-validator = upstreamedDeprecation "openapi-spec-validator" pkgsDefault.python3Packages.openapi-spec-validator;
     inherit (import sources.cardano-repo-tool {inherit system;}) cardano-repo-tool;
     stack-cabal-sync-shell = pkgsDefault.callPackage ./pkgs/stack-cabal-sync-shell.nix { inherit cardano-repo-tool; };
     supervisord = pkgsDefault.callPackage ./supervisord {};

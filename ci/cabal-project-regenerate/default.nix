@@ -3,14 +3,14 @@
 , runtimeShell
 , writeScript
 , runCommand
-, python37
+, python3
 , python3Packages
 , coreutils
 , diffutils
 , nix-prefetch-git
 }:
 let
-  python = python37;
+  python = python3;
   cabalProjectRegenerate = runCommand "cabal-project-regenerate" {} ''
     mkdir -p $out/bin
     cp ${./cabal-project-regenerate.py} $out/cabal-project-regenerate.py
