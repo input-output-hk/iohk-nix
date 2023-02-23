@@ -40,7 +40,6 @@ in final: prev: with final; with lib; {
           exePath = newdrv + "/bin/${drv.passthru.exeName}";
         });
       } ''
-          set -x
           mkdir -p $out
           # We link rather than copy from original, to save some space/time:
           ln -s ${drv}/* $out/
