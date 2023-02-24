@@ -10,10 +10,10 @@ stdenv.mkDerivation rec {
     sha256 = "01m28xxmm1x7riwyax7v9rycwl5isi06h2b2hl4gxnnylkayisn5";
   };
 
+  buildPhase = "./build.sh";
   installPhase = ''
-    ./build.sh
     mkdir -p $out/lib
-    cp ./libblst.a $out/lib/libblst.a
+    cp ./libblst.a $out/lib/
   '';
 
   enableParallelBuilding = true;
