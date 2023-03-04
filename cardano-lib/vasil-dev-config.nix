@@ -11,6 +11,8 @@
   ShelleyGenesisHash = "25264c807eb610ca6c0706fa051a4cefbf37c9b9bbea9f669a0b085f9e3e840a";
   AlonzoGenesisFile = ./vasil-dev + "/alonzo-genesis.json";
   AlonzoGenesisHash = "8bfa9249601f7174594b0e792a4c5697421df1ec8102a236224b4e0e398dd1d7";
+  ConwayGenesisFile = ./mainnet + "/conway-genesis.json";
+  ConwayGenesisHash = "f28f1c1280ea0d32f8cd3143e268650d6c1a8e221522ce4a7d20d62fc09783e1";
 
   ##### Core protocol parameters #####
 
