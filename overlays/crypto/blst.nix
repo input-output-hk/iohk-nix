@@ -36,7 +36,7 @@ stdenv.mkDerivation rec {
     exec_prefix=''\\''${prefix}
     libdir=$out/lib
 
-    Name: libsodium
+    Name: libblst
     Version: ${version}
     Description: ${meta.description}
 
