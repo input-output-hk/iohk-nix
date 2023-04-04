@@ -2,6 +2,7 @@
 
 stdenv.mkDerivation rec {
   name = "blst-0.3.10";
+  version = "0.3.10";
 
   src = fetchFromGitHub {
     owner = "supranational";
@@ -28,6 +29,19 @@ stdenv.mkDerivation rec {
         cp $lib $out/bin/
       fi
     done
+  '' + ''
+    mkdir -p $out/lib/pkgconfig
+    cat <<EOF > $out/lib/pkgconfig/libblst.pc
+    prefix=$out
+    exec_prefix=''\\''${prefix}
+    libdir=$out/lib
+
+    Name: libsodium
+    Version: ${version}
+    Description: ${meta.description}
+
+    Libs: -L''\\''${libdir} -lblst
+    EOF
   '';
 
   enableParallelBuilding = true;
