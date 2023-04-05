@@ -1,7 +1,7 @@
 {
   description = "IOHK nix lib, packages and overlays";
 
-  outputs = { self, nixpkgs }: {
+  outputs = { self, nixpkgs }: rec {
 
     lib = import ./lib nixpkgs.lib;
 
@@ -26,6 +26,8 @@
       cabal-project = ./ci/cabal-project-regenerate;
       ciJobsAggregates = ./ci/aggregates.nix;
     };
+
+    pkgs = import nixpkgs { system = "x86_64-linux"; overlays = builtins.attrValues overlays; };
 
   };
 }
