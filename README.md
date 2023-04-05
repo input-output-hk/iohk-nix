@@ -8,9 +8,6 @@ This repo contains build code and tools shared between IOHK projects.
 2. Scripts for regenerating code with `nix-tools`.
 3. Some util functions such as source filtering or helpers for [Haskell.nix](https://github.com/input-output-hk/haskell.nix).
 4. Nix builds of development tools such as cache-s3.
-5. Nix packages and overlay for the [rust-cardano](https://github.com/input-output-hk/rust-cardano)
-   projects.
-
 
 ## How to use in your project
 
