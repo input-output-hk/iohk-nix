@@ -38,6 +38,6 @@ def sha256entry(match):
 
 # Write sha256map to stdout
 print("{")
-for match in re.finditer(pattern, project):
-  print(" ", sha256entry(match))
+for x in sorted([sha256entry(match) for match in re.finditer(pattern, project)]):
+  print(" ", x)
 print("}")
