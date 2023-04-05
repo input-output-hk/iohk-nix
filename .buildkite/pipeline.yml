@@ -1,6 +1,0 @@
-steps:
-  - label: ":pipeline: Skeleton project pipelines"
-    command:
-      - 'echo "TODO: trigger skeleton build using current branch"'
-    agents:
-      system: x86_64-linux
