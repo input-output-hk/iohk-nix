@@ -3,6 +3,11 @@
 Please read these notes when updating your project's `iohk-nix`
 version. There may have been changes which could break your build.
 
+## 2023-04-20
+  * Added `blst` library with dynamic, and static lirbaries, as well as pkg-config metadata.
+  * Added [haskell-nix](https://github.com/input-output-hk/haskell.nix) `extraPkgconfigMappings` for `blst` and `libsodium`.
+    This should allow us to drop the previously needed hack to map `libsodium-vrf` to `libsodium`.
+
 ## 2021-07-22
   * Renamed `libsodium` to `libsodium-vrf` in the crypto overlay. This
     allows much more sharing from the binary caches.
