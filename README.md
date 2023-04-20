@@ -1,7 +1,5 @@
 # IOHK Common Nix Code
 
-[![Build status](https://badge.buildkite.com/e5b12d0fd507084fbdb1849da2de467f1de66b3e5c6d954554.svg)](https://buildkite.com/input-output-hk/iohk-nix)
-
 This repo contains build code and tools shared between IOHK projects.
 
 1. Pinned versions of [input-output-hk/nixpkgs](https://github.com/input-output-hk/nixpkgs).
@@ -20,5 +18,3 @@ Please document any change that might affect project builds in the
 
  - Bumping `nixpkgs` to a different branch.
  - Changing API (renaming attributes, changing function parameters, etc).
-
-Also update the [`skeleton`](https://github.com/input-output-hk/cardano-skeleton/) project if necessary.
