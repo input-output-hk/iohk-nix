@@ -2,14 +2,9 @@
 
 This repo contains build code and tools shared between IOHK projects.
 
-1. Pinned versions of [input-output-hk/nixpkgs](https://github.com/input-output-hk/nixpkgs).
-2. Scripts for regenerating code with `nix-tools`.
-3. Some util functions such as source filtering or helpers for [Haskell.nix](https://github.com/input-output-hk/haskell.nix).
-4. Nix builds of development tools such as cache-s3.
-
-## How to use in your project
-
-See [new project skeleton](https://github.com/input-output-hk/cardano-skeleton/).
+1. Some util functions such as source filtering or helpers for [Haskell.nix](https://github.com/input-output-hk/haskell.nix).
+2. Customized libraries (as an overlay for [nixpkgs](https://github.com/nixos/nixpkgs).
+2. Nix builds of development tools such as cache-s3.
 
 ## When making changes to `iohk-nix`
 
