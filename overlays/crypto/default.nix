@@ -6,7 +6,7 @@ final: prev: {
 # map when solving for dependencies with cabal.
 // final.lib.optionalAttrs (prev ? haskell-nix) {
   haskell-nix = prev.haskell-nix // {
-    extraPkgconfigMappings = super.haskell-nix.extraPkgconfigMappings // {
+    extraPkgconfigMappings = prev.haskell-nix.extraPkgconfigMappings // {
       "libblst" = [ "blst" ];
       "libsodium-vrf" = [ "libsodium-vrf" ];
     };
