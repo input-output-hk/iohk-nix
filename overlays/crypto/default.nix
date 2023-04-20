@@ -4,7 +4,7 @@ final: prev: {
 }
 # Make these libraries also available to haskell-nix's pkg-config
 # map when solving for dependencies with cabal.
-// final.lib.optionalAttrs (prev ? haskell-nix) {
+// prev.lib.optionalAttrs (prev ? haskell-nix) {
   haskell-nix = prev.haskell-nix // {
     extraPkgconfigMappings = prev.haskell-nix.extraPkgconfigMappings // {
       "libblst" = [ "blst" ];
