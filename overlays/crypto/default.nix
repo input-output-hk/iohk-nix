@@ -8,7 +8,7 @@ final: prev: {
   haskell-nix = prev.haskell-nix // {
     extraPkgconfigMappings = prev.haskell-nix.extraPkgconfigMappings // {
       "libblst" = [ "blst" ];
-      "libsodium-vrf" = [ "libsodium-vrf" ];
+      "libsodium" = [ "libsodium-vrf" ];
     };
   };
 }
