@@ -8,6 +8,8 @@ final: prev: {
   haskell-nix = prev.haskell-nix // {
     extraPkgconfigMappings = prev.haskell-nix.extraPkgconfigMappings // {
       "libblst" = [ "blst" ];
+      # map libsoidum to our libsodium-vrf, if you include the iohk-nix
+      # crypto overlay, you _do_ want the custom libsoidum.
       "libsodium" = [ "libsodium-vrf" ];
     };
   };
