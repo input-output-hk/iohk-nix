@@ -52,15 +52,17 @@ runs:
 
     - name: secp256k1 - checkout
       shell: bash
+      working-directory: ${{ github.workspace }}
       run: |
-        mkdir -p ${{ github.workspace }}/extras/sources/secp256k1
-        cd ${{ github.workspace }}/extras/sources/secp256k1
+        mkdir -p extras/sources/secp256k1
+        cd extras/sources/secp256k1
         curl -L ${{ fromJson(env.libs).secp256k1 }} | tar --strip-components=1 -xzf -
 
         ls -lah .
 
     - name: "secp256k1 - build & install"
       shell: ${{ runner.os == 'Windows' && 'pwsh' || 'bash' }}
+      working-directory: ${{ github.workspace }}${{ runner.os == 'Windows' && '\extras\sources\secp256k1' || '/extras/sources/secp256k1' }}
       env:
         # Same environment as tmate action
         MSYS2_PATH_TYPE: inherit
@@ -70,5 +72,4 @@ runs:
         SUDO: ${{ runner.os == 'Windows' && '' || 'sudo -E' }}
       run: |
        ls ${{ github.action_path }}
-       cd ${{ github.workspace }}${{ runner.os == 'Windows' && '\extras\sources\secp256k1' || '/extras/sources/secp256k1' }}
        bash -x "${{ github.action_path }}/.github/action/build.secp256k1.bash"
