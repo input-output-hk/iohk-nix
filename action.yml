@@ -68,5 +68,6 @@ runs:
         CHERE_INVOKING: 1
         FLAGS: "--prefix=${{ env.PREFIX }}"
         SUDO: ${{ runner.os != 'Windows' && 'sudo -E' }}
-        BASH: ${{ runner.os == 'Windows' && 'C:\\msys64\\usr\\bin\\bash.exe -x' || 'bash -x'}}
-      run: $BASH "${{ github.action_path }}/.github/action/build.secp256k1.bash"
+      run: |
+        ${{ runner.os == 'Windows' && 'export PATH="C:\msys64\mingw64\bin:$PATH"' }}
+        bash "${{ github.action_path }}/.github/action/build.secp256k1.bash"
