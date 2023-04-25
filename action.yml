@@ -58,10 +58,8 @@ runs:
         cd extras/sources/secp256k1
         curl -L ${{ fromJson(env.libs).secp256k1 }} | tar --strip-components=1 -xzf -
 
-        ls -lah .
-
     - name: "secp256k1 - build & install"
-      shell: ${{ runner.os == 'Windows' && 'pwsh' || 'bash' }}
+      shell: ${{ runner.os == 'Windows' && 'C:\\msys64\\usr\\bin\\bash.exe {0}' || 'bash' }}
       working-directory: ${{ github.workspace }}${{ runner.os == 'Windows' && '\extras\sources\secp256k1' || '/extras/sources/secp256k1' }}
       env:
         # Same environment as tmate action
@@ -70,6 +68,4 @@ runs:
         CHERE_INVOKING: 1
         FLAGS: "--prefix=${{ env.PREFIX }}"
         SUDO: ${{ runner.os == 'Windows' && '' || 'sudo -E' }}
-      run: |
-       ls ${{ github.action_path }}
-       bash -x "${{ github.action_path }}/.github/action/build.secp256k1.bash"
+      run: bash -x "${{ github.action_path }}/.github/action/build.secp256k1.bash"
