@@ -12,13 +12,14 @@ runs:
     - name: Read versions
       id: libs
       shell: bash
-      run: echo "PACKAGE_JSON=$(jq -c . < libs.json)" >> $GITHUB_ENV
+      run: echo "libs=$(jq -c . < libs.json)" >> $GITHUB_ENV
 
     - name: Compute installation location
       id: prefix
       shell: bash
+      env:
+        PREFIX: ${{ runner.os == 'Windows' && '/mingw64' || '/usr/local' }}
       run: |
-        PREFIX=${{ runner.os == 'Windows' && '/mingw64' || '/usr/local' }}
         echo "PREFIX=$PREFIX" | tee -a "$GITHUB_ENV"
         echo "prefix=$PREFIX" >> $GITHUB_OUTPUT
 
