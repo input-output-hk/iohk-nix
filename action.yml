@@ -1,5 +1,13 @@
 name: 'Setup IOG librararies'
 description: 'Installs libsodum, libsecp256k1 and libblst'
+inputs:
+  ghc-version:
+    description: Version of GHC to install
+    default: ''
+
+  cabal-version:
+    description: Version of cabal to install
+    default: ''
 
 outputs:
   prefix:
@@ -9,6 +17,24 @@ outputs:
 runs:
   using: "composite"
   steps:
+
+    - name: Ensure pkg-config is available
+      if: runner.os == 'macOS'
+      run: brew install pkg-config autoconf automake libtool
+
+    - name: Ensure pkg-config is available
+      if: runner.os == 'Windows'
+      run: |
+        ghcup run -- pacman --noconfirm -S `
+          mingw-w64-x86_64-pkg-config `
+          mingw-w64-x86_64-openssl `
+          base-devel `
+          autoconf-wrapper `
+          autoconf `
+          automake `
+          libtool `
+          make
+
     - name: Read versions
       id: libs
       shell: bash
