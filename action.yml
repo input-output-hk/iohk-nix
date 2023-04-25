@@ -68,4 +68,5 @@ runs:
         CHERE_INVOKING: 1
         FLAGS: "--prefix=${{ env.PREFIX }}"
         SUDO: ${{ runner.os == 'Windows' && '' || 'sudo -E' }}
-      run: bash -x "${{ github.action_path }}/.github/action/build.secp256k1.bash"
+        BASH: ${{ runner.os == 'Windows' && 'C:\\msys64\\usr\\bin\\bash.exe' || 'bash -x'}}
+      run: $BASH "${{ github.action_path }}/.github/action/build.secp256k1.bash"
