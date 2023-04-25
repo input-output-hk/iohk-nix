@@ -60,7 +60,7 @@ runs:
         ls -lah .
 
     - name: "secp256k1 - build & install"
-      shell: ${{ runner.os == 'Windows' && 'C:\\msys64\\usr\\bin\\bash.exe' || 'bash' }}
+      shell: ${{ runner.os == 'Windows' && 'C:\\msys64\\usr\\bin\\bash.exe {0}' || 'bash' }}
       working-directory: ${{ github.workspace }}/extras/sources/secp256k1
       env:
         # Same environment as tmate action
