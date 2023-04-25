@@ -19,10 +19,12 @@ runs:
   steps:
     - name: "[darwin] Ensure pkg-config is available"
       if: runner.os == 'macOS'
+      shell: bash
       run: brew install pkg-config autoconf automake libtool
 
     - name: "[windows] Ensure pkg-config is available"
       if: runner.os == 'Windows'
+      shell: pwsh
       run: |
         ghcup run -- pacman --noconfirm -S `
           mingw-w64-x86_64-pkg-config `
