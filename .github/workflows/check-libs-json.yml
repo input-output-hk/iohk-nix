@@ -25,7 +25,7 @@ jobs:
     - name: Install deps
       uses: workflow/nix-shell-action@v3
       with:
-        packages: curl, jq, diffutils
+        packages: stdenv, curl, jq, diffutils
         script:
     - name: Check diff
       uses: workflow/nix-shell-action@v3
@@ -41,7 +41,7 @@ jobs:
           url=$(jq -c .sodium < libs.json)
           sha=$(curl -sL $url | sha256sum |cut -d' ' -f1)
 
-          IBSODIUM_SRC=$url
+          LIBSODIUM_SRC=$url
           LIBSODIUM_SHA256=$sha
 
           substituteAll ./packaging/msys2/mingw-w64-libsodium/PKGBUILD.tmpl \
