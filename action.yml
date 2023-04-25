@@ -30,23 +30,17 @@ runs:
         cd ${{ github.workspace }}/extras/sources/secp256k1
         curl -L ${{ fromJson(env.libs).secp256k1 }} | tar xf -
 
-    - name: "secp256k1 - posix - install"
-      if: runner.os != 'Windows'
-      shell: bash
-      working-directory: ${{ github.workspace }}/extras/sources/secp256k1
-      env:
-        CI_SECP_FLAGS: "--prefix=${{ env.SECP256K1_PREFIX }}"
-        CI_SECP_INSTALL_CMD: sudo
-      run: bash -x "${{ github.action_path }}/build-and-install.sh"
+        ls -lah .
 
-    - name: "secp256k1 - windows - install"
-      if: runner.os == 'Windows'
-      shell: pwsh
+    - name: "secp256k1 - build & install"
+      shell: bash
       working-directory: ${{ github.workspace }}/extras/sources/secp256k1
       env:
         # Same environment as tmate action
         MSYS2_PATH_TYPE: inherit
         MSYSTEM: MINGW64
         CHERE_INVOKING: 1
-        CI_SECP_FLAGS: "--prefix=${{ env.SECP256K1_PREFIX }}"
-      run: C:\\msys64\\usr\\bin\\bash.exe "${{ github.action_path }}/build-and-install.sh"
+        FLAGS: "--prefix=${{ env.PREFIX }}"
+        SUDO: ${{ runner.os == 'Windows' && '' || 'sudo -E' }}
+        BASH: ${{ runner.os == 'Windows' && 'C:\\msys64\\usr\\bin\\bash.exe' || 'bash' }}
+      run: $BASH -x "${{ github.action_path }}/.github/action/build.secp256k1.bash"
