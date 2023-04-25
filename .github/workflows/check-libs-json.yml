@@ -8,6 +8,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: cachix/install-nix-action@v20
+      with:
+        nix_path: nixpkgs=channel:nixpkgs-22.11
     - run: |
         nix-shell -p jq -p diff \
           --run 'diff libs.json <(nix eval --json .#lib-srcs | jq .)'
