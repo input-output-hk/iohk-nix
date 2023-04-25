@@ -61,7 +61,6 @@ runs:
 
     - name: "secp256k1 - build & install"
       shell: ${{ runner.os == 'Windows' && 'pwsh' || 'bash' }}
-      working-directory: ${{ github.workspace }}${{ runner.os == 'Windows' && '\extras\sources\secp256k1' || '/extras/sources/secp256k1' }}
       env:
         # Same environment as tmate action
         MSYS2_PATH_TYPE: inherit
@@ -71,4 +70,5 @@ runs:
         SUDO: ${{ runner.os == 'Windows' && '' || 'sudo -E' }}
       run: |
        ls ${{ github.action_path }}
+       cd ${{ github.workspace }}${{ runner.os == 'Windows' && '\extras\sources\secp256k1' || '/extras/sources/secp256k1' }}
        bash -x "${{ github.action_path }}/.github/action/build.secp256k1.bash"
