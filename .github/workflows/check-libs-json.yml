@@ -11,4 +11,4 @@ jobs:
       with:
         nix_path: nixpkgs=https://github.com/nixos/nixpkgs/archive/release-22.11.tar.gz
     - run: |
-        nix-shell -p jq -p diff --run 'diff libs.json <(nix eval --json .#lib-srcs | jq .)'
+        nix-shell -p jq -p diffutils --run 'diff libs.json <(nix eval --json .#lib-srcs | jq .)'
