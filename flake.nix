@@ -1,6 +1,8 @@
 {
   description = "IOHK nix lib, packages and overlays";
 
+  inputs.nixpkgs.url = "github:nixos/nixpkgs?ref=release-22.11";
+
   outputs = { self, nixpkgs }: rec {
 
     lib = import ./lib nixpkgs.lib;
@@ -29,5 +31,18 @@
 
     pkgs = import nixpkgs { system = "x86_64-linux"; overlays = builtins.attrValues overlays; };
 
+
+    # we can use this, to get a coherent picture of the sources for
+    # the various libraries.  The following command will produce a
+    # JSON output, that contains each of our libs, with their respective
+    # versions.
+    #
+    #    nix eval --json .#lib-srcs
+    #
+    lib-srcs = {
+      secp256k1 = pkgs.secp256k1.src.url;
+      sodium    = pkgs.libsodium-vrf.src.url;
+      blst      = pkgs.libblst.src.url;
+    };
   };
 }

@@ -1,0 +1,13 @@
+name: Check libs.json file
+on: push
+
+jobs:
+    check:
+        name: check against generated
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - uses: cachix/install-nix-action@v20
+            - run: |
+                nix-env -i jq -i diff
+                diff libs.json <(nix eval --json .#lib-srcs | jq .)

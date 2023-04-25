@@ -1,0 +1,5 @@
+{
+  "blst": "https://github.com/supranational/blst/archive/04b5124029979755c752eec45f3c29674b558446.tar.gz",
+  "secp256k1": "https://github.com/bitcoin-core/secp256k1/archive/5dcc6f8dbdb1850570919fc9942d22f728dbc0af.tar.gz",
+  "sodium": "https://github.com/input-output-hk/libsodium/archive/dbb48cce5429cb6585c9034f002568964f1ce567.tar.gz"
+}
