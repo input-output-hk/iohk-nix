@@ -1,0 +1,10 @@
+name: IOHK-Nix GH action
+on: push
+jobs:
+  integration:
+    name: GitHub Action integration test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: ./
+    - run: pkg-config --list-all
