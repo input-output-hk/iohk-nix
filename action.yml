@@ -18,7 +18,7 @@ runs:
       id: prefix
       shell: bash
       run: |
-        PREFIX=${{ runner.os == Windows && '/mingw64' || '/usr/local' }}
+        PREFIX=${{ runner.os == 'Windows' && '/mingw64' || '/usr/local' }}
         echo "PREFIX=$PREFIX" | tee -a "$GITHUB_ENV"
         echo "prefix=$PREFIX" >> $GITHUB_OUTPUT
 
