@@ -39,8 +39,8 @@ jobs:
         packages: stdenv, curl, jq, diffutils
         script: |
           set -x
-          LIBSODIUM_SRC=$(jq -c .sodium < libs.json)
-          LIBSODIUM_SHA256=$(curl -sL $LIBSODIUM_SRC | sha256sum | cut -d' ' -f1)
+          export LIBSODIUM_SRC=$(jq -c .sodium < libs.json)
+          export LIBSODIUM_SHA256=$(curl -sL $LIBSODIUM_SRC | sha256sum | cut -d' ' -f1)
           echo "$LIBSODIUM_SRC:$LIBSODIUM_SHA256"
           substituteAll ./packaging/msys2/mingw-w64-libsodium/PKGBUILD.tmpl \
                         ./packaging/msys2/mingw-w64-libsodium/PKGBUILD.subs \
