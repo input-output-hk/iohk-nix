@@ -21,6 +21,7 @@ jobs:
       name: libsodium
       matrix: ${{ needs.matrix.outputs.jobs }}
       path: packaging/msys2/mingw-w64-libsodium
+      test:
     # runs-on: windows-latest
     # steps:
     # - uses: actions/checkout@v3
