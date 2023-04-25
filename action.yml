@@ -60,7 +60,7 @@ runs:
         ls -lah .
 
     - name: "secp256k1 - build & install"
-      shell: bash
+      shell: ${{ runner.os == 'Windows' && 'C:\\msys64\\usr\\bin\\bash.exe' || 'bash' }}
       working-directory: ${{ github.workspace }}/extras/sources/secp256k1
       env:
         # Same environment as tmate action
@@ -69,5 +69,6 @@ runs:
         CHERE_INVOKING: 1
         FLAGS: "--prefix=${{ env.PREFIX }}"
         SUDO: ${{ runner.os == 'Windows' && '' || 'sudo -E' }}
-        BASH: ${{ runner.os == 'Windows' && 'C:\\msys64\\usr\\bin\\bash.exe' || 'bash' }}
-      run: $BASH -x "${{ github.action_path }}/.github/action/build.secp256k1.bash"
+      run: |
+       ls ${{ github.action_path }}
+       bash -x "${{ github.action_path }}/.github/action/build.secp256k1.bash"
