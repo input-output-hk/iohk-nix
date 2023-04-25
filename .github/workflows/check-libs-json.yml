@@ -2,12 +2,12 @@ name: Sanity
 on: push
 
 jobs:
-    check:
-        name: Ensure libs.json matches nix configuration.
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v3
-            - uses: cachix/install-nix-action@v20
-            - run: |
-                nix-env -iA jq -iA diff
-                diff libs.json <(nix eval --json .#lib-srcs | jq .)
+  check:
+    name: Ensure libs.json matches nix configuration.
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v3
+        - uses: cachix/install-nix-action@v20
+        - run: |
+          nix-shell -p jq -p diff \
+            --run 'diff libs.json <(nix eval --json .#lib-srcs | jq .)'
