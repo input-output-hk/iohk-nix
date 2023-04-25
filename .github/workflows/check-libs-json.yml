@@ -2,6 +2,17 @@ name: Sanity
 on: push
 
 jobs:
+  matrix:
+    name: ⬜ Generate list of jobs
+    runs-on: ubuntu-latest
+    outputs:
+      jobs: ${{ steps.matrix.outputs.jobs }}
+    steps:
+    - id: matrix
+      uses: msys2/setup-msys2/matrix@main
+      with:
+        systems: mingw64
+
   check:
     name: Ensure libs.json matches nix configuration.
     runs-on: ubuntu-latest
@@ -14,10 +25,37 @@ jobs:
     - name: Install deps
       uses: workflow/nix-shell-action@v3
       with:
-        packages: jq, diffutils
+        packages: curl, jq, diffutils
         script:
     - name: Check diff
       uses: workflow/nix-shell-action@v3
       with:
         packages: jq, diffutils
         script: diff -u libs.json <(nix eval --json .#lib-srcs | jq .)
+
+    - name: Check PKGBUILD libsodium
+      uses: workflow/nix-shell-action@v3
+      with:
+        packages: stdenv, curl, jq, diffutils
+        script: |
+          url=$(jq -c .sodium < libs.json)
+          sha=$(curl -sL $url | sha256sum |cut -d' ' -f1)
+
+          IBSODIUM_SRC=$url
+          LIBSODIUM_SHA256=$sha
+
+          substituteAll ./packaging/msys2/mingw-w64-libsodium/PKGBUILD.tmpl \
+                        ./packaging/msys2/mingw-w64-libsodium/PKGBUILD.subs \
+
+          diff -u ./packaging/msys2/mingw-w64-libsodium/PKGBUILD \
+                  ./packaging/msys2/mingw-w64-libsodium/PKGBUILD.subs
+
+  libsoidum:
+    name: build libsodium for msys2
+    needs: [matrix, check]
+    uses: msys2/setup-msys2/.github/workflows/PKGBUILD.yml@main
+    with:
+        name: libsodium
+        matrix: ${{ needs.matrix.outputs.jobs }}
+        path: packaging/msys2/mingw-w64-libsodium
+        test:
