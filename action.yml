@@ -17,12 +17,11 @@ outputs:
 runs:
   using: "composite"
   steps:
-
-    - name: Ensure pkg-config is available
+    - name: [darwin] Ensure pkg-config is available
       if: runner.os == 'macOS'
       run: brew install pkg-config autoconf automake libtool
 
-    - name: Ensure pkg-config is available
+    - name: [windows] Ensure pkg-config is available
       if: runner.os == 'Windows'
       run: |
         ghcup run -- pacman --noconfirm -S `
