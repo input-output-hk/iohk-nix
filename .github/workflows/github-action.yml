@@ -2,8 +2,11 @@ name: IOHK-Nix GH action
 on: push
 jobs:
   integration:
+    strategy:
+        matrix:
+          os: [ubuntu-latest, windows-latest, macos-latest]
     name: GitHub Action integration test
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
     - uses: ./
