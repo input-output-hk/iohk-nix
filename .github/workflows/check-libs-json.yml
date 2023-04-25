@@ -38,6 +38,7 @@ jobs:
       with:
         packages: stdenv, curl, jq, diffutils
         script: |
+          set -x
           url=$(jq -c .sodium < libs.json)
           sha=$(curl -sL $url | sha256sum |cut -d' ' -f1)
 
