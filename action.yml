@@ -28,7 +28,7 @@ runs:
       run: |
         mkdir -p ${{ github.workspace }}/extras/sources/secp256k1
         cd ${{ github.workspace }}/extras/sources/secp256k1
-        curl ${{ env.libs.secp256k1 }} | tar xf -
+        curl ${{ fromJson(env.libs).secp256k1 }} | tar xf -
 
     - name: "secp256k1 - posix - install"
       if: runner.os != 'Windows'
