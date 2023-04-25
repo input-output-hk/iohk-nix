@@ -1,13 +1,13 @@
-name: Check libs.json file
+name: Sanity
 on: push
 
 jobs:
     check:
-        name: check against generated
+        name: Ensure libs.json matches nix configuration.
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v3
             - uses: cachix/install-nix-action@v20
             - run: |
-                nix-env -i jq -i diff
+                nix-env -iA jq -iA diff
                 diff libs.json <(nix eval --json .#lib-srcs | jq .)
