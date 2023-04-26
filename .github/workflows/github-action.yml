@@ -19,9 +19,9 @@ jobs:
 
     - name: Debug
       if: runner.os != 'Windows'
-      run: /usr/local/opt/cardano/lib
+      run: ls /usr/local/opt/cardano/lib
     - name: Debug (win)
       if: runner.os == 'Windows'
       run: |
-        ls /mingw64/opt/cardano/lib
-        ls /mingw64/opt/cardano/bin
+        ls C:/msys64/mingw64/opt/cardano/lib
+        ls C:/msys64/mingw64/opt/cardano/bin
