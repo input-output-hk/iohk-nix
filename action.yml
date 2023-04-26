@@ -32,6 +32,7 @@ runs:
         # do we want to inherit the path?
         # MSYS2_PATH_TYPE: inherit
       run: |
+        echo $PATH
         pacman --noconfirm -S \
           mingw-w64-x86_64-pkg-config \
           mingw-w64-x86_64-openssl
