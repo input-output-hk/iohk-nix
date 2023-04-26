@@ -30,6 +30,7 @@
     };
 
     pkgs = import nixpkgs { system = "x86_64-linux"; overlays = builtins.attrValues overlays; };
+    darwin-pkgs = import nixpkgs { system = "x86_64-darwin"; overlays = builtins.attrValues overlays; };
 
 
     # we can use this, to get a coherent picture of the sources for
@@ -48,6 +49,74 @@
     dist = let
       # For packaging, we can'd deal with split outputs.
       mkSingleOutput = drv: drv.overrideDerivation (drv': { outputs = [ "out" ]; });
+      mkDarwinPkg = prefix: drv: let
+        PackageInfo = pkgs.writeText "PackageInfo" ''
+        <?xml version="1.0" encoding="utf-8" standalone="no"?>
+        <pkg-info identifier="io.iog.${drv.pname}" version="${drv.version}" format-version="2" auth="root" install-location="${prefix}">
+          <payload numberOfFiles="@numfiles@" installKBytes="@kbsize@"/>
+          <scripts>
+            <postinstall file="./postinstall"/>
+          </scripts>
+        </pkg-info>
+        '';
+        PostInstall = pkgs.writeText "PostInstall" ''
+        #!/bin/bash
+        for lib in @libs@; do
+          chmod +w "${prefix}/$lib"
+          install_name_tool -id "${prefix}/$lib" "${prefix}/$lib"
+          chmod -w "${prefix}/$lib"
+        done
+        '';
+      in pkgs.stdenv.mkDerivation {
+        inherit (drv) version meta;
+        name = "${drv.name}-macos-pkg";
+        phases = [ "buildPhase" "installPhase" ];
+        buildInputs = with pkgs; [ rsync xar cpio bomutils ];
+        buildPhase = ''
+          mkdir -p pkg
+          rsync -a ${drv}/ pkg
+
+          # replace any reference to the nix-path in the pkg-config files with
+          # references to the target prefix
+
+          for pc in $(find pkg -name "*.pc"); do
+            substituteInPlace $pc --replace "${drv}" "${prefix}"
+            cat $pc
+          done
+
+          export numfiles=$(find pkg/ |wc -l)
+          export kbsize=$(du -ks pkg/ |cut -f1)
+
+          substituteAll ${PackageInfo} PackageInfo
+
+          (cd pkg; find . | cpio -o --format odc --owner 0:80 | gzip -c ) > Payload
+          mkbom -u 0 -g 80 pkg/ Bom
+
+          mkdir -p scripts
+
+          # ensure we drop the ./ from the found results, by using cut.
+          export libs=$(cd pkg; find . -name "*.dylib" -type f | cut -c 3-)
+
+          substituteAll ${PostInstall} scripts/postinstall
+          chmod +x scripts/postinstall
+
+          (cd scripts; find . | cpio -o --format odc --owner 0:80 | gzip -c ) > Scripts
+
+          xar --compression none -cf "${drv.name}.pkg" * --exclude="${drv.name}.pkg" --exclude=pkg/ --exclude=scripts/
+
+        '';
+        installPhase = ''
+          mkdir -p $out
+          mv ${drv.name}.pkg $out/
+
+          # make it downloadable from hydra.
+          mkdir -p $out/nix-support
+          for f in $out/*.pkg; do
+            echo "file binary-dist \"''${f}\"" \
+                >> $out/nix-support/hydra-build-products
+          done
+        '';
+      };
       mkPacmanPkg = prefix: drv: let
         pkgrel = 1; # pkg release version
         PKGINFO = pkgs.writeText ".PKGINFO" ''
@@ -75,7 +144,7 @@
           # replace any reference to the nix-path in the pkg-config files with
           # references to the target prefix
 
-          for pc in $(find $out -name "*.pc"); do
+          for pc in $(find .${prefix} -name "*.pc"); do
             substituteInPlace $pc --replace "${drv}" "${prefix}"
             cat $pc
           done
@@ -123,6 +192,11 @@
         libsodium    = mkPacmanPkg "/mingw64/opt/cardano" (mkSingleOutput pkgs.pkgsCross.mingwW64.libsodium-vrf);
         libblst      = mkPacmanPkg "/mingw64/opt/cardano" (mkSingleOutput pkgs.pkgsCross.mingwW64.libblst);
         libsecp256k1 = mkPacmanPkg "/mingw64/opt/cardano" (mkSingleOutput pkgs.pkgsCross.mingwW64.secp256k1);
+      };
+      macos = {
+        libsodium    = mkDarwinPkg "/mingw64/opt/cardano" (mkSingleOutput pkgs.pkgsCross.mingwW64.libsodium-vrf);
+        libblst      = mkDarwinPkg "/mingw64/opt/cardano" (mkSingleOutput pkgs.pkgsCross.mingwW64.libblst);
+        libsecp256k1 = mkDarwinPkg "/mingw64/opt/cardano" (mkSingleOutput pkgs.pkgsCross.mingwW64.secp256k1);
       };
     };
     hydraJobs = dist;
