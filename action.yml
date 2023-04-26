@@ -25,14 +25,17 @@ runs:
       run: |
         brew install pkg-config
 
-        pushd $(mktemp -d)
+        mkdir __prep__
+        pushd __prep__
           curl -sLO ${URL_PREFIX}/macos.libsodium/latest/download-by-type/file/binary-dist
           curl -sLO ${URL_PREFIX}/macos.libsecp256k1/latest/download-by-type/file/binary-dist
           curl -sLO ${URL_PREFIX}/macos.libblst/latest/download-by-type/file/binary-dist
+          ls .
           for pkg in *.pkg; do
             sudo installer -pkg $pkg -target /
           done
         popd
+        rm -fR __prep__
 
         echo 'PKG_CONFIG_PATH=/usr/local/optcardano/lib/pkgconfig:$PKG_CONFIG_PATH' >> $GITHUB_ENV
 
@@ -51,13 +54,16 @@ runs:
           mingw-w64-x86_64-pkg-config \
           mingw-w64-x86_64-openssl
 
-        pushd $(mktemp -d)
+        mkdir __prep__
+        pushd __prep__
           curl -sLO ${URL_PREFIX}/msys2.libsodium/latest/download-by-type/file/binary-dist
           curl -sLO ${URL_PREFIX}/msys2.libsecp256k1/latest/download-by-type/file/binary-dist
           curl -sLO ${URL_PREFIX}/msys2.libblst/latest/download-by-type/file/binary-dist
+          ls .
           for pkg in *.zstd; do
             /usr/bin/pacman --noconfirm -U $pkg
           done
         popd
+        rm -fR __prep__
 
         echo 'PKG_CONFIG_PATH=C:\\msys64\mingw64\opt\cardano\lib\pkgconfig' >> $GITHUB_ENV
