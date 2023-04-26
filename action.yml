@@ -29,6 +29,7 @@ runs:
         name: msys2-pkgs
 
     - name: Display structure of downloaded files
+      shell: bash
       run: ls -R
 
     - name: "[windows] Ensure pkg-config is available"
