@@ -37,7 +37,7 @@ runs:
         popd
         rm -fR __prep__
 
-        echo 'PKG_CONFIG_PATH=/usr/local/optcardano/lib/pkgconfig:$PKG_CONFIG_PATH' >> $GITHUB_ENV
+        echo 'PKG_CONFIG_PATH=/usr/local/opt/cardano/lib/pkgconfig:$PKG_CONFIG_PATH' >> $GITHUB_ENV
 
     - name: "[windows] Install library dependencies"
       if: runner.os == 'Windows'
