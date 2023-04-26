@@ -17,5 +17,6 @@ jobs:
         pkg-config --libs libsodium
         pkg-config --libs libsecp256k1
 
-        ls /usr/local/opt/cardano/lib
-        ls /mingw64/opt/cardano/lib
+        ls /usr/local/opt/cardano/lib || true
+        ls /mingw64/opt/cardano/lib || true
+        ls /mingw64/opt/cardano/bin || true
