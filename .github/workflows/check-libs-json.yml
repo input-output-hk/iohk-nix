@@ -24,15 +24,6 @@ jobs:
       with:
         packages: jq, diffutils
         script: diff -u libs.json <(nix eval --json .#lib-srcs | jq .)
-    - name: Build windows libraries
-      run: |
-        mkdir __pkgs
-        for lib in libsodium libsecp256k1 libblst; do
-          cp $(nix build .#dist.msys2.$lib --no-link --print-out-paths -L)/*.zstd __pkgs/
-        done
-    - uses: actions/upload-artifact@v3
-      with:
-        name: msys2-pkgs
-        path: __pkgs/
+
 
 

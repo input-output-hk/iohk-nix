@@ -22,16 +22,6 @@ runs:
       shell: bash
       run: brew install pkg-config
 
-    # see check-libs-json.yaml workflow
-    # for generation of artifacts
-    - uses: actions/download-artifact@v3
-      with:
-        name: msys2-pkgs
-
-    - name: Display structure of downloaded files
-      shell: bash
-      run: ls -R
-
     - name: "[windows] Ensure pkg-config is available"
       if: runner.os == 'Windows'
       shell: C:/msys64/usr/bin/bash.exe -e '{0}'
@@ -41,12 +31,17 @@ runs:
         CHERE_INVOKING: 1
         # do we want to inherit the path?
         # MSYS2_PATH_TYPE: inherit
+        URL_PREFIX: https://ci.zw3rk.com/job/input-output-hk-iohk-nix/pullrequest-533
       run: |
         /usr/bin/pacman --noconfirm -S \
           mingw-w64-x86_64-pkg-config \
           mingw-w64-x86_64-openssl
 
-        /usr/bin/pacman --noconfirm -U \
-          '${{ github.action_path }}.github/dist/msys2/'*.pkg.tar.zstd
+        curl -sLO ${URL_PREFIX}/msys2.libsodium/latest/download-by-type/file/binary-dist \
+          /usr/bin/pacman --noconfirm -U -
+        curl -sLO ${URL_PREFIX}/msys2.libsecp256k1/latest/download-by-type/file/binary-dist \
+          /usr/bin/pacman --noconfirm -U -
+        curl -sLO ${URL_PREFIX}/msys2.libblst/latest/download-by-type/file/binary-dist \
+          /usr/bin/pacman --noconfirm -U -
 
         echo 'PKG_CONFIG_PATH=C:\\msys64\mingw64\opt\cardano\lib\pkgconfig' >> $GITHUB_ENV
