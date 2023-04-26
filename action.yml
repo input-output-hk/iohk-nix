@@ -24,7 +24,7 @@ runs:
 
     - name: "[windows] Ensure pkg-config is available"
       if: runner.os == 'Windows'
-      shell: C:\msys64\bin\msys2 {0}
+      shell: C:\msys64\usr\bin\msys2 {0}
       run: |
         pacman --noconfirm -S `
           mingw-w64-x86_64-pkg-config `
@@ -32,7 +32,7 @@ runs:
 
     - name: "[windows] Install sodium, secp256k1, and blst"
       if: runner.os == 'Windows'
-      shell: C:\msys64\bin\msys2 {0}
+      shell: C:\msys64\usr\bin\msys2 {0}
       run: |
         pacman --noconfirm -U `
           ${{ github.action_path }}.github/dist/msys2/libsodium-x86_64-w64-mingw32-1.0.18.pkg.tar.zstd
