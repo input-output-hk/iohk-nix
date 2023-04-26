@@ -153,7 +153,6 @@
           export size=$(du -bs $out|cut -f1)
 
           substituteAll ${PKGINFO} .PKGINFO
-          cat .PKGINFO
 
           list_package_files() {
             (
@@ -194,9 +193,9 @@
         libsecp256k1 = mkPacmanPkg "/mingw64/opt/cardano" (mkSingleOutput pkgs.pkgsCross.mingwW64.secp256k1);
       };
       macos = {
-        libsodium    = mkDarwinPkg "/mingw64/opt/cardano" (mkSingleOutput darwin-pkgs.libsodium-vrf);
-        libblst      = mkDarwinPkg "/mingw64/opt/cardano" (mkSingleOutput darwin-pkgs.libblst);
-        libsecp256k1 = mkDarwinPkg "/mingw64/opt/cardano" (mkSingleOutput darwin-pkgs.secp256k1);
+        libsodium    = mkDarwinPkg "/usr/local/opt/cardano" (mkSingleOutput darwin-pkgs.libsodium-vrf);
+        libblst      = mkDarwinPkg "/usr/local/opt/cardano" (mkSingleOutput darwin-pkgs.libblst);
+        libsecp256k1 = mkDarwinPkg "/usr/local/opt/cardano" (mkSingleOutput darwin-pkgs.secp256k1);
       };
     };
     hydraJobs = dist;
