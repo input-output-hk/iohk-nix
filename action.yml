@@ -20,7 +20,7 @@ runs:
     - name: "[darwin] Ensure pkg-config is available"
       if: runner.os == 'macOS'
       shell: bash
-      run: brew install pkg-config autoconf automake libtool
+      run: brew install pkg-config
 
     - name: "[windows] Ensure pkg-config is available"
       if: runner.os == 'Windows'
@@ -28,46 +28,11 @@ runs:
       run: |
         ghcup run -- pacman --noconfirm -S `
           mingw-w64-x86_64-pkg-config `
-          mingw-w64-x86_64-openssl `
-          base-devel `
-          autoconf-wrapper `
-          autoconf `
-          automake `
-          libtool `
-          make
+          mingw-w64-x86_64-openssl
 
-    - name: Read versions
-      id: libs
-      shell: bash
-      run: echo "libs=$(jq -c . < libs.json)" >> $GITHUB_ENV
-
-    - name: Compute installation location
-      id: prefix
-      shell: bash
-      env:
-        PREFIX: ${{ runner.os == 'Windows' && '/mingw64' || '/usr/local' }}
+    - name: "[windows] Install sodium, secp256k1, and blst"
+      if: runner.os == 'Windows'
+      shell: pwsh
       run: |
-        echo "PREFIX=$PREFIX" | tee -a "$GITHUB_ENV"
-        echo "prefix=$PREFIX" >> $GITHUB_OUTPUT
-
-    - name: secp256k1 - checkout
-      shell: bash
-      working-directory: ${{ github.workspace }}
-      run: |
-        mkdir -p extras/sources/secp256k1
-        cd extras/sources/secp256k1
-        curl -L ${{ fromJson(env.libs).secp256k1 }} | tar --strip-components=1 -xzf -
-
-    - name: "secp256k1 - build & install"
-      shell: bash
-      working-directory: ${{ github.workspace }}${{ runner.os == 'Windows' && '\extras\sources\secp256k1' || '/extras/sources/secp256k1' }}
-      env:
-        # Same environment as tmate action
-        MSYS2_PATH_TYPE: inherit
-        MSYSTEM: MINGW64
-        CHERE_INVOKING: 1
-        FLAGS: "--prefix=${{ env.PREFIX }}"
-        SUDO: ${{ runner.os != 'Windows' && 'sudo -E' }}
-      run: |
-        ${{ runner.os == 'Windows' && 'export PATH="C:\msys64\mingw64\bin:$PATH"' }}
-        bash "${{ github.action_path }}/.github/action/build.secp256k1.bash"
+        ghcup run -- pacman --noconfirm -U `
+          ${{ github.action_path }}/.github/dist/msys2/libsodium-x86_64-w64-mingw32-1.0.18.pkg.tar.zstd
