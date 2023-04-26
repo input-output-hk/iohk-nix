@@ -22,6 +22,15 @@ runs:
       shell: bash
       run: brew install pkg-config
 
+    # see check-libs-json.yaml workflow
+    # for generation of artifacts
+    - uses: actions/download-artifact@v3
+      with:
+        name: msys2-pkgs
+
+    - name: Display structure of downloaded files
+      run: ls -R
+
     - name: "[windows] Ensure pkg-config is available"
       if: runner.os == 'Windows'
       shell: C:/msys64/usr/bin/bash.exe -e '{0}'
