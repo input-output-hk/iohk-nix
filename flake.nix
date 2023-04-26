@@ -49,6 +49,58 @@
     dist = let
       # For packaging, we can'd deal with split outputs.
       mkSingleOutput = drv: drv.overrideDerivation (drv': { outputs = [ "out" ]; });
+      mkDebianPkg = prefix: drv: let
+        control = pkgs.writeText "control" ''
+        Package: ${drv.pname}
+        Version: ${drv.version}
+        Architecture: x86_64
+        Maintainer: IOG <engineering@iog.io>
+        Description: ${drv.meta.description}
+        '';
+      in pkgs.stdenv.mkDerivation {
+        inherit (drv) version meta;
+        name = "${drv.name}-debian-pkg";
+        phases = [ "buildPhase" "installPhase" ];
+        buildInputs = with pkgs; [ rsync ];
+        buildPhase = ''
+          mkdir -p .${prefix}
+          rsync -a ${drv}/ .${prefix}
+
+          ls -lah
+
+          # replace any reference to the nix-path in the pkg-config files with
+          # references to the target prefix
+
+          for pc in $(find .${prefix} -name "*.pc"); do
+            substituteInPlace $pc --replace "${drv}" "${prefix}"
+            cat $pc
+          done
+
+          # create the data.tar.gz containing the install tree
+          tar --exclude=env-vars --exclude=data.tar.gz -czf data.tar.gz .
+
+          # create the minimal control file, and control.tar.gz
+          substituteAll ${control} control
+          tar czf control.tar.gz control
+
+          # create the debian-binary file
+          echo 2.0 > debian-binary
+
+          # package it up. It's just ar.
+          ar r ${drv.name}.deb debian-binary control.tar.gz data.tar.gz
+        '';
+        installPhase = ''
+          mkdir -p $out
+          mv ${drv.name}.deb $out/
+
+          # make it downloadable from hydra.
+          mkdir -p $out/nix-support
+          for f in $out/*.deb; do
+            echo "file binary-dist \"''${f}\"" \
+                >> $out/nix-support/hydra-build-products
+          done
+        '';
+      };
       mkDarwinPkg = prefix: drv: let
         PackageInfo = pkgs.writeText "PackageInfo" ''
         <?xml version="1.0" encoding="utf-8" standalone="no"?>
@@ -196,6 +248,11 @@
         libsodium    = mkDarwinPkg "/usr/local/opt/cardano" (mkSingleOutput darwin-pkgs.libsodium-vrf);
         libblst      = mkDarwinPkg "/usr/local/opt/cardano" (mkSingleOutput darwin-pkgs.libblst);
         libsecp256k1 = mkDarwinPkg "/usr/local/opt/cardano" (mkSingleOutput darwin-pkgs.secp256k1);
+      };
+      debian = {
+        libsodium    = mkDebianPkg "/usr/local/opt/cardano" (mkSingleOutput pkgs.libsodium-vrf);
+        libblst      = mkDebianPkg "/usr/local/opt/cardano" (mkSingleOutput pkgs.libblst);
+        libsecp256k1 = mkDebianPkg "/usr/local/opt/cardano" (mkSingleOutput pkgs.secp256k1);
       };
     };
     hydraJobs = dist;
