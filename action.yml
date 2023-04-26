@@ -24,7 +24,7 @@ runs:
 
     - name: "[windows] Ensure pkg-config is available"
       if: runner.os == 'Windows'
-      shell: C:/msys64/usr/bin/env.exe MSYSTEM=MSYS C:/msys64/usr/bin/bash.exe -e '{0}'
+      shell: C:/msys64/usr/bin/bash.exe -e '{0}'
       env:
         MSYSTEM: MSYS
         # do not ever change to $HOME by yourself.
@@ -32,10 +32,10 @@ runs:
         # do we want to inherit the path?
         # MSYS2_PATH_TYPE: inherit
       run: |
-        echo $PATH
-        pacman --noconfirm -S \
+        env | grep MSYS
+        /usr/bin/pacman --noconfirm -S \
           mingw-w64-x86_64-pkg-config \
           mingw-w64-x86_64-openssl
 
-        pacman --noconfirm -U \
+        /usr/bin/pacman --noconfirm -U \
           ${{ github.action_path }}.github/dist/msys2/libsodium-x86_64-w64-mingw32-1.0.18.pkg.tar.zstd
