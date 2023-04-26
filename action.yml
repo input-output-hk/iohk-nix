@@ -17,12 +17,21 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - name: "[darwin] Ensure pkg-config is available"
+    - name: "[darwin] Install library dependencies"
       if: runner.os == 'macOS'
       shell: bash
-      run: brew install pkg-config
+      env:
+        URL_PREFIX: https://ci.zw3rk.com/job/input-output-hk-iohk-nix/pullrequest-533
+      run: |
+        brew install pkg-config
 
-    - name: "[windows] Ensure pkg-config is available"
+        sudo installer installer -target / -pkg <(curl -sL ${URL_PREFIX}/macos.libsodium/latest/download-by-type/file/binary-dist)
+        sudo installer installer -target / -pkg <(curl -sL ${URL_PREFIX}/macos.libsecp256k1/latest/download-by-type/file/binary-dist)
+        sudo installer installer -target / -pkg <(curl -sL ${URL_PREFIX}/macos.libblst/latest/download-by-type/file/binary-dist)
+
+        echo 'PKG_CONFIG_PATH=/usr/local/optcardano/lib/pkgconfig:$PKG_CONFIG_PATH' >> $GITHUB_ENV
+
+    - name: "[windows] Install library dependencies"
       if: runner.os == 'Windows'
       shell: C:/msys64/usr/bin/bash.exe -e '{0}'
       env:
