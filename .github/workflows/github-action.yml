@@ -11,4 +11,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: ./
-    - run: pkg-config --list-all
+    - run: |
+      echo ${env:PKG_CONFIG_PATH}
+      pkg-config --list-all
