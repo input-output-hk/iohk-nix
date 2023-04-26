@@ -15,12 +15,12 @@ jobs:
           trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ= "loony-tools:pr9m4BkM/5/eSTZlkQyRt57Jz7OMBxNSUiMC4FkcNfk="
           substituters = https://cache.nixos.org/ https://cache.iog.io/ https://cache.zw3rk.com/
     - name: Install deps
-      uses: workflow/nix-shell-action@v3
+      uses: workflow/nix-shell-action@v3.2.1
       with:
         packages: stdenv, curl, jq, diffutils
         script:
     - name: Check diff
-      uses: workflow/nix-shell-action@v3
+      uses: workflow/nix-shell-action@v3.2.1
       with:
         packages: jq, diffutils
         script: diff -u libs.json <(nix eval --json .#lib-srcs | jq .)
