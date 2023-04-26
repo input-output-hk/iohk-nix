@@ -24,6 +24,15 @@ runs:
 
     - name: "[windows] Ensure pkg-config is available"
       if: runner.os == 'Windows'
+      env:
+        # do not ever change to $HOME by yourself.
+        CHERE_INVOKING: 1
+        # do we want to inherit the path?
+        # MSYS2_PATH_TYPE: inherit
+
+        # for pacman and others, we want to run under
+        # msys2.
+        MSYSTEM: MSYS
       run: |
         ls C:\msys64\
         pacman --noconfirm -S `
