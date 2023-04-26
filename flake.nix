@@ -109,6 +109,13 @@
         installPhase = ''
           mkdir -p $out
           mv ${drv.name}.pkg.tar.zstd $out/
+
+          # make it downloadable from hydra.
+          mkdir -p $out/nix-support
+          for f in $out/*.zstd; do
+            echo "file binary-dist \"''${f}\"" \
+                >> $out/nix-support/hydra-build-products
+          done
         '';
       };
     in {
