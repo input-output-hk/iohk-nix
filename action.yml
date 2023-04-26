@@ -24,7 +24,7 @@ runs:
 
     - name: "[windows] Ensure pkg-config is available"
       if: runner.os == 'Windows'
-      shell: C:/msys64/usr/bin/bash.exe -e '{0}'
+      shell: MSYSTEM=MSYS C:/msys64/usr/bin/bash.exe -e '{0}'
       env:
         MSYSTEM: MSYS
         # do not ever change to $HOME by yourself.
