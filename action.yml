@@ -37,6 +37,6 @@ runs:
           mingw-w64-x86_64-openssl
 
         /usr/bin/pacman --noconfirm -U \
-          '${{ github.action_path }}.github/dist/msys2/*.pkg.tar.zstd'
+          '${{ github.action_path }}.github/dist/msys2/'*.pkg.tar.zstd
 
         echo 'PKG_CONFIG_PATH=C:\\msys64\mingw64\opt\cardano\lib\pkgconfig' >> $GITHUB_ENV
