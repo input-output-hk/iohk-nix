@@ -53,7 +53,7 @@
         control = pkgs.writeText "control" ''
         Package: ${drv.pname}
         Version: ${drv.version}
-        Architecture: x86_64
+        Architecture: amd64
         Maintainer: IOG <engineering@iog.io>
         Description: ${drv.meta.description}
         '';
