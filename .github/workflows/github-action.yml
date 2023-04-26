@@ -13,3 +13,6 @@ jobs:
     - name: Check pkg-config
       run: |
         pkg-config --list-all
+        pkg-config --libs libblst
+        pkg-config --libs libsodium
+        pkg-config --libs libsecp256k1
