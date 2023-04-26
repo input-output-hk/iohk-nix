@@ -11,6 +11,9 @@ jobs:
       uses: cachix/install-nix-action@v20
       with:
         nix_path: nixpkgs=https://github.com/nixos/nixpkgs/archive/release-22.11.tar.gz
+        extra_nix_config: |
+          trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ= "loony-tools:pr9m4BkM/5/eSTZlkQyRt57Jz7OMBxNSUiMC4FkcNfk="
+          substituters = https://cache.nixos.org/ https://cache.iog.io/ https://cache.zw3rk.com/
     - name: Install deps
       uses: workflow/nix-shell-action@v3
       with:
@@ -21,3 +24,15 @@ jobs:
       with:
         packages: jq, diffutils
         script: diff -u libs.json <(nix eval --json .#lib-srcs | jq .)
+    - name: Build windows libraries
+      run: |
+        mkdir pkgs
+        for lib in libsodium libsecp256k1 libblst; do
+          cp $(nix build .#dist.msys2.$lib --no-link --print-out-paths -L)/*.zstd pkgs/
+        done
+    - uses: actions/upload-artifact@v3
+      with:
+        name: msys2-pkgs
+        path: pkgs/
+
+
