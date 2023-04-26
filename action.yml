@@ -32,7 +32,7 @@ runs:
         # do we want to inherit the path?
         # MSYS2_PATH_TYPE: inherit
       run: |
-        ls C:\msys64\
+        ls C:/msys64
         pacman --noconfirm -S `
           mingw-w64-x86_64-pkg-config `
           mingw-w64-x86_64-openssl `
