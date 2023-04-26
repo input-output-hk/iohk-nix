@@ -11,8 +11,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: ./
-    - env:
-        PKG_CONFIG_PATH: C:\\msys64\mingw64\opt\cardano\lib\pkgconfig
+    - name: Check pkg-config
+      # env:
+      #   PKG_CONFIG_PATH: C:\\msys64\mingw64\opt\cardano\lib\pkgconfig
       run: |
         echo ${env:PKG_CONFIG_PATH}
         pkg-config --list-all

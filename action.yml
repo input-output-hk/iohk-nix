@@ -41,4 +41,4 @@ runs:
           '${{ github.action_path }}.github/dist/msys2/secp256k1-x86_64-w64-mingw32-unstable-2022-02-06.pkg.tar.zstd' \
           '${{ github.action_path }}.github/dist/msys2/blst-x86_64-w64-mingw32-0.3.10.pkg.tar.zstd'
 
-        echo $PKG_CONFIG_PATH
+        echo 'PKG_CONFIG_PATH=C:\\msys64\mingw64\opt\cardano\lib\pkgconfig' >> $GITHUB_ENV
