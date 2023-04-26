@@ -52,7 +52,7 @@
       mkDebianPkg = prefix: drv: let
         control = pkgs.writeText "control" ''
         Package: ${drv.pname}
-        Version: ${drv.version}
+        Version: ${if drv.version == "unstable-2022-02-06" then "2022-02-06-unstable" else drv.version}
         Architecture: amd64
         Maintainer: IOG <engineering@iog.io>
         Description: ${drv.meta.description}
