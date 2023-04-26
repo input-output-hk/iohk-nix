@@ -76,7 +76,10 @@
             cat $pc
           done
 
-          # create the data.tar.gz containing the install tree
+          # create the data.tar.gz containing the install tree; we need to
+          # have data.tar.gz exist in . or tar will complain that . changed
+          # while creating the archive.
+          touch data.tar.gz
           tar --exclude=env-vars --exclude=data.tar.gz -czf data.tar.gz .
 
           # create the minimal control file, and control.tar.gz
