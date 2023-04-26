@@ -118,5 +118,6 @@
         libsecp256k1 = mkPacmanPkg "/mingw64/opt/cardano" (mkSingleOutput pkgs.pkgsCross.mingwW64.secp256k1);
       };
     };
+    hydraJobs = dist;
   };
 }
