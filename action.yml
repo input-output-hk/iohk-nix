@@ -25,9 +25,9 @@ runs:
       run: |
         brew install pkg-config
 
-        sudo installer installer -target / -pkg <(curl -sL ${URL_PREFIX}/macos.libsodium/latest/download-by-type/file/binary-dist)
-        sudo installer installer -target / -pkg <(curl -sL ${URL_PREFIX}/macos.libsecp256k1/latest/download-by-type/file/binary-dist)
-        sudo installer installer -target / -pkg <(curl -sL ${URL_PREFIX}/macos.libblst/latest/download-by-type/file/binary-dist)
+        sudo installer installer -pkg <(curl -sL ${URL_PREFIX}/macos.libsodium/latest/download-by-type/file/binary-dist) -target /
+        sudo installer installer -pkg <(curl -sL ${URL_PREFIX}/macos.libsecp256k1/latest/download-by-type/file/binary-dist) -target /
+        sudo installer installer -pkg <(curl -sL ${URL_PREFIX}/macos.libblst/latest/download-by-type/file/binary-dist) -target /
 
         echo 'PKG_CONFIG_PATH=/usr/local/optcardano/lib/pkgconfig:$PKG_CONFIG_PATH' >> $GITHUB_ENV
 
@@ -46,8 +46,8 @@ runs:
           mingw-w64-x86_64-pkg-config \
           mingw-w64-x86_64-openssl
 
-        /usr/bin/pacman --noconfirm -U <(curl -sL ${URL_PREFIX}/msys2.libsodium/latest/download-by-type/file/binary-dist)
-        /usr/bin/pacman --noconfirm -U <(curl -sL ${URL_PREFIX}/msys2.libsecp256k1/latest/download-by-type/file/binary-dist)
-        /usr/bin/pacman --noconfirm -U <(curl -sL ${URL_PREFIX}/msys2.libblst/latest/download-by-type/file/binary-dist)
+        /usr/bin/pacman --noconfirm -U < curl -sL ${URL_PREFIX}/msys2.libsodium/latest/download-by-type/file/binary-dist
+        /usr/bin/pacman --noconfirm -U < curl -sL ${URL_PREFIX}/msys2.libsecp256k1/latest/download-by-type/file/binary-dist
+        /usr/bin/pacman --noconfirm -U < curl -sL ${URL_PREFIX}/msys2.libblst/latest/download-by-type/file/binary-dist
 
         echo 'PKG_CONFIG_PATH=C:\\msys64\mingw64\opt\cardano\lib\pkgconfig' >> $GITHUB_ENV
