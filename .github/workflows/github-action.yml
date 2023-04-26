@@ -17,6 +17,11 @@ jobs:
         pkg-config --libs libsodium
         pkg-config --libs libsecp256k1
 
-        ls /usr/local/opt/cardano/lib || true
-        ls /mingw64/opt/cardano/lib || true
-        ls /mingw64/opt/cardano/bin || true
+    - name: Debug
+      if: runner.os != 'Windows'
+      run: /usr/local/opt/cardano/lib
+    - name: Debug (win)
+      if: runner.os == 'Windows'
+      run: |
+        ls /mingw64/opt/cardano/lib
+        ls /mingw64/opt/cardano/bin
