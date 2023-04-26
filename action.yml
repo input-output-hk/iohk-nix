@@ -37,8 +37,8 @@ runs:
           mingw-w64-x86_64-pkg-config \
           mingw-w64-x86_64-openssl
 
-        /usr/bin/pacman --noconfirm -U ${URL_PREFIX}/msys2.libsodium/latest/download-by-type/file/binary-dist
-        /usr/bin/pacman --noconfirm -U ${URL_PREFIX}/msys2.libsecp256k1/latest/download-by-type/file/binary-dist
-        /usr/bin/pacman --noconfirm -U ${URL_PREFIX}/msys2.libblst/latest/download-by-type/file/binary-dist
+        /usr/bin/pacman --noconfirm -U <(curl -sL ${URL_PREFIX}/msys2.libsodium/latest/download-by-type/file/binary-dist)
+        /usr/bin/pacman --noconfirm -U <(curl -sL ${URL_PREFIX}/msys2.libsecp256k1/latest/download-by-type/file/binary-dist)
+        /usr/bin/pacman --noconfirm -U <(curl -sL ${URL_PREFIX}/msys2.libblst/latest/download-by-type/file/binary-dist)
 
         echo 'PKG_CONFIG_PATH=C:\\msys64\mingw64\opt\cardano\lib\pkgconfig' >> $GITHUB_ENV
