@@ -34,5 +34,6 @@ runs:
       if: runner.os == 'Windows'
       shell: pwsh
       run: |
+        ls ${{ github.action_path }}
         ghcup run -- pacman --noconfirm -U `
-          ${{ github.action_path }}/.github/dist/msys2/libsodium-x86_64-w64-mingw32-1.0.18.pkg.tar.zstd
+          .github/dist/msys2/libsodium-x86_64-w64-mingw32-1.0.18.pkg.tar.zstd
