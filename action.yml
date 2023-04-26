@@ -67,3 +67,24 @@ runs:
         rm -fR __prep__
 
         echo 'PKG_CONFIG_PATH=C:\\msys64\mingw64\opt\cardano\lib\pkgconfig' >> $GITHUB_ENV
+
+    - name: "[linux] Install library dependencies"
+      if: runner.os == 'Linux'
+      shell: bash
+      env:
+        URL_PREFIX: https://ci.zw3rk.com/job/input-output-hk-iohk-nix/pullrequest-533
+      run: |
+        mkdir __prep__
+        pushd __prep__
+          curl -sL ${URL_PREFIX}/debian.libsodium/latest/download-by-type/file/binary-dist    > libsodium.deb
+          curl -sL ${URL_PREFIX}/debian.libsecp256k1/latest/download-by-type/file/binary-dist > libsecp256k1.deb
+          curl -sL ${URL_PREFIX}/debian.libblst/latest/download-by-type/file/binary-dist      > libblst.deb
+          ls .
+          for pkg in *.deb; do
+            sudo dpkg -i $pkg
+          done
+        popd
+        rm -fR __prep__
+
+        echo 'PKG_CONFIG_PATH=/usr/local/opt/cardano/lib/pkgconfig:$PKG_CONFIG_PATH' >> $GITHUB_ENV
+
