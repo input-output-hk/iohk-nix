@@ -9,8 +9,7 @@ jobs:
     name: GitHub Action integration test
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v3
-    - uses: ./
+    - uses: input-output-hk/iohk-nix@v1
     - name: Check pkg-config
       run: |
         pkg-config --list-all
