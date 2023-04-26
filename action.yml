@@ -27,9 +27,9 @@ runs:
 
         mkdir __prep__
         pushd __prep__
-          curl -sLJO ${URL_PREFIX}/macos.libsodium/latest/download-by-type/file/binary-dist
-          curl -sLJO ${URL_PREFIX}/macos.libsecp256k1/latest/download-by-type/file/binary-dist
-          curl -sLJO ${URL_PREFIX}/macos.libblst/latest/download-by-type/file/binary-dist
+          curl -sL ${URL_PREFIX}/macos.libsodium/latest/download-by-type/file/binary-dist    > libsodium.pkg
+          curl -sL ${URL_PREFIX}/macos.libsecp256k1/latest/download-by-type/file/binary-dist > libsecp256k1.pkg
+          curl -sL ${URL_PREFIX}/macos.libblst/latest/download-by-type/file/binary-dist      > libblst.pkg
           ls .
           for pkg in *.pkg; do
             sudo installer -pkg $pkg -target /
@@ -56,9 +56,9 @@ runs:
 
         mkdir __prep__
         pushd __prep__
-          curl -sLJO ${URL_PREFIX}/msys2.libsodium/latest/download-by-type/file/binary-dist
-          curl -sLJO ${URL_PREFIX}/msys2.libsecp256k1/latest/download-by-type/file/binary-dist
-          curl -sLJO ${URL_PREFIX}/msys2.libblst/latest/download-by-type/file/binary-dist
+          curl -sL ${URL_PREFIX}/msys2.libsodium/latest/download-by-type/file/binary-dist    > libsodium.pkg.tar.zstd
+          curl -sL ${URL_PREFIX}/msys2.libsecp256k1/latest/download-by-type/file/binary-dist > libsecp256k1.pkg.tar.zstd
+          curl -sL ${URL_PREFIX}/msys2.libblst/latest/download-by-type/file/binary-dist      > libblst.pkg.tar.zstd
           ls .
           for pkg in *.zstd; do
             /usr/bin/pacman --noconfirm -U $pkg

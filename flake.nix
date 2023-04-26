@@ -194,9 +194,9 @@
         libsecp256k1 = mkPacmanPkg "/mingw64/opt/cardano" (mkSingleOutput pkgs.pkgsCross.mingwW64.secp256k1);
       };
       macos = {
-        libsodium    = mkDarwinPkg "/mingw64/opt/cardano" (mkSingleOutput pkgs.pkgsCross.mingwW64.libsodium-vrf);
-        libblst      = mkDarwinPkg "/mingw64/opt/cardano" (mkSingleOutput pkgs.pkgsCross.mingwW64.libblst);
-        libsecp256k1 = mkDarwinPkg "/mingw64/opt/cardano" (mkSingleOutput pkgs.pkgsCross.mingwW64.secp256k1);
+        libsodium    = mkDarwinPkg "/mingw64/opt/cardano" (mkSingleOutput darwin-pkgs.libsodium-vrf);
+        libblst      = mkDarwinPkg "/mingw64/opt/cardano" (mkSingleOutput darwin-pkgs.libblst);
+        libsecp256k1 = mkDarwinPkg "/mingw64/opt/cardano" (mkSingleOutput darwin-pkgs.secp256k1);
       };
     };
     hydraJobs = dist;
