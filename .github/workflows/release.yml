@@ -1,6 +1,9 @@
-name: Main
+name: Release
 
-on: push
+on:
+  push:
+    tags:
+      - '*'
 
 jobs:
   build:
@@ -30,6 +33,5 @@ jobs:
             popd
       - name: Release
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
         with:
           files: __pkgs/*
