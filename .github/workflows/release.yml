@@ -27,8 +27,10 @@ jobs:
             for sys in msys2 darwin debian; do
               for lib in libsodium libsodium-vrf libsecp256k1 libblst; do
                 out=$(nix build .#dist.$sys.$lib --no-link --print-out-paths -L)
-                for pkg in $out/*.{zstd,pkg,deb}; do
-                  cp $pkg __pkgs/
+                for ext in zstd pkg deb; do
+                  if [ -f "$out"/*."$ext" ]; then
+                    cp "$out"/*."$ext" __pkgs/
+                  fi
                 done
               done
             done
