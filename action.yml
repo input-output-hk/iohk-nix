@@ -1,14 +1,6 @@
 name: 'Setup IOG librararies'
 description: 'Installs libsodum, libsecp256k1 and libblst'
 inputs:
-  ghc-version:
-    description: Version of GHC to install
-    default: ''
-
-  cabal-version:
-    description: Version of cabal to install
-    default: ''
-
   use-sodium-vrf:
     description: Use libsodium with VRF extension
     default: true
@@ -16,8 +8,7 @@ inputs:
 runs:
   env:
     LIBSODIUM: ${{ inputs.use-sodium-vrf && 'libsodium-vrf' || 'libsodium' }}
-    URL_PREFIX: https://ci.zw3rk.com/job/input-output-hk-iohk-nix/pullrequest-533
-
+    URL_PREFIX: https://github.com/input-output-hk/iohk-nix/releases/tag/latest
   using: "composite"
   steps:
     - name: "[darwin] Install library dependencies"
@@ -28,10 +19,9 @@ runs:
 
         mkdir __prep__
         pushd __prep__
-          curl -sL ${URL_PREFIX}/macos.${LIBSODIUM}/latest/download-by-type/file/binary-dist > libsodium.pkg
-          curl -sL ${URL_PREFIX}/macos.libsecp256k1/latest/download-by-type/file/binary-dist > libsecp256k1.pkg
-          curl -sL ${URL_PREFIX}/macos.libblst/latest/download-by-type/file/binary-dist      > libblst.pkg
-          ls .
+          curl -sL ${URL_PREFIX}/macos.${LIBSODIUM}.pkg > libsodium.pkg
+          curl -sL ${URL_PREFIX}/macos.libsecp256k1.pkg > libsecp256k1.pkg
+          curl -sL ${URL_PREFIX}/macos.libblst.pkg      > libblst.pkg
           for pkg in *.pkg; do
             sudo installer -pkg $pkg -target /
           done
@@ -55,10 +45,9 @@ runs:
 
         mkdir __prep__
         pushd __prep__
-          curl -sL ${URL_PREFIX}/msys2.${LIBSODIUM}/latest/download-by-type/file/binary-dist > libsodium.pkg.tar.zstd
-          curl -sL ${URL_PREFIX}/msys2.libsecp256k1/latest/download-by-type/file/binary-dist > libsecp256k1.pkg.tar.zstd
-          curl -sL ${URL_PREFIX}/msys2.libblst/latest/download-by-type/file/binary-dist      > libblst.pkg.tar.zstd
-          ls .
+          curl -sL ${URL_PREFIX}/msys2.${LIBSODIUM}.pkg.tar.zstd > libsodium.pkg.tar.zstd
+          curl -sL ${URL_PREFIX}/msys2.libsecp256k1.pkg.tar.zstd > libsecp256k1.pkg.tar.zstd
+          curl -sL ${URL_PREFIX}/msys2.libblst.pkg.tar.zstd      > libblst.pkg.tar.zstd
           for pkg in *.zstd; do
             /usr/bin/pacman --noconfirm -U $pkg
           done
@@ -76,10 +65,9 @@ runs:
       run: |
         mkdir __prep__
         pushd __prep__
-          curl -sL ${URL_PREFIX}/debian.${LIBSODIUM}/latest/download-by-type/file/binary-dist > libsodium.deb
-          curl -sL ${URL_PREFIX}/debian.libsecp256k1/latest/download-by-type/file/binary-dist > libsecp256k1.deb
-          curl -sL ${URL_PREFIX}/debian.libblst/latest/download-by-type/file/binary-dist      > libblst.deb
-          ls .
+          curl -sL ${URL_PREFIX}/debian.${LIBSODIUM}.deb > libsodium.deb
+          curl -sL ${URL_PREFIX}/debian.libsecp256k1.deb > libsecp256k1.deb
+          curl -sL ${URL_PREFIX}/debian.libblst.deb      > libblst.deb
           for pkg in *.deb; do
             sudo dpkg -i $pkg
           done
