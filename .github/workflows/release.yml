@@ -21,6 +21,7 @@ jobs:
       - name: Build
         uses: workflow/nix-shell-action@v3.2.1
         with:
+          packages: zip
           script: |
             mkdir __pkgs
             echo ${{ github.sha }} > __pkgs/COMMIT_SHA
@@ -31,10 +32,11 @@ jobs:
                   if [ -f "$out"/*."$ext" ]; then
                     cp "$out"/*."$ext" __pkgs/"$sys.$lib.$ext"
                     base=$(basename "$out"/*."$ext")
-                    echo -e "$sys.$lib.$ext\t$base" >> INFO
+                    echo -e "$sys.$lib.$ext\t$base" >> __pkgs/INFO
                   fi
                 done
               done
+              (cd __pkgs && zip -9 $sys.zip $sys.*)
             done
       - name: Release
         uses: softprops/action-gh-release@v1
