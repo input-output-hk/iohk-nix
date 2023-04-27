@@ -23,14 +23,12 @@ jobs:
         with:
           script: |
             mkdir __pkgs
-            pushd __pkgs
-              echo ${{ github.sha }} > COMMIT_SHA
-              for sys in msys2 darwin debian; do
-                for lib in libsodium libsodium-vrf libsecp256k1 libblst; do
-                  cp -f $(nix build .#dist.$sys.$lib --no-link --print-out-paths -L)/*.{zstd,pkg,deb} .
-                done
+            echo ${{ github.sha }} > __pkgs/COMMIT_SHA
+            for sys in msys2 darwin debian; do
+              for lib in libsodium libsodium-vrf libsecp256k1 libblst; do
+                cp -f $(nix build .#dist.$sys.$lib --no-link --print-out-paths -L)/*.{zstd,pkg,deb} __pkgs/
               done
-            popd
+            done
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
