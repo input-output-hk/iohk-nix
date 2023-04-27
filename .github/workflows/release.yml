@@ -17,11 +17,7 @@ jobs:
             substituters = https://cache.nixos.org/ https://cache.iog.io/ https://cache.zw3rk.com/
       - name: Build
         uses: workflow/nix-shell-action@v3.2.1
-        with:
-          packages: stdenv, curl, jq, diffutils
-        script:
-      - name: Build
-        run: |
+        script: |
           mkdir __pkgs
           pushd __pkgs
             echo ${{ github.sha }} > COMMIT_SHA
