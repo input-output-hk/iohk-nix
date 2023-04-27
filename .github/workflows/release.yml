@@ -17,16 +17,17 @@ jobs:
             substituters = https://cache.nixos.org/ https://cache.iog.io/ https://cache.zw3rk.com/
       - name: Build
         uses: workflow/nix-shell-action@v3.2.1
-        script: |
-          mkdir __pkgs
-          pushd __pkgs
-            echo ${{ github.sha }} > COMMIT_SHA
-            for sys in msys2 darwin debian; do
-              for lib in libsodium libsodium-vrf libsecp256k1 libblst; do
-                cp -f $(nix build .#dist.$sys.$lib --no-link --print-out-paths -L)/*.{zstd,pkg,deb} .
+        with:
+          script: |
+            mkdir __pkgs
+            pushd __pkgs
+              echo ${{ github.sha }} > COMMIT_SHA
+              for sys in msys2 darwin debian; do
+                for lib in libsodium libsodium-vrf libsecp256k1 libblst; do
+                  cp -f $(nix build .#dist.$sys.$lib --no-link --print-out-paths -L)/*.{zstd,pkg,deb} .
+                done
               done
-            done
-          popd
+            popd
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
