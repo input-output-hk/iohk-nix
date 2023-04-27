@@ -204,7 +204,9 @@
             cat $pc
           done
 
-          export date=$(date +%s)
+          # this date is of course not correct, but we don't want the derivation
+          # to mutate all the time, just because it was re-built.
+          export date=0
           export size=$(du -bs $out|cut -f1)
 
           substituteAll ${PKGINFO} .PKGINFO

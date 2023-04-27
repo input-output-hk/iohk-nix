@@ -26,7 +26,10 @@ jobs:
             echo ${{ github.sha }} > __pkgs/COMMIT_SHA
             for sys in msys2 darwin debian; do
               for lib in libsodium libsodium-vrf libsecp256k1 libblst; do
-                cp -f $(nix build .#dist.$sys.$lib --no-link --print-out-paths -L)/*.{zstd,pkg,deb} __pkgs/
+                out=$(nix build .#dist.$sys.$lib --no-link --print-out-paths -L)
+                for pkg in $out/*.{zstd,pkg,deb}; do
+                  cp $pkg __pkgs/
+                done
               done
             done
       - name: Release
