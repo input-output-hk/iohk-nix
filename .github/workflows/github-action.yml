@@ -9,7 +9,7 @@ jobs:
     name: GitHub Action integration test
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: input-output-hk/iohk-nix@v1
+    - uses: input-output-hk/actions/base@lastet
     - name: Check pkg-config
       run: |
         pkg-config --libs libblst
