@@ -24,15 +24,12 @@ jobs:
           script: |
             mkdir __pkgs
             echo ${{ github.sha }} > __pkgs/COMMIT_SHA
-            ls -lah __pkgs
-
             for sys in msys2 darwin debian; do
               for lib in libsodium libsodium-vrf libsecp256k1 libblst; do
                 out=$(nix build .#dist.$sys.$lib --no-link --print-out-paths -L)
                 for ext in zstd pkg deb; do
                   if [ -f "$out"/*."$ext" ]; then
-                    ls -lah __pkgs
-                    cp -f "$out"/*."$ext" __pkgs/
+                    cp "$out"/*."$ext" __pkgs/
                   fi
                 done
               done
