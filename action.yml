@@ -9,25 +9,26 @@ inputs:
     description: Version of cabal to install
     default: ''
 
-outputs:
-  prefix:
-    description: "Installed Location"
-    value: ${{ steps.prefix.outputs.prefix }}
+  use-sodium-vrf:
+    description: Use libsodium with VRF extension
+    default: true
 
 runs:
+  env:
+    LIBSODIUM: ${{ inputs.use-sodium-vrf && 'libsodium-vrf' || 'libsodium' }}
+    URL_PREFIX: https://ci.zw3rk.com/job/input-output-hk-iohk-nix/pullrequest-533
+
   using: "composite"
   steps:
     - name: "[darwin] Install library dependencies"
       if: runner.os == 'macOS'
       shell: bash
-      env:
-        URL_PREFIX: https://ci.zw3rk.com/job/input-output-hk-iohk-nix/pullrequest-533
       run: |
         brew install pkg-config
 
         mkdir __prep__
         pushd __prep__
-          curl -sL ${URL_PREFIX}/macos.libsodium/latest/download-by-type/file/binary-dist    > libsodium.pkg
+          curl -sL ${URL_PREFIX}/macos.${LIBSODIUM}/latest/download-by-type/file/binary-dist > libsodium.pkg
           curl -sL ${URL_PREFIX}/macos.libsecp256k1/latest/download-by-type/file/binary-dist > libsecp256k1.pkg
           curl -sL ${URL_PREFIX}/macos.libblst/latest/download-by-type/file/binary-dist      > libblst.pkg
           ls .
@@ -48,15 +49,13 @@ runs:
         CHERE_INVOKING: 1
         # do we want to inherit the path?
         # MSYS2_PATH_TYPE: inherit
-        URL_PREFIX: https://ci.zw3rk.com/job/input-output-hk-iohk-nix/pullrequest-533
       run: |
         /usr/bin/pacman --noconfirm -S \
-          mingw-w64-x86_64-pkg-config \
-          mingw-w64-x86_64-openssl
+          mingw-w64-x86_64-pkg-config
 
         mkdir __prep__
         pushd __prep__
-          curl -sL ${URL_PREFIX}/msys2.libsodium/latest/download-by-type/file/binary-dist    > libsodium.pkg.tar.zstd
+          curl -sL ${URL_PREFIX}/msys2.${LIBSODIUM}/latest/download-by-type/file/binary-dist > libsodium.pkg.tar.zstd
           curl -sL ${URL_PREFIX}/msys2.libsecp256k1/latest/download-by-type/file/binary-dist > libsecp256k1.pkg.tar.zstd
           curl -sL ${URL_PREFIX}/msys2.libblst/latest/download-by-type/file/binary-dist      > libblst.pkg.tar.zstd
           ls .
@@ -67,16 +66,17 @@ runs:
         rm -fR __prep__
 
         echo 'PKG_CONFIG_PATH=C:\\msys64\mingw64\opt\cardano\lib\pkgconfig' >> $GITHUB_ENV
+        # Add the `bin` folder, which contains all the .dlls on windows, so we
+        # can find them.
+        echo 'PATH=C:\\msys64\mingw64\opt\cardano\bin:$PATH'                >> $GITHUB_ENV
 
     - name: "[linux] Install library dependencies"
       if: runner.os == 'Linux'
       shell: bash
-      env:
-        URL_PREFIX: https://ci.zw3rk.com/job/input-output-hk-iohk-nix/pullrequest-533
       run: |
         mkdir __prep__
         pushd __prep__
-          curl -sL ${URL_PREFIX}/debian.libsodium/latest/download-by-type/file/binary-dist    > libsodium.deb
+          curl -sL ${URL_PREFIX}/debian.${LIBSODIUM}/latest/download-by-type/file/binary-dist > libsodium.deb
           curl -sL ${URL_PREFIX}/debian.libsecp256k1/latest/download-by-type/file/binary-dist > libsecp256k1.deb
           curl -sL ${URL_PREFIX}/debian.libblst/latest/download-by-type/file/binary-dist      > libblst.deb
           ls .
@@ -87,4 +87,4 @@ runs:
         rm -fR __prep__
 
         echo 'PKG_CONFIG_PATH=/usr/local/opt/cardano/lib/pkgconfig:$PKG_CONFIG_PATH' >> $GITHUB_ENV
-
+        echo 'LD_LIBRARY_PATH=/usr/local/opt/cardano/lib:$LD_LIBRARY_PATH'           >> $GITHUB_ENV

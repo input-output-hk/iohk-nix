@@ -243,17 +243,20 @@
       };
     in {
       msys2 = {
-        libsodium    = mkPacmanPkg "/mingw64/opt/cardano" (mkSingleOutput pkgs.pkgsCross.mingwW64.libsodium-vrf);
+        libsodium-vrf= mkPacmanPkg "/mingw64/opt/cardano" (mkSingleOutput pkgs.pkgsCross.mingwW64.libsodium-vrf);
+        libsodium    = mkPacmanPkg "/mingw64/opt/cardano" (mkSingleOutput pkgs.pkgsCross.mingwW64.libsodium);
         libblst      = mkPacmanPkg "/mingw64/opt/cardano" (mkSingleOutput pkgs.pkgsCross.mingwW64.libblst);
         libsecp256k1 = mkPacmanPkg "/mingw64/opt/cardano" (mkSingleOutput pkgs.pkgsCross.mingwW64.secp256k1);
       };
       macos = {
-        libsodium    = mkDarwinPkg "/usr/local/opt/cardano" (mkSingleOutput darwin-pkgs.libsodium-vrf);
+        libsodium-vrf= mkDarwinPkg "/usr/local/opt/cardano" (mkSingleOutput darwin-pkgs.libsodium-vrf);
+        libsodium    = mkDarwinPkg "/usr/local/opt/cardano" (mkSingleOutput darwin-pkgs.libsodium);
         libblst      = mkDarwinPkg "/usr/local/opt/cardano" (mkSingleOutput darwin-pkgs.libblst);
         libsecp256k1 = mkDarwinPkg "/usr/local/opt/cardano" (mkSingleOutput darwin-pkgs.secp256k1);
       };
       debian = {
-        libsodium    = mkDebianPkg "/usr/local/opt/cardano" (mkSingleOutput pkgs.libsodium-vrf);
+        libsodium-vrf= mkDebianPkg "/usr/local/opt/cardano" (mkSingleOutput pkgs.libsodium-vrf);
+        libsodium    = mkDebianPkg "/usr/local/opt/cardano" (mkSingleOutput pkgs.libsodium);
         libblst      = mkDebianPkg "/usr/local/opt/cardano" (mkSingleOutput pkgs.libblst);
         libsecp256k1 = mkDebianPkg "/usr/local/opt/cardano" (mkSingleOutput pkgs.secp256k1);
       };

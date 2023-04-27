@@ -1,4 +1,4 @@
-name: IOHK-Nix GH action
+name: Validate IOG Core GH Action
 on: push
 jobs:
   integration:
@@ -12,16 +12,6 @@ jobs:
     - uses: input-output-hk/iohk-nix@v1
     - name: Check pkg-config
       run: |
-        pkg-config --list-all
         pkg-config --libs libblst
         pkg-config --libs libsodium
         pkg-config --libs libsecp256k1
-
-    - name: Debug
-      if: runner.os != 'Windows'
-      run: ls /usr/local/opt/cardano/lib
-    - name: Debug (win)
-      if: runner.os == 'Windows'
-      run: |
-        ls C:/msys64/mingw64/opt/cardano/lib
-        ls C:/msys64/mingw64/opt/cardano/bin
