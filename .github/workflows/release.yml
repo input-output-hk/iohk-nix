@@ -27,7 +27,7 @@ jobs:
             for sys in msys2 macos debian; do
               for lib in libsodium libsodium-vrf libsecp256k1 libblst; do
                 out=$(nix build .#dist.$sys.$lib --no-link --print-out-paths -L)
-                for ext in zstd pkg deb; do
+                for ext in pkg.tar.zstd pkg deb; do
                   if [ -f "$out"/*."$ext" ]; then
                     cp "$out"/*."$ext" __pkgs/
                   fi
