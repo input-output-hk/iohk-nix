@@ -1,7 +1,7 @@
 { stdenv, lib, fetchFromGitHub, autoreconfHook }:
 
 stdenv.mkDerivation rec {
-  name = "blst-0.3.10";
+  pname = "blst";
   version = "0.3.10";
 
   src = fetchFromGitHub {
@@ -17,12 +17,14 @@ stdenv.mkDerivation rec {
     ./build.sh -shared ${lib.optionalString stdenv.targetPlatform.isWindows "flavour=mingw64"}
   '';
   installPhase = ''
-    mkdir -p $out/lib
+    mkdir -p $out/{lib,include}
     for lib in libblst.{a,so,dylib}; do
       if [ -f $lib ]; then
         cp $lib $out/lib/
       fi
     done
+    cp bindings/{blst.h,blst_aux.h} $out/include
+
     for lib in blst.dll; do
       if [ -f $lib ]; then
         mkdir -p $out/bin
@@ -34,13 +36,17 @@ stdenv.mkDerivation rec {
     cat <<EOF > $out/lib/pkgconfig/libblst.pc
     prefix=$out
     exec_prefix=''\\''${prefix}
-    libdir=$out/lib
+    libdir=''\\''${exec_prefix}/lib
+    includedir=''\\''${prefix}/include
 
     Name: libblst
-    Version: ${version}
     Description: ${meta.description}
+    URL: ${meta.homepage}
+    Version: ${version}
 
+    Cflags: -I''\\''${includedir}
     Libs: -L''\\''${libdir} -lblst
+    Libs.private:
     EOF
   '';
 

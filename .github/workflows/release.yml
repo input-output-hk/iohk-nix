@@ -1,0 +1,44 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install nix
+        uses: cachix/install-nix-action@v20
+        with:
+          nix_path: nixpkgs=https://github.com/nixos/nixpkgs/archive/release-22.11.tar.gz
+          extra_nix_config: |
+            trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ= loony-tools:pr9m4BkM/5/eSTZlkQyRt57Jz7OMBxNSUiMC4FkcNfk=
+            substituters = https://cache.nixos.org/ https://cache.iog.io/ https://cache.zw3rk.com/
+      - name: Build
+        uses: workflow/nix-shell-action@v3.2.1
+        with:
+          packages: zip
+          script: |
+            mkdir __pkgs
+            echo ${{ github.sha }} > __pkgs/COMMIT_SHA
+            for sys in msys2 macos debian; do
+              for lib in libsodium libsodium-vrf libsecp256k1 libblst; do
+                out=$(nix build .#dist.$sys.$lib --no-link --print-out-paths -L)
+                for ext in pkg.tar.zstd pkg deb; do
+                  if [ -f "$out"/*."$ext" ]; then
+                    cp "$out"/*."$ext" __pkgs/"$sys.$lib.$ext"
+                    base=$(basename "$out"/*."$ext")
+                    echo -e "$sys.$lib.$ext\t$base" >> __pkgs/INFO
+                  fi
+                done
+              done
+              (cd __pkgs && zip -9 $sys.zip $sys.*)
+            done
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: __pkgs/*

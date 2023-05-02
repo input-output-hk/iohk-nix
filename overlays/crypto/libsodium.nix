@@ -1,7 +1,8 @@
 { stdenv, lib, fetchFromGitHub, autoreconfHook }:
 
 stdenv.mkDerivation rec {
-  name = "libsodium-1.0.18";
+  pname = "libsodium-vrf";
+  version = "1.0.18";
 
   src = fetchFromGitHub {
     owner = "input-output-hk";
