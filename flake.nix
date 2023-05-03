@@ -263,6 +263,16 @@
         libsecp256k1 = mkDebianPkg "/usr/local/opt/cardano" (mkSingleOutput pkgs.secp256k1);
       };
     };
-    hydraJobs = dist;
+    hydraJobs = dist // {
+      cardano-deployment = pkgs.cardanoLib.mkConfigHtml {
+        inherit (pkgs.cardanoLib.environments)
+          # shelley_qa # (internal only)
+          preview  # Preview Testnet
+          preprod  # Pre-Production Testnet
+          mainnet  # Production (Mainnet)
+          p2p      # Production (Mainnet; P2P)
+          ;
+      };
+    };
   };
 }
