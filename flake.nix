@@ -2,8 +2,10 @@
   description = "IOHK nix lib, packages and overlays";
 
   inputs.nixpkgs.url = "github:nixos/nixpkgs?ref=release-22.11";
+  inputs.cardano-world.url = "github:input-output-hk/cardano-world"; #?ref=8.x-integration";
+  inputs.cardano-world.inputs.iohk-nix.follows = "/";
 
-  outputs = { self, nixpkgs }: rec {
+  outputs = { self, nixpkgs, ... }@inputs: rec {
 
     lib = import ./lib nixpkgs.lib;
 
@@ -11,7 +13,7 @@
       crypto = import ./overlays/crypto;
       haskell-nix-extra = import ./overlays/haskell-nix-extra;
       cardano-lib = (final: prev: {
-        cardanoLib = final.callPackage ./cardano-lib {};
+        cardanoLib = final.callPackage ./cardano-lib { inherit (inputs.cardano-world.${final.system}.cardano) environments; };
       });
       utils = import ./overlays/utils;
     };
@@ -264,15 +266,7 @@
       };
     };
     hydraJobs = dist // {
-      cardano-deployment = pkgs.cardanoLib.mkConfigHtml {
-        inherit (pkgs.cardanoLib.environments)
-          # shelley_qa # (internal only)
-          preview  # Preview Testnet
-          preprod  # Pre-Production Testnet
-          mainnet  # Production (Mainnet)
-          p2p      # Production (Mainnet; P2P)
-          ;
-      };
+      cardano-deployment = pkgs.cardanoLib.mkConfigHtml pkgs.cardanoLib.environments;
     };
   };
 }
