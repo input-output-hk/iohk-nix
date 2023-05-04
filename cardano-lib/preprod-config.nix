@@ -11,7 +11,7 @@
   ShelleyGenesisHash = "162d29c4e1cf6b8a84f2d692e67a3ac6bc7851bc3e6e4afe64d15778bed8bd86";
   AlonzoGenesisFile = ./preprod + "/alonzo-genesis.json";
   AlonzoGenesisHash = "7e94a15f55d1e82d10f09203fa1d40f8eede58fd8066542cf6566008068ed874";
-  ConwayGenesisFile = ./mainnet + "/conway-genesis.json";
+  ConwayGenesisFile = ./preprod + "/conway-genesis.json";
   ConwayGenesisHash = "f28f1c1280ea0d32f8cd3143e268650d6c1a8e221522ce4a7d20d62fc09783e1";
 
   ##### Core protocol parameters #####
@@ -29,7 +29,6 @@
   TargetNumberOfEstablishedPeers = 50;
   TargetNumberOfKnownPeers = 100;
   TargetNumberOfRootPeers = 100;
-  TestEnableDevelopmentNetworkProtocols = true;
 
   ##### Update system parameters #####
 
