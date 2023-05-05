@@ -60,6 +60,28 @@ let
       explorerConfig = mkExplorerConfig "mainnet" nodeConfig;
       usePeersFromLedgerAfterSlot = 29691317;
     };
+    # Network shutdown, but benchmarking configs reference it as a template
+    testnet = rec {
+      useByronWallet = true;
+      relays = "doesnotexist.iog.io";
+      relaysNew = "doesnotexist.iog.io";
+      explorerUrl = "https://doesnotexist.iog.io";
+      smashUrl = "https://doesnotexist.iog.io";
+      metadataUrl = "https://doesnotexist.iog.io";
+      edgeNodes = [];
+      edgePort = 3001;
+      confKey = "testnet_full";
+      private = true;
+      networkConfig = import ./testnet-config.nix;
+      nodeConfig = networkConfig // defaultLogConfig;
+      consensusProtocol = networkConfig.Protocol;
+      submitApiConfig = {
+        GenesisHash = nodeConfig.ByronGenesisHash;
+        inherit (networkConfig) RequiresNetworkMagic;
+      } // defaultExplorerLogConfig;
+      explorerConfig = mkExplorerConfig "testnet" nodeConfig;
+      usePeersFromLedgerAfterSlot = -1;
+    };
     p2p = rec {
       useByronWallet = false;
       private = false;
