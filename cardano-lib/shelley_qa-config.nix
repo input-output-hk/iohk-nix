@@ -2,7 +2,6 @@
 ###############         Shelley QA         ###############
 ############### Cardano Node Configuration ###############
 ##########################################################
-
 {
   ##### Locations #####
 
@@ -32,7 +31,7 @@
   MaxKnownMajorProtocolVersion = 2;
   #### LOGGING Debug
 
-  minSeverity = "Debug";
+  #minSeverity = "Debug";
 
   ##### Update system parameters #####
 
