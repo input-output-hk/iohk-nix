@@ -3,7 +3,7 @@
 
   inputs.nixpkgs.url = "github:nixos/nixpkgs?ref=release-22.11";
 
-  outputs = { self, nixpkgs, ... }@inputs: rec {
+  outputs = { self, nixpkgs }: rec {
 
     lib = import ./lib nixpkgs.lib;
 
@@ -11,7 +11,7 @@
       crypto = import ./overlays/crypto;
       haskell-nix-extra = import ./overlays/haskell-nix-extra;
       cardano-lib = (final: prev: {
-        cardanoLib = final.callPackage ./cardano-lib { inherit (inputs.cardano-world.${final.system}.cardano) environments; };
+        cardanoLib = final.callPackage ./cardano-lib {};
       });
       utils = import ./overlays/utils;
     };
