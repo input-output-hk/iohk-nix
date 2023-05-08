@@ -1,7 +1,5 @@
-inputs:
-let
-  inherit (inputs.nixpkgs) lib;
-in lib.recursiveUpdate (import ./default-aux.nix inputs) {
+lib:
+lib.recursiveUpdate (import ./default-aux.nix) {
   explorerHostName = "explorer.cardano.org";
   explorerAliases = ["explorer.mainnet.cardano.org" "explorer.cardano-mainnet.iohk.io"];
 

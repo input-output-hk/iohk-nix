@@ -75,7 +75,7 @@ let
       dbSyncConfig = mkDbSyncConfig "mainnet" nodeConfig;
       explorerConfig = mkExplorerConfig "mainnet" nodeConfig;
       usePeersFromLedgerAfterSlot = 84916732;
-      auxConfig = import ./aux-config/mainnet-aux.nix inputs;
+      auxConfig = import ./aux-config/mainnet-aux.nix lib;
     };
     # Network shutdown, but benchmarking configs reference it as a template
     testnet = rec {

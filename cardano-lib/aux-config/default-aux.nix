@@ -1,4 +1,4 @@
-inputs: {
+{
   explorerAliases = [];
 
   cardanoExplorerGwPrometheusExporterPort = 12699;
