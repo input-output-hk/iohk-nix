@@ -1,4 +1,4 @@
-{lib, writeText, runCommand, jq, environments}:
+{lib, writeText, runCommand, jq }:
 let
   mkEdgeTopology = {
     hostAddr ? "127.0.0.1"
