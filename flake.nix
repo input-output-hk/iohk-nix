@@ -2,8 +2,6 @@
   description = "IOHK nix lib, packages and overlays";
 
   inputs.nixpkgs.url = "github:nixos/nixpkgs?ref=release-22.11";
-  inputs.cardano-world.url = "github:input-output-hk/cardano-world"; #?ref=8.x-integration";
-  inputs.cardano-world.inputs.iohk-nix.follows = "/";
 
   outputs = { self, nixpkgs, ... }@inputs: rec {
 
