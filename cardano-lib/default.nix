@@ -126,6 +126,10 @@ let
       consensusProtocol = networkConfig.Protocol;
       nodeConfig = defaultLogConfig // networkConfig;
       edgePort = 3001;
+      submitApiConfig = mkSubmitApiConfig "p2p" nodeConfig;
+      # We need dbSyncConfig, for cardano-db-sync tests.
+      dbSyncConfig = mkDbSyncConfig "p2p" nodeConfig;
+      # FIXME: can we drop explorerConfig?
       explorerConfig = mkExplorerConfig "p2p" nodeConfig;
       usePeersFromLedgerAfterSlot = 14680;
     };
