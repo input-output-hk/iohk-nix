@@ -77,25 +77,7 @@ let
       usePeersFromLedgerAfterSlot = 84916732;
       auxConfig = import ./aux-config/mainnet-aux.nix lib;
     };
-    # Network shutdown, but benchmarking configs reference it as a template
-    testnet = rec {
-      useByronWallet = true;
-      relays = "doesnotexist.iog.io";
-      relaysNew = "doesnotexist.iog.io";
-      explorerUrl = "https://doesnotexist.iog.io";
-      smashUrl = "https://doesnotexist.iog.io";
-      metadataUrl = "https://doesnotexist.iog.io";
-      edgeNodes = [];
-      edgePort = 3001;
-      confKey = "testnet_full";
-      private = true;
-      networkConfig = import ./testnet-config.nix;
-      nodeConfig = networkConfig // defaultLogConfig;
-      consensusProtocol = networkConfig.Protocol;
-      submitApiConfig = mkSubmitApiConfig "testnet" nodeConfig;
-      explorerConfig = mkExplorerConfig "testnet" nodeConfig;
-      usePeersFromLedgerAfterSlot = -1;
-    };
+
     # used for daedalus/cardano-wallet for local development
     shelley_qa = rec {
       useByronWallet = false;
@@ -198,6 +180,30 @@ let
       usePeersFromLedgerAfterSlot = 32000;
     };
   };
+
+  # These will be removed at some point
+  dead_environments = {
+    # Network shutdown, but benchmarking configs reference it as a template
+    testnet = __trace "DEPRECATION WARNING: TESTNET WAS SHUT DOWN. You may want to consider using preprod or preview" (rec {
+      useByronWallet = true;
+      relays = "doesnotexist.iog.io";
+      relaysNew = "doesnotexist.iog.io";
+      explorerUrl = "https://doesnotexist.iog.io";
+      smashUrl = "https://doesnotexist.iog.io";
+      metadataUrl = "https://doesnotexist.iog.io";
+      edgeNodes = [];
+      edgePort = 3001;
+      confKey = "testnet_full";
+      private = true;
+      networkConfig = import ./testnet-config.nix;
+      nodeConfig = networkConfig // defaultLogConfig;
+      consensusProtocol = networkConfig.Protocol;
+      submitApiConfig = mkSubmitApiConfig "testnet" nodeConfig;
+      explorerConfig = mkExplorerConfig "testnet" nodeConfig;
+      usePeersFromLedgerAfterSlot = -1;
+    });
+  };
+
   # TODO: add flag to disable with forEnvironments instead of hard-coded list?
   forEnvironments = f: lib.mapAttrs
     (name: env: f (env // { inherit name; }))
@@ -328,5 +334,7 @@ let
   '';
 
 in {
-  inherit environments forEnvironments forEnvironmentsCustom eachEnv mkEdgeTopology mkProxyTopology cardanoConfig defaultLogConfig defaultExplorerLogConfig mkConfigHtml mkExplorerConfig;
+  # for now we exprot live and dead environemnts.
+  environments = environments // dead_environments;
+  inherit forEnvironments forEnvironmentsCustom eachEnv mkEdgeTopology mkProxyTopology cardanoConfig defaultLogConfig defaultExplorerLogConfig mkConfigHtml mkExplorerConfig;
 }
