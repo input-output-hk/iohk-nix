@@ -107,6 +107,7 @@ let
       networkConfig = import ./p2p-config.nix;
       consensusProtocol = networkConfig.Protocol;
       nodeConfig = defaultLogConfig // networkConfig;
+      edgeNodes = [];
       edgePort = 3001;
       submitApiConfig = mkSubmitApiConfig "p2p" nodeConfig;
       # We need dbSyncConfig, for cardano-db-sync tests.
@@ -137,6 +138,7 @@ let
       dbSyncConfig = mkDbSyncConfig "preprod" nodeConfig;
       usePeersFromLedgerAfterSlot = 4642000;
     };
+
     preview = rec {
       useByronWallet = false;
       private = false;
@@ -158,6 +160,7 @@ let
       dbSyncConfig = mkDbSyncConfig "preview" nodeConfig;
       usePeersFromLedgerAfterSlot = 322000;
     };
+
     private = rec {
       useByronWallet = false;
       private = true;
@@ -199,6 +202,7 @@ let
       nodeConfig = networkConfig // defaultLogConfig;
       consensusProtocol = networkConfig.Protocol;
       submitApiConfig = mkSubmitApiConfig "testnet" nodeConfig;
+      dbSyncConfig = mkDbSyncConfig "testnet" nodeConfig;
       explorerConfig = mkExplorerConfig "testnet" nodeConfig;
       usePeersFromLedgerAfterSlot = -1;
     });
@@ -334,7 +338,7 @@ let
   '';
 
 in {
-  # for now we exprot live and dead environemnts.
+  # for now we export live and dead environemnts.
   environments = environments // dead_environments;
   inherit forEnvironments forEnvironmentsCustom eachEnv mkEdgeTopology mkProxyTopology cardanoConfig defaultLogConfig defaultExplorerLogConfig mkConfigHtml mkExplorerConfig;
 }
