@@ -46,6 +46,21 @@ let
   in
     builtins.toFile "topology.yaml" (builtins.toJSON topology);
 
+  mkTopology = env: let
+    legacyTopology = mkEdgeTopology {
+      edgeNodes = [env.relaysNew];
+      valency = 2;
+      edgePort = env.edgePort or 3001;
+    };
+    p2pTopology = mkEdgeTopologyP2P {
+      inherit (env) edgeNodes;
+      useLedgerAfterSlot = env.usePeersFromLedgerAfterSlot;
+    };
+  in
+    if (env.nodeConfig.EnableP2P or false)
+    then p2pTopology
+    else legacyTopology;
+
   defaultLogConfig = import ./generic-log-config.nix;
   defaultExplorerLogConfig = import ./explorer-log-config.nix;
   defaultDbSyncLogConfig = defaultExplorerLogConfig;
@@ -299,16 +314,16 @@ let
                       <td>${env}</td>
                       <td>
                         <div class="buttons has-addons">
-                          <a class="button is-primary" href="${env}-config.json">config</a>
-                          <a class="button is-info" href="${env}-${protNames.${p}.n}-genesis.json">${protNames.${p}.n}Genesis</a>
+                          <a class="button is-primary" href="config/${env}/config.json">config</a>
+                          <a class="button is-info" href="config/${env}/${protNames.${p}.n}-genesis.json">${protNames.${p}.n}Genesis</a>
                           ${lib.optionalString (p == "Cardano") ''
-                            <a class="button is-info" href="${env}-${protNames.${p}.shelley}-genesis.json">${protNames.${p}.shelley}Genesis</a>
-                            <a class="button is-info" href="${env}-${protNames.${p}.alonzo}-genesis.json">${protNames.${p}.alonzo}Genesis</a>
-                          ''}
+                            <a class="button is-info" href="config/${env}/${protNames.${p}.shelley}-genesis.json">${protNames.${p}.shelley}Genesis</a>
+                            <a class="button is-info" href="config/${env}/${protNames.${p}.alonzo}-genesis.json">${protNames.${p}.alonzo}Genesis</a>''}
                           ${lib.optionalString (p == "Cardano" && value.nodeConfig ? ConwayGenesisFile) ''
-                            <a class="button is-info" href="${env}-${protNames.${p}.conway}-genesis.json">${protNames.${p}.conway}Genesis</a>
-                          ''}
-                          <a class="button is-info" href="${env}-topology.json">topology</a>
+                            <a class="button is-info" href="config/${env}/${protNames.${p}.conway}-genesis.json">${protNames.${p}.conway}Genesis</a>''}
+                          <a class="button is-info" href="config/${env}/topology.json">topology</a>
+                          <a class="button is-primary" href="config/${env}/db-sync-config.json">db-sync config</a>
+                          <a class="button is-primary" href="config/${env}/submit-api-config.json">submit-api config</a>
                         </div>
                       </td>
                     </tr>
@@ -326,39 +341,42 @@ let
   # Any environments using the HFC protocol of "Cardano" need a second genesis file attribute of
   # genesisFileHfc in order to generate the html table in mkConfigHtml
   mkConfigHtml = environments: runCommand "cardano-html" { buildInputs = [ jq ]; } ''
-    mkdir -p $out/nix-support
+    mkdir -p $out/nix-support $out/config
     cp ${writeText "config.html" (configHtml environments)} $out/index.html
     ${
       toString (lib.mapAttrsToList (env: value:
         let p = value.consensusProtocol;
         in ''
+          mkdir $out/config/${env}
           ${if p != "Cardano" then ''
             ${jq}/bin/jq . < ${__toFile "${env}-config.json" (__toJSON (value.nodeConfig // {
-              GenesisFile = "${env}-${protNames.${p}.n}-genesis.json";
-            }))} > $out/${env}-config.json
+              GenesisFile = "${env}/${protNames.${p}.n}-genesis.json";
+            }))} > $out/config/${env}/config.json
           '' else ''
             ${jq}/bin/jq . < ${__toFile "${env}-config.json" (__toJSON (value.nodeConfig // {
-              ByronGenesisFile = "${env}-${protNames.${p}.n}-genesis.json";
-              ShelleyGenesisFile = "${env}-${protNames.${p}.shelley}-genesis.json";
-              AlonzoGenesisFile = "${env}-${protNames.${p}.alonzo}-genesis.json";
-              ConwayGenesisFile = "${env}-${protNames.${p}.conway}-genesis.json";
-            }))} > $out/${env}-config.json
+              ByronGenesisFile = "${protNames.${p}.n}-genesis.json";
+              ShelleyGenesisFile = "${protNames.${p}.shelley}-genesis.json";
+              AlonzoGenesisFile = "${protNames.${p}.alonzo}-genesis.json";
+              ConwayGenesisFile = "${protNames.${p}.conway}-genesis.json";
+            }))} > $out/config/${env}/config.json
           ''}
           ${lib.optionalString (p == "RealPBFT" || p == "Byron") ''
-            cp ${value.nodeConfig.GenesisFile} $out/${env}-${protNames.${p}.n}-genesis.json
+            cp ${value.nodeConfig.GenesisFile} $out/config/${env}/${protNames.${p}.n}-genesis.json
           ''}
           ${lib.optionalString (p == "TPraos") ''
-            cp ${value.nodeConfig.GenesisFile} $out/${env}-${protNames.${p}.n}-genesis.json
+            cp ${value.nodeConfig.GenesisFile} $out/config/${env}/${protNames.${p}.n}-genesis.json
           ''}
           ${lib.optionalString (p == "Cardano") ''
-            cp ${value.nodeConfig.ShelleyGenesisFile} $out/${env}-${protNames.${p}.shelley}-genesis.json
-            cp ${value.nodeConfig.ByronGenesisFile} $out/${env}-${protNames.${p}.n}-genesis.json
-            cp ${value.nodeConfig.AlonzoGenesisFile} $out/${env}-${protNames.${p}.alonzo}-genesis.json
+            cp ${value.nodeConfig.ShelleyGenesisFile} $out/config/${env}/${protNames.${p}.shelley}-genesis.json
+            cp ${value.nodeConfig.ByronGenesisFile} $out/config/${env}/${protNames.${p}.n}-genesis.json
+            cp ${value.nodeConfig.AlonzoGenesisFile} $out/config/${env}/${protNames.${p}.alonzo}-genesis.json
           ''}
           ${lib.optionalString (p == "Cardano" && value.nodeConfig ? ConwayGenesisFile) ''
-            cp ${value.nodeConfig.ConwayGenesisFile} $out/${env}-${protNames.${p}.conway}-genesis.json
+            cp ${value.nodeConfig.ConwayGenesisFile} $out/config/${env}/${protNames.${p}.conway}-genesis.json
           ''}
-          ${jq}/bin/jq . < ${mkEdgeTopology { edgeNodes = [ value.relaysNew ]; valency = 2; }} > $out/${env}-topology.json
+          ${jq}/bin/jq . < ${__toFile "${env}-db-sync-config.json" (__toJSON (value.dbSyncConfig // { NodeConfigFile = "config.json"; }))} > $out/config/${env}/db-sync-config.json
+          ${jq}/bin/jq . < ${__toFile "${env}-submit-api-config.json" (__toJSON value.submitApiConfig)} > $out/config/${env}/submit-api-config.json
+          ${jq}/bin/jq . < ${mkTopology value} > $out/config/${env}/topology.json
         ''
       ) environments )
     }
@@ -366,8 +384,6 @@ let
   '';
 
 in {
-  # for now we export live and dead environemnts.
-  environments = environments // dead_environments;
   inherit
     cardanoConfig
     defaultExplorerLogConfig
@@ -380,5 +396,9 @@ in {
     mkEdgeTopologyP2P
     mkExplorerConfig
     mkProxyTopology
+    mkTopology
     ;
+
+  # For now we export live and dead environemnts.
+  environments = environments // dead_environments;
 }
