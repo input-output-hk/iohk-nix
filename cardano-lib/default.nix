@@ -21,6 +21,31 @@ let
     };
   in builtins.toFile "topology.yaml" (builtins.toJSON topology);
 
+  mkEdgeTopologyP2P = {
+    edgeNodes ? [{addr = "127.0.0.1"; port = 3001;}]
+  , useLedgerAfterSlot ? 0
+  }:
+  let
+    mkPublicRootsAccessPoints = map (edgeNode: {address = edgeNode.addr; port = edgeNode.port;}) edgeNodes;
+    topology = {
+      localRoots = [
+        {
+           accessPoints = [];
+           advertise = false;
+           valency = 1;
+        }
+      ];
+      publicRoots = [
+        {
+          accessPoints = mkPublicRootsAccessPoints;
+          advertise = false;
+        }
+      ];
+      inherit useLedgerAfterSlot;
+    };
+  in
+    builtins.toFile "topology.yaml" (builtins.toJSON topology);
+
   defaultLogConfig = import ./generic-log-config.nix;
   defaultExplorerLogConfig = import ./explorer-log-config.nix;
   defaultDbSyncLogConfig = defaultExplorerLogConfig;
@@ -190,7 +215,7 @@ let
   # These will be removed at some point
   dead_environments = {
     # Network shutdown, but benchmarking configs reference it as a template
-    testnet = __trace "DEPRECATION WARNING: TESTNET WAS SHUT DOWN. You may want to consider using preprod or preview" (rec {
+    testnet = __trace "DEPRECATION WARNING: TESTNET WAS SHUT DOWN. You may want to consider using preprod or preview." (rec {
       useByronWallet = true;
       private = true;
       relays = "doesnotexist.iog.io";
@@ -343,5 +368,17 @@ let
 in {
   # for now we export live and dead environemnts.
   environments = environments // dead_environments;
-  inherit forEnvironments forEnvironmentsCustom eachEnv mkEdgeTopology mkProxyTopology cardanoConfig defaultLogConfig defaultExplorerLogConfig mkConfigHtml mkExplorerConfig;
+  inherit
+    cardanoConfig
+    defaultExplorerLogConfig
+    defaultLogConfig
+    eachEnv
+    forEnvironments
+    forEnvironmentsCustom
+    mkConfigHtml
+    mkEdgeTopology
+    mkEdgeTopologyP2P
+    mkExplorerConfig
+    mkProxyTopology
+    ;
 }
