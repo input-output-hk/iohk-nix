@@ -8,8 +8,8 @@
   # global file rotation settings:
   rotation = {
     rpLogLimitBytes = 5000000;
-    rpKeepFilesNum  = 10;
-    rpMaxAgeHours   = 24;
+    rpKeepFilesNum = 10;
+    rpMaxAgeHours = 24;
   };
 
   # these backends are initialized:
@@ -30,12 +30,14 @@
   PrometheusPort = 8080;
 
   # here we set up outputs of logging in 'katip':
-  setupScribes = [ {
-    scKind     = "StdoutSK";
-    scName     = "stdout";
-    scFormat   = "ScText";
-    scRotation = null;
-  } ];
+  setupScribes = [
+    {
+      scKind = "StdoutSK";
+      scName = "stdout";
+      scFormat = "ScText";
+      scRotation = null;
+    }
+  ];
 
   # if not indicated otherwise, then log output is directed to this:
   defaultScribes = [
@@ -100,24 +102,24 @@
         subtrace = "FilterTrace";
       };
       "cardano.epoch-validation.utxo-stats" = {
-         # Change the `subtrace` value to `Neutral` in order to log
-         # `UTxO`-related messages during epoch validation.
-         subtrace = "NoTrace";
+        # Change the `subtrace` value to `Neutral` in order to log
+        # `UTxO`-related messages during epoch validation.
+        subtrace = "NoTrace";
       };
       "#messagecounters.aggregation" = {
-         subtrace = "NoTrace";
+        subtrace = "NoTrace";
       };
       "#messagecounters.ekgview" = {
-         subtrace = "NoTrace";
+        subtrace = "NoTrace";
       };
       "#messagecounters.switchboard" = {
-         subtrace = "NoTrace";
+        subtrace = "NoTrace";
       };
       "#messagecounters.katip" = {
-         subtrace = "NoTrace";
+        subtrace = "NoTrace";
       };
       "#messagecounters.monitoring" = {
-         subtrace = "NoTrace";
+        subtrace = "NoTrace";
       };
     };
     mapBackends = {

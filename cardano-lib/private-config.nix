@@ -2,8 +2,10 @@
 ###############          Private           ###############
 ############### Cardano Node Configuration ###############
 ##########################################################
+
 {
   ##### Locations #####
+
   ByronGenesisFile = ./private + "/byron-genesis.json";
   ByronGenesisHash = "9a2d021950a717b48ee26079178ea0740e2b67ee9bcfcf4623f81f7c66d7c583";
   ShelleyGenesisFile = ./private + "/shelley-genesis.json";

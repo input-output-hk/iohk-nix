@@ -2,8 +2,10 @@
 ###############          Preview           ###############
 ############### Cardano Node Configuration ###############
 ##########################################################
+
 {
   ##### Locations #####
+
   ByronGenesisFile = ./preview + "/byron-genesis.json";
   ByronGenesisHash = "83de1d7302569ad56cf9139a41e2e11346d4cb4a31c00142557b6ab3fa550761";
   ShelleyGenesisFile = ./preview + "/shelley-genesis.json";
