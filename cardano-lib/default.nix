@@ -314,16 +314,17 @@ let
                       <td>${env}</td>
                       <td>
                         <div class="buttons has-addons">
-                          <a class="button is-primary" href="config/${env}/config.json">config</a>
-                          <a class="button is-info" href="config/${env}/${protNames.${p}.n}-genesis.json">${protNames.${p}.n}Genesis</a>
+                          <a class="button is-primary" href="${env}-config.json">config</a>
+                          <a class="button is-info" href="${env}-${protNames.${p}.n}-genesis.json">${protNames.${p}.n}Genesis</a>
                           ${lib.optionalString (p == "Cardano") ''
-                            <a class="button is-info" href="config/${env}/${protNames.${p}.shelley}-genesis.json">${protNames.${p}.shelley}Genesis</a>
-                            <a class="button is-info" href="config/${env}/${protNames.${p}.alonzo}-genesis.json">${protNames.${p}.alonzo}Genesis</a>''}
+                            <a class="button is-info" href="${env}-${protNames.${p}.shelley}-genesis.json">${protNames.${p}.shelley}Genesis</a>
+                            <a class="button is-info" href="${env}-${protNames.${p}.alonzo}-genesis.json">${protNames.${p}.alonzo}Genesis</a>''}
                           ${lib.optionalString (p == "Cardano" && value.nodeConfig ? ConwayGenesisFile) ''
-                            <a class="button is-info" href="config/${env}/${protNames.${p}.conway}-genesis.json">${protNames.${p}.conway}Genesis</a>''}
-                          <a class="button is-info" href="config/${env}/topology.json">topology</a>
-                          <a class="button is-primary" href="config/${env}/db-sync-config.json">db-sync config</a>
-                          <a class="button is-primary" href="config/${env}/submit-api-config.json">submit-api config</a>
+                            <a class="button is-info" href="${env}-${protNames.${p}.conway}-genesis.json">${protNames.${p}.conway}Genesis</a>''}
+                          <a class="button is-info" href="${env}-topology.json">topology</a>
+                          <a class="button is-primary" href="${env}-db-sync-config.json">db-sync config</a>
+                          <a class="button is-primary" href="${env}-submit-api-config.json">submit-api config</a>
+                          <a class="button is-primary" href="rest-config.json">rest config</a>
                         </div>
                       </td>
                     </tr>
@@ -341,45 +342,45 @@ let
   # Any environments using the HFC protocol of "Cardano" need a second genesis file attribute of
   # genesisFileHfc in order to generate the html table in mkConfigHtml
   mkConfigHtml = environments: runCommand "cardano-html" { buildInputs = [ jq ]; } ''
-    mkdir -p $out/nix-support $out/config
+    mkdir -p $out/nix-support
     cp ${writeText "config.html" (configHtml environments)} $out/index.html
     ${
       toString (lib.mapAttrsToList (env: value:
         let p = value.consensusProtocol;
         in ''
-          mkdir $out/config/${env}
           ${if p != "Cardano" then ''
             ${jq}/bin/jq . < ${__toFile "${env}-config.json" (__toJSON (value.nodeConfig // {
-              GenesisFile = "${env}/${protNames.${p}.n}-genesis.json";
-            }))} > $out/config/${env}/config.json
+              GenesisFile = "${env}-${protNames.${p}.n}-genesis.json";
+            }))} > $out/${env}-config.json
           '' else ''
             ${jq}/bin/jq . < ${__toFile "${env}-config.json" (__toJSON (value.nodeConfig // {
-              ByronGenesisFile = "${protNames.${p}.n}-genesis.json";
-              ShelleyGenesisFile = "${protNames.${p}.shelley}-genesis.json";
-              AlonzoGenesisFile = "${protNames.${p}.alonzo}-genesis.json";
-              ConwayGenesisFile = "${protNames.${p}.conway}-genesis.json";
-            }))} > $out/config/${env}/config.json
+              ByronGenesisFile = "${env}-${protNames.${p}.n}-genesis.json";
+              ShelleyGenesisFile = "${env}-${protNames.${p}.shelley}-genesis.json";
+              AlonzoGenesisFile = "${env}-${protNames.${p}.alonzo}-genesis.json";
+              ConwayGenesisFile = "${env}-${protNames.${p}.conway}-genesis.json";
+            }))} > $out/${env}-config.json
           ''}
           ${lib.optionalString (p == "RealPBFT" || p == "Byron") ''
-            cp ${value.nodeConfig.GenesisFile} $out/config/${env}/${protNames.${p}.n}-genesis.json
+            cp ${value.nodeConfig.GenesisFile} $out/${env}-${protNames.${p}.n}-genesis.json
           ''}
           ${lib.optionalString (p == "TPraos") ''
-            cp ${value.nodeConfig.GenesisFile} $out/config/${env}/${protNames.${p}.n}-genesis.json
+            cp ${value.nodeConfig.GenesisFile} $out/${env}-${protNames.${p}.n}-genesis.json
           ''}
           ${lib.optionalString (p == "Cardano") ''
-            cp ${value.nodeConfig.ShelleyGenesisFile} $out/config/${env}/${protNames.${p}.shelley}-genesis.json
-            cp ${value.nodeConfig.ByronGenesisFile} $out/config/${env}/${protNames.${p}.n}-genesis.json
-            cp ${value.nodeConfig.AlonzoGenesisFile} $out/config/${env}/${protNames.${p}.alonzo}-genesis.json
+            cp ${value.nodeConfig.ShelleyGenesisFile} $out/${env}-${protNames.${p}.shelley}-genesis.json
+            cp ${value.nodeConfig.ByronGenesisFile} $out/${env}-${protNames.${p}.n}-genesis.json
+            cp ${value.nodeConfig.AlonzoGenesisFile} $out/${env}-${protNames.${p}.alonzo}-genesis.json
           ''}
           ${lib.optionalString (p == "Cardano" && value.nodeConfig ? ConwayGenesisFile) ''
-            cp ${value.nodeConfig.ConwayGenesisFile} $out/config/${env}/${protNames.${p}.conway}-genesis.json
+            cp ${value.nodeConfig.ConwayGenesisFile} $out/${env}-${protNames.${p}.conway}-genesis.json
           ''}
-          ${jq}/bin/jq . < ${__toFile "${env}-db-sync-config.json" (__toJSON (value.dbSyncConfig // { NodeConfigFile = "config.json"; }))} > $out/config/${env}/db-sync-config.json
-          ${jq}/bin/jq . < ${__toFile "${env}-submit-api-config.json" (__toJSON value.submitApiConfig)} > $out/config/${env}/submit-api-config.json
-          ${jq}/bin/jq . < ${mkTopology value} > $out/config/${env}/topology.json
+          ${jq}/bin/jq . < ${__toFile "${env}-db-sync-config.json" (__toJSON (value.dbSyncConfig // { NodeConfigFile = "${env}-config.json"; }))} > $out/${env}-db-sync-config.json
+          ${jq}/bin/jq . < ${__toFile "${env}-submit-api-config.json" (__toJSON value.submitApiConfig)} > $out/${env}-submit-api-config.json
+          ${jq}/bin/jq . < ${mkTopology value} > $out/${env}-topology.json
         ''
       ) environments )
     }
+    ${jq}/bin/jq . < ${__toFile "rest-config.json" (__toJSON defaultExplorerLogConfig)} > $out/rest-config.json
     echo "report cardano $out index.html" > $out/nix-support/hydra-build-products
   '';
 
