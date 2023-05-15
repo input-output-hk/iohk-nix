@@ -63,7 +63,6 @@ let
 
   defaultLogConfig = import ./generic-log-config.nix;
   defaultExplorerLogConfig = import ./explorer-log-config.nix;
-  defaultDbSyncLogConfig = defaultExplorerLogConfig;
 
   mkExplorerConfig = name: nodeConfig: lib.filterAttrs (k: v: v != null) {
     NetworkName = name;
@@ -71,18 +70,13 @@ let
     NodeConfigFile = "${__toFile "config-${toString name}.json" (__toJSON nodeConfig)}";
   };
 
-  mkDbSyncConfig = name: nodeConfig: (lib.filterAttrs (k: v: v != null) {
-    NetworkName = name;
-    inherit (nodeConfig) RequiresNetworkMagic;
-    NodeConfigFile = "${__toFile "config-${toString name}.json" (__toJSON nodeConfig)}";
-  })
-  // defaultDbSyncLogConfig;
+  mkDbSyncConfig = name: nodeConfig: (mkExplorerConfig name nodeConfig) // defaultExplorerLogConfig;
 
   mkSubmitApiConfig = name: nodeConfig: (lib.filterAttrs (k: v: v != null) {
     GenesisHash = nodeConfig.ByronGenesisHash;
     inherit (nodeConfig) RequiresNetworkMagic;
   })
-  // defaultDbSyncLogConfig;
+  // defaultExplorerLogConfig;
 
   mkProxyTopology = relay: writeText "proxy-topology-file" ''
     wallet:
