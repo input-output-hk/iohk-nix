@@ -1,15 +1,10 @@
-{ stdenv, lib, fetchFromGitHub, autoreconfHook }:
+{ stdenv, lib, autoreconfHook, inputs }:
 
 stdenv.mkDerivation rec {
   pname = "blst";
-  version = "0.3.10";
+  version = inputs.blst.shortRev;
 
-  src = fetchFromGitHub {
-    owner = "supranational";
-    repo = "blst";
-    rev = "03b5124029979755c752eec45f3c29674b558446";
-    sha256 = "01m28xxmm1x7riwyax7v9rycwl5isi06h2b2hl4gxnnylkayisn5";
-  };
+  src = inputs.blst;
 
   buildPhase = ''
     ./build.sh ${lib.optionalString stdenv.targetPlatform.isWindows "flavour=mingw64"}

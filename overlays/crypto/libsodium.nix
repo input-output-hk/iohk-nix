@@ -1,15 +1,10 @@
-{ stdenv, lib, fetchFromGitHub, autoreconfHook }:
+{ stdenv, lib, autoreconfHook, inputs }:
 
 stdenv.mkDerivation rec {
   pname = "libsodium-vrf";
-  version = "1.0.18";
+  version = inputs.sodium.shortRev;
 
-  src = fetchFromGitHub {
-    owner = "input-output-hk";
-    repo = "libsodium";
-    rev = "dbb48cce5429cb6585c9034f002568964f1ce567";
-    sha256 = "1rppbdq2x29mkias9wk225wadwqv59x65m9562xh6crgk0vmrr6j";
-  };
+  src = inputs.sodium;
 
   nativeBuildInputs = [ autoreconfHook ];
 
