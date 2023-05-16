@@ -2,10 +2,7 @@
 
 writeScriptBin "fix-stylish-haskell" ''
     ${git}/bin/git diff > pre-stylish.diff
-    ${fd}/bin/fd \
-      --extension hs \
-      --exclude '*/dist/*' \
-      --exclude '*/docs/*' \
+    ${fd}/bin/fd --extension hs "$@" \
       --exec ${stylish-haskell}/bin/stylish-haskell -i {}
     ${git}/bin/git diff > post-stylish.diff
     diff pre-stylish.diff post-stylish.diff > /dev/null
