@@ -46,9 +46,10 @@
     #    nix eval --json .#lib-srcs
     #
     lib-srcs = {
-      secp256k1 = pkgs.secp256k1.src.rev;
-      sodium    = pkgs.libsodium-vrf.src.rev;
-      blst      = pkgs.libblst.src.rev;
+      secp256k1 = pkgs.secp256k1.version;
+      sodium-vrf= pkgs.libsodium-vrf.version;
+      sodium    = pkgs.libsodium.version;
+      blst      = pkgs.libblst.version;
     };
 
     dist = let
@@ -57,7 +58,7 @@
       mkDebianPkg = prefix: drv: let
         control = pkgs.writeText "control" ''
         Package: ${drv.pname}
-        Version: 0:${drv.version}
+        Version: 0:0+${drv.version}
         Architecture: amd64
         Maintainer: IOG <engineering@iog.io>
         Description: ${drv.meta.description}

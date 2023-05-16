@@ -4,7 +4,7 @@ stdenv.mkDerivation rec {
   pname = "secp256k1";
   version = inputs.secp256k1.shortRev;
 
-  src = inputs.shortRev;
+  src = inputs.secp256k1;
 
   nativeBuildInputs = [ autoreconfHook ];
 
