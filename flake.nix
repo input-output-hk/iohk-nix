@@ -3,9 +3,16 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=release-22.11";
-    secp256k1 = { url = "github:bitcoin-core/secp256k1?ref=v0.3.1"; flake = false; };
-    blst = { url = "github:supranational/blst?rev=03b5124029979755c752eec45f3c29674b558446"; flake = false; };
+
+    # WARNING: If upstream libsodium version is updated, make sure ed25519's 
+    # verification criteria has not changed. See this discussion for more details
+    # https://github.com/jedisct1/libsodium/discussions/1260
+
+    # To update these, change the rev part in the url, and run
+    # nix flake lock --update-input <sodium|secp256k1|blst>
     sodium = { url = "github:input-output-hk/libsodium?rev=dbb48cce5429cb6585c9034f002568964f1ce567"; flake = false; };
+    secp256k1 = { url = "github:bitcoin-core/secp256k1?ref=v0.3.2"; flake = false; };
+    blst = { url = "github:supranational/blst?rev=03b5124029979755c752eec45f3c29674b558446"; flake = false; };
   };
 
   outputs = { self, nixpkgs, ... }@inputs: rec {
