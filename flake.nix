@@ -226,8 +226,8 @@
           }
 
           list_package_files | LANG=C bsdtar -cnf - --format=mtree \
-        		--options='!all,use-set,type,uid,gid,mode,time,size,sha256,link' \
-        		--null --files-from - \
+            --options='!all,use-set,type,uid,gid,mode,time,size,sha256,link' \
+            --null --files-from - \
             --exclude env-vars --exclude .MTREE \
             | gzip -c -f -n > .MTREE
 
@@ -269,15 +269,7 @@
       };
     };
     hydraJobs = dist // {
-      cardano-deployment = pkgs.cardanoLib.mkConfigHtml {
-        inherit (pkgs.cardanoLib.environments)
-          # shelley_qa # (internal only)
-          preview  # Preview Testnet
-          preprod  # Pre-Production Testnet
-          mainnet  # Production (Mainnet)
-          p2p      # Production (Mainnet; P2P)
-          ;
-      };
+      cardano-deployment = pkgs.cardanoLib.mkConfigHtml pkgs.cardanoLib.environments;
     };
   };
 }

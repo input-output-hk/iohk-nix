@@ -21,13 +21,62 @@ let
     };
   in builtins.toFile "topology.yaml" (builtins.toJSON topology);
 
+  mkEdgeTopologyP2P = {
+    edgeNodes ? [{addr = "127.0.0.1"; port = 3001;}]
+  , useLedgerAfterSlot ? 0
+  }:
+  let
+    mkPublicRootsAccessPoints = map (edgeNode: {address = edgeNode.addr; port = edgeNode.port;}) edgeNodes;
+    topology = {
+      localRoots = [
+        {
+           accessPoints = [];
+           advertise = false;
+           valency = 1;
+        }
+      ];
+      publicRoots = [
+        {
+          accessPoints = mkPublicRootsAccessPoints;
+          advertise = false;
+        }
+      ];
+      inherit useLedgerAfterSlot;
+    };
+  in
+    builtins.toFile "topology.yaml" (builtins.toJSON topology);
+
+  mkTopology = env: let
+    legacyTopology = mkEdgeTopology {
+      edgeNodes = [env.relaysNew];
+      valency = 2;
+      edgePort = env.edgePort or 3001;
+    };
+    p2pTopology = mkEdgeTopologyP2P {
+      inherit (env) edgeNodes;
+      useLedgerAfterSlot = env.usePeersFromLedgerAfterSlot;
+    };
+  in
+    if (env.nodeConfig.EnableP2P or false)
+    then p2pTopology
+    else legacyTopology;
+
   defaultLogConfig = import ./generic-log-config.nix;
   defaultExplorerLogConfig = import ./explorer-log-config.nix;
+
   mkExplorerConfig = name: nodeConfig: lib.filterAttrs (k: v: v != null) {
     NetworkName = name;
     inherit (nodeConfig) RequiresNetworkMagic;
     NodeConfigFile = "${__toFile "config-${toString name}.json" (__toJSON nodeConfig)}";
   };
+
+  mkDbSyncConfig = name: nodeConfig: (mkExplorerConfig name nodeConfig) // defaultExplorerLogConfig;
+
+  mkSubmitApiConfig = name: nodeConfig: (lib.filterAttrs (k: v: v != null) {
+    GenesisHash = nodeConfig.ByronGenesisHash;
+    inherit (nodeConfig) RequiresNetworkMagic;
+  })
+  // defaultExplorerLogConfig;
 
   mkProxyTopology = relay: writeText "proxy-topology-file" ''
     wallet:
@@ -36,6 +85,8 @@ let
   environments = {
     mainnet = rec {
       useByronWallet = true;
+      private = false;
+      domain = "cardano-mainnet.iohk.io";
       relays = "relays.cardano-mainnet.iohk.io";
       relaysNew = "relays-new.cardano-mainnet.iohk.io";
       explorerUrl = "https://explorer.cardano.org";
@@ -49,20 +100,133 @@ let
       ];
       edgePort = 3001;
       confKey = "mainnet_full";
-      private = false;
       networkConfig = import ./mainnet-config.nix;
-      nodeConfig = networkConfig // defaultLogConfig;
+      nodeConfig = defaultLogConfig // networkConfig;
       consensusProtocol = networkConfig.Protocol;
-      submitApiConfig = {
-        GenesisHash = nodeConfig.ByronGenesisHash;
-        inherit (networkConfig) RequiresNetworkMagic;
-      } // defaultExplorerLogConfig;
+      submitApiConfig = mkSubmitApiConfig "mainnet" nodeConfig;
+      dbSyncConfig = mkDbSyncConfig "mainnet" nodeConfig;
       explorerConfig = mkExplorerConfig "mainnet" nodeConfig;
-      usePeersFromLedgerAfterSlot = 29691317;
+      usePeersFromLedgerAfterSlot = 84916732;
     };
+
+    # used for daedalus/cardano-wallet for local development
+    shelley_qa = rec {
+      useByronWallet = false;
+      private = true;
+      domain = "shelley-qa.dev.cardano.org";
+      relaysNew = "relays-new.shelley-qa.dev.cardano.org";
+      explorerUrl = "https://explorer.shelley-qa.dev.cardano.org";
+      smashUrl = "https://smash.shelley-qa.dev.cardano.org";
+      metadataUrl = "https://metadata.world.dev.cardano.org";
+      edgeNodes = [];
+      edgePort = 3001;
+      networkConfig = import ./shelley_qa-config.nix;
+      nodeConfig = defaultLogConfig // networkConfig;
+      consensusProtocol = networkConfig.Protocol;
+      submitApiConfig = mkSubmitApiConfig "shelley_qa" nodeConfig;
+      dbSyncConfig = mkDbSyncConfig "shelley_qa" nodeConfig;
+      explorerConfig = mkExplorerConfig "shelley_qa" nodeConfig;
+      usePeersFromLedgerAfterSlot = 23574838;
+    };
+
+    p2p = rec {
+      useByronWallet = false;
+      private = false;
+      domain = "p2p.dev.cardano.org";
+      relaysNew = "relays.p2p.dev.cardano.org";
+      explorerUrl = "https://explorer.p2p.dev.cardano.org";
+      smashUrl = "https://smash.p2p.dev.cardano.org";
+      metadataUrl = "https://metadata.world.dev.cardano.org";
+      edgeNodes = [];
+      edgePort = 3001;
+      networkConfig = import ./p2p-config.nix;
+      consensusProtocol = networkConfig.Protocol;
+      nodeConfig = defaultLogConfig // networkConfig;
+      submitApiConfig = mkSubmitApiConfig "p2p" nodeConfig;
+      dbSyncConfig = mkDbSyncConfig "p2p" nodeConfig;
+      explorerConfig = mkExplorerConfig "p2p" nodeConfig;
+      usePeersFromLedgerAfterSlot = 14680;
+    };
+
+    preprod = rec {
+      useByronWallet = false;
+      private = false;
+      domain = "world.dev.cardano.org";
+      relaysNew = "preprod-node.world.dev.cardano.org";
+      explorerUrl = "https://preprod-explorer.world.dev.cardano.org";
+      smashUrl = "https://preprod-smash.world.dev.cardano.org";
+      metadataUrl = "https://metadata.world.dev.cardano.org";
+      edgeNodes = [
+        {
+          addr = relaysNew;
+          port = 30000;
+        }
+      ];
+      edgePort = 30000;
+      networkConfig = import ./preprod-config.nix;
+      consensusProtocol = networkConfig.Protocol;
+      nodeConfig = defaultLogConfig // networkConfig;
+      submitApiConfig = mkSubmitApiConfig "preprod" nodeConfig;
+      dbSyncConfig = mkDbSyncConfig "preprod" nodeConfig;
+      explorerConfig = mkExplorerConfig "preprod" nodeConfig;
+      usePeersFromLedgerAfterSlot = 4642000;
+    };
+
+    preview = rec {
+      useByronWallet = false;
+      private = false;
+      domain = "world.dev.cardano.org";
+      relaysNew = "preview-node.world.dev.cardano.org";
+      explorerUrl = "https://preview-explorer.world.dev.cardano.org";
+      smashUrl = "https://preview-smash.world.dev.cardano.org";
+      metadataUrl = "https://metadata.world.dev.cardano.org";
+      edgeNodes = [
+        {
+          addr = relaysNew;
+          port = 30002;
+        }
+      ];
+      edgePort = 30002;
+      networkConfig = import ./preview-config.nix;
+      consensusProtocol = networkConfig.Protocol;
+      nodeConfig = defaultLogConfig // networkConfig;
+      submitApiConfig = mkSubmitApiConfig "preview" nodeConfig;
+      dbSyncConfig = mkDbSyncConfig "preview" nodeConfig;
+      explorerConfig = mkExplorerConfig "preview" nodeConfig;
+      usePeersFromLedgerAfterSlot = 322000;
+    };
+
+    private = rec {
+      useByronWallet = false;
+      private = true;
+      domain = "world.dev.cardano.org";
+      relaysNew = "private-node.world.dev.cardano.org";
+      explorerUrl = "https://private-explorer.world.dev.cardano.org";
+      smashUrl = "https://private-smash.world.dev.cardano.org";
+      metadataUrl = "https://metadata.world.dev.cardano.org";
+      edgeNodes = [
+        {
+          addr = relaysNew;
+          port = 30007;
+        }
+      ];
+      edgePort = 30007;
+      networkConfig = import ./private-config.nix;
+      consensusProtocol = networkConfig.Protocol;
+      nodeConfig = defaultLogConfig // networkConfig;
+      submitApiConfig = mkSubmitApiConfig "private" nodeConfig;
+      dbSyncConfig = mkDbSyncConfig "private" nodeConfig;
+      explorerConfig = mkExplorerConfig "private" nodeConfig;
+      usePeersFromLedgerAfterSlot = 32000;
+    };
+  };
+
+  # These will be removed at some point
+  dead_environments = {
     # Network shutdown, but benchmarking configs reference it as a template
-    testnet = rec {
+    testnet = __trace "DEPRECATION WARNING: TESTNET WAS SHUT DOWN. You may want to consider using preprod or preview." (rec {
       useByronWallet = true;
+      private = true;
       relays = "doesnotexist.iog.io";
       relaysNew = "doesnotexist.iog.io";
       explorerUrl = "https://doesnotexist.iog.io";
@@ -71,74 +235,16 @@ let
       edgeNodes = [];
       edgePort = 3001;
       confKey = "testnet_full";
-      private = true;
       networkConfig = import ./testnet-config.nix;
-      nodeConfig = networkConfig // defaultLogConfig;
       consensusProtocol = networkConfig.Protocol;
-      submitApiConfig = {
-        GenesisHash = nodeConfig.ByronGenesisHash;
-        inherit (networkConfig) RequiresNetworkMagic;
-      } // defaultExplorerLogConfig;
+      nodeConfig = defaultLogConfig // networkConfig;
+      submitApiConfig = mkSubmitApiConfig "testnet" nodeConfig;
+      dbSyncConfig = mkDbSyncConfig "testnet" nodeConfig;
       explorerConfig = mkExplorerConfig "testnet" nodeConfig;
       usePeersFromLedgerAfterSlot = -1;
-    };
-    p2p = rec {
-      useByronWallet = false;
-      private = false;
-      relaysNew = "relays.p2p.dev.cardano.org";
-      explorerUrl = "https://explorer.p2p.dev.cardano.org";
-      smashUrl = "https://smash.p2p.dev.cardano.org";
-      metadataUrl = "https://metadata.cardano-testnet.iohkdev.io";
-      networkConfig = import ./p2p-config.nix;
-      consensusProtocol = networkConfig.Protocol;
-      nodeConfig = defaultLogConfig // networkConfig;
-      edgePort = 3001;
-      explorerConfig = mkExplorerConfig "p2p" nodeConfig;
-      usePeersFromLedgerAfterSlot = 14680;
-    };
-    shelley_qa = rec {
-      useByronWallet = false;
-      private = false;
-      relaysNew = "relays-new.shelley-qa.dev.cardano.org";
-      explorerUrl = "https://explorer.shelley-qa.dev.cardano.org";
-      smashUrl = "https://smash.shelley-qa.dev.cardano.org";
-      metadataUrl = "https://metadata.cardano-testnet.iohkdev.io";
-      networkConfig = import ./shelley_qa-config.nix;
-      consensusProtocol = networkConfig.Protocol;
-      nodeConfig = defaultLogConfig // networkConfig;
-      edgePort = 3001;
-      explorerConfig = mkExplorerConfig "shelley_qa" nodeConfig;
-      usePeersFromLedgerAfterSlot = 23574838;
-    };
-    preprod = rec {
-      useByronWallet = false;
-      private = false;
-      relaysNew = "preprod-node.world.dev.cardano.org";
-      explorerUrl = "https://explorer.preprod.world.dev.cardano.org";
-      smashUrl = "https://smash.preprod.world.dev.cardano.org";
-      metadataUrl = "https://metadata.cardano-testnet.iohkdev.io";
-      networkConfig = import ./preprod-config.nix;
-      consensusProtocol = networkConfig.Protocol;
-      nodeConfig = defaultLogConfig // networkConfig;
-      edgePort = 30000;
-      explorerConfig = mkExplorerConfig "preprod" nodeConfig;
-      usePeersFromLedgerAfterSlot = 4642000;
-    };
-    preview = rec {
-      useByronWallet = false;
-      private = false;
-      relaysNew = "preview-node.world.dev.cardano.org";
-      explorerUrl = "https://explorer.preview.world.dev.cardano.org";
-      smashUrl = "https://smash.preview.world.dev.cardano.org";
-      metadataUrl = "https://metadata.cardano-testnet.iohkdev.io";
-      networkConfig = import ./preview-config.nix;
-      consensusProtocol = networkConfig.Protocol;
-      nodeConfig = defaultLogConfig // networkConfig;
-      edgePort = 30002;
-      explorerConfig = mkExplorerConfig "preview" nodeConfig;
-      usePeersFromLedgerAfterSlot = 322000;
-    };
+    });
   };
+
   # TODO: add flag to disable with forEnvironments instead of hard-coded list?
   forEnvironments = f: lib.mapAttrs
     (name: env: f (env // { inherit name; }))
@@ -204,13 +310,14 @@ let
                         <div class="buttons has-addons">
                           <a class="button is-primary" href="${env}-config.json">config</a>
                           <a class="button is-info" href="${env}-${protNames.${p}.n}-genesis.json">${protNames.${p}.n}Genesis</a>
-                          ${if p == "Cardano" then ''
+                          ${lib.optionalString (p == "Cardano") ''
                             <a class="button is-info" href="${env}-${protNames.${p}.shelley}-genesis.json">${protNames.${p}.shelley}Genesis</a>
-                            <a class="button is-info" href="${env}-${protNames.${p}.alonzo}-genesis.json">${protNames.${p}.alonzo}Genesis</a>
-                            <a class="button is-info" href="${env}-${protNames.${p}.conway}-genesis.json">${protNames.${p}.conway}Genesis (dummy)</a>
-                          '' else ""}
+                            <a class="button is-info" href="${env}-${protNames.${p}.alonzo}-genesis.json">${protNames.${p}.alonzo}Genesis</a>''}
+                          ${lib.optionalString (p == "Cardano" && value.nodeConfig ? ConwayGenesisFile) ''
+                            <a class="button is-info" href="${env}-${protNames.${p}.conway}-genesis.json">${protNames.${p}.conway}Genesis</a>''}
                           <a class="button is-info" href="${env}-topology.json">topology</a>
                           <a class="button is-primary" href="${env}-db-sync-config.json">db-sync config</a>
+                          <a class="button is-primary" href="${env}-submit-api-config.json">submit-api config</a>
                           <a class="button is-primary" href="rest-config.json">rest config</a>
                         </div>
                       </td>
@@ -257,10 +364,13 @@ let
             cp ${value.nodeConfig.ShelleyGenesisFile} $out/${env}-${protNames.${p}.shelley}-genesis.json
             cp ${value.nodeConfig.ByronGenesisFile} $out/${env}-${protNames.${p}.n}-genesis.json
             cp ${value.nodeConfig.AlonzoGenesisFile} $out/${env}-${protNames.${p}.alonzo}-genesis.json
+          ''}
+          ${lib.optionalString (p == "Cardano" && value.nodeConfig ? ConwayGenesisFile) ''
             cp ${value.nodeConfig.ConwayGenesisFile} $out/${env}-${protNames.${p}.conway}-genesis.json
           ''}
-          ${jq}/bin/jq . < ${mkEdgeTopology { edgeNodes = [ value.relaysNew ]; valency = 2; }} > $out/${env}-topology.json
-          ${jq}/bin/jq . < ${__toFile "${env}-db-sync-config.json" (__toJSON (value.explorerConfig // defaultExplorerLogConfig))} > $out/${env}-db-sync-config.json
+          ${jq}/bin/jq . < ${__toFile "${env}-db-sync-config.json" (__toJSON (value.dbSyncConfig // { NodeConfigFile = "${env}-config.json"; }))} > $out/${env}-db-sync-config.json
+          ${jq}/bin/jq . < ${__toFile "${env}-submit-api-config.json" (__toJSON value.submitApiConfig)} > $out/${env}-submit-api-config.json
+          ${jq}/bin/jq . < ${mkTopology value} > $out/${env}-topology.json
         ''
       ) environments )
     }
@@ -269,5 +379,21 @@ let
   '';
 
 in {
-  inherit environments forEnvironments forEnvironmentsCustom eachEnv mkEdgeTopology mkProxyTopology cardanoConfig defaultLogConfig defaultExplorerLogConfig mkConfigHtml mkExplorerConfig;
+  inherit
+    cardanoConfig
+    defaultExplorerLogConfig
+    defaultLogConfig
+    eachEnv
+    forEnvironments
+    forEnvironmentsCustom
+    mkConfigHtml
+    mkEdgeTopology
+    mkEdgeTopologyP2P
+    mkExplorerConfig
+    mkProxyTopology
+    mkTopology
+    ;
+
+  # For now we export live and dead environemnts.
+  environments = environments // dead_environments;
 }

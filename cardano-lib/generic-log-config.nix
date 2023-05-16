@@ -1,5 +1,4 @@
 {
-
   # Enable or disable logging overall
   TurnOnLogging = true;
 
@@ -37,7 +36,7 @@
 
   # The Prometheus monitoring system can also be used. Uncomment the following
   # to listen on the given port
-  hasPrometheus = [ "127.0.0.1" 12798 ];
+  hasPrometheus = ["127.0.0.1" 12798];
 
   # For the Katip logging backend we must set up outputs (called scribes)
   # The available types of scribe are:
@@ -47,12 +46,14 @@
   #   DevNullSK
   # The scribe output format can be ScText or ScJson. Log rotation settings can
   # be specified in the defaults below or overidden on a per-scribe basis here.
-  setupScribes = [ {
-    scKind     = "StdoutSK";
-    scName     = "stdout";
-    scFormat   = "ScText";
-    scRotation = null;
-  } ];
+  setupScribes = [
+    {
+      scKind = "StdoutSK";
+      scName = "stdout";
+      scFormat = "ScText";
+      scRotation = null;
+    }
+  ];
 
   # For the Katip logging backend this specifies the default scribes that trace
   # output is sent to if it is not configured to be sent to other scribes.
@@ -67,10 +68,9 @@
   # in the setupScribes above for specific scribes.
   rotation = {
     rpLogLimitBytes = 5000000;
-    rpKeepFilesNum  = 10;
-    rpMaxAgeHours   = 24;
+    rpKeepFilesNum = 10;
+    rpMaxAgeHours = 24;
   };
-
 
   ##### Coarse grained logging control #####
 
@@ -185,7 +185,6 @@
   # Trace TxSubmission protocol messages.
   TraceTxSubmissionProtocol = false;
 
-
   ##### Fine grained logging control #####
 
   # It is also possible to have more fine grained control over filtering of
@@ -194,20 +193,19 @@
   # much more precise control.
 
   options = {
-
     # This routes metrics matching specific names to particular backends.
     # This overrides the defaultBackends listed above. And note that it is
     # and override and not an extension so anything matched here will not
     # go to the default backend, only to the explicitly listed backends.
     mapBackends = {
-      "cardano.node.metrics" = [ "EKGViewBK" ];
-      "cardano.node.resources" = [ "EKGViewBK" ];
+      "cardano.node.metrics" = ["EKGViewBK"];
+      "cardano.node.resources" = ["EKGViewBK"];
     };
 
     # This section is more expressive still, and needs to be properly documented.
     mapSubtrace = {
       "cardano.node.metrics" = {
-         subtrace = "Neutral";
+        subtrace = "Neutral";
       };
     };
   };

@@ -1,0 +1,22 @@
+{
+  "LocalRoots": {
+    "groups": [
+      {
+        "localRoots": {
+          "accessPoints": [],
+          "advertise": false
+        },
+        "valency": 1
+      }
+    ]
+  },
+  "PublicRoots": [
+    {
+      "publicRoots": {
+        "accessPoints": [],
+        "advertise": false
+      }
+    }
+  ],
+  "useLedgerAfterSlot": -1
+}
