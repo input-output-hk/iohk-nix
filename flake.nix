@@ -1,14 +1,19 @@
 {
   description = "IOHK nix lib, packages and overlays";
 
-  inputs.nixpkgs.url = "github:nixos/nixpkgs?ref=release-22.11";
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs?ref=release-22.11";
+    secp256k1 = { url = "github:bitcoin-core/secp256k1?ref=v0.3.1"; flake = false; };
+    blst = { url = "github:supranational/blst?rev=03b5124029979755c752eec45f3c29674b558446"; flake = false; };
+    sodium = { url = "github:input-output-hk/libsodium?rev=dbb48cce5429cb6585c9034f002568964f1ce567"; flake = false; };
+  };
 
-  outputs = { self, nixpkgs }: rec {
+  outputs = { self, nixpkgs, ... }@inputs: rec {
 
     lib = import ./lib nixpkgs.lib;
 
     overlays = {
-      crypto = import ./overlays/crypto;
+      crypto = import ./overlays/crypto inputs;
       haskell-nix-extra = import ./overlays/haskell-nix-extra;
       cardano-lib = (final: prev: {
         cardanoLib = final.callPackage ./cardano-lib {};
@@ -41,9 +46,9 @@
     #    nix eval --json .#lib-srcs
     #
     lib-srcs = {
-      secp256k1 = pkgs.secp256k1.src.url;
-      sodium    = pkgs.libsodium-vrf.src.url;
-      blst      = pkgs.libblst.src.url;
+      secp256k1 = pkgs.secp256k1.src.rev;
+      sodium    = pkgs.libsodium-vrf.src.rev;
+      blst      = pkgs.libblst.src.rev;
     };
 
     dist = let

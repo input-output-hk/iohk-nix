@@ -1,12 +1,29 @@
 {
   "nodes": {
+    "blst": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1656163412,
+        "narHash": "sha256-xero1aTe2v4IhWIJaEDUsVDOfE77dOV5zKeHWntHogY=",
+        "owner": "supranational",
+        "repo": "blst",
+        "rev": "03b5124029979755c752eec45f3c29674b558446",
+        "type": "github"
+      },
+      "original": {
+        "owner": "supranational",
+        "repo": "blst",
+        "rev": "03b5124029979755c752eec45f3c29674b558446",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1682389866,
-        "narHash": "sha256-rECwjGCuvjXme6QVGiNdt6pVpFwquGDJe2gR6xuEoeU=",
+        "lastModified": 1684171562,
+        "narHash": "sha256-BMUWjVWAUdyMWKk0ATMC9H0Bv4qAV/TXwwPUvTiC5IQ=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "29c07054efdbbb8719e8e5487c86878215b7205a",
+        "rev": "55af203d468a6f5032a519cba4f41acf5a74b638",
         "type": "github"
       },
       "original": {
@@ -18,7 +35,44 @@
     },
     "root": {
       "inputs": {
-        "nixpkgs": "nixpkgs"
+        "blst": "blst",
+        "nixpkgs": "nixpkgs",
+        "secp256k1": "secp256k1",
+        "sodium": "sodium"
+      }
+    },
+    "secp256k1": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1681155088,
+        "narHash": "sha256-0Xb/hot88HRDzwP1hJq47nrUbKVJFzsIKCQxLznQkrM=",
+        "owner": "bitcoin-core",
+        "repo": "secp256k1",
+        "rev": "346a053d4c442e08191f075c3932d03140579d47",
+        "type": "github"
+      },
+      "original": {
+        "owner": "bitcoin-core",
+        "ref": "v0.3.1",
+        "repo": "secp256k1",
+        "type": "github"
+      }
+    },
+    "sodium": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1675156279,
+        "narHash": "sha256-0uRcN5gvMwO7MCXVYnoqG/OmeBFi8qRVnDWJLnBb9+Y=",
+        "owner": "input-output-hk",
+        "repo": "libsodium",
+        "rev": "dbb48cce5429cb6585c9034f002568964f1ce567",
+        "type": "github"
+      },
+      "original": {
+        "owner": "input-output-hk",
+        "repo": "libsodium",
+        "rev": "dbb48cce5429cb6585c9034f002568964f1ce567",
+        "type": "github"
       }
     }
   },
