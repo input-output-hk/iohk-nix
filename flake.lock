@@ -44,16 +44,16 @@
     "secp256k1": {
       "flake": false,
       "locked": {
-        "lastModified": 1681155088,
-        "narHash": "sha256-0Xb/hot88HRDzwP1hJq47nrUbKVJFzsIKCQxLznQkrM=",
+        "lastModified": 1683999695,
+        "narHash": "sha256-9nJJVENMXjXEJZzw8DHzin1DkFkF8h9m/c6PuM7Uk4s=",
         "owner": "bitcoin-core",
         "repo": "secp256k1",
-        "rev": "346a053d4c442e08191f075c3932d03140579d47",
+        "rev": "acf5c55ae6a94e5ca847e07def40427547876101",
         "type": "github"
       },
       "original": {
         "owner": "bitcoin-core",
-        "ref": "v0.3.1",
+        "ref": "v0.3.2",
         "repo": "secp256k1",
         "type": "github"
       }
