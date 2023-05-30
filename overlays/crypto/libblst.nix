@@ -1,10 +1,10 @@
-{ stdenv, lib, autoreconfHook, inputs }:
+{ stdenv, lib, autoreconfHook, src }:
 
 stdenv.mkDerivation rec {
   pname = "blst";
-  version = inputs.blst.shortRev;
+  version = src.shortRev;
 
-  src = inputs.blst;
+  inherit src;
 
   buildPhase = ''
     ./build.sh ${lib.optionalString stdenv.targetPlatform.isWindows "flavour=mingw64"}

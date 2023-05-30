@@ -4,7 +4,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=release-22.11";
 
-    # WARNING: If upstream libsodium version is updated, make sure ed25519's 
+    # WARNING: If upstream libsodium version is updated, make sure ed25519's
     # verification criteria has not changed. See this discussion for more details
     # https://github.com/jedisct1/libsodium/discussions/1260
 
@@ -21,6 +21,7 @@
 
     overlays = {
       crypto = import ./overlays/crypto inputs;
+      haskell-nix-crypto = import ./overlays/haskell-nix-crypto;
       haskell-nix-extra = import ./overlays/haskell-nix-extra;
       cardano-lib = (final: prev: {
         cardanoLib = final.callPackage ./cardano-lib {};

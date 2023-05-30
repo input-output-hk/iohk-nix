@@ -1,16 +1,19 @@
-{ lib, stdenv, autoreconfHook, inputs }:
+{ lib, stdenv, autoreconfHook, src,
+  enableStatic ? stdenv.hostPlatform.isStatic }:
 
 stdenv.mkDerivation rec {
   pname = "secp256k1";
-  version = inputs.secp256k1.shortRev;
+  version = src.shortRev;
 
-  src = inputs.secp256k1;
+  inherit src;
 
   nativeBuildInputs = [ autoreconfHook ];
 
   configureFlags = [
     "--enable-benchmark=no"
     "--enable-module-recovery"
+  ] ++ lib.optional enableStatic [
+    "--enable-static"
   ];
 
   doCheck = true;
