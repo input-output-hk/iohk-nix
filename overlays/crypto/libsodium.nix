@@ -1,10 +1,10 @@
-{ stdenv, lib, autoreconfHook, inputs }:
+{ stdenv, lib, autoreconfHook, src }:
 
 stdenv.mkDerivation rec {
   pname = "libsodium-vrf";
-  version = inputs.sodium.shortRev;
+  version = src.shortRev;
 
-  src = inputs.sodium;
+  inherit src;
 
   nativeBuildInputs = [ autoreconfHook ];
 
