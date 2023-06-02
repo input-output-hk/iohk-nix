@@ -23,8 +23,8 @@
   TargetNumberOfEstablishedPeers = 50;
   TargetNumberOfKnownPeers = 100;
   TargetNumberOfRootPeers = 100;
-  ExperimentalHardForksEnabled = true;
-  ExperimentalProtocolsEnabled = true;
+  ExperimentalHardForksEnabled = false;
+  ExperimentalProtocolsEnabled = false;
   TestShelleyHardForkAtEpoch = 0;
   TestAllegraHardForkAtEpoch = 0;
   TestAlonzoHardForkAtEpoch = 0;
