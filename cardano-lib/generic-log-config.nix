@@ -132,7 +132,7 @@
   TraceForge = true;
 
   # Trace Handshake protocol messages.
-  TraceHandshake = false;
+  TraceHandshake = true;
 
   TraceInboundGovernor = true;
 
@@ -146,7 +146,7 @@
   TraceLocalChainSyncProtocol = false;
 
   # Trace local Handshake protocol messages.
-  TraceLocalHandshake = false;
+  TraceLocalHandshake = true;
 
   # Trace local root peers
   TraceLocalRootPeers = true;
@@ -156,6 +156,9 @@
 
   # Trace local TxSubmission server.
   TraceLocalTxSubmissionServer = false;
+
+  # Trace local Connection Manager.
+  TraceLocalConnectionManager = true;
 
   # Trace mempool.
   TraceMempool = true;

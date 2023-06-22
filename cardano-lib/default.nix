@@ -196,6 +196,30 @@ let
       usePeersFromLedgerAfterSlot = 322000;
     };
 
+    sanchonet = rec {
+      useByronWallet = false;
+      private = false;
+      domain = "world.dev.cardano.org";
+      relaysNew = "sanchonet-node.world.dev.cardano.org";
+      explorerUrl = "https://sanchonet-explorer.world.dev.cardano.org";
+      smashUrl = "https://sanchonet-smash.world.dev.cardano.org";
+      metadataUrl = "https://metadata.world.dev.cardano.org";
+      edgeNodes = [
+        {
+          addr = relaysNew;
+          port = 30004;
+        }
+      ];
+      edgePort = 30004;
+      networkConfig = import ./sanchonet-config.nix;
+      consensusProtocol = networkConfig.Protocol;
+      nodeConfig = defaultLogConfig // networkConfig;
+      submitApiConfig = mkSubmitApiConfig "sanchonet" nodeConfig;
+      dbSyncConfig = mkDbSyncConfig "sanchonet" nodeConfig;
+      explorerConfig = mkExplorerConfig "sanchonet" nodeConfig;
+      usePeersFromLedgerAfterSlot = 32000;
+    };
+
     private = rec {
       useByronWallet = false;
       private = true;
