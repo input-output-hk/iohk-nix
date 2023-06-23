@@ -82,7 +82,14 @@ let
     wallet:
       relays: [[{ host: ${relay} }]]
   '';
-  environments = {
+  environments = lib.mapAttrs (name: env: {
+    # default derived configs:
+    nodeConfig = defaultLogConfig // env.networkConfig;
+    consensusProtocol = env.networkConfig.Protocol;
+    submitApiConfig = mkSubmitApiConfig name environments.${name}.nodeConfig;
+    dbSyncConfig = mkDbSyncConfig name environments.${name}.nodeConfig;
+    explorerConfig = mkExplorerConfig name environments.${name}.nodeConfig;
+  } // env) {
     mainnet = rec {
       useByronWallet = true;
       private = false;
@@ -101,11 +108,6 @@ let
       edgePort = 3001;
       confKey = "mainnet_full";
       networkConfig = import ./mainnet-config.nix;
-      nodeConfig = defaultLogConfig // networkConfig;
-      consensusProtocol = networkConfig.Protocol;
-      submitApiConfig = mkSubmitApiConfig "mainnet" nodeConfig;
-      dbSyncConfig = mkDbSyncConfig "mainnet" nodeConfig;
-      explorerConfig = mkExplorerConfig "mainnet" nodeConfig;
       usePeersFromLedgerAfterSlot = 84916732;
     };
 
@@ -121,11 +123,6 @@ let
       edgeNodes = [];
       edgePort = 3001;
       networkConfig = import ./shelley_qa-config.nix;
-      nodeConfig = defaultLogConfig // networkConfig;
-      consensusProtocol = networkConfig.Protocol;
-      submitApiConfig = mkSubmitApiConfig "shelley_qa" nodeConfig;
-      dbSyncConfig = mkDbSyncConfig "shelley_qa" nodeConfig;
-      explorerConfig = mkExplorerConfig "shelley_qa" nodeConfig;
       usePeersFromLedgerAfterSlot = 23574838;
     };
 
@@ -140,11 +137,6 @@ let
       edgeNodes = [];
       edgePort = 3001;
       networkConfig = import ./p2p-config.nix;
-      consensusProtocol = networkConfig.Protocol;
-      nodeConfig = defaultLogConfig // networkConfig;
-      submitApiConfig = mkSubmitApiConfig "p2p" nodeConfig;
-      dbSyncConfig = mkDbSyncConfig "p2p" nodeConfig;
-      explorerConfig = mkExplorerConfig "p2p" nodeConfig;
       usePeersFromLedgerAfterSlot = 14680;
     };
 
@@ -164,11 +156,6 @@ let
       ];
       edgePort = 30000;
       networkConfig = import ./preprod-config.nix;
-      consensusProtocol = networkConfig.Protocol;
-      nodeConfig = defaultLogConfig // networkConfig;
-      submitApiConfig = mkSubmitApiConfig "preprod" nodeConfig;
-      dbSyncConfig = mkDbSyncConfig "preprod" nodeConfig;
-      explorerConfig = mkExplorerConfig "preprod" nodeConfig;
       usePeersFromLedgerAfterSlot = 4642000;
     };
 
@@ -188,11 +175,6 @@ let
       ];
       edgePort = 30002;
       networkConfig = import ./preview-config.nix;
-      consensusProtocol = networkConfig.Protocol;
-      nodeConfig = defaultLogConfig // networkConfig;
-      submitApiConfig = mkSubmitApiConfig "preview" nodeConfig;
-      dbSyncConfig = mkDbSyncConfig "preview" nodeConfig;
-      explorerConfig = mkExplorerConfig "preview" nodeConfig;
       usePeersFromLedgerAfterSlot = 322000;
     };
 
@@ -212,11 +194,6 @@ let
       ];
       edgePort = 30004;
       networkConfig = import ./sanchonet-config.nix;
-      consensusProtocol = networkConfig.Protocol;
-      nodeConfig = defaultLogConfig // networkConfig;
-      submitApiConfig = mkSubmitApiConfig "sanchonet" nodeConfig;
-      dbSyncConfig = mkDbSyncConfig "sanchonet" nodeConfig;
-      explorerConfig = mkExplorerConfig "sanchonet" nodeConfig;
       usePeersFromLedgerAfterSlot = 32000;
     };
 
@@ -236,11 +213,6 @@ let
       ];
       edgePort = 30007;
       networkConfig = import ./private-config.nix;
-      consensusProtocol = networkConfig.Protocol;
-      nodeConfig = defaultLogConfig // networkConfig;
-      submitApiConfig = mkSubmitApiConfig "private" nodeConfig;
-      dbSyncConfig = mkDbSyncConfig "private" nodeConfig;
-      explorerConfig = mkExplorerConfig "private" nodeConfig;
       usePeersFromLedgerAfterSlot = 32000;
     };
   };
