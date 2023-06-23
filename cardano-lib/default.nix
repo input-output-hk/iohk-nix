@@ -72,6 +72,18 @@ let
 
   mkDbSyncConfig = name: nodeConfig: (mkExplorerConfig name nodeConfig) // defaultExplorerLogConfig;
 
+  mkMithrilSignerConfig = name: env: {
+    network = name;
+    network_magic = (builtins.fromJSON (builtins.readFile env.networkConfig.ShelleyGenesisFile)).networkMagic;
+    run_interval = 60000; #XXX: why 60000?
+    store_retention_limit = 5; #XXX: why 5?
+  } // lib.optionalAttrs (env ? mithrilAggregatorEndpointUrl) {
+    aggregator_endpoint = env.mithrilAggregatorEndpointUrl;
+  } // lib.optionalAttrs (env ? mithrilEraReaderParams) {
+    era_reader_adapter_type = "cardano-chain";
+    era_reader_adapter_params = builtins.toJSON env.mithrilEraReaderParams;
+  };
+
   mkSubmitApiConfig = name: nodeConfig: (lib.filterAttrs (k: v: v != null) {
     GenesisHash = nodeConfig.ByronGenesisHash;
     inherit (nodeConfig) RequiresNetworkMagic;
@@ -89,6 +101,7 @@ let
     submitApiConfig = mkSubmitApiConfig name environments.${name}.nodeConfig;
     dbSyncConfig = mkDbSyncConfig name environments.${name}.nodeConfig;
     explorerConfig = mkExplorerConfig name environments.${name}.nodeConfig;
+    mithrilSignerConfig = mkMithrilSignerConfig name env;
   } // env) {
     mainnet = rec {
       useByronWallet = true;
@@ -148,6 +161,11 @@ let
       explorerUrl = "https://preprod-explorer.world.dev.cardano.org";
       smashUrl = "https://preprod-smash.world.dev.cardano.org";
       metadataUrl = "https://metadata.world.dev.cardano.org";
+      mithrilAggregatorEndpointUrl = "https://aggregator.release-preprod.api.mithril.network/aggregator";
+      mithrilEraReaderParams = {
+        address = "addr_test1qpkyv2ws0deszm67t840sdnruqgr492n80g3y96xw3p2ksk6suj5musy6w8lsg3yjd09cnpgctc2qh386rtxphxt248qr0npnx";
+        verification_key = "5b35352c3232382c3134342c38372c3133382c3133362c34382c382c31342c3138372c38352c3134382c39372c3233322c3235352c3232392c33382c3234342c3234372c3230342c3139382c31332c33312c3232322c32352c3136342c35322c3130322c39312c3132302c3230382c3134375d";
+      };
       edgeNodes = [
         {
           addr = relaysNew;
@@ -167,6 +185,11 @@ let
       explorerUrl = "https://preview-explorer.world.dev.cardano.org";
       smashUrl = "https://preview-smash.world.dev.cardano.org";
       metadataUrl = "https://metadata.world.dev.cardano.org";
+      mithrilAggregatorEndpointUrl = "https://aggregator.pre-release-preview.api.mithril.network/aggregator";
+      mithrilEraReaderParams = {
+        address = "addr_test1qrv5xfwh043mlc3vk5d97s4nmhxu7cmleyssvhx37gkfyejfe8d38v3vsfgetjafgrsdc49krug8wf04h5rmtengtejqlxrksk";
+        verification_key = "5b35352c3232382c3134342c38372c3133382c3133362c34382c382c31342c3138372c38352c3134382c39372c3233322c3235352c3232392c33382c3234342c3234372c3230342c3139382c31332c33312c3232322c32352c3136342c35322c3130322c39312c3132302c3230382c3134375d";
+      };
       edgeNodes = [
         {
           addr = relaysNew;
@@ -237,6 +260,7 @@ let
       submitApiConfig = mkSubmitApiConfig "testnet" nodeConfig;
       dbSyncConfig = mkDbSyncConfig "testnet" nodeConfig;
       explorerConfig = mkExplorerConfig "testnet" nodeConfig;
+      mithrilSignerConfig = mkMithrilSignerConfig "testnet" dead_environments.testnet;
       usePeersFromLedgerAfterSlot = -1;
     });
   };
@@ -314,6 +338,7 @@ let
                           <a class="button is-info" href="${env}-topology.json">topology</a>
                           <a class="button is-primary" href="${env}-db-sync-config.json">db-sync config</a>
                           <a class="button is-primary" href="${env}-submit-api-config.json">submit-api config</a>
+                          <a class="button is-primary" href="${env}-mithril-signer-config.json">mithril-signer config</a>
                           <a class="button is-primary" href="rest-config.json">rest config</a>
                         </div>
                       </td>
@@ -366,6 +391,7 @@ let
           ''}
           ${jq}/bin/jq . < ${__toFile "${env}-db-sync-config.json" (__toJSON (value.dbSyncConfig // { NodeConfigFile = "${env}-config.json"; }))} > $out/${env}-db-sync-config.json
           ${jq}/bin/jq . < ${__toFile "${env}-submit-api-config.json" (__toJSON value.submitApiConfig)} > $out/${env}-submit-api-config.json
+          ${jq}/bin/jq . < ${__toFile "${env}-mithril-signer-config.json" (__toJSON value.mithrilSignerConfig)} > $out/${env}-mithril-signer-config.json
           ${jq}/bin/jq . < ${mkTopology value} > $out/${env}-topology.json
         ''
       ) environments )
@@ -386,6 +412,7 @@ in {
     mkEdgeTopology
     mkEdgeTopologyP2P
     mkExplorerConfig
+    mkMithrilSignerConfig
     mkProxyTopology
     mkTopology
     ;
