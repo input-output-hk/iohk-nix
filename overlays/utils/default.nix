@@ -77,6 +77,7 @@ in {
     exec "$cabal" "''${extra_cabal_opts[@]}" "$@"
   '';
 
+  fourmoluCheck = ../../tests/fourmolu.nix;
   hlintCheck = ../../tests/hlint.nix;
   shellCheck = ../../tests/shellcheck.nix;
   stylishHaskellCheck = ../../tests/stylish-haskell.nix;

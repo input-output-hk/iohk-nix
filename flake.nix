@@ -32,6 +32,7 @@
     cabal-wrapper = ./pkgs/cabal-wrapper.nix;
 
     checks = {
+      fourmolu = ./tests/fourmolu.nix;
       hlint = ./tests/hlint.nix;
       shell = ./tests/shellcheck.nix;
       stylish-haskell = ./tests/stylish-haskell.nix;
