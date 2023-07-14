@@ -7,43 +7,38 @@
   ##### Locations #####
 
   ByronGenesisFile = ./shelley_qa + "/byron-genesis.json";
-  ByronGenesisHash = "9325495d3ac7554d4bfaf2392cc3c74676d5add873d6ef8862d7562e660940bf";
+  ByronGenesisHash = "273cd12237b98d02f108c9c50063d29a8d1d7f32e9a75ade7cd48e08b3070258";
   ShelleyGenesisFile = ./shelley_qa + "/shelley-genesis.json";
-  ShelleyGenesisHash = "85d1783750753deaa6560158eb85fcb30078ea32a36e12dd8af39168bc053d09";
+  ShelleyGenesisHash = "73a9f6bdb0aa97f5e63190a6f14a702bd64a21f2bec831cbfc28f6037128b952";
   AlonzoGenesisFile = ./shelley_qa + "/alonzo-genesis.json";
-  AlonzoGenesisHash = "7e94a15f55d1e82d10f09203fa1d40f8eede58fd8066542cf6566008068ed874";
+  AlonzoGenesisHash = "8bedcaea62107d8a79ed5293b0027b3f8706a4bc2422f33380cb1fd01c6fa6ec";
   ConwayGenesisFile = ./shelley_qa + "/conway-genesis.json";
-  ConwayGenesisHash = "f28f1c1280ea0d32f8cd3143e268650d6c1a8e221522ce4a7d20d62fc09783e1";
+  ConwayGenesisHash = "b9430bf2ed3ae29d7afa07fb08281e652550f613e282d06f32abfefce311f0de";
 
   ##### Core protocol parameters #####
-
-  # This is the instance of the Ouroboros family that we are running.
-  # The node also supports various test and mock instances.
-  # "RealPBFT" is the real (ie not mock) (permissive) OBFT protocol, which
-  # is what we use on mainnet in Byron era.
   Protocol = "Cardano";
-
-  PBftSignatureThreshold = 0.9;
-  # The mainnet does not include the network magic into addresses. Testnets do.
   RequiresNetworkMagic = "RequiresMagic";
+  EnableP2P = true;
+  TargetNumberOfActivePeers = 20;
+  TargetNumberOfEstablishedPeers = 50;
+  TargetNumberOfKnownPeers = 100;
+  TargetNumberOfRootPeers = 100;
+  ExperimentalHardForksEnabled = true;
+  ExperimentalProtocolsEnabled = true;
+  TestShelleyHardForkAtEpoch = 0;
+  TestAllegraHardForkAtEpoch = 0;
+  TestAlonzoHardForkAtEpoch = 0;
+  TestMaryHardForkAtEpoch = 0;
 
-  TestShelleyHardForkAtEpoch = 2;
-
-  MaxKnownMajorProtocolVersion = 2;
   #### LOGGING Debug
-
   minSeverity = "Debug";
 
   ##### Update system parameters #####
 
-  # This protocol version number gets used by block producing nodes as part
-  # part of the system for agreeing on and synchronising protocol updates.
   LastKnownBlockVersion-Major = 3;
   LastKnownBlockVersion-Minor = 1;
   LastKnownBlockVersion-Alt = 0;
 
-  # In the Byron era some software versions are also published on the chain.
-  # We do this only for Byron compatibility now.
   ApplicationName = "cardano-sl";
   ApplicationVersion = 0;
 }

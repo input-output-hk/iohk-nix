@@ -124,19 +124,24 @@ let
       usePeersFromLedgerAfterSlot = 84916732;
     };
 
-    # used for daedalus/cardano-wallet for local development
+    # Used for daedalus/cardano-wallet for local development
     shelley_qa = rec {
       useByronWallet = false;
       private = true;
-      domain = "shelley-qa.dev.cardano.org";
-      relaysNew = "relays-new.shelley-qa.dev.cardano.org";
-      explorerUrl = "https://explorer.shelley-qa.dev.cardano.org";
-      smashUrl = "https://smash.shelley-qa.dev.cardano.org";
+      domain = "world.dev.cardano.org";
+      relaysNew = "shelley-qa-node.world.dev.cardano.org";
+      explorerUrl = "https://shelley-qa-explorer.world.dev.cardano.org";
+      smashUrl = "https://shelley-qa-smash.world.dev.cardano.org";
       metadataUrl = "https://metadata.world.dev.cardano.org";
-      edgeNodes = [];
-      edgePort = 3001;
+      edgeNodes = [
+        {
+          addr = relaysNew;
+          port = 30003;
+        }
+      ];
+      edgePort = 30003;
       networkConfig = import ./shelley_qa-config.nix;
-      usePeersFromLedgerAfterSlot = 23574838;
+      usePeersFromLedgerAfterSlot = 32000;
     };
 
     p2p = rec {
