@@ -38,9 +38,4 @@
   LastKnownBlockVersion-Major = 2;
   LastKnownBlockVersion-Minor = 0;
   LastKnownBlockVersion-Alt = 0;
-
-  # In the Byron era some software versions are also published on the chain.
-  # We do this only for Byron compatibility now.
-  ApplicationName = "cardano-sl";
-  ApplicationVersion = 0;
 }

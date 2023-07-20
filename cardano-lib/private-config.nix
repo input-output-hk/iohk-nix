@@ -35,7 +35,4 @@
   LastKnownBlockVersion-Major = 6;
   LastKnownBlockVersion-Minor = 0;
   LastKnownBlockVersion-Alt = 0;
-
-  ApplicationName = "cardano-sl";
-  ApplicationVersion = 0;
 }
