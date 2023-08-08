@@ -7,9 +7,9 @@ stdenv.mkDerivation rec {
   inherit src;
 
   buildPhase = ''
-    ./build.sh ${lib.optionalString stdenv.targetPlatform.isWindows "flavour=mingw64"}
+    ./build.sh ${lib.optionalString stdenv.hostPlatform.isWindows "flavour=mingw64"}
   '' + ''
-    ./build.sh -shared ${lib.optionalString stdenv.targetPlatform.isWindows "flavour=mingw64"}
+    ./build.sh -shared ${lib.optionalString stdenv.hostPlatform.isWindows "flavour=mingw64"}
   '';
   installPhase = ''
     mkdir -p $out/{lib,include}
