@@ -18,7 +18,7 @@
   "TestMaryHardForkAtEpoch": 0,
   "TestAlonzoHardForkAtEpoch": 0,
   "EnableP2P": true,
-  "ExperimentalProtocolsEnabled": false,
+  "ExperimentalProtocolsEnabled": true,
   "ExperimentalHardForksEnabled": true,
   "TargetNumberOfActivePeers": 20,
   "TargetNumberOfEstablishedPeers": 50,
