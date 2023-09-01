@@ -3,8 +3,8 @@
 final: prev: {
   # Make libraries from the crypto overlays available to
   # haskell-nix's pkg-config map when solving for dependencies with cabal.
-  haskell-nix = prev.haskell-nix // {
-    extraPkgconfigMappings = prev.haskell-nix.extraPkgconfigMappings // {
+  haskell-nix = prev.haskell-nix or {} // {
+    extraPkgconfigMappings = prev.haskell-nix.extraPkgconfigMappings or {} // {
       "libblst" = [ "libblst" ];
       # map libsoidum to our libsodium-vrf, if you include the iohk-nix
       # crypto overlay, you _do_ want the custom libsoidum.
