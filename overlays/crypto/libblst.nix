@@ -6,11 +6,21 @@ stdenv.mkDerivation rec {
 
   inherit src;
 
-  buildPhase = ''
-    ./build.sh ${lib.optionalString stdenv.hostPlatform.isWindows "flavour=mingw64"}
-  '' + ''
-    ./build.sh -shared ${lib.optionalString stdenv.hostPlatform.isWindows "flavour=mingw64"}
-  '';
+  buildPhase =
+    if stdenv.hostPlatform.isWindows
+      then
+        # No `./build.sh flavour=mingw64` for now as it causes problems with
+        # TH suport in cardano-node (plutus-core build hangs).  Still making a
+        # /bin dir though as the iserv proxy tries and fails to create it if
+        # it does not exist.
+        ''
+          ./build.sh flavour=mingw64
+          mkdir -p $out/bin
+        ''
+      else ''
+         ./build.sh
+         ./build.sh -shared
+        '';
   installPhase = ''
     mkdir -p $out/{lib,include}
     for lib in libblst.{a,so,dylib}; do
