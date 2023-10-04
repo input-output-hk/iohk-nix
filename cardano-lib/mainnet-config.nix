@@ -13,7 +13,7 @@
   AlonzoGenesisFile = ./mainnet + "/alonzo-genesis.json";
   AlonzoGenesisHash = "7e94a15f55d1e82d10f09203fa1d40f8eede58fd8066542cf6566008068ed874";
   ConwayGenesisFile = ./mainnet + "/conway-genesis.json";
-  ConwayGenesisHash = "5145f03e6bf046fa81c91c408719a99848a33d4b35f29f1b5f1fada7f24e6664";
+  ConwayGenesisHash = "f7d46bdd3b3c8caf38351c4eef3346a89241707270be0d6106e8a407db294cc6";
 
   ##### Core protocol parameters #####
 
