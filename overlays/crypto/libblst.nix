@@ -1,4 +1,4 @@
-{ stdenv, lib, autoreconfHook, src }:
+{ stdenv, lib, autoreconfHook, enableShared ? !stdenv.hostPlatform.isStatic && !stdenv.hostPlatform.isWindows, src }:
 
 stdenv.mkDerivation rec {
   pname = "blst";
@@ -8,7 +8,7 @@ stdenv.mkDerivation rec {
 
   buildPhase = ''
     ./build.sh ${lib.optionalString stdenv.hostPlatform.isWindows "flavour=mingw64"}
-  '' + ''
+  '' + lib.optionalString enableShared ''
     ./build.sh -shared ${lib.optionalString stdenv.hostPlatform.isWindows "flavour=mingw64"}
   '';
   installPhase = ''
