@@ -209,20 +209,20 @@ let
     sanchonet = rec {
       useByronWallet = false;
       private = false;
-      domain = "world.dev.cardano.org";
-      relaysNew = "sanchonet-node.world.dev.cardano.org";
-      explorerUrl = "https://sanchonet-explorer.world.dev.cardano.org";
-      smashUrl = "https://sanchonet-smash.world.dev.cardano.org";
-      metadataUrl = "https://metadata.world.dev.cardano.org";
+      domain = "play.dev.cardano.org";
+      relaysNew = "sanchonet-node.play.dev.cardano.org";
+      explorerUrl = "https://sanchonet-explorer.play.dev.cardano.org";
+      smashUrl = "https://sanchonet-smash.play.dev.cardano.org";
+      metadataUrl = "https://metadata.play.dev.cardano.org";
       edgeNodes = [
         {
           addr = relaysNew;
-          port = 30004;
+          port = 3001;
         }
       ];
-      edgePort = 30004;
+      edgePort = 3001;
       networkConfig = import ./sanchonet-config.nix;
-      usePeersFromLedgerAfterSlot = 8877900;
+      usePeersFromLedgerAfterSlot = 10800600;
     };
 
     private = rec {
