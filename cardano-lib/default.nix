@@ -185,10 +185,10 @@ let
     preview = rec {
       useByronWallet = false;
       private = false;
-      domain = "world.dev.cardano.org";
-      relaysNew = "preview-node.world.dev.cardano.org";
-      explorerUrl = "https://preview-explorer.world.dev.cardano.org";
-      smashUrl = "https://preview-smash.world.dev.cardano.org";
+      domain = "play.dev.cardano.org";
+      relaysNew = "preview-node.play.dev.cardano.org";
+      explorerUrl = "https://preview-explorer.play.dev.cardano.org";
+      smashUrl = "https://preview-smash.play.dev.cardano.org";
       metadataUrl = "https://metadata.world.dev.cardano.org";
       mithrilAggregatorEndpointUrl = "https://aggregator.pre-release-preview.api.mithril.network/aggregator";
       mithrilEraReaderParams = {
@@ -198,12 +198,12 @@ let
       edgeNodes = [
         {
           addr = relaysNew;
-          port = 30002;
+          port = 3001;
         }
       ];
-      edgePort = 30002;
+      edgePort = 3001;
       networkConfig = import ./preview-config.nix;
-      usePeersFromLedgerAfterSlot = 322000;
+      usePeersFromLedgerAfterSlot = 31536600;
     };
 
     sanchonet = rec {
