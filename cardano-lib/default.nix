@@ -144,20 +144,6 @@ let
       usePeersFromLedgerAfterSlot = 9208700;
     };
 
-    p2p = rec {
-      useByronWallet = false;
-      private = false;
-      domain = "p2p.dev.cardano.org";
-      relaysNew = "relays.p2p.dev.cardano.org";
-      explorerUrl = "https://explorer.p2p.dev.cardano.org";
-      smashUrl = "https://smash.p2p.dev.cardano.org";
-      metadataUrl = "https://metadata.world.dev.cardano.org";
-      edgeNodes = [];
-      edgePort = 3001;
-      networkConfig = import ./p2p-config.nix;
-      usePeersFromLedgerAfterSlot = 14680;
-    };
-
     preprod = rec {
       useByronWallet = false;
       private = false;
