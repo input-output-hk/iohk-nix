@@ -128,20 +128,20 @@ let
     shelley_qa = rec {
       useByronWallet = false;
       private = true;
-      domain = "world.dev.cardano.org";
-      relaysNew = "shelley-qa-node.world.dev.cardano.org";
-      explorerUrl = "https://shelley-qa-explorer.world.dev.cardano.org";
-      smashUrl = "https://shelley-qa-smash.world.dev.cardano.org";
-      metadataUrl = "https://metadata.world.dev.cardano.org";
+      domain = "play.dev.cardano.org";
+      relaysNew = "shelley-qa-node.play.dev.cardano.org";
+      explorerUrl = "https://shelley-qa-explorer.play.dev.cardano.org";
+      smashUrl = "https://shelley-qa-smash.play.dev.cardano.org";
+      metadataUrl = "https://metadata.play.dev.cardano.org";
       edgeNodes = [
         {
           addr = relaysNew;
-          port = 30003;
+          port = 3001;
         }
       ];
-      edgePort = 30003;
+      edgePort = 3001;
       networkConfig = import ./shelley_qa-config.nix;
-      usePeersFromLedgerAfterSlot = 32000;
+      usePeersFromLedgerAfterSlot = 9208700;
     };
 
     p2p = rec {
@@ -189,7 +189,7 @@ let
       relaysNew = "preview-node.play.dev.cardano.org";
       explorerUrl = "https://preview-explorer.play.dev.cardano.org";
       smashUrl = "https://preview-smash.play.dev.cardano.org";
-      metadataUrl = "https://metadata.world.dev.cardano.org";
+      metadataUrl = "https://metadata.play.dev.cardano.org";
       mithrilAggregatorEndpointUrl = "https://aggregator.pre-release-preview.api.mithril.network/aggregator";
       mithrilEraReaderParams = {
         address = "addr_test1qrv5xfwh043mlc3vk5d97s4nmhxu7cmleyssvhx37gkfyejfe8d38v3vsfgetjafgrsdc49krug8wf04h5rmtengtejqlxrksk";
@@ -228,18 +228,18 @@ let
     private = rec {
       useByronWallet = false;
       private = true;
-      domain = "world.dev.cardano.org";
-      relaysNew = "private-node.world.dev.cardano.org";
-      explorerUrl = "https://private-explorer.world.dev.cardano.org";
-      smashUrl = "https://private-smash.world.dev.cardano.org";
-      metadataUrl = "https://metadata.world.dev.cardano.org";
+      domain = "play.dev.cardano.org";
+      relaysNew = "private-node.play.dev.cardano.org";
+      explorerUrl = "https://private-explorer.play.dev.cardano.org";
+      smashUrl = "https://private-smash.play.dev.cardano.org";
+      metadataUrl = "https://metadata.play.dev.cardano.org";
       edgeNodes = [
         {
           addr = relaysNew;
-          port = 30007;
+          port = 3001;
         }
       ];
-      edgePort = 30007;
+      edgePort = 3001;
       networkConfig = import ./private-config.nix;
       usePeersFromLedgerAfterSlot = 32000;
     };
