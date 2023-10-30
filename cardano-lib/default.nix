@@ -147,11 +147,11 @@ let
     preprod = rec {
       useByronWallet = false;
       private = false;
-      domain = "world.dev.cardano.org";
-      relaysNew = "preprod-node.world.dev.cardano.org";
-      explorerUrl = "https://preprod-explorer.world.dev.cardano.org";
-      smashUrl = "https://preprod-smash.world.dev.cardano.org";
-      metadataUrl = "https://metadata.world.dev.cardano.org";
+      domain = "play.dev.cardano.org";
+      relaysNew = "preprod-node.play.dev.cardano.org";
+      explorerUrl = "https://preprod-explorer.play.dev.cardano.org";
+      smashUrl = "https://preprod-smash.play.dev.cardano.org";
+      metadataUrl = "https://metadata.play.dev.cardano.org";
       mithrilAggregatorEndpointUrl = "https://aggregator.release-preprod.api.mithril.network/aggregator";
       mithrilEraReaderParams = {
         address = "addr_test1qpkyv2ws0deszm67t840sdnruqgr492n80g3y96xw3p2ksk6suj5musy6w8lsg3yjd09cnpgctc2qh386rtxphxt248qr0npnx";
@@ -160,12 +160,12 @@ let
       edgeNodes = [
         {
           addr = relaysNew;
-          port = 30000;
+          port = 3001;
         }
       ];
-      edgePort = 30000;
+      edgePort = 3001;
       networkConfig = import ./preprod-config.nix;
-      usePeersFromLedgerAfterSlot = 4642000;
+      usePeersFromLedgerAfterSlot = 42855241;
     };
 
     preview = rec {
