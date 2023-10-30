@@ -13,7 +13,7 @@
   AlonzoGenesisFile = ./sanchonet + "/alonzo-genesis.json";
   AlonzoGenesisHash = "8bedcaea62107d8a79ed5293b0027b3f8706a4bc2422f33380cb1fd01c6fa6ec";
   ConwayGenesisFile = ./sanchonet + "/conway-genesis.json";
-  ConwayGenesisHash = "f7d46bdd3b3c8caf38351c4eef3346a89241707270be0d6106e8a407db294cc6";
+  ConwayGenesisHash = "89dd23dc6a020afa0c7521fe52fe14e38d494129933a3604154a3acfa4ac16e4";
 
   ### Core protocol parameters #####
   Protocol = "Cardano";
