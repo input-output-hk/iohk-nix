@@ -208,7 +208,7 @@ let
       ];
       edgePort = 3001;
       networkConfig = import ./sanchonet-config.nix;
-      usePeersFromLedgerAfterSlot = 10800600;
+      usePeersFromLedgerAfterSlot = 12268800;
     };
 
     private = rec {
