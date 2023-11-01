@@ -209,10 +209,10 @@ let
     sanchonet = rec {
       useByronWallet = false;
       private = false;
-      domain = "world.dev.cardano.org";
-      relaysNew = "sanchonet-node.world.dev.cardano.org";
-      explorerUrl = "https://sanchonet-explorer.world.dev.cardano.org";
-      smashUrl = "https://sanchonet-smash.world.dev.cardano.org";
+      domain = "play.dev.cardano.org";
+      relaysNew = "sanchonet-node.play.dev.cardano.org";
+      explorerUrl = "notset";
+      smashUrl = "notset";
       metadataUrl = "https://metadata.world.dev.cardano.org";
       edgeNodes = [
         {
