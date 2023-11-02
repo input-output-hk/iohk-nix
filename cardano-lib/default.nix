@@ -227,7 +227,7 @@ let
       ];
       edgePort = 3001;
       networkConfig = import ./private-config.nix;
-      usePeersFromLedgerAfterSlot = 32000;
+      usePeersFromLedgerAfterSlot = 496900;
     };
   };
 
