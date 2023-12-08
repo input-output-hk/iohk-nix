@@ -25,6 +25,11 @@
 
   # The mainnet does not include the network magic into addresses. Testnets do.
   RequiresNetworkMagic = "RequiresNoMagic";
+  EnableP2P = true;
+  TargetNumberOfActivePeers = 20;
+  TargetNumberOfEstablishedPeers = 50;
+  TargetNumberOfKnownPeers = 100;
+  TargetNumberOfRootPeers = 100;
 
   MaxKnownMajorProtocolVersion = 2;
 
