@@ -30,6 +30,7 @@
   TargetNumberOfEstablishedPeers = 50;
   TargetNumberOfKnownPeers = 100;
   TargetNumberOfRootPeers = 100;
+  TraceMempool = false;
 
   MaxKnownMajorProtocolVersion = 2;
 
