@@ -108,20 +108,28 @@ let
       private = false;
       domain = "cardano-mainnet.iohk.io";
       relays = "relays.cardano-mainnet.iohk.io";
-      relaysNew = "relays-new.cardano-mainnet.iohk.io";
+      relaysNew = "backbone.cardano-mainnet.iohk.io";
       explorerUrl = "https://explorer.cardano.org";
       smashUrl = "https://smash.cardano-mainnet.iohk.io";
       metadataUrl = "https://tokens.cardano.org";
       edgeNodes = [
-        "3.125.75.199"
-        "18.177.103.105"
-        "18.141.0.112"
-        "52.14.58.121"
+        {
+          addr = relaysNew;
+          port = 3001;
+        }
+        {
+          addr = "backbone.cardano.iog.io";
+          port = 3001;
+        }
+        {
+          addr = "backbone.mainnet.emurgornd.com";
+          port = 3001;
+        }
       ];
       edgePort = 3001;
       confKey = "mainnet_full";
       networkConfig = import ./mainnet-config.nix;
-      usePeersFromLedgerAfterSlot = 84916732;
+      usePeersFromLedgerAfterSlot = 110332824;
     };
 
     # Used for daedalus/cardano-wallet for local development
