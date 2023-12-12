@@ -49,7 +49,7 @@ stdenv.mkDerivation rec {
   # wouldn't be found during install.  The alternative would be to work
   # lib.optional stdenv.isDarwin "LDFLAGS=-Wl,-install_name,$(out)/lib/libblst.dylib";
   # into the setup.sh
-  postFixup = lib.optionalString stdenv.isDarwin ''
+  postFixup = lib.optionalString (stdenv.isDarwin && enableShared) ''
     install_name_tool -id $out/lib/libblst.dylib $out/lib/libblst.dylib
   '';
 
