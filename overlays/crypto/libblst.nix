@@ -6,10 +6,14 @@ stdenv.mkDerivation rec {
 
   inherit src;
 
+  # note on -D__BLST_PORTABLE__, this should allow us to have MULX, and similar
+  # stuff run-time detected, and as such blst built on newer hardware should still
+  # work on older. Notably Intel before Broadwell, and AMD before Ryzen, do not
+  # support ADX, which means they lack MULX support, which blst uses.
   buildPhase = ''
-    ./build.sh ${lib.optionalString stdenv.hostPlatform.isWindows "flavour=mingw64"}
+    ./build.sh -D__BLST_PORTABLE__ ${lib.optionalString stdenv.hostPlatform.isWindows "flavour=mingw64"}
   '' + lib.optionalString enableShared ''
-    ./build.sh -shared ${lib.optionalString stdenv.hostPlatform.isWindows "flavour=mingw64"}
+    ./build.sh -D__BLST_PORTABLE__ -shared ${lib.optionalString stdenv.hostPlatform.isWindows "flavour=mingw64"}
   '';
   installPhase = ''
     mkdir -p $out/{lib,include}
