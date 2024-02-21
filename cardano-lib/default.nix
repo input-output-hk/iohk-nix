@@ -237,6 +237,12 @@ let
       explorerUrl = "https://sanchonet-explorer.play.dev.cardano.org";
       smashUrl = "https://sanchonet-smash.play.dev.cardano.org";
       metadataUrl = "https://metadata.play.dev.cardano.org";
+      mithrilAggregatorEndpointUrl = "https://aggregator.testing-sanchonet.api.mithril.network/aggregator";
+      mithrilEraReaderParams = {
+        address = "addr_test1qrg9v8xjjjjx95k2h2gquwrah8424798wqa5exuyhqpcggfyse0nuafkp7rnkxsssxue37259lfhemjdhs333u7v0gwsd0dr30";
+        verification_key = "5b35352c3232382c3134342c38372c3133382c3133362c34382c382c31342c3138372c38352c3134382c39372c3233322c3235352c3232392c33382c3234342c3234372c3230342c3139382c31332c33312c3232322c32352c3136342c35322c3130322c39312c3132302c3230382c3134375d";
+      };
+      mithrilGenesisVerificationKey = "5b3132372c37332c3132342c3136312c362c3133372c3133312c3231332c3230372c3131372c3139382c38352c3137362c3139392c3136322c3234312c36382c3132332c3131392c3134352c31332c3233322c3234332c34392c3232392c322c3234392c3230352c3230352c33392c3233352c34345d";
       edgeNodes = [
         {
           addr = relaysNew;
