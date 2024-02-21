@@ -23,25 +23,32 @@ let
 
   mkEdgeTopologyP2P = {
     edgeNodes ? [{addr = "127.0.0.1"; port = 3001;}]
+  , bootstrapPeers ? null
   , useLedgerAfterSlot ? 0
   }:
   let
     mkPublicRootsAccessPoints = map (edgeNode: {address = edgeNode.addr; port = edgeNode.port;}) edgeNodes;
     topology = {
+      # If bootstrapPeers is null, publicRoots will consist of edgeNodes and useLedgerAfterSlot will be respected.
+      # If bootstrapPeers is not null, any value of useLedgerAfter slot other than -1 will use ledger peers once
+      # the chain is at the tip.
+      inherit bootstrapPeers useLedgerAfterSlot;
+
       localRoots = [
         {
            accessPoints = [];
            advertise = false;
            valency = 1;
+           trustable = false;
         }
       ];
+
       publicRoots = [
         {
-          accessPoints = mkPublicRootsAccessPoints;
+          accessPoints = if bootstrapPeers == null then mkPublicRootsAccessPoints else [];
           advertise = false;
         }
       ];
-      inherit useLedgerAfterSlot;
     };
   in
     builtins.toFile "topology.yaml" (builtins.toJSON topology);
@@ -54,6 +61,19 @@ let
     };
     p2pTopology = mkEdgeTopologyP2P {
       inherit (env) edgeNodes;
+
+      # Until legacy mainnet relays are deprecated and replaced by IOG bootstrap peers for relaysNew,
+      # filter the legacy relaysNew definition from the mainnet bootstrapPeers list.
+      #
+      # All other envs can use the edgeNodes list as bootstrapPeers.
+      bootstrapPeers =
+        if env.name == "mainnet"
+        then
+          map (e: {address = e.addr; inherit (e) port;})
+            (builtins.filter (e: e.addr != env.relaysNew) env.edgeNodes)
+        else
+          map (e: {address = e.addr; inherit (e) port;}) env.edgeNodes;
+
       useLedgerAfterSlot = env.usePeersFromLedgerAfterSlot;
     };
   in
@@ -75,8 +95,8 @@ let
   mkMithrilSignerConfig = name: env: {
     network = name;
     network_magic = (builtins.fromJSON (builtins.readFile env.networkConfig.ShelleyGenesisFile)).networkMagic;
-    run_interval = 60000; #XXX: why 60000?
-    store_retention_limit = 5; #XXX: why 5?
+    run_interval = 60000;
+    store_retention_limit = 5;
   } // lib.optionalAttrs (env ? mithrilAggregatorEndpointUrl) {
     aggregator_endpoint = env.mithrilAggregatorEndpointUrl;
   } // lib.optionalAttrs (env ? mithrilEraReaderParams) {
@@ -95,6 +115,7 @@ let
       relays: [[{ host: ${relay} }]]
   '';
   environments = lib.mapAttrs (name: env: {
+    inherit name;
     # default derived configs:
     nodeConfig = defaultLogConfig // env.networkConfig;
     consensusProtocol = env.networkConfig.Protocol;
@@ -135,7 +156,7 @@ let
       edgePort = 3001;
       confKey = "mainnet_full";
       networkConfig = import ./mainnet-config.nix;
-      usePeersFromLedgerAfterSlot = 110332824;
+      usePeersFromLedgerAfterSlot = 116812831;
     };
 
     # Used for daedalus/cardano-wallet for local development
@@ -155,7 +176,7 @@ let
       ];
       edgePort = 3001;
       networkConfig = import ./shelley_qa-config.nix;
-      usePeersFromLedgerAfterSlot = 9208700;
+      usePeersFromLedgerAfterSlot = 19252750;
     };
 
     preprod = rec {
@@ -180,7 +201,7 @@ let
       ];
       edgePort = 3001;
       networkConfig = import ./preprod-config.nix;
-      usePeersFromLedgerAfterSlot = 42855241;
+      usePeersFromLedgerAfterSlot = 52358331;
     };
 
     preview = rec {
@@ -205,7 +226,7 @@ let
       ];
       edgePort = 3001;
       networkConfig = import ./preview-config.nix;
-      usePeersFromLedgerAfterSlot = 31536600;
+      usePeersFromLedgerAfterSlot = 41385503;
     };
 
     sanchonet = rec {
@@ -224,7 +245,7 @@ let
       ];
       edgePort = 3001;
       networkConfig = import ./sanchonet-config.nix;
-      usePeersFromLedgerAfterSlot = 20995200;
+      usePeersFromLedgerAfterSlot = 21599922;
     };
 
     private = rec {
@@ -243,7 +264,7 @@ let
       ];
       edgePort = 3001;
       networkConfig = import ./private-config.nix;
-      usePeersFromLedgerAfterSlot = 496900;
+      usePeersFromLedgerAfterSlot = 10007987;
     };
   };
 
