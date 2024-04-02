@@ -118,6 +118,7 @@ let
     inherit name;
     # default derived configs:
     nodeConfig = defaultLogConfig // env.networkConfig;
+    nodeConfigBp = defaultLogConfig // env.networkConfigBp;
     consensusProtocol = env.networkConfig.Protocol;
     submitApiConfig = mkSubmitApiConfig name environments.${name}.nodeConfig;
     dbSyncConfig = mkDbSyncConfig name environments.${name}.nodeConfig;
@@ -156,6 +157,7 @@ let
       edgePort = 3001;
       confKey = "mainnet_full";
       networkConfig = import ./mainnet-config.nix;
+      networkConfigBp = import ./mainnet-config-bp.nix;
       usePeersFromLedgerAfterSlot = 116812831;
     };
 
@@ -176,6 +178,7 @@ let
       ];
       edgePort = 3001;
       networkConfig = import ./shelley_qa-config.nix;
+      networkConfigBp = import ./shelley_qa-config-bp.nix;
       usePeersFromLedgerAfterSlot = 19252750;
     };
 
@@ -201,6 +204,7 @@ let
       ];
       edgePort = 3001;
       networkConfig = import ./preprod-config.nix;
+      networkConfigBp = import ./preprod-config-bp.nix;
       usePeersFromLedgerAfterSlot = 52358331;
     };
 
@@ -226,6 +230,7 @@ let
       ];
       edgePort = 3001;
       networkConfig = import ./preview-config.nix;
+      networkConfigBp = import ./preview-config-bp.nix;
       usePeersFromLedgerAfterSlot = 41385503;
     };
 
@@ -251,6 +256,7 @@ let
       ];
       edgePort = 3001;
       networkConfig = import ./sanchonet-config.nix;
+      networkConfigBp = import ./sanchonet-config-bp.nix;
       usePeersFromLedgerAfterSlot = 21599922;
     };
 
@@ -270,6 +276,7 @@ let
       ];
       edgePort = 3001;
       networkConfig = import ./private-config.nix;
+      networkConfigBp = import ./private-config-bp.nix;
       usePeersFromLedgerAfterSlot = 10007987;
     };
   };
@@ -289,8 +296,10 @@ let
       edgePort = 3001;
       confKey = "testnet_full";
       networkConfig = import ./testnet-config.nix;
+      networkConfigBp = import ./testnet-config-bp.nix;
       consensusProtocol = networkConfig.Protocol;
       nodeConfig = defaultLogConfig // networkConfig;
+      nodeConfigBp = defaultLogConfig // networkConfigBp;
       submitApiConfig = mkSubmitApiConfig "testnet" nodeConfig;
       dbSyncConfig = mkDbSyncConfig "testnet" nodeConfig;
       explorerConfig = mkExplorerConfig "testnet" nodeConfig;
@@ -363,6 +372,7 @@ let
                       <td>
                         <div class="buttons has-addons">
                           <a class="button is-primary" href="${env}-config.json">config</a>
+                          <a class="button is-primary" href="${env}-config-bp.json">block-producer config</a>
                           <a class="button is-info" href="${env}-${protNames.${p}.n}-genesis.json">${protNames.${p}.n}Genesis</a>
                           ${lib.optionalString (p == "Cardano") ''
                             <a class="button is-info" href="${env}-${protNames.${p}.shelley}-genesis.json">${protNames.${p}.shelley}Genesis</a>
@@ -395,19 +405,22 @@ let
     cp ${writeText "config.html" (configHtml environments)} $out/index.html
     ${
       toString (lib.mapAttrsToList (env: value:
-        let p = value.consensusProtocol;
+        let
+          p = value.consensusProtocol;
+          genesisFile = { GenesisFile = "${env}-${protNames.${p}.n}-genesis.json"; };
+          genesisFiles = {
+            ByronGenesisFile = "${env}-${protNames.${p}.n}-genesis.json";
+            ShelleyGenesisFile = "${env}-${protNames.${p}.shelley}-genesis.json";
+            AlonzoGenesisFile = "${env}-${protNames.${p}.alonzo}-genesis.json";
+            ConwayGenesisFile = "${env}-${protNames.${p}.conway}-genesis.json";
+          };
         in ''
           ${if p != "Cardano" then ''
-            ${jq}/bin/jq . < ${__toFile "${env}-config.json" (__toJSON (value.nodeConfig // {
-              GenesisFile = "${env}-${protNames.${p}.n}-genesis.json";
-            }))} > $out/${env}-config.json
+            ${jq}/bin/jq . < ${__toFile "${env}-config.json" (__toJSON (value.nodeConfig // genesisFile))} > $out/${env}-config.json
+            ${jq}/bin/jq . < ${__toFile "${env}-config-bp.json" (__toJSON (value.nodeConfigBp // genesisFile))} > $out/${env}-config-bp.json
           '' else ''
-            ${jq}/bin/jq . < ${__toFile "${env}-config.json" (__toJSON (value.nodeConfig // {
-              ByronGenesisFile = "${env}-${protNames.${p}.n}-genesis.json";
-              ShelleyGenesisFile = "${env}-${protNames.${p}.shelley}-genesis.json";
-              AlonzoGenesisFile = "${env}-${protNames.${p}.alonzo}-genesis.json";
-              ConwayGenesisFile = "${env}-${protNames.${p}.conway}-genesis.json";
-            }))} > $out/${env}-config.json
+            ${jq}/bin/jq . < ${__toFile "${env}-config.json" (__toJSON (value.nodeConfig // genesisFiles))} > $out/${env}-config.json
+            ${jq}/bin/jq . < ${__toFile "${env}-config-bp.json" (__toJSON (value.nodeConfigBp // genesisFiles))} > $out/${env}-config-bp.json
           ''}
           ${lib.optionalString (p == "RealPBFT" || p == "Byron") ''
             cp ${value.nodeConfig.GenesisFile} $out/${env}-${protNames.${p}.n}-genesis.json
