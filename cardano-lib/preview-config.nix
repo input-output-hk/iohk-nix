@@ -19,10 +19,11 @@
   Protocol = "Cardano";
   RequiresNetworkMagic = "RequiresMagic";
   EnableP2P = true;
+  PeerSharing = true;
   TargetNumberOfActivePeers = 20;
   TargetNumberOfEstablishedPeers = 50;
   TargetNumberOfKnownPeers = 100;
-  TargetNumberOfRootPeers = 100;
+  TargetNumberOfRootPeers = 60;
   ExperimentalHardForksEnabled = false;
   ExperimentalProtocolsEnabled = false;
   TestShelleyHardForkAtEpoch = 0;
