@@ -90,7 +90,11 @@ let
     NodeConfigFile = "${__toFile "config-${toString name}.json" (__toJSON nodeConfig)}";
   };
 
-  mkDbSyncConfig = name: nodeConfig: (mkExplorerConfig name nodeConfig) // defaultExplorerLogConfig;
+  mkDbSyncConfig = name: nodeConfig: dbSyncConfig:
+    mkExplorerConfig name nodeConfig // defaultExplorerLogConfig // {
+      # dbsync config not part of node config
+      enable_conway = dbSyncConfig.enableConway or false;
+    };
 
   mkMithrilSignerConfig = name: env: {
     network = name;
@@ -129,7 +133,8 @@ let
     nodeConfigBp = defaultLogConfig // env.networkConfigBp;
     consensusProtocol = env.networkConfig.Protocol;
     submitApiConfig = mkSubmitApiConfig name environments.${name}.nodeConfig;
-    dbSyncConfig = mkDbSyncConfig name environments.${name}.nodeConfig;
+    dbSyncConfig =
+      mkDbSyncConfig name environments.${name}.nodeConfig (env.extraDbSyncConfig or {});
     explorerConfig = mkExplorerConfig name environments.${name}.nodeConfig;
     mithrilSignerConfig = mkMithrilSignerConfig name env;
   } // env) {
@@ -270,6 +275,9 @@ let
       networkConfig = import ./sanchonet-config.nix // minNodeVersion;
       networkConfigBp = import ./sanchonet-config-bp.nix // minNodeVersion;
       usePeersFromLedgerAfterSlot = 33695977;
+      extraDbSyncConfig = {
+        enableConway = true;
+      };
     };
 
     private = rec {
@@ -313,7 +321,7 @@ let
       nodeConfig = defaultLogConfig // networkConfig;
       nodeConfigBp = defaultLogConfig // networkConfigBp;
       submitApiConfig = mkSubmitApiConfig "testnet" nodeConfig;
-      dbSyncConfig = mkDbSyncConfig "testnet" nodeConfig;
+      dbSyncConfig = mkDbSyncConfig "testnet" nodeConfig {};
       explorerConfig = mkExplorerConfig "testnet" nodeConfig;
       mithrilSignerConfig = mkMithrilSignerConfig "testnet" dead_environments.testnet;
       usePeersFromLedgerAfterSlot = -1;
