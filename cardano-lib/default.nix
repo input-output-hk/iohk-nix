@@ -298,6 +298,9 @@ let
       networkConfig = import ./private-config.nix // minNodeVersion;
       networkConfigBp = import ./private-config-bp.nix // minNodeVersion;
       usePeersFromLedgerAfterSlot = 1886369;
+      extraDbSyncConfig = {
+        enableConway = true;
+      };
     };
   };
 
