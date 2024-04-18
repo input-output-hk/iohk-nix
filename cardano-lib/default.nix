@@ -114,6 +114,14 @@ let
     wallet:
       relays: [[{ host: ${relay} }]]
   '';
+
+  # Changes to minimum required node version typically occur with changes to
+  # genesis files across all networks at once.  This defn will be applied to
+  # all networks by default but can be overridden on a per network basis below
+  # as needed.  Any node version string suffixes, such as `-pre`, should be
+  # removed from this string identifier.
+  minNodeVersion = { MinNodeVersion = "8.10.0"; };
+
   environments = lib.mapAttrs (name: env: {
     inherit name;
     # default derived configs:
@@ -156,8 +164,8 @@ let
       ];
       edgePort = 3001;
       confKey = "mainnet_full";
-      networkConfig = import ./mainnet-config.nix;
-      networkConfigBp = import ./mainnet-config-bp.nix;
+      networkConfig = import ./mainnet-config.nix // minNodeVersion;
+      networkConfigBp = import ./mainnet-config-bp.nix // minNodeVersion;
       usePeersFromLedgerAfterSlot = 116812831;
     };
 
@@ -177,8 +185,8 @@ let
         }
       ];
       edgePort = 3001;
-      networkConfig = import ./shelley_qa-config.nix;
-      networkConfigBp = import ./shelley_qa-config-bp.nix;
+      networkConfig = import ./shelley_qa-config.nix // minNodeVersion;
+      networkConfigBp = import ./shelley_qa-config-bp.nix // minNodeVersion;
       usePeersFromLedgerAfterSlot = 19252750;
     };
 
@@ -203,8 +211,8 @@ let
         }
       ];
       edgePort = 3001;
-      networkConfig = import ./preprod-config.nix;
-      networkConfigBp = import ./preprod-config-bp.nix;
+      networkConfig = import ./preprod-config.nix // minNodeVersion;
+      networkConfigBp = import ./preprod-config-bp.nix // minNodeVersion;
       usePeersFromLedgerAfterSlot = 52358331;
     };
 
@@ -229,8 +237,8 @@ let
         }
       ];
       edgePort = 3001;
-      networkConfig = import ./preview-config.nix;
-      networkConfigBp = import ./preview-config-bp.nix;
+      networkConfig = import ./preview-config.nix // minNodeVersion;
+      networkConfigBp = import ./preview-config-bp.nix // minNodeVersion;
       usePeersFromLedgerAfterSlot = 41385503;
     };
 
@@ -255,8 +263,8 @@ let
         }
       ];
       edgePort = 3001;
-      networkConfig = import ./sanchonet-config.nix;
-      networkConfigBp = import ./sanchonet-config-bp.nix;
+      networkConfig = import ./sanchonet-config.nix // minNodeVersion;
+      networkConfigBp = import ./sanchonet-config-bp.nix // minNodeVersion;
       usePeersFromLedgerAfterSlot = 21599922;
     };
 
@@ -275,8 +283,8 @@ let
         }
       ];
       edgePort = 3001;
-      networkConfig = import ./private-config.nix;
-      networkConfigBp = import ./private-config-bp.nix;
+      networkConfig = import ./private-config.nix // minNodeVersion;
+      networkConfigBp = import ./private-config-bp.nix // minNodeVersion;
       usePeersFromLedgerAfterSlot = 10007987;
     };
   };
@@ -295,8 +303,8 @@ let
       edgeNodes = [];
       edgePort = 3001;
       confKey = "testnet_full";
-      networkConfig = import ./testnet-config.nix;
-      networkConfigBp = import ./testnet-config-bp.nix;
+      networkConfig = import ./testnet-config.nix // minNodeVersion;
+      networkConfigBp = import ./testnet-config-bp.nix // minNodeVersion;
       consensusProtocol = networkConfig.Protocol;
       nodeConfig = defaultLogConfig // networkConfig;
       nodeConfigBp = defaultLogConfig // networkConfigBp;
