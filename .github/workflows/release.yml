@@ -25,7 +25,7 @@ jobs:
           script: |
             mkdir __pkgs
             echo ${{ github.sha }} > __pkgs/COMMIT_SHA
-            for sys in msys2 x86_64-macos arm64-macos debian; do
+            for sys in msys2 macos x86_64-macos arm64-macos debian; do
               for lib in libsodium libsodium-vrf libsecp256k1 libblst; do
                 out=$(nix build .#dist.$sys.$lib --no-link --print-out-paths -L)
                 for ext in pkg.tar.zstd pkg deb; do
