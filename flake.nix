@@ -45,6 +45,7 @@
 
     pkgs = import nixpkgs { system = "x86_64-linux"; overlays = builtins.attrValues overlays; };
     darwin-pkgs = import nixpkgs { system = "x86_64-darwin"; overlays = builtins.attrValues overlays; };
+    aarch64-darwin-pkgs = import nixpkgs { system = "aarch64-darwin"; overlays = builtins.attrValues overlays; };
 
 
     # we can use this, to get a coherent picture of the sources for
@@ -270,6 +271,12 @@
         libsodium    = mkDarwinPkg "/usr/local/opt/cardano" (mkSingleOutput darwin-pkgs.libsodium);
         libblst      = mkDarwinPkg "/usr/local/opt/cardano" (mkSingleOutput darwin-pkgs.libblst);
         libsecp256k1 = mkDarwinPkg "/usr/local/opt/cardano" (mkSingleOutput darwin-pkgs.secp256k1);
+      };
+      aarch64-macos = {
+        libsodium-vrf= mkDarwinPkg "/usr/local/opt/cardano" (mkSingleOutput aarch64-darwin-pkgs.libsodium-vrf);
+        libsodium    = mkDarwinPkg "/usr/local/opt/cardano" (mkSingleOutput aarch64-darwin-pkgs.libsodium);
+        libblst      = mkDarwinPkg "/usr/local/opt/cardano" (mkSingleOutput aarch64-darwin-pkgs.libblst);
+        libsecp256k1 = mkDarwinPkg "/usr/local/opt/cardano" (mkSingleOutput aarch64-darwin-pkgs.secp256k1);
       };
       debian = {
         libsodium-vrf= mkDebianPkg "/usr/local/opt/cardano" (mkSingleOutput pkgs.libsodium-vrf);
