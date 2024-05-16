@@ -120,7 +120,7 @@ let
   # all networks by default but can be overridden on a per network basis below
   # as needed.  Any node version string suffixes, such as `-pre`, should be
   # removed from this string identifier.
-  minNodeVersion = { MinNodeVersion = "8.10.0"; };
+  minNodeVersion = { MinNodeVersion = "8.11.0"; };
 
   environments = lib.mapAttrs (name: env: {
     inherit name;
