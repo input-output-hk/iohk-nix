@@ -7,18 +7,18 @@
   ##### Locations #####
 
   ByronGenesisFile = ./private + "/byron-genesis.json";
-  ByronGenesisHash = "785eb88427e136378a15b0a152a8bfbeec7a611529ccda29c43a1e60ffb48eaa";
+  ByronGenesisHash = "9b537c0258a7e435c038217f8e13518670fe1bd5f1395fa63c0a2983bb0ca4b5";
   ShelleyGenesisFile = ./private + "/shelley-genesis.json";
-  ShelleyGenesisHash = "f94457ec45a0c6773057a529533cf7ccf746cb44dabd56ae970e1dbfb55bfdb2";
+  ShelleyGenesisHash = "400a559b2f7b9a3e2b89839b245d62166a26235a67521b97b8bac9532ff3358d";
   AlonzoGenesisFile = ./private + "/alonzo-genesis.json";
   AlonzoGenesisHash = "8bedcaea62107d8a79ed5293b0027b3f8706a4bc2422f33380cb1fd01c6fa6ec";
   ConwayGenesisFile = ./private + "/conway-genesis.json";
-  ConwayGenesisHash = "79766b0c18076e9abefc806526714f30d42b14dba9f187fb316bd4e70c815ef4";
+  ConwayGenesisHash = "5c022862d01706f1930162f6420f31cd198afc13039847efd091ee58f0bb4a14";
 
   ### Core protocol parameters #####
   Protocol = "Cardano";
   RequiresNetworkMagic = "RequiresMagic";
-  EnableP2P = false;
+  EnableP2P = true;
   PeerSharing = true;
   TargetNumberOfActivePeers = 20;
   TargetNumberOfEstablishedPeers = 50;
