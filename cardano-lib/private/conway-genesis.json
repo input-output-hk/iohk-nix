@@ -1,41 +1,30 @@
 {
   "poolVotingThresholds": {
-    "committeeNormal": 0.60,
+    "committeeNormal": 0.6,
     "committeeNoConfidence": 0.51,
     "hardForkInitiation": 0.51,
-    "motionNoConfidence": 0.60,
-    "ppSecurityGroup": 0.60
+    "motionNoConfidence": 0.6,
+    "ppSecurityGroup": 0.6
   },
   "dRepVotingThresholds": {
     "motionNoConfidence": 0.67,
     "committeeNormal": 0.67,
-    "committeeNoConfidence": 0.60,
+    "committeeNoConfidence": 0.6,
     "updateToConstitution": 0.75,
-    "hardForkInitiation": 0.60,
+    "hardForkInitiation": 0.6,
     "ppNetworkGroup": 0.67,
     "ppEconomicGroup": 0.67,
     "ppTechnicalGroup": 0.67,
     "ppGovGroup": 0.75,
     "treasuryWithdrawal": 0.67
   },
-  "committeeMinSize": 7,
+  "committeeMinSize": 3,
   "committeeMaxTermLength": 73,
-  "govActionLifetime": 6,
+  "govActionLifetime": 8,
   "govActionDeposit": 50000000000,
   "dRepDeposit": 500000000,
   "dRepActivity": 20,
   "minFeeRefScriptCostPerByte": 44,
-  "constitution": {
-    "anchor": {
-      "url": "",
-      "dataHash": "0000000000000000000000000000000000000000000000000000000000000000"
-    }
-  },
-  "committee": {
-    "members": {
-    },
-    "threshold": 0.67
-  },
   "plutusV3CostModel": [
     100788,
     420,
@@ -137,8 +126,13 @@
     4,
     2,
     85848,
-    228465,
-    122,
+    123203,
+    7305,
+    -900,
+    1716,
+    549,
+    57,
+    85848,
     0,
     1,
     1,
@@ -205,10 +199,14 @@
     11546,
     32,
     85848,
-    228465,
-    122,
+    123203,
+    7305,
+    -900,
+    1716,
+    549,
+    57,
+    85848,
     0,
-    1,
     1,
     90434,
     519,
@@ -217,16 +215,25 @@
     74433,
     32,
     85848,
-    228465,
-    122,
+    123203,
+    7305,
+    -900,
+    1716,
+    549,
+    57,
+    85848,
     0,
     1,
     1,
     85848,
-    228465,
-    122,
+    123203,
+    7305,
+    -900,
+    1716,
+    549,
+    57,
+    85848,
     0,
-    1,
     1,
     955506,
     213312,
@@ -270,5 +277,20 @@
     43574283,
     26308,
     10
-  ]
+  ],
+  "constitution": {
+    "anchor": {
+      "url": "https://raw.githubusercontent.com/carloslodelar/proposals/main/constitution.txt",
+      "dataHash": "f89cc2469ce31c3dfda2f3e0b56c5c8b4ee4f0e5f66c30a3f12a95298b01179e"
+    }
+  },
+  "committee": {
+    "members": {
+        "scriptHash-8fc13431159fdda66347a38c55105d50d77d67abc1c368b876d52ad1": 336,
+        "scriptHash-921e1ccb4812c4280510c9ccab81c561f3d413e7d744d48d61215d1f": 400,
+        "scriptHash-d5d09d9380cf9dcde1f3c6cd88b08ca9e00a3d550022ca7ee4026342": 400,
+        "scriptHash-2c698e41831684b16477fb50082b0c0e396d436504e39037d5366582": 400
+    },
+    "threshold": 0.66
+  }
 }
