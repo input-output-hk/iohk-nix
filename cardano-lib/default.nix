@@ -424,8 +424,9 @@ let
             ByronGenesisFile = "${env}-${protNames.${p}.n}-genesis.json";
             ShelleyGenesisFile = "${env}-${protNames.${p}.shelley}-genesis.json";
             AlonzoGenesisFile = "${env}-${protNames.${p}.alonzo}-genesis.json";
+          } // (lib.optionalAttrs (p == "Cardano" && value.nodeConfig ? ConwayGenesisFile) {
             ConwayGenesisFile = "${env}-${protNames.${p}.conway}-genesis.json";
-          };
+          });
         in ''
           ${if p != "Cardano" then ''
             ${jq}/bin/jq . < ${__toFile "${env}-config.json" (__toJSON (value.nodeConfig // genesisFile))} > $out/${env}-config.json
