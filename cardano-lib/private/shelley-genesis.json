@@ -2,17 +2,17 @@
     "activeSlotsCoeff": 5.0e-2,
     "epochLength": 7200,
     "genDelegs": {
-        "04794bbb457731caa5299ad48baa5a17abca5d79b1b15ba4d0877d26": {
-            "delegate": "71fb1cb541640cd6437e4e65955e9ac2c38e096d4bc70e08317403c3",
-            "vrf": "77485eaf7d10b9bbfe9ee66fc5e02a0608093bffd18eccb8967db62b95e07673"
+        "471f409d117e8f3d37c438335cdf94bdaefff11eee3c759dbfb6af7f": {
+            "delegate": "42f9ee159489401afe2bb62182d4716939a1d57cd15f5009d3c9813b",
+            "vrf": "18e5b4400c30259604e117bfcf34c37a9c079903376484fe80284d50fb27b50c"
         },
-        "68755dfcd8f1dfc0f29d76884612dc1be07046da52e650465af3e490": {
-            "delegate": "461317deb43187863ea9cd6c02dcb3bdd2b913f6aa27563e5c502bf8",
-            "vrf": "88eb203d4d7e40dc28ce0577029b327c02d566ed19889267cc719ec57df0bc98"
+        "484e12a61f95d8387f4a088bc242a392ddcf064afc22e083a5c50bdd": {
+            "delegate": "a1da89322bff9befc4ac349e8f7c3f44d6790420c0e473607fc97e85",
+            "vrf": "222ab93c66b38279f7af5fa441b6a7a2f5035b9b622d49373f14d1e00f48693b"
         },
-        "aa4584a27e2555b46f012a236a0abda64e0a213f947d2bbacc964db1": {
-            "delegate": "2dae19573bed7614c49d7d895cbcec58a264ac59e332e43fa3847cd9",
-            "vrf": "c91228e01b04f9aede52bd7853b2b750907962a37f26cd3f705db6eccb483ff7"
+        "5937feb8c92733dcfd970986f00db2aad6df122b942ec66d12b1655f": {
+            "delegate": "b9a35b768d3c79b50d0a5f252960b6922ea50afacc5b255ca50ff98b",
+            "vrf": "1e9b132b2d310061fad60ca0284e54a9d3451a0ff9d2e181b2eaabec91f5fc5e"
         }
     },
     "initialFunds": {},
@@ -51,6 +51,6 @@
         "pools": {},
         "stake": {}
     },
-    "systemStart": "2023-10-28T00:00:00Z",
+    "systemStart": "2024-06-18T00:00:00Z",
     "updateQuorum": 3
 }
