@@ -27,7 +27,7 @@
   PeerSharing = true;
   TargetNumberOfActivePeers = 20;
   TargetNumberOfEstablishedPeers = 50;
-  TargetNumberOfKnownPeers = 100;
+  TargetNumberOfKnownPeers = 150;
   TargetNumberOfRootPeers = 60;
   TraceMempool = false;
 
