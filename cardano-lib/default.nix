@@ -170,7 +170,7 @@ let
       confKey = "mainnet_full";
       networkConfig = import ./mainnet-config.nix // minNodeVersion;
       networkConfigBp = import ./mainnet-config-bp.nix // minNodeVersion;
-      usePeersFromLedgerAfterSlot = 116812831;
+      usePeersFromLedgerAfterSlot = 128908821;
     };
 
     # Used for daedalus/cardano-wallet for local development
@@ -191,7 +191,7 @@ let
       edgePort = 3001;
       networkConfig = import ./shelley_qa-config.nix // minNodeVersion;
       networkConfigBp = import ./shelley_qa-config-bp.nix // minNodeVersion;
-      usePeersFromLedgerAfterSlot = 19252750;
+      usePeersFromLedgerAfterSlot = 31348805;
     };
 
     preprod = rec {
@@ -217,7 +217,7 @@ let
       edgePort = 3001;
       networkConfig = import ./preprod-config.nix // minNodeVersion;
       networkConfigBp = import ./preprod-config-bp.nix // minNodeVersion;
-      usePeersFromLedgerAfterSlot = 52358331;
+      usePeersFromLedgerAfterSlot = 64454371;
     };
 
     preview = rec {
@@ -243,7 +243,7 @@ let
       edgePort = 3001;
       networkConfig = import ./preview-config.nix // minNodeVersion;
       networkConfigBp = import ./preview-config-bp.nix // minNodeVersion;
-      usePeersFromLedgerAfterSlot = 41385503;
+      usePeersFromLedgerAfterSlot = 53827185;
     };
 
     sanchonet = rec {
@@ -269,7 +269,7 @@ let
       edgePort = 3001;
       networkConfig = import ./sanchonet-config.nix // minNodeVersion;
       networkConfigBp = import ./sanchonet-config-bp.nix // minNodeVersion;
-      usePeersFromLedgerAfterSlot = 21599922;
+      usePeersFromLedgerAfterSlot = 33695977;
     };
 
     private = rec {
@@ -289,7 +289,7 @@ let
       edgePort = 3001;
       networkConfig = import ./private-config.nix // minNodeVersion;
       networkConfigBp = import ./private-config-bp.nix // minNodeVersion;
-      usePeersFromLedgerAfterSlot = 10007987;
+      usePeersFromLedgerAfterSlot = 1886369;
     };
   };
 
