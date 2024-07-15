@@ -264,7 +264,7 @@ let
       useByronWallet = false;
       private = true;
       domain = "play.dev.cardano.org";
-      relaysNew = "private-node.play.dev.cardano.org";
+      relaysNew = "192.168.50.231";
       explorerUrl = "https://private-explorer.play.dev.cardano.org";
       smashUrl = "https://private-smash.play.dev.cardano.org";
       metadataUrl = "https://metadata.play.dev.cardano.org";
@@ -277,7 +277,7 @@ let
       edgePort = 3001;
       networkConfig = import ./private-config.nix // minNodeVersion;
       networkConfigBp = import ./private-config-bp.nix // minNodeVersion;
-      usePeersFromLedgerAfterSlot = 1886369;
+      usePeersFromLedgerAfterSlot = -1;
     };
   };
 
