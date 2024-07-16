@@ -1,6 +1,10 @@
 {
     "committee": {
-        "members": {},
+        "members": {
+            "scriptHash-dc8d8dff4eb7a9d1ece3941c43642bf60d2ef0580cab77c93f9c032c": 500,
+            "scriptHash-07715f0ed951c7cc1e62f4a01e6a579b62d4502db3db22feb91edf89": 500,
+            "scriptHash-61eea747f98b1900fd9e87d764b17611bb279e06664d203dfcfeb348": 500
+        },
         "threshold": 0.66
     },
     "committeeMaxTermLength": 73,
