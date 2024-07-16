@@ -36,7 +36,7 @@ let
 
       localRoots = [
         {
-           accessPoints = [{ address = "192.168.60.231"; port = 3001; }];
+           accessPoints = [{ address = "192.168.50.231"; port = 3001; }];
            advertise = false;
            valency = 1;
            trustable = true;
