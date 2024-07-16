@@ -36,10 +36,10 @@ let
 
       localRoots = [
         {
-           accessPoints = [];
+           accessPoints = mkPublicRootsAccessPoints;
            advertise = false;
            valency = 1;
-           trustable = false;
+           trustable = true;
         }
       ];
 
