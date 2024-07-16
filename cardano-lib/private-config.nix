@@ -7,7 +7,7 @@
   ##### Locations #####
 
   ByronGenesisFile = ./private + "/byron-genesis.json";
-  ByronGenesisHash = "818364071d4d3985ba47f856f9b14b913feb48ac080b2efba546c391654e10a5";
+  ByronGenesisHash = "4ff994757f7552b19e5a6727f456d24f5ed6e3cc4290c164ceb67fbdc60bd1ed";
   ShelleyGenesisFile = ./private + "/shelley-genesis.json";
   ShelleyGenesisHash = "4b1621a866517d42ff0025de8b6fe920271c3677c4d32426a751725a419bc8bc";
   AlonzoGenesisFile = ./private + "/alonzo-genesis.json";
