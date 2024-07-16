@@ -7,13 +7,13 @@
   ##### Locations #####
 
   ByronGenesisFile = ./private + "/byron-genesis.json";
-  ByronGenesisHash = "39868f13bb632d44644b2df4d1b180dcf1ba61f26d26a196b69d4cee9cf629b2";
+  ByronGenesisHash = "fd639df89b39fcbcf82b98ccb48893ffabd541aae86282879466e5971c42a1f8";
   ShelleyGenesisFile = ./private + "/shelley-genesis.json";
-  ShelleyGenesisHash = "ba9cf9eaa185a603c8f37de69725c5298e3cfee16b883a072a8564df3c102fd5";
+  ShelleyGenesisHash = "813d248c2570aaec4336ca04f592c8a1b65896dff4b59143bc7fbb614204b7a0";
   AlonzoGenesisFile = ./private + "/alonzo-genesis.json";
-  AlonzoGenesisHash = "0cd6973c5c4a2a8754f82b4807f3f9d6c837ef169f42da9f4ac0917d2275579a";
+  AlonzoGenesisHash = "1182ef7bc09a976e3a4085ea9fdbb48f3a60e3d80d8fbe1e3daad231e613e5b9";
   ConwayGenesisFile = ./private + "/conway-genesis.json";
-  ConwayGenesisHash = "231bca8ceca1c18781f4020a7d716d470a444333e251b0954514591dac1894ba";
+  ConwayGenesisHash = "ba3a98545902c877b545c903b69318ae097ae4d1f3536882b051e1561556f23e";
 
   ### Core protocol parameters #####
   Protocol = "Cardano";

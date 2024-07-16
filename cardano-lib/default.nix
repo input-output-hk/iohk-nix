@@ -37,9 +37,9 @@ let
       localRoots = [
         {
           accessPoints = [
-            { address = "192.168.83.55"; port = 3001; }
-            { address = "192.168.83.55"; port = 3002; }
-            { address = "192.168.83.55"; port = 3003; }
+            { address = "192.168.83.117"; port = 3001; }
+            { address = "192.168.83.117"; port = 3002; }
+            { address = "192.168.83.117"; port = 3003; }
           ];
            advertise = false;
            valency = 1;
@@ -141,8 +141,8 @@ let
       useByronWallet = true;
       private = false;
       domain = "cardano-mainnet.iohk.io";
-      relays = "192.168.83.55";
-      relaysNew = "192.168.83.55";
+      relays = "192.168.83.117";
+      relaysNew = "192.168.83.117";
       explorerUrl = "https://explorer.cardano.org";
       smashUrl = "https://smash.cardano-mainnet.iohk.io";
       metadataUrl = "https://tokens.cardano.org";
@@ -268,7 +268,7 @@ let
       useByronWallet = false;
       private = true;
       domain = "play.dev.cardano.org";
-      relaysNew = "192.168.83.55";
+      relaysNew = "192.168.83.117";
       explorerUrl = "https://private-explorer.play.dev.cardano.org";
       smashUrl = "https://private-smash.play.dev.cardano.org";
       metadataUrl = "https://metadata.play.dev.cardano.org";
