@@ -277,7 +277,7 @@ let
       edgePort = 3001;
       networkConfig = import ./private-config.nix // minNodeVersion;
       networkConfigBp = import ./private-config-bp.nix // minNodeVersion;
-      usePeersFromLedgerAfterSlot = 10000000000;
+      usePeersFromLedgerAfterSlot = -1;
     };
   };
 
