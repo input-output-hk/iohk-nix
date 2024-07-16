@@ -36,7 +36,11 @@ let
 
       localRoots = [
         {
-           accessPoints = [{ address = "192.168.83.55"; port = 3001; }];
+          accessPoints = [
+            { address = "192.168.83.55"; port = 3001; }
+            { address = "192.168.83.55"; port = 3002; }
+            { address = "192.168.83.55"; port = 3003; }
+          ];
            advertise = false;
            valency = 1;
            trustable = true;
@@ -277,7 +281,7 @@ let
       edgePort = 3001;
       networkConfig = import ./private-config.nix // minNodeVersion;
       networkConfigBp = import ./private-config-bp.nix // minNodeVersion;
-      usePeersFromLedgerAfterSlot = -1;
+      usePeersFromLedgerAfterSlot = 100;
     };
   };
 
