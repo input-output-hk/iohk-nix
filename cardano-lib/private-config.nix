@@ -7,9 +7,9 @@
   ##### Locations #####
 
   ByronGenesisFile = ./private + "/byron-genesis.json";
-  ByronGenesisHash = "07b7c3774dd7189c1708582c8ab934e3ddc65ec2c0ce3903451dbd867a1663fd";
+  ByronGenesisHash = "818364071d4d3985ba47f856f9b14b913feb48ac080b2efba546c391654e10a5";
   ShelleyGenesisFile = ./private + "/shelley-genesis.json";
-  ShelleyGenesisHash = "34e2d83e3dc2fb33ca2b41bd4314dc8e264d877034e4331a23cd7e58e530561e";
+  ShelleyGenesisHash = "4b1621a866517d42ff0025de8b6fe920271c3677c4d32426a751725a419bc8bc";
   AlonzoGenesisFile = ./private + "/alonzo-genesis.json";
   AlonzoGenesisHash = "0cd6973c5c4a2a8754f82b4807f3f9d6c837ef169f42da9f4ac0917d2275579a";
   ConwayGenesisFile = ./private + "/conway-genesis.json";
