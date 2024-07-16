@@ -137,8 +137,8 @@ let
       useByronWallet = true;
       private = false;
       domain = "cardano-mainnet.iohk.io";
-      relays = "192.168.50.231";
-      relaysNew = "192.168.50.231";
+      relays = "192.168.83.55";
+      relaysNew = "192.168.83.55";
       explorerUrl = "https://explorer.cardano.org";
       smashUrl = "https://smash.cardano-mainnet.iohk.io";
       metadataUrl = "https://tokens.cardano.org";
