@@ -30,7 +30,6 @@
   TestAllegraHardForkAtEpoch = 0;
   TestAlonzoHardForkAtEpoch = 0;
   TestMaryHardForkAtEpoch = 0;
-  TestBabbageHardForkAtEpoch = 0;
 
   ##### Update system Parameters #####
   LastKnownBlockVersion-Major = 3;
