@@ -36,7 +36,7 @@ let
 
       localRoots = [
         {
-           accessPoints = [{ address = "192.168.50.231"; port = 3001; }];
+           accessPoints = [{ address = "192.168.83.55"; port = 3001; }];
            advertise = false;
            valency = 1;
            trustable = true;
@@ -264,7 +264,7 @@ let
       useByronWallet = false;
       private = true;
       domain = "play.dev.cardano.org";
-      relaysNew = "192.168.50.231";
+      relaysNew = "192.168.83.55";
       explorerUrl = "https://private-explorer.play.dev.cardano.org";
       smashUrl = "https://private-smash.play.dev.cardano.org";
       metadataUrl = "https://metadata.play.dev.cardano.org";
