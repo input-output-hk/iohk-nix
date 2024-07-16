@@ -273,10 +273,10 @@ let
       edgeNodes = [
         {
           addr = relaysNew;
-          port = 3001;
+          port = 3004;
         }
       ];
-      edgePort = 3001;
+      edgePort = 3004;
       networkConfig = import ./private-config.nix // minNodeVersion;
       networkConfigBp = import ./private-config-bp.nix // minNodeVersion;
       usePeersFromLedgerAfterSlot = 100;
