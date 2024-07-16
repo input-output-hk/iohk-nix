@@ -1,36 +1,5 @@
 {
   "bootStakeholders": {
-<<<<<<< HEAD
-    "71d356c6309fa6b16d16e5325083017e64319d2e4caaa317d55e2d59": 1,
-    "784cc00ce9ca303b41dc749fe63fa0f4dcb1e5b9b769c563fe4d5f05": 1,
-    "bc4ca8899467a3a3aa9f886b0a0320c4b63f656386ddb3655aaf9da6": 1
-  },
-  "heavyDelegation": {
-    "71d356c6309fa6b16d16e5325083017e64319d2e4caaa317d55e2d59": {
-      "omega": 0,
-      "issuerPk": "i/KqaEksrWQ4ZfVt8RNenJqfE0uxafcZNeMx1XFe2o4cJqBE+8kytjb9O055kUc4zPPeTmV75HoFwEWmCFZ1hg==",
-      "delegatePk": "/SYcj4ET8sMK0xsAb5qRkdxwd7F2l1ja8uhPKm7imBoIKaroqcjTP2n6wme3Gce2m1a1B8d0GYcq6VOqln4TnA==",
-      "cert": "c856981a7d7060c0e7a6815d78ce37860298c999a1169329c82bb2aadc211606afba328a1b8aeb339919907a48e9bb5e0ce22cdedb32da87998cefee606edb06"
-    },
-    "784cc00ce9ca303b41dc749fe63fa0f4dcb1e5b9b769c563fe4d5f05": {
-      "omega": 0,
-      "issuerPk": "udZuahjp5BwLYI7785zxfyTBlh9wnivaCzOWI0UQhsgMrnDYshf6NRXkskXy9h99bkLahPooMHyPOWGk3d6aOw==",
-      "delegatePk": "ipea02AiDM0jZ9w1XDM52WCtBsrGliBf7Y0PmyeuXbHUGYPx4VJkZCG4pqV4t4RJIiKB4fNdHuAlpEAwCnT2+w==",
-      "cert": "b6f394f938df14ae2e80edf7c0eb6f16e30efd7e48cefad41d4f3424313b13decd379442c7130085eb3f3574bc5c087eb23e25ac52e2aa9d4b530647c97e6f0b"
-    },
-    "bc4ca8899467a3a3aa9f886b0a0320c4b63f656386ddb3655aaf9da6": {
-      "omega": 0,
-      "issuerPk": "0sKBx4ddFGWPfminl+I7BzmDefRAz8FEs6bIHZ4z56LuAZ/qhuQA3MjgZWLElr1ikwdIJ+EnClvPAcewKhu6OQ==",
-      "delegatePk": "xoqVp9F3I6FTULgn5NGt0evgiCesvXfDNDZAs0z9+ynUy+7Hup8jS2TX57o/NolEX+RD6neq8irF9IrdbKbEGw==",
-      "cert": "4c2b53e0d238cd43f25f5563b231530c4d11fd6654a0a3097295807e28f7e17fad7ec491dd1489c135c20ba08dc40b83481576b5e6fcf4e9185d3b1e2b292008"
-    }
-  },
-  "startTime": 1721099515,
-  "nonAvvmBalances": {
-    "2657WMsDfac5X1CBmzFo94Mkda1CKJui655wuSykKMnzNmbqw1Jb8v5b3sMUDT5YH": "4000000",
-    "2657WMsDfac5YSA2Cti1X7JCwaqHHJaDFMvNndmEvR187crLEnCLM9MF1PKKwopqm": "4000000",
-    "2657WMsDfac63MSBZvsMW8KfAmaRX5NVXTGE4PLG1PA6zso4ZSSsy5EmmgFgtbuJD": "4000000"
-=======
     "3c86ba6457aba1fb10377d41ea402c442434b2b5afa8492852562800": 1,
     "620108e54997baedd8b02cf27e70da08dabb5c385e3f85d5186072ef": 1,
     "9bd0c18724b9d517dcac4e280ae69f996d59e40747aac2c9cf73337b": 1
@@ -60,7 +29,6 @@
     "2657WMsDfac56uUNzNfzecwj4NWLAuiKtTDHbxcGiH6RELCXcuu2h3rSLySNVTW5n": "4000000",
     "2657WMsDfac57vDwxKhigpFSWyopHX2PXJvrfLkpW7eiyxSkRkd6q6PyAtwDKpysf": "4000000",
     "2657WMsDfac7nDGdmE3cYG7YyHy88Qn3Xgypm4Exa241CXt8rDZjCQKpHtF7qMPzk": "4000000"
->>>>>>> 2dbf7fd (config files for demo)
   },
   "blockVersionData": {
     "scriptVersion": 0,
