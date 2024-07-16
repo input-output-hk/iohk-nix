@@ -1,10 +1,6 @@
 {
     "committee": {
-        "members": {
-            "keyHash-13fbd6f16f4cc48d0c0839181e668fb72860168b1518e5c12128a2a4": 200,
-            "keyHash-51aa5efffd8734f0b74e514b2e906543546ddbcf07876a70c59bbe36": 200,
-            "keyHash-6edd46a9fd62296ca3b52a614a1057683b66803545f9a958535d005f": 200
-        },
+        "members": {},
         "threshold": 0.66
     },
     "committeeMaxTermLength": 73,
@@ -31,7 +27,7 @@
         "updateToConstitution": 0.75
     },
     "govActionDeposit": 50000000000,
-    "govActionLifetime": 2,
+    "govActionLifetime": 25,
     "minFeeRefScriptCostPerByte": 44,
     "plutusV3CostModel": [
         100788,
