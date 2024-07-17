@@ -1,11 +1,23 @@
 {
-  "poolVotingThresholds": {
-    "committeeNormal": 0.65,
-    "committeeNoConfidence": 0.65,
-    "hardForkInitiation": 0.51,
-    "motionNoConfidence": 0.6,
-    "ppSecurityGroup": 0.6
+  "committee": {
+    "members": {
+      "scriptHash-6eec24547212e7c675c01c607f893b68726e98eae2cc8370170171ce": 1000,
+      "scriptHash-1672346c72d2793602a29ef07b930b3e2f361be75da07d8acedead7b": 1000,
+      "scriptHash-40d2e0ae06bb4b7360542938c41f9ba3f3b173ea0188f4f9e9c1908b": 1000
+    },
+    "threshold": 0.66
   },
+  "committeeMaxTermLength": 1000,
+  "committeeMinSize": 3,
+  "constitution": {
+    "anchor": {
+      "url": "ipfs://QmQq5hWDNzvDR1ForEktAHrdCQmfSL2u5yctNpzDwoSBu4",
+      "dataHash": "23b43bebac48a4acc39e578715aa06635d6d900fa3ea7441dfffd6e43b914f7b"
+    },
+		"script": "edcd84c10e36ae810dc50847477083069db796219b39ccde790484e0"
+  },
+  "dRepActivity": 20,
+  "dRepDeposit": 0,
   "dRepVotingThresholds": {
     "motionNoConfidence": 0.67,
     "committeeNormal": 0.67,
@@ -18,12 +30,8 @@
     "ppGovGroup": 0.75,
     "treasuryWithdrawal": 0.67
   },
-  "committeeMinSize": 5,
-  "committeeMaxTermLength": 146,
-  "govActionLifetime": 14,
-  "govActionDeposit": 100000000000,
-  "dRepDeposit": 500000000,
-  "dRepActivity": 20,
+  "govActionDeposit": 0,
+  "govActionLifetime": 150,
   "minFeeRefScriptCostPerByte": 15,
   "plutusV3CostModel": [
     100788,
@@ -278,19 +286,11 @@
     0,
     1
   ],
-  "constitution": {
-    "anchor": {
-      "url": "ipfs://QmQq5hWDNzvDR1ForEktAHrdCQmfSL2u5yctNpzDwoSBu4",
-      "dataHash": "23b43bebac48a4acc39e578715aa06635d6d900fa3ea7441dfffd6e43b914f7b"
-    },
-		"script": "edcd84c10e36ae810dc50847477083069db796219b39ccde790484e0"
-  },
-  "committee": {
-    "members": {
-			"scriptHash-8b61a8595ae1abe3cd60bca703f722c86e9101a7efc5ab84a188d147": 500,
-			"scriptHash-9e6d85d26c5f72dd4fc65e8c44b18c41a946bb463aa4de117c72928f": 500,
-			"scriptHash-fcdeada2a3cb8857b24883cfe608fc0a5f5b8b09de336c78ee0a200c": 500
-    },
-    "threshold": 0.67
+  "poolVotingThresholds": {
+    "committeeNormal": 0.60,
+    "committeeNoConfidence": 0.60,
+    "hardForkInitiation": 0.51,
+    "motionNoConfidence": 0.51,
+    "ppSecurityGroup": 0.6
   }
 }
