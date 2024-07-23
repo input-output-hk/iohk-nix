@@ -176,6 +176,9 @@ let
       networkConfig = import ./mainnet-config.nix // minNodeVersion;
       networkConfigBp = import ./mainnet-config-bp.nix // minNodeVersion;
       usePeersFromLedgerAfterSlot = 128908821;
+      extraDbSyncConfig = {
+        enableFutureGenesis = true;
+      };
     };
 
     # Used for daedalus/cardano-wallet for local development
@@ -223,6 +226,9 @@ let
       networkConfig = import ./preprod-config.nix // minNodeVersion;
       networkConfigBp = import ./preprod-config-bp.nix // minNodeVersion;
       usePeersFromLedgerAfterSlot = 64454371;
+      extraDbSyncConfig = {
+        enableFutureGenesis = true;
+      };
     };
 
     preview = rec {
@@ -249,6 +255,9 @@ let
       networkConfig = import ./preview-config.nix // minNodeVersion;
       networkConfigBp = import ./preview-config-bp.nix // minNodeVersion;
       usePeersFromLedgerAfterSlot = 53827185;
+      extraDbSyncConfig = {
+        enableFutureGenesis = true;
+      };
     };
 
     sanchonet = rec {
