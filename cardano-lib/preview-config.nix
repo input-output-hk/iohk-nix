@@ -8,6 +8,8 @@
 
   ByronGenesisFile = ./preview + "/byron-genesis.json";
   ByronGenesisHash = "83de1d7302569ad56cf9139a41e2e11346d4cb4a31c00142557b6ab3fa550761";
+  ConwayGenesisFile = ./preview + "/conway-genesis.json";
+  ConwayGenesisHash = "9cc5084f02e27210eacba47af0872e3dba8946ad9460b6072d793e1d2f3987ef";
   ShelleyGenesisFile = ./preview + "/shelley-genesis.json";
   ShelleyGenesisHash = "363498d1024f84bb39d3fa9593ce391483cb40d479b87233f868d6e57c3a400d";
   AlonzoGenesisFile = ./preview + "/alonzo-genesis.json";
