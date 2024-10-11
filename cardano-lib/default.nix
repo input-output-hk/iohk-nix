@@ -62,18 +62,7 @@ let
     p2pTopology = mkEdgeTopologyP2P {
       inherit (env) edgeNodes;
 
-      # Until legacy mainnet relays are deprecated and replaced by IOG bootstrap peers for relaysNew,
-      # filter the legacy relaysNew definition from the mainnet bootstrapPeers list.
-      #
-      # All other envs can use the edgeNodes list as bootstrapPeers.
-      bootstrapPeers =
-        if env.name == "mainnet"
-        then
-          map (e: {address = e.addr; inherit (e) port;})
-            (builtins.filter (e: e.addr != env.relaysNew) env.edgeNodes)
-        else
-          map (e: {address = e.addr; inherit (e) port;}) env.edgeNodes;
-
+      bootstrapPeers = map (e: {address = e.addr; inherit (e) port;}) env.edgeNodes;
       useLedgerAfterSlot = env.usePeersFromLedgerAfterSlot;
     };
   in
@@ -142,8 +131,7 @@ let
       useByronWallet = true;
       private = false;
       domain = "cardano-mainnet.iohk.io";
-      relays = "relays.cardano-mainnet.iohk.io";
-      relaysNew = "backbone.cardano-mainnet.iohk.io";
+      relaysNew = "backbone.cardano.iog.io";
       explorerUrl = "https://explorer.cardano.org";
       smashUrl = "https://smash.cardano-mainnet.iohk.io";
       metadataUrl = "https://tokens.cardano.org";
@@ -159,15 +147,11 @@ let
           port = 3001;
         }
         {
-          addr = "backbone.cardano.iog.io";
+          addr = "backbone.mainnet.cardanofoundation.org";
           port = 3001;
         }
         {
           addr = "backbone.mainnet.emurgornd.com";
-          port = 3001;
-        }
-        {
-          addr = "backbone.mainnet.cardanofoundation.org";
           port = 3001;
         }
       ];
