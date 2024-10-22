@@ -265,8 +265,8 @@ let
         }
       ];
       edgePort = 3001;
-      networkConfig = import ./sanchonet-config.nix // minNodeVersion;
-      networkConfigBp = import ./sanchonet-config-bp.nix // minNodeVersion;
+      networkConfig = import ./sanchonet-config.nix // { MinNodeVersion = "10.0.0"; };
+      networkConfigBp = import ./sanchonet-config-bp.nix // { MinNodeVersion = "10.0.0"; };
       usePeersFromLedgerAfterSlot = 33695977;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
