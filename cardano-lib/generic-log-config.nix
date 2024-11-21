@@ -14,6 +14,9 @@
   # The verbosity can be: MinimalVerbosity, NormalVerbosity
   TracingVerbosity = "NormalVerbosity";
 
+  # Use legacy tracing
+  UseTraceDispatcher = false;
+
   # The system supports a number of backends for logging and monitoring.
   # This setting lists the the backends that will be available to use in the
   # configuration below. The logging backend is called Katip. Also enable the EKG
