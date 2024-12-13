@@ -28,7 +28,7 @@
   EnableP2P = true;
   PeerSharing = true;
   TargetNumberOfActivePeers = 20;
-  TargetNumberOfEstablishedPeers = 50;
+  TargetNumberOfEstablishedPeers = 40;
   TargetNumberOfKnownPeers = 150;
   TargetNumberOfRootPeers = 60;
 
