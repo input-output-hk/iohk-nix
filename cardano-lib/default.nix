@@ -267,6 +267,7 @@ let
       edgePort = 3001;
       networkConfig = import ./sanchonet-config.nix // minNodeVersion;
       networkConfigBp = import ./sanchonet-config-bp.nix // minNodeVersion;
+      peerSnapshot = builtins.fromJSON (builtins.readFile ./sanchonet/peer-snapshot.json);
       usePeersFromLedgerAfterSlot = 33695977;
       extraDbSyncConfig = {
         enableFutureGenesis = true;

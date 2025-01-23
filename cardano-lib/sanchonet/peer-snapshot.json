@@ -1,0 +1,178 @@
+{
+  "bigLedgerPools": [
+    {
+      "accumulatedStake": 0.10061933082458636,
+      "relativeStake": 0.10061933082458636,
+      "relays": [
+        {
+          "domain": "sanchonet1-node.play.dev.cardano.org",
+          "port": 3001
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.157714324199054,
+      "relativeStake": 0.05709499337446764,
+      "relays": [
+        {
+          "domain": "relay.hephy.io",
+          "port": 9000
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.21453493998746315,
+      "relativeStake": 0.05682061578840914,
+      "relays": [
+        {
+          "domain": "test.stakepool.at",
+          "port": 3001
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.2711622787229529,
+      "relativeStake": 0.05662733873548975,
+      "relays": [
+        {
+          "domain": "sancho-testnet.able-pool.io",
+          "port": 6002
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.32776897732759475,
+      "relativeStake": 0.05660669860464184,
+      "relays": [
+        {
+          "domain": "testicles.kiwipool.org",
+          "port": 9740
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.38382065005850047,
+      "relativeStake": 0.0560516727309057,
+      "relays": [
+        {
+          "domain": "c-sn-rn01.liv.io",
+          "port": 30004
+        },
+        {
+          "domain": "c-sn-rn02.liv.io",
+          "port": 30004
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.43987036547875136,
+      "relativeStake": 0.056049715420250903,
+      "relays": [
+        {
+          "domain": "test.smaug.pool.pm",
+          "port": 3004
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.49591719069874235,
+      "relativeStake": 0.056046825219990964,
+      "relays": [
+        {
+          "address": "73.54.73.48",
+          "port": 5000
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.5519623655912501,
+      "relativeStake": 0.05604517489250775,
+      "relays": [
+        {
+          "address": "64.23.159.5",
+          "port": 4000
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.6080064755722259,
+      "relativeStake": 0.056044109980975754,
+      "relays": [
+        {
+          "domain": "sanchorelay.junglestakepool.com",
+          "port": 3003
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.6640502051781211,
+      "relativeStake": 0.05604372960589529,
+      "relays": [
+        {
+          "domain": "relay1.sanchonet.pool.cardanofoundation.org",
+          "port": 30004
+        },
+        {
+          "domain": "relay2.sanchonet.pool.cardanofoundation.org",
+          "port": 30004
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.7200712328374368,
+      "relativeStake": 0.056021027659315624,
+      "relays": [
+        {
+          "domain": "node1.cardano.gratis",
+          "port": 6401
+        },
+        {
+          "domain": "node2.cardano.gratis",
+          "port": 6402
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.7760575435020842,
+      "relativeStake": 0.05598631066464747,
+      "relays": [
+        {
+          "domain": "hcm07xw90vx.sn.mynetname.net",
+          "port": 5000
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8320438539898949,
+      "relativeStake": 0.05598631048781062,
+      "relays": [
+        {
+          "domain": "mithril-signer-1.testing-sanchonet.api.mithril.network",
+          "port": 9091
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8880273910061395,
+      "relativeStake": 0.05598353701624458,
+      "relays": [
+        {
+          "domain": "sanchorelay1.intertreecryptoconsultants.com",
+          "port": 6002
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.9434621390225646,
+      "relativeStake": 0.055434748016425214,
+      "relays": [
+        {
+          "domain": "sanchonet3-node.play.dev.cardano.org",
+          "port": 3001
+        }
+      ]
+    }
+  ],
+  "slotNo": 50798262,
+  "version": 1
+}
