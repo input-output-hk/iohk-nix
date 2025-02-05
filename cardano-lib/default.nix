@@ -113,7 +113,7 @@ let
   # all networks by default but can be overridden on a per network basis below
   # as needed.  Any node version string suffixes, such as `-pre`, should be
   # removed from this string identifier.
-  minNodeVersion = { MinNodeVersion = "8.12.0"; };
+  minNodeVersion = { MinNodeVersion = "10.1.4"; };
 
   environments = lib.mapAttrs (name: env: {
     inherit name;
@@ -265,8 +265,8 @@ let
         }
       ];
       edgePort = 3001;
-      networkConfig = import ./sanchonet-config.nix // { MinNodeVersion = "10.0.0"; };
-      networkConfigBp = import ./sanchonet-config-bp.nix // { MinNodeVersion = "10.0.0"; };
+      networkConfig = import ./sanchonet-config.nix // minNodeVersion;
+      networkConfigBp = import ./sanchonet-config-bp.nix // minNodeVersion;
       usePeersFromLedgerAfterSlot = 33695977;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
