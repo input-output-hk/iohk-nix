@@ -14,23 +14,12 @@
 }:
 
 let
-  upstreamedDeprecation = p: __trace "WARNING: commonLib.${p} is deprecated. Please use it from nixpkgs directly instead.";
-  fetchTarballFromJson = jsonFile:
-    let
-      spec = builtins.fromJSON (builtins.readFile jsonFile);
-    in builtins.fetchTarball {
-      url = "${spec.url}/archive/${spec.rev}.tar.gz";
-      inherit (spec) sha256;
-    };
-  deprecationWarning = parameter: builtins.trace ''
-    WARNING: iohk-nix \"${parameter}\" parameter is deprecated.
-    Please use niv (https://github.com/nmattia/niv/) and the \"sourcesOverride\" parameter instead.
-  '';
+  upstreamedDeprecation = p: builtins.trace "WARNING: commonLib.${p} is deprecated. Please use it from nixpkgs directly instead.";
   sources = defaultSources // sourcesOverride;
 
   commonLib = rec {
     fetchNixpkgs = throw "Please use niv to pin nixpkgs instead.";
-    # equivalent of <nixpkgs> but pinned instead of system
+    # Equivalent of <nixpkgs> but pinned instead of system
     inherit (sources) nixpkgs;
     inherit pkgsDefault;
     getPkgs = let
@@ -83,7 +72,7 @@ let
     fixStylishHaskell = pkgsDefault.callPackage ./tests/fix-stylish-haskell.nix {};
 
     # Check scripts
-    check-hydra = __trace "check-hydra is deprecated. Please use hydraEvalErrors" pkgsDefault.callPackage ./ci/check-hydra.nix {};
+    check-hydra = builtins.trace "check-hydra is deprecated. Please use hydraEvalErrors" pkgsDefault.callPackage ./ci/check-hydra.nix {};
     checkStackProject = pkgsDefault.callPackage ./ci/check-stack-project.nix {};
     hydraEvalErrors = pkgsDefault.callPackage ./ci/hydra-eval-errors {};
     checkRepoTagsOnMasterBranches = pkgsDefault.callPackage ./ci/check-source-repo-tags-on-master.nix {};
@@ -104,7 +93,7 @@ let
     rust-packages = rust-packages.overlays;
     haskell-nix-extra = [(import ./overlays/haskell-nix-extra)];
     crypto = [(import ./overlays/crypto)];
-    iohkNix = [(pkgs: super: rec {
+    iohkNix = [(pkgs: super: {
       iohkNix = import ./. {
         inherit (pkgs) config system;
         pkgsDefault = pkgs;
@@ -160,12 +149,12 @@ let
       niv;
 
     inherit (commonLib)
-      # package sets
+      # Package sets
       nixpkgs
       pkgs
       pkgsDefault
 
-      # library functions
+      # Library functions
       fetchNixpkgs
       getPkgs
       getPkgsDefault
@@ -176,7 +165,7 @@ let
       cabalProjectRegenerate
       supervisord
 
-      # packages
+      # Packages
       stack-hpc-coveralls
       hpc-coveralls
       hlint
@@ -185,7 +174,7 @@ let
       cardano-repo-tool
       stack-cabal-sync-shell
 
-      # scripts
+      # Scripts
       check-hydra
       checkCabalProject
       hydraEvalErrors
