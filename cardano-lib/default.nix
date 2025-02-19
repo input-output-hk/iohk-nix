@@ -165,27 +165,6 @@ let
       };
     };
 
-    # Used for daedalus/cardano-wallet for local development
-    shelley_qa = rec {
-      useByronWallet = false;
-      private = true;
-      domain = "play.dev.cardano.org";
-      relaysNew = "shelley-qa-node.play.dev.cardano.org";
-      explorerUrl = "https://shelley-qa-explorer.play.dev.cardano.org";
-      smashUrl = "https://shelley-qa-smash.play.dev.cardano.org";
-      metadataUrl = "https://metadata.play.dev.cardano.org";
-      edgeNodes = [
-        {
-          addr = relaysNew;
-          port = 3001;
-        }
-      ];
-      edgePort = 3001;
-      networkConfig = import ./shelley_qa-config.nix // minNodeVersion;
-      networkConfigBp = import ./shelley_qa-config-bp.nix // minNodeVersion;
-      usePeersFromLedgerAfterSlot = 31348805;
-    };
-
     preprod = rec {
       useByronWallet = false;
       private = false;
@@ -243,14 +222,19 @@ let
         enableFutureGenesis = true;
       };
     };
+  };
 
+  # These will be removed at some point
+  dead_environments = {
+    # Network shutdown, but various node scripts reference it as a template
+    shelley_qa = trace "DEPRECATION WARNING: SHELLEY_QA WAS SHUT DOWN. This configuration will be removed; use preview or preprod instead." (rec {
       useByronWallet = false;
       private = true;
-      domain = "play.dev.cardano.org";
-      relaysNew = "private-node.play.dev.cardano.org";
-      explorerUrl = "https://private-explorer.play.dev.cardano.org";
-      smashUrl = "https://private-smash.play.dev.cardano.org";
-      metadataUrl = "https://metadata.play.dev.cardano.org";
+      relays = "doesnotexist.iog.io";
+      relaysNew = "doesnotexist.iog.io";
+      explorerUrl = "https://doesnotexist.iog.io";
+      smashUrl = "https://doesnotexist.iog.io";
+      metadataUrl = "https://doesnotexist.iog.io";
       edgeNodes = [
         {
           addr = relaysNew;
@@ -258,19 +242,22 @@ let
         }
       ];
       edgePort = 3001;
-      networkConfig = import ./private-config.nix // minNodeVersion;
-      networkConfigBp = import ./private-config-bp.nix // minNodeVersion;
-      usePeersFromLedgerAfterSlot = 1886369;
-      extraDbSyncConfig = {
-        enableFutureGenesis = true;
-      };
-    };
-  };
+      networkConfig = import ./shelley_qa-config.nix // minNodeVersion;
+      networkConfigBp = import ./shelley_qa-config-bp.nix // minNodeVersion;
 
-  # These will be removed at some point
-  dead_environments = {
+      consensusProtocol = networkConfig.Protocol;
+      nodeConfig = defaultLogConfig // networkConfig;
+      nodeConfigBp = defaultLogConfig // networkConfigBp;
+      submitApiConfig = mkSubmitApiConfig "shelley_qa" nodeConfig;
+      dbSyncConfig = mkDbSyncConfig "shelley_qa" nodeConfig {};
+      explorerConfig = mkExplorerConfig "shelley_qa" nodeConfig;
+      mithrilSignerConfig = mkMithrilSignerConfig "shelley_qa" dead_environments.shelley_qa;
+
+      usePeersFromLedgerAfterSlot = 31348805;
+    });
+
     # Network shutdown, but benchmarking configs reference it as a template
-    testnet = __trace "DEPRECATION WARNING: TESTNET WAS SHUT DOWN. You may want to consider using preprod or preview." (rec {
+    testnet = trace "DEPRECATION WARNING: TESTNET WAS SHUT DOWN. This configuration will be removed; use preview or preprod instead." (rec {
       useByronWallet = true;
       private = true;
       relays = "doesnotexist.iog.io";
