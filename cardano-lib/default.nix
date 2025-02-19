@@ -1,6 +1,6 @@
 {lib, writeText, runCommand, jq}:
 let
-  inherit (builtins) attrNames fromJSON readFile toFile toJSON trace;
+  inherit (builtins) attrNames fromJSON readFile toFile toJSON;
   inherit (lib) filterAttrs flip forEach listToAttrs mapAttrs mapAttrsToList optionalAttrs optionalString pipe;
 
   mkEdgeTopology = {
@@ -228,59 +228,8 @@ let
     };
   };
 
-  # These will be removed at some point
+  # Move dead envs here for a grace period with an added deprecation warn trace prior to deletion.
   dead_environments = {
-    # Network shutdown, but various node scripts reference it as a template
-    shelley_qa = trace "DEPRECATION WARNING: SHELLEY_QA WAS SHUT DOWN. Shelley_qa configuration will be removed; use preview or preprod instead." (rec {
-      useByronWallet = false;
-      private = true;
-      relays = "doesnotexist.iog.io";
-      relaysNew = "doesnotexist.iog.io";
-      explorerUrl = "https://doesnotexist.iog.io";
-      smashUrl = "https://doesnotexist.iog.io";
-      metadataUrl = "https://doesnotexist.iog.io";
-      edgeNodes = [
-        {
-          addr = relaysNew;
-          port = 3001;
-        }
-      ];
-      edgePort = 3001;
-      networkConfig = import ./shelley_qa-config.nix // minNodeVersion;
-      networkConfigBp = import ./shelley_qa-config-bp.nix // minNodeVersion;
-      consensusProtocol = networkConfig.Protocol;
-      nodeConfig = defaultLogConfig // networkConfig;
-      nodeConfigBp = defaultLogConfig // networkConfigBp;
-      submitApiConfig = mkSubmitApiConfig "shelley_qa" nodeConfig;
-      dbSyncConfig = mkDbSyncConfig "shelley_qa" nodeConfig {};
-      explorerConfig = mkExplorerConfig "shelley_qa" nodeConfig;
-      mithrilSignerConfig = mkMithrilSignerConfig "shelley_qa" dead_environments.shelley_qa;
-      usePeersFromLedgerAfterSlot = 31348805;
-    });
-
-    # Network shutdown, but benchmarking configs reference it as a template
-    testnet = trace "DEPRECATION WARNING: TESTNET WAS SHUT DOWN. Testnet configuration will be removed; use preview or preprod instead." (rec {
-      useByronWallet = true;
-      private = true;
-      relays = "doesnotexist.iog.io";
-      relaysNew = "doesnotexist.iog.io";
-      explorerUrl = "https://doesnotexist.iog.io";
-      smashUrl = "https://doesnotexist.iog.io";
-      metadataUrl = "https://doesnotexist.iog.io";
-      edgeNodes = [];
-      edgePort = 3001;
-      confKey = "testnet_full";
-      networkConfig = import ./testnet-config.nix // minNodeVersion;
-      networkConfigBp = import ./testnet-config-bp.nix // minNodeVersion;
-      consensusProtocol = networkConfig.Protocol;
-      nodeConfig = defaultLogConfig // networkConfig;
-      nodeConfigBp = defaultLogConfig // networkConfigBp;
-      submitApiConfig = mkSubmitApiConfig "testnet" nodeConfig;
-      dbSyncConfig = mkDbSyncConfig "testnet" nodeConfig {};
-      explorerConfig = mkExplorerConfig "testnet" nodeConfig;
-      mithrilSignerConfig = mkMithrilSignerConfig "testnet" dead_environments.testnet;
-      usePeersFromLedgerAfterSlot = -1;
-    });
   };
 
   # TODO: add flag to disable with forEnvironments instead of hard-coded list?
