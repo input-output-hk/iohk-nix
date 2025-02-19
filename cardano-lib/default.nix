@@ -129,6 +129,7 @@ let
       mkDbSyncConfig name environments.${name}.nodeConfig (env.extraDbSyncConfig or {});
     explorerConfig = mkExplorerConfig name environments.${name}.nodeConfig;
     mithrilSignerConfig = mkMithrilSignerConfig name env;
+    peerSnapshot = fromJSON (readFile ./${name}/peer-snapshot.json);
   } // env) {
     mainnet = rec {
       useByronWallet = true;
@@ -162,7 +163,7 @@ let
       confKey = "mainnet_full";
       networkConfig = import ./mainnet-config.nix // minNodeVersion;
       networkConfigBp = import ./mainnet-config-bp.nix // minNodeVersion;
-      usePeersFromLedgerAfterSlot = 128908821;
+      usePeersFromLedgerAfterSlot = 148350000;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
       };
@@ -191,7 +192,7 @@ let
       edgePort = 3001;
       networkConfig = import ./preprod-config.nix // minNodeVersion;
       networkConfigBp = import ./preprod-config-bp.nix // minNodeVersion;
-      usePeersFromLedgerAfterSlot = 64454371;
+      usePeersFromLedgerAfterSlot = 83894000;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
       };
@@ -220,7 +221,7 @@ let
       edgePort = 3001;
       networkConfig = import ./preview-config.nix // minNodeVersion;
       networkConfigBp = import ./preview-config-bp.nix // minNodeVersion;
-      usePeersFromLedgerAfterSlot = 53827185;
+      usePeersFromLedgerAfterSlot = 73267000;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
       };
@@ -247,7 +248,6 @@ let
       edgePort = 3001;
       networkConfig = import ./shelley_qa-config.nix // minNodeVersion;
       networkConfigBp = import ./shelley_qa-config-bp.nix // minNodeVersion;
-
       consensusProtocol = networkConfig.Protocol;
       nodeConfig = defaultLogConfig // networkConfig;
       nodeConfigBp = defaultLogConfig // networkConfigBp;
@@ -255,7 +255,6 @@ let
       dbSyncConfig = mkDbSyncConfig "shelley_qa" nodeConfig {};
       explorerConfig = mkExplorerConfig "shelley_qa" nodeConfig;
       mithrilSignerConfig = mkMithrilSignerConfig "shelley_qa" dead_environments.shelley_qa;
-
       usePeersFromLedgerAfterSlot = 31348805;
     });
 
