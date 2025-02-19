@@ -1,5 +1,8 @@
 {lib, writeText, runCommand, jq}:
 let
+  inherit (builtins) attrNames fromJSON readFile toFile toJSON trace;
+  inherit (lib) filterAttrs flip forEach listToAttrs mapAttrs mapAttrsToList optionalAttrs optionalString pipe;
+
   mkEdgeTopology = {
     hostAddr ? "127.0.0.1"
   , port ? 3001
@@ -19,7 +22,7 @@ let
         }
       ];
     };
-  in builtins.toFile "topology.yaml" (builtins.toJSON topology);
+  in toFile "topology.yaml" (toJSON topology);
 
   mkEdgeTopologyP2P = {
     edgeNodes ? [{addr = "127.0.0.1"; port = 3001;}]
@@ -51,7 +54,7 @@ let
       ];
     };
   in
-    builtins.toFile "topology.yaml" (builtins.toJSON topology);
+    toFile "topology.yaml" (toJSON topology);
 
   mkTopology = env: let
     legacyTopology = mkEdgeTopology {
@@ -73,10 +76,10 @@ let
   defaultLogConfig = import ./generic-log-config.nix;
   defaultExplorerLogConfig = import ./explorer-log-config.nix;
 
-  mkExplorerConfig = name: nodeConfig: lib.filterAttrs (k: v: v != null) {
+  mkExplorerConfig = name: nodeConfig: filterAttrs (k: v: v != null) {
     NetworkName = name;
     inherit (nodeConfig) RequiresNetworkMagic;
-    NodeConfigFile = "${__toFile "config-${toString name}.json" (__toJSON nodeConfig)}";
+    NodeConfigFile = "${toFile "config-${toString name}.json" (toJSON nodeConfig)}";
   };
 
   mkDbSyncConfig = name: nodeConfig: dbSyncConfig:
@@ -87,17 +90,17 @@ let
 
   mkMithrilSignerConfig = name: env: {
     network = name;
-    network_magic = (builtins.fromJSON (builtins.readFile env.networkConfig.ShelleyGenesisFile)).networkMagic;
+    network_magic = (fromJSON (readFile env.networkConfig.ShelleyGenesisFile)).networkMagic;
     run_interval = 60000;
     store_retention_limit = 5;
-  } // lib.optionalAttrs (env ? mithrilAggregatorEndpointUrl) {
+  } // optionalAttrs (env ? mithrilAggregatorEndpointUrl) {
     aggregator_endpoint = env.mithrilAggregatorEndpointUrl;
-  } // lib.optionalAttrs (env ? mithrilEraReaderParams) {
+  } // optionalAttrs (env ? mithrilEraReaderParams) {
     era_reader_adapter_type = "cardano-chain";
-    era_reader_adapter_params = builtins.toJSON env.mithrilEraReaderParams;
+    era_reader_adapter_params = toJSON env.mithrilEraReaderParams;
   };
 
-  mkSubmitApiConfig = name: nodeConfig: (lib.filterAttrs (k: v: v != null) {
+  mkSubmitApiConfig = name: nodeConfig: (filterAttrs (k: v: v != null) {
     GenesisHash = nodeConfig.ByronGenesisHash;
     inherit (nodeConfig) RequiresNetworkMagic;
   })
@@ -115,7 +118,7 @@ let
   # removed from this string identifier.
   minNodeVersion = { MinNodeVersion = "10.1.4"; };
 
-  environments = lib.mapAttrs (name: env: {
+  environments = mapAttrs (name: env: {
     inherit name;
     # default derived configs:
     nodeConfig = defaultLogConfig // env.networkConfig;
@@ -282,15 +285,15 @@ let
   };
 
   # TODO: add flag to disable with forEnvironments instead of hard-coded list?
-  forEnvironments = f: lib.mapAttrs
+  forEnvironments = f: mapAttrs
     (name: env: f (env // { inherit name; }))
     environments;
-  forEnvironmentsCustom = f: environments: lib.mapAttrs
+  forEnvironmentsCustom = f: environments: mapAttrs
     (name: env: f (env // { inherit name; }))
     environments;
-  eachEnv = lib.flip lib.pipe [
-    (lib.forEach (builtins.attrNames environments))
-    lib.listToAttrs
+  eachEnv = flip pipe [
+    (forEach (attrNames environments))
+    listToAttrs
   ];
 
   cardanoConfig = ./.;
@@ -337,7 +340,7 @@ let
                   </tr>
                 </thead>
                 <tbody>
-                  ${toString (lib.mapAttrsToList (env: value:
+                  ${toString (mapAttrsToList (env: value:
                     let p = value.consensusProtocol;
                     in ''
                     <tr>
@@ -347,10 +350,10 @@ let
                           <a class="button is-primary" href="${env}-config.json">config</a>
                           <a class="button is-primary" href="${env}-config-bp.json">block-producer config</a>
                           <a class="button is-info" href="${env}-${protNames.${p}.n}-genesis.json">${protNames.${p}.n}Genesis</a>
-                          ${lib.optionalString (p == "Cardano") ''
+                          ${optionalString (p == "Cardano") ''
                             <a class="button is-info" href="${env}-${protNames.${p}.shelley}-genesis.json">${protNames.${p}.shelley}Genesis</a>
                             <a class="button is-info" href="${env}-${protNames.${p}.alonzo}-genesis.json">${protNames.${p}.alonzo}Genesis</a>''}
-                          ${lib.optionalString (p == "Cardano" && value.nodeConfig ? ConwayGenesisFile) ''
+                          ${optionalString (p == "Cardano" && value.nodeConfig ? ConwayGenesisFile) ''
                             <a class="button is-info" href="${env}-${protNames.${p}.conway}-genesis.json">${protNames.${p}.conway}Genesis</a>''}
                           <a class="button is-info" href="${env}-topology.json">topology</a>
                           <a class="button is-primary" href="${env}-db-sync-config.json">db-sync config</a>
@@ -377,7 +380,7 @@ let
     mkdir -p $out/nix-support
     cp ${writeText "config.html" (configHtml environments)} $out/index.html
     ${
-      toString (lib.mapAttrsToList (env: value:
+      toString (mapAttrsToList (env: value:
         let
           p = value.consensusProtocol;
           genesisFile = { GenesisFile = "${env}-${protNames.${p}.n}-genesis.json"; };
@@ -385,39 +388,39 @@ let
             ByronGenesisFile = "${env}-${protNames.${p}.n}-genesis.json";
             ShelleyGenesisFile = "${env}-${protNames.${p}.shelley}-genesis.json";
             AlonzoGenesisFile = "${env}-${protNames.${p}.alonzo}-genesis.json";
-          } // (lib.optionalAttrs (p == "Cardano" && value.nodeConfig ? ConwayGenesisFile) {
+          } // (optionalAttrs (p == "Cardano" && value.nodeConfig ? ConwayGenesisFile) {
             ConwayGenesisFile = "${env}-${protNames.${p}.conway}-genesis.json";
           });
         in ''
           ${if p != "Cardano" then ''
-            ${jq}/bin/jq . < ${__toFile "${env}-config.json" (__toJSON (value.nodeConfig // genesisFile))} > $out/${env}-config.json
-            ${jq}/bin/jq . < ${__toFile "${env}-config-bp.json" (__toJSON (value.nodeConfigBp // genesisFile))} > $out/${env}-config-bp.json
+            ${jq}/bin/jq . < ${toFile "${env}-config.json" (toJSON (value.nodeConfig // genesisFile))} > $out/${env}-config.json
+            ${jq}/bin/jq . < ${toFile "${env}-config-bp.json" (toJSON (value.nodeConfigBp // genesisFile))} > $out/${env}-config-bp.json
           '' else ''
-            ${jq}/bin/jq . < ${__toFile "${env}-config.json" (__toJSON (value.nodeConfig // genesisFiles))} > $out/${env}-config.json
-            ${jq}/bin/jq . < ${__toFile "${env}-config-bp.json" (__toJSON (value.nodeConfigBp // genesisFiles))} > $out/${env}-config-bp.json
+            ${jq}/bin/jq . < ${toFile "${env}-config.json" (toJSON (value.nodeConfig // genesisFiles))} > $out/${env}-config.json
+            ${jq}/bin/jq . < ${toFile "${env}-config-bp.json" (toJSON (value.nodeConfigBp // genesisFiles))} > $out/${env}-config-bp.json
           ''}
-          ${lib.optionalString (p == "RealPBFT" || p == "Byron") ''
+          ${optionalString (p == "RealPBFT" || p == "Byron") ''
             cp ${value.nodeConfig.GenesisFile} $out/${env}-${protNames.${p}.n}-genesis.json
           ''}
-          ${lib.optionalString (p == "TPraos") ''
+          ${optionalString (p == "TPraos") ''
             cp ${value.nodeConfig.GenesisFile} $out/${env}-${protNames.${p}.n}-genesis.json
           ''}
-          ${lib.optionalString (p == "Cardano") ''
+          ${optionalString (p == "Cardano") ''
             cp ${value.nodeConfig.ShelleyGenesisFile} $out/${env}-${protNames.${p}.shelley}-genesis.json
             cp ${value.nodeConfig.ByronGenesisFile} $out/${env}-${protNames.${p}.n}-genesis.json
             cp ${value.nodeConfig.AlonzoGenesisFile} $out/${env}-${protNames.${p}.alonzo}-genesis.json
           ''}
-          ${lib.optionalString (p == "Cardano" && value.nodeConfig ? ConwayGenesisFile) ''
+          ${optionalString (p == "Cardano" && value.nodeConfig ? ConwayGenesisFile) ''
             cp ${value.nodeConfig.ConwayGenesisFile} $out/${env}-${protNames.${p}.conway}-genesis.json
           ''}
-          ${jq}/bin/jq . < ${__toFile "${env}-db-sync-config.json" (__toJSON (value.dbSyncConfig // { NodeConfigFile = "${env}-config.json"; }))} > $out/${env}-db-sync-config.json
-          ${jq}/bin/jq . < ${__toFile "${env}-submit-api-config.json" (__toJSON value.submitApiConfig)} > $out/${env}-submit-api-config.json
-          ${jq}/bin/jq . < ${__toFile "${env}-mithril-signer-config.json" (__toJSON value.mithrilSignerConfig)} > $out/${env}-mithril-signer-config.json
+          ${jq}/bin/jq . < ${toFile "${env}-db-sync-config.json" (toJSON (value.dbSyncConfig // { NodeConfigFile = "${env}-config.json"; }))} > $out/${env}-db-sync-config.json
+          ${jq}/bin/jq . < ${toFile "${env}-submit-api-config.json" (toJSON value.submitApiConfig)} > $out/${env}-submit-api-config.json
+          ${jq}/bin/jq . < ${toFile "${env}-mithril-signer-config.json" (toJSON value.mithrilSignerConfig)} > $out/${env}-mithril-signer-config.json
           ${jq}/bin/jq . < ${mkTopology value} > $out/${env}-topology.json
         ''
       ) environments )
     }
-    ${jq}/bin/jq . < ${__toFile "rest-config.json" (__toJSON defaultExplorerLogConfig)} > $out/rest-config.json
+    ${jq}/bin/jq . < ${toFile "rest-config.json" (toJSON defaultExplorerLogConfig)} > $out/rest-config.json
     echo "report cardano $out index.html" > $out/nix-support/hydra-build-products
   '';
 
@@ -438,6 +441,6 @@ in {
     mkTopology
     ;
 
-  # For now we export live and dead environemnts.
+  # For now we export live and dead environments.
   environments = environments // dead_environments;
 }
