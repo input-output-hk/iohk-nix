@@ -230,7 +230,7 @@ let
   # These will be removed at some point
   dead_environments = {
     # Network shutdown, but various node scripts reference it as a template
-    shelley_qa = trace "DEPRECATION WARNING: SHELLEY_QA WAS SHUT DOWN. This configuration will be removed; use preview or preprod instead." (rec {
+    shelley_qa = trace "DEPRECATION WARNING: SHELLEY_QA WAS SHUT DOWN. Shelley_qa configuration will be removed; use preview or preprod instead." (rec {
       useByronWallet = false;
       private = true;
       relays = "doesnotexist.iog.io";
@@ -260,7 +260,7 @@ let
     });
 
     # Network shutdown, but benchmarking configs reference it as a template
-    testnet = trace "DEPRECATION WARNING: TESTNET WAS SHUT DOWN. This configuration will be removed; use preview or preprod instead." (rec {
+    testnet = trace "DEPRECATION WARNING: TESTNET WAS SHUT DOWN. Testnet configuration will be removed; use preview or preprod instead." (rec {
       useByronWallet = true;
       private = true;
       relays = "doesnotexist.iog.io";
