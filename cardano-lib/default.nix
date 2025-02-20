@@ -1,5 +1,8 @@
 {lib, writeText, runCommand, jq}:
 let
+  inherit (builtins) attrNames fromJSON readFile toFile toJSON;
+  inherit (lib) filterAttrs flip forEach listToAttrs mapAttrs mapAttrsToList optionalAttrs optionalString pipe;
+
   mkEdgeTopology = {
     hostAddr ? "127.0.0.1"
   , port ? 3001
@@ -19,7 +22,7 @@ let
         }
       ];
     };
-  in builtins.toFile "topology.yaml" (builtins.toJSON topology);
+  in toFile "topology.yaml" (toJSON topology);
 
   mkEdgeTopologyP2P = {
     edgeNodes ? [{addr = "127.0.0.1"; port = 3001;}]
@@ -51,7 +54,7 @@ let
       ];
     };
   in
-    builtins.toFile "topology.yaml" (builtins.toJSON topology);
+    toFile "topology.yaml" (toJSON topology);
 
   mkTopology = env: let
     legacyTopology = mkEdgeTopology {
@@ -73,10 +76,10 @@ let
   defaultLogConfig = import ./generic-log-config.nix;
   defaultExplorerLogConfig = import ./explorer-log-config.nix;
 
-  mkExplorerConfig = name: nodeConfig: lib.filterAttrs (k: v: v != null) {
+  mkExplorerConfig = name: nodeConfig: filterAttrs (k: v: v != null) {
     NetworkName = name;
     inherit (nodeConfig) RequiresNetworkMagic;
-    NodeConfigFile = "${__toFile "config-${toString name}.json" (__toJSON nodeConfig)}";
+    NodeConfigFile = "${toFile "config-${toString name}.json" (toJSON nodeConfig)}";
   };
 
   mkDbSyncConfig = name: nodeConfig: dbSyncConfig:
@@ -87,17 +90,17 @@ let
 
   mkMithrilSignerConfig = name: env: {
     network = name;
-    network_magic = (builtins.fromJSON (builtins.readFile env.networkConfig.ShelleyGenesisFile)).networkMagic;
+    network_magic = (fromJSON (readFile env.networkConfig.ShelleyGenesisFile)).networkMagic;
     run_interval = 60000;
     store_retention_limit = 5;
-  } // lib.optionalAttrs (env ? mithrilAggregatorEndpointUrl) {
+  } // optionalAttrs (env ? mithrilAggregatorEndpointUrl) {
     aggregator_endpoint = env.mithrilAggregatorEndpointUrl;
-  } // lib.optionalAttrs (env ? mithrilEraReaderParams) {
+  } // optionalAttrs (env ? mithrilEraReaderParams) {
     era_reader_adapter_type = "cardano-chain";
-    era_reader_adapter_params = builtins.toJSON env.mithrilEraReaderParams;
+    era_reader_adapter_params = toJSON env.mithrilEraReaderParams;
   };
 
-  mkSubmitApiConfig = name: nodeConfig: (lib.filterAttrs (k: v: v != null) {
+  mkSubmitApiConfig = name: nodeConfig: (filterAttrs (k: v: v != null) {
     GenesisHash = nodeConfig.ByronGenesisHash;
     inherit (nodeConfig) RequiresNetworkMagic;
   })
@@ -115,7 +118,7 @@ let
   # removed from this string identifier.
   minNodeVersion = { MinNodeVersion = "10.1.4"; };
 
-  environments = lib.mapAttrs (name: env: {
+  environments = mapAttrs (name: env: {
     inherit name;
     # default derived configs:
     nodeConfig = defaultLogConfig // env.networkConfig;
@@ -126,6 +129,7 @@ let
       mkDbSyncConfig name environments.${name}.nodeConfig (env.extraDbSyncConfig or {});
     explorerConfig = mkExplorerConfig name environments.${name}.nodeConfig;
     mithrilSignerConfig = mkMithrilSignerConfig name env;
+    peerSnapshot = fromJSON (readFile ./${name}/peer-snapshot.json);
   } // env) {
     mainnet = rec {
       useByronWallet = true;
@@ -159,31 +163,10 @@ let
       confKey = "mainnet_full";
       networkConfig = import ./mainnet-config.nix // minNodeVersion;
       networkConfigBp = import ./mainnet-config-bp.nix // minNodeVersion;
-      usePeersFromLedgerAfterSlot = 128908821;
+      usePeersFromLedgerAfterSlot = 148350000;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
       };
-    };
-
-    # Used for daedalus/cardano-wallet for local development
-    shelley_qa = rec {
-      useByronWallet = false;
-      private = true;
-      domain = "play.dev.cardano.org";
-      relaysNew = "shelley-qa-node.play.dev.cardano.org";
-      explorerUrl = "https://shelley-qa-explorer.play.dev.cardano.org";
-      smashUrl = "https://shelley-qa-smash.play.dev.cardano.org";
-      metadataUrl = "https://metadata.play.dev.cardano.org";
-      edgeNodes = [
-        {
-          addr = relaysNew;
-          port = 3001;
-        }
-      ];
-      edgePort = 3001;
-      networkConfig = import ./shelley_qa-config.nix // minNodeVersion;
-      networkConfigBp = import ./shelley_qa-config-bp.nix // minNodeVersion;
-      usePeersFromLedgerAfterSlot = 31348805;
     };
 
     preprod = rec {
@@ -209,7 +192,7 @@ let
       edgePort = 3001;
       networkConfig = import ./preprod-config.nix // minNodeVersion;
       networkConfigBp = import ./preprod-config-bp.nix // minNodeVersion;
-      usePeersFromLedgerAfterSlot = 64454371;
+      usePeersFromLedgerAfterSlot = 83894000;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
       };
@@ -238,102 +221,27 @@ let
       edgePort = 3001;
       networkConfig = import ./preview-config.nix // minNodeVersion;
       networkConfigBp = import ./preview-config-bp.nix // minNodeVersion;
-      usePeersFromLedgerAfterSlot = 53827185;
-      extraDbSyncConfig = {
-        enableFutureGenesis = true;
-      };
-    };
-
-    sanchonet = rec {
-      useByronWallet = false;
-      private = false;
-      domain = "play.dev.cardano.org";
-      relaysNew = "sanchonet-node.play.dev.cardano.org";
-      explorerUrl = "https://sanchonet-explorer.play.dev.cardano.org";
-      smashUrl = "https://sanchonet-smash.play.dev.cardano.org";
-      metadataUrl = "https://metadata.play.dev.cardano.org";
-      mithrilAggregatorEndpointUrl = "https://aggregator.testing-sanchonet.api.mithril.network/aggregator";
-      mithrilEraReaderParams = {
-        address = "addr_test1qrg9v8xjjjjx95k2h2gquwrah8424798wqa5exuyhqpcggfyse0nuafkp7rnkxsssxue37259lfhemjdhs333u7v0gwsd0dr30";
-        verification_key = "5b35352c3232382c3134342c38372c3133382c3133362c34382c382c31342c3138372c38352c3134382c39372c3233322c3235352c3232392c33382c3234342c3234372c3230342c3139382c31332c33312c3232322c32352c3136342c35322c3130322c39312c3132302c3230382c3134375d";
-      };
-      mithrilGenesisVerificationKey = "5b3132372c37332c3132342c3136312c362c3133372c3133312c3231332c3230372c3131372c3139382c38352c3137362c3139392c3136322c3234312c36382c3132332c3131392c3134352c31332c3233322c3234332c34392c3232392c322c3234392c3230352c3230352c33392c3233352c34345d";
-      edgeNodes = [
-        {
-          addr = relaysNew;
-          port = 3001;
-        }
-      ];
-      edgePort = 3001;
-      networkConfig = import ./sanchonet-config.nix // minNodeVersion;
-      networkConfigBp = import ./sanchonet-config-bp.nix // minNodeVersion;
-      usePeersFromLedgerAfterSlot = 33695977;
-      extraDbSyncConfig = {
-        enableFutureGenesis = true;
-      };
-    };
-
-    private = rec {
-      useByronWallet = false;
-      private = true;
-      domain = "play.dev.cardano.org";
-      relaysNew = "private-node.play.dev.cardano.org";
-      explorerUrl = "https://private-explorer.play.dev.cardano.org";
-      smashUrl = "https://private-smash.play.dev.cardano.org";
-      metadataUrl = "https://metadata.play.dev.cardano.org";
-      edgeNodes = [
-        {
-          addr = relaysNew;
-          port = 3001;
-        }
-      ];
-      edgePort = 3001;
-      networkConfig = import ./private-config.nix // minNodeVersion;
-      networkConfigBp = import ./private-config-bp.nix // minNodeVersion;
-      usePeersFromLedgerAfterSlot = 1886369;
+      usePeersFromLedgerAfterSlot = 73267000;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
       };
     };
   };
 
-  # These will be removed at some point
+  # Move dead envs here for a grace period with an added deprecation warn trace prior to deletion.
   dead_environments = {
-    # Network shutdown, but benchmarking configs reference it as a template
-    testnet = __trace "DEPRECATION WARNING: TESTNET WAS SHUT DOWN. You may want to consider using preprod or preview." (rec {
-      useByronWallet = true;
-      private = true;
-      relays = "doesnotexist.iog.io";
-      relaysNew = "doesnotexist.iog.io";
-      explorerUrl = "https://doesnotexist.iog.io";
-      smashUrl = "https://doesnotexist.iog.io";
-      metadataUrl = "https://doesnotexist.iog.io";
-      edgeNodes = [];
-      edgePort = 3001;
-      confKey = "testnet_full";
-      networkConfig = import ./testnet-config.nix // minNodeVersion;
-      networkConfigBp = import ./testnet-config-bp.nix // minNodeVersion;
-      consensusProtocol = networkConfig.Protocol;
-      nodeConfig = defaultLogConfig // networkConfig;
-      nodeConfigBp = defaultLogConfig // networkConfigBp;
-      submitApiConfig = mkSubmitApiConfig "testnet" nodeConfig;
-      dbSyncConfig = mkDbSyncConfig "testnet" nodeConfig {};
-      explorerConfig = mkExplorerConfig "testnet" nodeConfig;
-      mithrilSignerConfig = mkMithrilSignerConfig "testnet" dead_environments.testnet;
-      usePeersFromLedgerAfterSlot = -1;
-    });
   };
 
   # TODO: add flag to disable with forEnvironments instead of hard-coded list?
-  forEnvironments = f: lib.mapAttrs
+  forEnvironments = f: mapAttrs
     (name: env: f (env // { inherit name; }))
     environments;
-  forEnvironmentsCustom = f: environments: lib.mapAttrs
+  forEnvironmentsCustom = f: environments: mapAttrs
     (name: env: f (env // { inherit name; }))
     environments;
-  eachEnv = lib.flip lib.pipe [
-    (lib.forEach (builtins.attrNames environments))
-    lib.listToAttrs
+  eachEnv = flip pipe [
+    (forEach (attrNames environments))
+    listToAttrs
   ];
 
   cardanoConfig = ./.;
@@ -380,7 +288,7 @@ let
                   </tr>
                 </thead>
                 <tbody>
-                  ${toString (lib.mapAttrsToList (env: value:
+                  ${toString (mapAttrsToList (env: value:
                     let p = value.consensusProtocol;
                     in ''
                     <tr>
@@ -390,10 +298,10 @@ let
                           <a class="button is-primary" href="${env}-config.json">config</a>
                           <a class="button is-primary" href="${env}-config-bp.json">block-producer config</a>
                           <a class="button is-info" href="${env}-${protNames.${p}.n}-genesis.json">${protNames.${p}.n}Genesis</a>
-                          ${lib.optionalString (p == "Cardano") ''
+                          ${optionalString (p == "Cardano") ''
                             <a class="button is-info" href="${env}-${protNames.${p}.shelley}-genesis.json">${protNames.${p}.shelley}Genesis</a>
                             <a class="button is-info" href="${env}-${protNames.${p}.alonzo}-genesis.json">${protNames.${p}.alonzo}Genesis</a>''}
-                          ${lib.optionalString (p == "Cardano" && value.nodeConfig ? ConwayGenesisFile) ''
+                          ${optionalString (p == "Cardano" && value.nodeConfig ? ConwayGenesisFile) ''
                             <a class="button is-info" href="${env}-${protNames.${p}.conway}-genesis.json">${protNames.${p}.conway}Genesis</a>''}
                           <a class="button is-info" href="${env}-topology.json">topology</a>
                           <a class="button is-primary" href="${env}-db-sync-config.json">db-sync config</a>
@@ -420,7 +328,7 @@ let
     mkdir -p $out/nix-support
     cp ${writeText "config.html" (configHtml environments)} $out/index.html
     ${
-      toString (lib.mapAttrsToList (env: value:
+      toString (mapAttrsToList (env: value:
         let
           p = value.consensusProtocol;
           genesisFile = { GenesisFile = "${env}-${protNames.${p}.n}-genesis.json"; };
@@ -428,39 +336,39 @@ let
             ByronGenesisFile = "${env}-${protNames.${p}.n}-genesis.json";
             ShelleyGenesisFile = "${env}-${protNames.${p}.shelley}-genesis.json";
             AlonzoGenesisFile = "${env}-${protNames.${p}.alonzo}-genesis.json";
-          } // (lib.optionalAttrs (p == "Cardano" && value.nodeConfig ? ConwayGenesisFile) {
+          } // (optionalAttrs (p == "Cardano" && value.nodeConfig ? ConwayGenesisFile) {
             ConwayGenesisFile = "${env}-${protNames.${p}.conway}-genesis.json";
           });
         in ''
           ${if p != "Cardano" then ''
-            ${jq}/bin/jq . < ${__toFile "${env}-config.json" (__toJSON (value.nodeConfig // genesisFile))} > $out/${env}-config.json
-            ${jq}/bin/jq . < ${__toFile "${env}-config-bp.json" (__toJSON (value.nodeConfigBp // genesisFile))} > $out/${env}-config-bp.json
+            ${jq}/bin/jq . < ${toFile "${env}-config.json" (toJSON (value.nodeConfig // genesisFile))} > $out/${env}-config.json
+            ${jq}/bin/jq . < ${toFile "${env}-config-bp.json" (toJSON (value.nodeConfigBp // genesisFile))} > $out/${env}-config-bp.json
           '' else ''
-            ${jq}/bin/jq . < ${__toFile "${env}-config.json" (__toJSON (value.nodeConfig // genesisFiles))} > $out/${env}-config.json
-            ${jq}/bin/jq . < ${__toFile "${env}-config-bp.json" (__toJSON (value.nodeConfigBp // genesisFiles))} > $out/${env}-config-bp.json
+            ${jq}/bin/jq . < ${toFile "${env}-config.json" (toJSON (value.nodeConfig // genesisFiles))} > $out/${env}-config.json
+            ${jq}/bin/jq . < ${toFile "${env}-config-bp.json" (toJSON (value.nodeConfigBp // genesisFiles))} > $out/${env}-config-bp.json
           ''}
-          ${lib.optionalString (p == "RealPBFT" || p == "Byron") ''
+          ${optionalString (p == "RealPBFT" || p == "Byron") ''
             cp ${value.nodeConfig.GenesisFile} $out/${env}-${protNames.${p}.n}-genesis.json
           ''}
-          ${lib.optionalString (p == "TPraos") ''
+          ${optionalString (p == "TPraos") ''
             cp ${value.nodeConfig.GenesisFile} $out/${env}-${protNames.${p}.n}-genesis.json
           ''}
-          ${lib.optionalString (p == "Cardano") ''
+          ${optionalString (p == "Cardano") ''
             cp ${value.nodeConfig.ShelleyGenesisFile} $out/${env}-${protNames.${p}.shelley}-genesis.json
             cp ${value.nodeConfig.ByronGenesisFile} $out/${env}-${protNames.${p}.n}-genesis.json
             cp ${value.nodeConfig.AlonzoGenesisFile} $out/${env}-${protNames.${p}.alonzo}-genesis.json
           ''}
-          ${lib.optionalString (p == "Cardano" && value.nodeConfig ? ConwayGenesisFile) ''
+          ${optionalString (p == "Cardano" && value.nodeConfig ? ConwayGenesisFile) ''
             cp ${value.nodeConfig.ConwayGenesisFile} $out/${env}-${protNames.${p}.conway}-genesis.json
           ''}
-          ${jq}/bin/jq . < ${__toFile "${env}-db-sync-config.json" (__toJSON (value.dbSyncConfig // { NodeConfigFile = "${env}-config.json"; }))} > $out/${env}-db-sync-config.json
-          ${jq}/bin/jq . < ${__toFile "${env}-submit-api-config.json" (__toJSON value.submitApiConfig)} > $out/${env}-submit-api-config.json
-          ${jq}/bin/jq . < ${__toFile "${env}-mithril-signer-config.json" (__toJSON value.mithrilSignerConfig)} > $out/${env}-mithril-signer-config.json
+          ${jq}/bin/jq . < ${toFile "${env}-db-sync-config.json" (toJSON (value.dbSyncConfig // { NodeConfigFile = "${env}-config.json"; }))} > $out/${env}-db-sync-config.json
+          ${jq}/bin/jq . < ${toFile "${env}-submit-api-config.json" (toJSON value.submitApiConfig)} > $out/${env}-submit-api-config.json
+          ${jq}/bin/jq . < ${toFile "${env}-mithril-signer-config.json" (toJSON value.mithrilSignerConfig)} > $out/${env}-mithril-signer-config.json
           ${jq}/bin/jq . < ${mkTopology value} > $out/${env}-topology.json
         ''
       ) environments )
     }
-    ${jq}/bin/jq . < ${__toFile "rest-config.json" (__toJSON defaultExplorerLogConfig)} > $out/rest-config.json
+    ${jq}/bin/jq . < ${toFile "rest-config.json" (toJSON defaultExplorerLogConfig)} > $out/rest-config.json
     echo "report cardano $out index.html" > $out/nix-support/hydra-build-products
   '';
 
@@ -481,6 +389,6 @@ in {
     mkTopology
     ;
 
-  # For now we export live and dead environemnts.
+  # For now we export live and dead environments.
   environments = environments // dead_environments;
 }

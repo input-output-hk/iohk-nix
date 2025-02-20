@@ -21,7 +21,7 @@ with (import (commonLib.nixpkgs + "/pkgs/top-level/release-lib.nix") {
 with pkgs.lib;
 
 let
-  inherit (commonLib) jormungandrLib cardanoLib sources;
+  inherit (commonLib) jormungandrLib cardanoLib;
 
   jormungandrPackages = foldl' (sum: name:
     recursiveUpdate {
@@ -55,7 +55,7 @@ fix (self: mappedPkgs // {
   inherit (commonLib) check-hydra;
   inherit jormungandrConfigs;
   jormungandr-deployment = jormungandrLib.mkConfigHtml { inherit (jormungandrLib.environments) itn_rewards_v1 beta nightly legacy; };
-  cardano-deployment = cardanoLib.mkConfigHtml { inherit (cardanoLib.environments) mainnet testnet p2p alonzo-purple marlowe-pioneers staging shelley_qa sre; };
+  cardano-deployment = cardanoLib.mkConfigHtml { inherit (cardanoLib.environments) mainnet preprod preview; };
 
   forceNewEval = pkgs.writeText "forceNewEval" iohk-nix.rev;
   required = pkgs.lib.hydraJob (pkgs.releaseTools.aggregate {
