@@ -77,6 +77,7 @@ let
     else legacyTopology;
 
   defaultLogConfig = import ./generic-log-config.nix;
+  defaultLogConfigLegacy = import ./generic-log-config-legacy.nix;
   defaultExplorerLogConfig = import ./explorer-log-config.nix;
 
   mkExplorerConfig = name: nodeConfig: filterAttrs (k: v: v != null) {
@@ -127,7 +128,9 @@ let
     inherit name;
     # default derived configs:
     nodeConfig = defaultLogConfig // env.networkConfig;
+    nodeConfigLegacy = defaultLogConfigLegacy // env.networkConfig;
     nodeConfigBp = defaultLogConfig // env.networkConfigBp;
+    nodeConfigBpLegacy = defaultLogConfigLegacy // env.networkConfigBp;
     consensusProtocol = env.networkConfig.Protocol;
     submitApiConfig = mkSubmitApiConfig name environments.${name}.nodeConfig;
     dbSyncConfig =
@@ -302,6 +305,8 @@ let
                         <div class="buttons has-addons">
                           <a class="button is-primary" href="${env}-config.json">config</a>
                           <a class="button is-primary" href="${env}-config-bp.json">block-producer config</a>
+                          <a class="button is-primary" href="${env}-config-legacy.json">config (legacy)</a>
+                          <a class="button is-primary" href="${env}-config-bp-legacy.json">block-producer config (legacy)</a>
                           <a class="button is-info" href="${env}-${protNames.${p}.n}-genesis.json">${protNames.${p}.n}Genesis</a>
                           ${optionalString (p == "Cardano") ''
                             <a class="button is-info" href="${env}-${protNames.${p}.shelley}-genesis.json">${protNames.${p}.shelley}Genesis</a>
@@ -353,9 +358,13 @@ let
           ${if p != "Cardano" then ''
             ${jq}/bin/jq . < ${toFile "${env}-config.json" (toJSON (value.nodeConfig // genesisFile))} > $out/${env}-config.json
             ${jq}/bin/jq . < ${toFile "${env}-config-bp.json" (toJSON (value.nodeConfigBp // genesisFile))} > $out/${env}-config-bp.json
+            ${jq}/bin/jq . < ${toFile "${env}-config-legacy.json" (toJSON (value.nodeConfigLegacy // genesisFile))} > $out/${env}-config-legacy.json
+            ${jq}/bin/jq . < ${toFile "${env}-config-bp-legacy.json" (toJSON (value.nodeConfigBpLegacy // genesisFile))} > $out/${env}-config-bp-legacy.json
           '' else ''
             ${jq}/bin/jq . < ${toFile "${env}-config.json" (toJSON (value.nodeConfig // genesisFiles))} > $out/${env}-config.json
             ${jq}/bin/jq . < ${toFile "${env}-config-bp.json" (toJSON (value.nodeConfigBp // genesisFiles))} > $out/${env}-config-bp.json
+            ${jq}/bin/jq . < ${toFile "${env}-config-legacy.json" (toJSON (value.nodeConfigLegacy // genesisFiles))} > $out/${env}-config-legacy.json
+            ${jq}/bin/jq . < ${toFile "${env}-config-bp-legacy.json" (toJSON (value.nodeConfigBpLegacy // genesisFiles))} > $out/${env}-config-bp-legacy.json
           ''}
           ${optionalString (p == "RealPBFT" || p == "Byron") ''
             cp ${value.nodeConfig.GenesisFile} $out/${env}-${protNames.${p}.n}-genesis.json
@@ -368,7 +377,7 @@ let
             cp ${value.nodeConfig.ByronGenesisFile} $out/${env}-${protNames.${p}.n}-genesis.json
             cp ${value.nodeConfig.AlonzoGenesisFile} $out/${env}-${protNames.${p}.alonzo}-genesis.json
           ''}
-          ${optionalString (p == "Cardano" && value.nodeConfig ? ConwayGenesisFile) ''
+          ${optionalString (p == "Cardano" && value.nodeConfigLegacy ? ConwayGenesisFile) ''
             cp ${value.nodeConfig.ConwayGenesisFile} $out/${env}-${protNames.${p}.conway}-genesis.json
           ''}
           ${jq}/bin/jq . < ${toFile "${env}-db-sync-config.json" (toJSON (value.dbSyncConfig // { NodeConfigFile = "${env}-config.json"; }))} > $out/${env}-db-sync-config.json
@@ -391,6 +400,7 @@ in {
     cardanoConfig
     defaultExplorerLogConfig
     defaultLogConfig
+    defaultLogConfigLegacy
     eachEnv
     forEnvironments
     forEnvironmentsCustom
