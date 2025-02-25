@@ -1,4 +1,6 @@
 {
+  ##### The Basics #####
+
   # Enable or disable logging overall
   TurnOnLogging = true;
 
@@ -6,213 +8,156 @@
   # These metrics can be directed to the logs or monitoring backends.
   TurnOnLogMetrics = true;
 
-  # Global logging severity filter. Messages must have at least this severity to
-  # pass. Typical values would be Warning, Notice, Info or Debug.
-  minSeverity = "Info";
+  # Use the modern tracing system instead of the legacy tracing system.
+  UseTraceDispatcher = true;
 
-  # Log items can be rendered with more or less verbose detail.
-  # The verbosity can be: MinimalVerbosity, NormalVerbosity
-  TracingVerbosity = "NormalVerbosity";
+  ##### TODO: TITLE #####
 
-  # Use legacy tracing
-  UseTraceDispatcher = false;
+  # Match the metrics prefix of the legacy tracing system to minimize breaking
+  # changes.
+  TraceOptionMetricsPrefix = "cardano.node.metrics.";
 
-  # The system supports a number of backends for logging and monitoring.
-  # This setting lists the the backends that will be available to use in the
-  # configuration below. The logging backend is called Katip. Also enable the EKG
-  # backend if you want to use the EKG or Prometheus monitoring interfaces.
-  setupBackends = [
-    "KatipBK"
-    # EKGViewBK
-  ];
+  # Optional node name.  Defaults to hostname if left unset. Ideally this is
+  # set in downstream code where the node's name is known.
+  # TraceOptionNodeName =
 
-  # This specifies the default backends that trace output is sent to if it
-  # is not specifically configured to be sent to other backends.
-  defaultBackends = [
-    "KatipBK"
-  ];
+  # The frequency of peer messages.
+  TraceOptionPeerFrequency = 2000;
 
-  # EKG is a simple metrics monitoring system. Uncomment the following to listen
-  # on the given local port and point your web browser to http://localhost:12788/
-  # for a live view. The same URL can also serve JSON output.
-  hasEKG = 12788;
+  # The frequency of resource messages.
+  TraceOptionResourceFrequency = 1000;
 
-  # The Prometheus monitoring system can also be used. Uncomment the following
-  # to listen on the given port
-  hasPrometheus = ["127.0.0.1" 12798];
-
-  # For the Katip logging backend we must set up outputs (called scribes)
-  # The available types of scribe are:
-  #   FileSK for files
-  #   StdoutSK/StdoutSK for stdout/stderr
-  #   JournalSK for systemd's journal system
-  #   DevNullSK
-  # The scribe output format can be ScText or ScJson. Log rotation settings can
-  # be specified in the defaults below or overidden on a per-scribe basis here.
-  setupScribes = [
-    {
-      scKind = "StdoutSK";
-      scName = "stdout";
-      scFormat = "ScText";
-      scRotation = null;
-    }
-  ];
-
-  # For the Katip logging backend this specifies the default scribes that trace
-  # output is sent to if it is not configured to be sent to other scribes.
-  defaultScribes = [
-    [
-      "StdoutSK"
-      "stdout"
-    ]
-  ];
-
-  # The default file rotation settings for katip scribes, unless overridden
-  # in the setupScribes above for specific scribes.
-  rotation = {
-    rpLogLimitBytes = 5000000;
-    rpKeepFilesNum = 10;
-    rpMaxAgeHours = 24;
+  # TODO: Fix up following calcs in description
+  #
+  # Queue size control:
+  # In case of a missing forwarding service consumer, traces messages will be
+  # buffered. This mitigates short forwarding interruptions, or delays at
+  # startup time.
+  #
+  # The queue capacity should thus correlate to the expected log lines per
+  # second given a particular tracing configuration - to avoid unnecessarily
+  # increasing memory footprint.
+  #
+  # The default values here are chosen to accommodate verbose tracing output
+  # (i.e., buffering 1min worth of trace data given ~32 messages per second). A
+  # config that results in less than 5 msgs per second should also provide
+  # TraceOptionForwarder queue size values considerably lower. The
+  # `disconnQueueSize` is the hard limit in that case.
+  #
+  # The queue sizes tie in with the max number of trace objects cardano-tracer
+  # requests periodically, the default for that being 100. Here, the basic
+  # queue can hold enough traces for 10 subsequent polls.
+  TraceOptionForwarder = {
+    connQueueSize = 64;
+    disconnQueueSize = 128;
   };
 
-  ##### Coarse grained logging control #####
+  TraceOptions = {
+    "" = {
+      backends = [
+        "Stdout HumanFormatColoured"
+        "EKGBackend"
+        "Forwarder"
+      ];
 
-  # Trace output from whole subsystems can be enabled/disabled using the following
-  # settings. This provides fairly coarse grained control, but it is relatively
-  # efficient at filtering out unwanted trace output.
-
-  # Trace BlockFetch client.
-  TraceBlockFetchClient = false;
-
-  # Trace BlockFetch decisions made by the BlockFetch client.
-  TraceBlockFetchDecisions = false;
-
-  # Trace BlockFetch protocol messages.
-  TraceBlockFetchProtocol = false;
-
-  # Serialised Trace BlockFetch protocol messages.
-  TraceBlockFetchProtocolSerialised = false;
-
-  # Trace BlockFetch server.
-  TraceBlockFetchServer = false;
-
-  # Verbose tracer of ChainDB
-  TraceChainDb = true;
-
-  # Trace ChainSync client.
-  TraceChainSyncClient = false;
-
-  # Trace ChainSync server (blocks).
-  TraceChainSyncBlockServer = false;
-
-  # Trace ChainSync server (headers)
-  TraceChainSyncHeaderServer = false;
-
-  # Trace ChainSync protocol messages.
-  TraceChainSyncProtocol = false;
-
-  # Trace connection manager
-  TraceConnectionManager = true;
-
-  # Trace diffusion initialization messages
-  TraceDiffusionInitialization = true;
-
-  # Trace DNS Resolver messages.
-  TraceDNSResolver = true;
-
-  # Trace DNS Subscription messages.
-  TraceDNSSubscription = true;
-
-  TraceAcceptPolicy = true;
-
-  # Trace error policy resolution.
-  TraceErrorPolicy = true;
-
-  # Trace local error policy resolution.
-  TraceLocalErrorPolicy = true;
-
-  # Trace block forging.
-  TraceForge = true;
-
-  # Trace Handshake protocol messages.
-  TraceHandshake = true;
-
-  TraceInboundGovernor = true;
-
-  # Trace IP Subscription messages.
-  TraceIpSubscription = true;
-
-  # Trace ledger peers.
-  TraceLedgerPeers = true;
-
-  # Trace local ChainSync protocol messages.
-  TraceLocalChainSyncProtocol = false;
-
-  # Trace local Handshake protocol messages.
-  TraceLocalHandshake = true;
-
-  # Trace local root peers
-  TraceLocalRootPeers = true;
-
-  # Trace local TxSubmission protocol messages.
-  TraceLocalTxSubmissionProtocol = false;
-
-  # Trace local TxSubmission server.
-  TraceLocalTxSubmissionServer = false;
-
-  # Trace local Connection Manager.
-  TraceLocalConnectionManager = true;
-
-  # Trace mempool.
-  TraceMempool = true;
-
-  # Trace Mux Events
-  TraceMux = false;
-
-  # Trace peer selection
-  TracePeerSelection = true;
-
-  # Trace peer selection actions (demotion / protmotion between cold / warm and
-  # hot peers).
-  TracePeerSelectionActions = true;
-
-  # Trace public root peers
-  TracePublicRootPeers = true;
-
-  # Trace server
-  TraceServer = true;
-
-  # Trace TxSubmission server (inbound transactions).
-  TraceTxInbound = false;
-
-  # Trace TxSubmission client (outbound transactions).
-  TraceTxOutbound = false;
-
-  # Trace TxSubmission protocol messages.
-  TraceTxSubmissionProtocol = false;
-
-  ##### Fine grained logging control #####
-
-  # It is also possible to have more fine grained control over filtering of
-  # trace output, and to match and route trace output to particular backends.
-  # This is less efficient than the coarse trace filters above but provides
-  # much more precise control.
-
-  options = {
-    # This routes metrics matching specific names to particular backends.
-    # This overrides the defaultBackends listed above. And note that it is
-    # and override and not an extension so anything matched here will not
-    # go to the default backend, only to the explicitly listed backends.
-    mapBackends = {
-      "cardano.node.metrics" = ["EKGViewBK"];
-      "cardano.node.resources" = ["EKGViewBK"];
+      detail = "DNormal";
+      severity = "Notice";
     };
 
-    # This section is more expressive still, and needs to be properly documented.
-    mapSubtrace = {
-      "cardano.node.metrics" = {
-        subtrace = "Neutral";
-      };
+    "BlockFetch.Decision" = {
+      severity = "Silence";
+    };
+
+    "ChainDB" = {
+      severity = "Info";
+    };
+
+    "ChainDB.AddBlockEvent.AddBlockValidation" = {
+      severity = "Silence";
+    };
+
+    "ChainSync.Client" = {
+      severity = "Warning";
+    };
+
+    "Net.ConnectionManager.Remote" = {
+      severity = "Info";
+    };
+
+    "Net.Subscription.DNS" = {
+      severity = "Info";
+    };
+
+    "Startup.DiffusionInit" = {
+      severity = "Info";
+    };
+
+    "Net.ErrorPolicy" = {
+      severity = "Info";
+    };
+
+    "Forge.Loop" = {
+      severity = "Info";
+    };
+
+    "Forge.StateInfo" = {
+      severity = "Info";
+    };
+
+    "Net.InboundGovernor.Remote" = {
+      severity = "Info";
+    };
+
+    "Net.Subscription.IP" = {
+      severity = "Info";
+    };
+
+    "Net.ErrorPolicy.Local" = {
+      severity = "Info";
+    };
+
+    "Mempool" = {
+      severity = "Info";
+    };
+
+    "Net.Mux.Remote" = {
+      severity = "Info";
+    };
+
+    "Net.InboundGovernor" = {
+      severity = "Warning";
+    };
+
+    "Net.PeerSelection" = {
+      severity = "Silence";
+    };
+
+    "Net.ConnectionManager.Remote.ConnectionManagerCounters" = {
+      severity = "Silence";
+    };
+
+    "Resources" = {
+      severity = "Silence";
+    };
+
+    "ChainDB.AddBlockEvent.AddedBlockToQueue" = {
+      maxFrequency = 2.0;
+    };
+
+    "ChainDB.AddBlockEvent.AddedBlockToVolatileDB" = {
+      maxFrequency = 2.0;
+    };
+
+    "ChainDB.AddBlockEvent.AddBlockValidation.ValidCandidate" = {
+      maxFrequency = 2.0;
+    };
+
+    "ChainDB.CopyToImmutableDBEvent.CopiedBlockToImmutableDB" = {
+      maxFrequency = 2.0;
+    };
+
+    "BlockFetch.Client.CompletedBlockFetch" = {
+      maxFrequency = 2.0;
     };
   };
 }
