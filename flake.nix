@@ -2,7 +2,7 @@
   description = "IOHK nix lib, packages and overlays";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs?ref=release-22.11";
+    nixpkgs.url = "github:nixos/nixpkgs?ref=release-24.11";
 
     # WARNING: If upstream libsodium version is updated, make sure ed25519's
     # verification criteria has not changed. See this discussion for more details
