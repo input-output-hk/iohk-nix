@@ -22,7 +22,7 @@ let
         }
       ];
     };
-  in toFile "topology.yaml" (toJSON topology);
+  in toFile "topology.json" (toJSON topology);
 
   mkEdgeTopologyP2P = {
     edgeNodes ? [{addr = "127.0.0.1"; port = 3001;}]
@@ -57,7 +57,7 @@ let
       inherit peerSnapshotFile;
     };
   in
-    toFile "topology.yaml" (toJSON topology);
+    toFile "topology.json" (toJSON topology);
 
   mkTopology = env: let
     legacyTopology = mkEdgeTopology {
