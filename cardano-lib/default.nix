@@ -69,7 +69,7 @@ let
       inherit (env) edgeNodes;
 
       bootstrapPeers = map (e: {address = e.addr; inherit (e) port;}) env.edgeNodes;
-      useLedgerAfterSlot = env.usePeersFromLedgerAfterSlot;
+      useLedgerAfterSlot = env.useLedgerAfterSlot;
     };
   in
     if (env.nodeConfig.EnableP2P or false)
@@ -168,7 +168,7 @@ let
       confKey = "mainnet_full";
       networkConfig = import ./mainnet-config.nix // minNodeVersion;
       networkConfigBp = import ./mainnet-config-bp.nix // minNodeVersion;
-      usePeersFromLedgerAfterSlot = 148350000;
+      useLedgerAfterSlot = 148350000;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
       };
@@ -197,7 +197,7 @@ let
       edgePort = 3001;
       networkConfig = import ./preprod-config.nix // minNodeVersion;
       networkConfigBp = import ./preprod-config-bp.nix // minNodeVersion;
-      usePeersFromLedgerAfterSlot = 83894000;
+      useLedgerAfterSlot = 83894000;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
       };
@@ -226,7 +226,7 @@ let
       edgePort = 3001;
       networkConfig = import ./preview-config.nix // minNodeVersion;
       networkConfigBp = import ./preview-config-bp.nix // minNodeVersion;
-      usePeersFromLedgerAfterSlot = 73267000;
+      useLedgerAfterSlot = 73267000;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
       };
