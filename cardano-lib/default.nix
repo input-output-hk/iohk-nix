@@ -69,7 +69,7 @@ let
       inherit (env) edgeNodes;
 
       bootstrapPeers = map (e: {address = e.addr; inherit (e) port;}) env.edgeNodes;
-      useLedgerAfterSlot = env.usePeersFromLedgerAfterSlot;
+      useLedgerAfterSlot = env.useLedgerAfterSlot;
 
       # Genesis mode is now default for preview and preprod as of node 10.5
       peerSnapshotFile =
@@ -175,7 +175,7 @@ let
       confKey = "mainnet_full";
       networkConfig = import ./mainnet-config.nix // minNodeVersion;
       networkConfigBp = import ./mainnet-config-bp.nix // minNodeVersion;
-      usePeersFromLedgerAfterSlot = 157852837;
+      useLedgerAfterSlot = 157852837;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
       };
@@ -205,7 +205,7 @@ let
       edgePort = 3001;
       networkConfig = import ./preprod-config.nix // minNodeVersion;
       networkConfigBp = import ./preprod-config-bp.nix // minNodeVersion;
-      usePeersFromLedgerAfterSlot = 93830456;
+      useLedgerAfterSlot = 93830456;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
       };
@@ -235,7 +235,7 @@ let
       edgePort = 3001;
       networkConfig = import ./preview-config.nix // minNodeVersion;
       networkConfigBp = import ./preview-config-bp.nix // minNodeVersion;
-      usePeersFromLedgerAfterSlot = 83116868;
+      useLedgerAfterSlot = 83116868;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
       };
