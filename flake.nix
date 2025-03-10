@@ -9,10 +9,10 @@
     # https://github.com/jedisct1/libsodium/discussions/1260
 
     # To update these, change the rev part in the url, and run
-    # nix flake lock --update-input <sodium|secp256k1|blst>
+    # nix flake update <sodium|secp256k1|blst>
     sodium = { url = "github:input-output-hk/libsodium?rev=dbb48cce5429cb6585c9034f002568964f1ce567"; flake = false; };
     secp256k1 = { url = "github:bitcoin-core/secp256k1?ref=v0.3.2"; flake = false; };
-    blst = { url = "github:supranational/blst?ref=v0.3.11"; flake = false; };
+    blst = { url = "github:supranational/blst?ref=v0.3.14"; flake = false; };
   };
 
   outputs = { self, nixpkgs, ... }@inputs: rec {
