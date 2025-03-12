@@ -1,6 +1,4 @@
 {
-  ##### The Basics #####
-
   # Enable or disable logging overall
   TurnOnLogging = true;
 
@@ -10,8 +8,6 @@
 
   # Use the modern tracing system instead of the legacy tracing system.
   UseTraceDispatcher = true;
-
-  ##### TODO: TITLE #####
 
   # Match the metrics prefix of the legacy tracing system to minimize breaking
   # changes.
@@ -27,10 +23,8 @@
   # The frequency of resource messages.
   TraceOptionResourceFrequency = 1000;
 
-  # TODO: Fix up following calcs in description
-  #
-  # Queue size control:
-  # In case of a missing forwarding service consumer, traces messages will be
+  # Queue size control:             y
+  # In case of a missing forwarding service consumer, trace messages will be
   # buffered. This mitigates short forwarding interruptions, or delays at
   # startup time.
   #
@@ -38,32 +32,57 @@
   # second given a particular tracing configuration - to avoid unnecessarily
   # increasing memory footprint.
   #
-  # The default values here are chosen to accommodate verbose tracing output
-  # (i.e., buffering 1min worth of trace data given ~32 messages per second). A
-  # config that results in less than 5 msgs per second should also provide
-  # TraceOptionForwarder queue size values considerably lower. The
-  # `disconnQueueSize` is the hard limit in that case.
-  #
-  # The queue sizes tie in with the max number of trace objects cardano-tracer
-  # requests periodically, the default for that being 100. Here, the basic
-  # queue can hold enough traces for 10 subsequent polls.
+  # The maxReconnectDelay config option specifies the maximum delay in seconds
+  # between (re-)connection attempts of a forwarder (default: 60s).
   TraceOptionForwarder = {
     connQueueSize = 64;
     disconnQueueSize = 128;
+    maxReconnectDeplay = 60;
   };
 
+  # Tracing options for node
   TraceOptions = {
+    # The default tracer configuration
     "" = {
       backends = [
-        "Stdout HumanFormatColoured"
+        # None, any combination, or all of the following backends can be
+        # enabled, where `EKGBackend` forwards EKG resource status to
+        # cardano-tracer, `Forwarder` forwards message traces and
+        # `PrometheusSimple` serves cardano-node metrics directly from
+        # cardano-node.
         "EKGBackend"
         "Forwarder"
+        "PrometheusSimple 127.0.0.1 12799"
+
+        # Only one of the following can be enabled, which determines for format
+        # of node logging to stdout.
+        "Stdout HumanFormatColoured"
+        # "Stdout HumanFormatUncoloured"
+        # "Stdout MachineFormat"
       ];
 
+      # Each tracer can specify the level of details for printing messages.
+      # Options include `DMinimal`, `DNormal`, `DDetailed`, and `DMaximum`. If
+      # no implementation is given, `DNormal` is chosen.
       detail = "DNormal";
+
+      # The severity levels, ranging from the least severe (`Debug`) to the
+      # most severe (`Emergency`), provide a framework for ignoring messages
+      # with severity levels below a globally configured severity cutoff.
+      #
+      # The full list of severities are:
+      # `Debug`, `Info`, `Notice`, `Warning`, `Error`, `Critical`, `Alert` and
+      # `Emergency`.
+      #
+      # To enhance severity filtering, there is also the option of `Silence`
+      # which allows for the unconditional silencing of a specific trace,
+      # essentially representing the deactivation of tracers -- a semantic
+      # continuation of the functionality in the legacy system.
       severity = "Notice";
     };
 
+    # The following tracer configurations are configured to closely match the
+    # default logging seen in the legacy cardano-node tracing system.
     "BlockFetch.Decision" = {
       severity = "Silence";
     };
@@ -120,6 +139,8 @@
       severity = "Info";
     };
 
+
+
     "Net.Mux.Remote" = {
       severity = "Info";
     };
@@ -141,6 +162,8 @@
     };
 
     "ChainDB.AddBlockEvent.AddedBlockToQueue" = {
+      # A frequency limit for the number of messages per second may also be
+      # provided for any tracer.
       maxFrequency = 2.0;
     };
 
@@ -159,5 +182,23 @@
     "BlockFetch.Client.CompletedBlockFetch" = {
       maxFrequency = 2.0;
     };
+
+    # Uncomment UTXO-HD tracer adjustments for cardano-node 10.4
+    #
+    # These messages are UTxO-HD specific. On a regular node, the tracing
+    # system might warn at startup about config inconsistencies as those
+    # tracers do not exist. This warning is expected, and can be safely
+    # ignored. Silencing the tracers below aims at having a comparable log line
+    # rates in messages per second on both the UTxO-HD and regular node.
+    # "ChainDB.LedgerEvent.Forker".severity = "Silence";
+    # "Mempool.AttemptAdd".severity = "Silence";
+    # "Mempool.AttemptingSync".severity = "Silence";
+    # "Mempool.LedgerFound".severity = "Silence";
+    # "Mempool.LedgerNotFound".severity = "Silence";
+    # "Mempool.SyncDone".severity = "Silence";
+    # "Mempool.SyncNotNeeded".severity = "Silence";
+
+    # Enable this to investigate transaction validation errors.
+    # "Mempool.RejectedTx".detail = "DDetailed";
   };
 }
