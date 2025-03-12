@@ -23,21 +23,21 @@
   # The frequency of resource messages.
   TraceOptionResourceFrequency = 1000;
 
-  # Queue size control:             y
+  # Queue size control:
   # In case of a missing forwarding service consumer, trace messages will be
   # buffered. This mitigates short forwarding interruptions, or delays at
   # startup time.
   #
   # The queue capacity should thus correlate to the expected log lines per
-  # second given a particular tracing configuration - to avoid unnecessarily
+  # second given a particular tracing configuration to avoid unnecessarily
   # increasing memory footprint.
   #
   # The maxReconnectDelay config option specifies the maximum delay in seconds
-  # between (re-)connection attempts of a forwarder (default: 60s).
+  # between (re-)connection attempts of a forwarder.
   TraceOptionForwarder = {
     connQueueSize = 64;
     disconnQueueSize = 128;
-    maxReconnectDeplay = 60;
+    maxReconnectDeplay = 30;
   };
 
   # Tracing options for node
@@ -49,10 +49,11 @@
         # enabled, where `EKGBackend` forwards EKG resource status to
         # cardano-tracer, `Forwarder` forwards message traces and
         # `PrometheusSimple` serves cardano-node metrics directly from
-        # cardano-node.
+        # cardano-node and defaults to use of the same port as in the legacy
+        # tracing system.
         "EKGBackend"
         "Forwarder"
-        "PrometheusSimple 127.0.0.1 12799"
+        "PrometheusSimple 127.0.0.1 12798"
 
         # Only one of the following can be enabled, which determines for format
         # of node logging to stdout.
@@ -139,8 +140,6 @@
       severity = "Info";
     };
 
-
-
     "Net.Mux.Remote" = {
       severity = "Info";
     };
@@ -183,7 +182,7 @@
       maxFrequency = 2.0;
     };
 
-    # Uncomment UTXO-HD tracer adjustments for cardano-node 10.4
+    # Uncomment UTXO-HD tracer adjustments once UTXO-HD is released.
     #
     # These messages are UTxO-HD specific. On a regular node, the tracing
     # system might warn at startup about config inconsistencies as those
