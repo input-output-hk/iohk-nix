@@ -1,6 +1,6 @@
 {lib, writeText, runCommand, jq}:
 let
-  inherit (builtins) attrNames elem fromJSON readFile toFile toJSON;
+  inherit (builtins) attrNames elem fromJSON getAttr readFile toFile toJSON;
   inherit (lib) filterAttrs flip forEach listToAttrs mapAttrs mapAttrsToList optionalAttrs optionalString pipe;
 
   mkEdgeTopology = {
@@ -130,13 +130,15 @@ let
   # Min currently 10.4.0 for `LedgerDB` config support.
   minNodeVersion = { MinNodeVersion = "10.4.0"; };
 
+  mergeTraceOpts = cfg: traceOpts: cfg // {TraceOptions = getAttr "TraceOptions" cfg // traceOpts;};
+
   environments = mapAttrs (name: env: {
     inherit name;
     # default derived configs:
-    nodeConfig = defaultLogConfig // env.networkConfig;
-    nodeConfigLegacy = defaultLogConfigLegacy // env.networkConfig;
-    nodeConfigBp = defaultLogConfig // env.networkConfigBp;
-    nodeConfigBpLegacy = defaultLogConfigLegacy // env.networkConfigBp;
+    nodeConfig = mergeTraceOpts (defaultLogConfig // env.networkConfig) (env.extraTracerConfig or {});
+    nodeConfigLegacy = defaultLogConfigLegacy // env.networkConfig // (env.extraTracerConfigLegacy or {});
+    nodeConfigBp = mergeTraceOpts (defaultLogConfig // env.networkConfigBp) (env.extraTracerConfig or {});
+    nodeConfigBpLegacy = defaultLogConfigLegacy // env.networkConfigBp // (env.extraTracerConfigLegacy or {});
     consensusProtocol = env.networkConfig.Protocol;
     submitApiConfig = mkSubmitApiConfig name environments.${name}.nodeConfig;
     dbSyncConfig =
@@ -182,6 +184,10 @@ let
       extraDbSyncConfig = {
         enableFutureGenesis = true;
       };
+
+      # Once legacy tracing system is removed, tracing mods can be placed back in $ENV-config.nix
+      extraTracerConfig.Mempool.severity = "Silence";
+      extraTracerConfigLegacy.TraceMempool = false;
     };
 
     preprod = rec {
