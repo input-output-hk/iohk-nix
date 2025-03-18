@@ -120,5 +120,6 @@
   },
   "TurnOnLogMetrics": true,
   "TurnOnLogging": true,
-  "UseTraceDispatcher": true
+  "UseTraceDispatcher": true,
+  "minSeverity": "Critical"
 }
