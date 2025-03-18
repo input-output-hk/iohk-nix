@@ -53,7 +53,7 @@
         # tracing system.
         "EKGBackend"
         "Forwarder"
-        "PrometheusSimple 127.0.0.1 12798"
+        "PrometheusSimple suffix 127.0.0.1 12798"
 
         # Only one of the following can be enabled, which determines for format
         # of node logging to stdout.
