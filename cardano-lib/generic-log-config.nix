@@ -53,7 +53,10 @@
         # tracing system.
         "EKGBackend"
         "Forwarder"
-        "PrometheusSimple suffix 127.0.0.1 12798"
+
+        # Include for the 10.3 release.
+        # Also update cardano-lib/testnet-template/config.json.
+        # "PrometheusSimple suffix 127.0.0.1 12798"
 
         # Only one of the following can be enabled, which determines for format
         # of node logging to stdout.
