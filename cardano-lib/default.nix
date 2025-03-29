@@ -85,6 +85,7 @@ let
   defaultLogConfig = import ./generic-log-config.nix;
   defaultLogConfigLegacy = import ./generic-log-config-legacy.nix;
   defaultExplorerLogConfig = import ./explorer-log-config.nix;
+  defaultTracerConfig = import ./generic-tracer-config.nix;
 
   mkExplorerConfig = name: nodeConfig: filterAttrs (k: v: v != null) {
     NetworkName = name;
@@ -139,6 +140,7 @@ let
     nodeConfigLegacy = defaultLogConfigLegacy // env.networkConfig // (env.extraTracerConfigLegacy or {});
     nodeConfigBp = mergeTraceOpts (defaultLogConfig // env.networkConfigBp) (env.extraTracerConfig or {});
     nodeConfigBpLegacy = defaultLogConfigLegacy // env.networkConfigBp // (env.extraTracerConfigLegacy or {});
+    tracerConfig = defaultTracerConfig // {inherit (fromJSON (readFile ./${name}/shelley-genesis.json)) networkMagic;};
     consensusProtocol = env.networkConfig.Protocol;
     submitApiConfig = mkSubmitApiConfig name environments.${name}.nodeConfig;
     dbSyncConfig =
@@ -336,6 +338,7 @@ let
                           <a class="button is-primary" href="${env}-submit-api-config.json">submit-api config</a>
                           <a class="button is-primary" href="${env}-mithril-signer-config.json">mithril-signer config</a>
                           <a class="button is-primary" href="rest-config.json">rest config</a>
+                          <a class="button is-primary" href="${env}-tracer-config.json">tracer config</a>
                         </div>
                       </td>
                     </tr>
@@ -398,6 +401,7 @@ let
           ${jq}/bin/jq . < ${toFile "${env}-db-sync-config.json" (toJSON (value.dbSyncConfig // { NodeConfigFile = "${env}-config.json"; }))} > $out/${env}-db-sync-config.json
           ${jq}/bin/jq . < ${toFile "${env}-submit-api-config.json" (toJSON value.submitApiConfig)} > $out/${env}-submit-api-config.json
           ${jq}/bin/jq . < ${toFile "${env}-mithril-signer-config.json" (toJSON value.mithrilSignerConfig)} > $out/${env}-mithril-signer-config.json
+          ${jq}/bin/jq . < ${toFile "${env}-tracer-config.json" (toJSON value.tracerConfig)} > $out/${env}-tracer-config.json
           ${jq}/bin/jq . < ${mkTopology value} > $out/${env}-topology.json
           ${jq}/bin/jq . < ${./${env}/peer-snapshot.json} > $out/${env}-peer-snapshot.json
           ${optionalString (value.nodeConfig ? CheckpointsFile) ''
@@ -416,6 +420,7 @@ in {
     defaultExplorerLogConfig
     defaultLogConfig
     defaultLogConfigLegacy
+    defaultTracerConfig
     eachEnv
     forEnvironments
     forEnvironmentsCustom
