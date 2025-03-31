@@ -2,7 +2,7 @@ inputs: final: prev: {
   # We pin our own crypto libraries here, so that we have control over
   # the specific revisions we use (assuming a recent enough iohk-nix).
   #
-  #  This allows us to set the sepcific version/rev we want in the
+  #  This allows us to set the specific version/rev we want in the
   #  flake.nix.  We _do not_ pin the generic libsodium, and rely on
   #  the upstream one provided by what ever nixpkgs pin is used.
   #
