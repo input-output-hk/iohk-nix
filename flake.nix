@@ -20,6 +20,7 @@
     lib = import ./lib nixpkgs.lib;
 
     overlays = {
+      bomutils = import ./overlays/bomutils;
       crypto = import ./overlays/crypto inputs;
       haskell-nix-crypto = import ./overlays/haskell-nix-crypto;
       haskell-nix-extra = import ./overlays/haskell-nix-extra;
