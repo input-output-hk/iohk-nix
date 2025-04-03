@@ -310,6 +310,8 @@ let
                             <a class="button is-info" href="${env}-${protNames.${p}.conway}-genesis.json">${protNames.${p}.conway}Genesis</a>''}
                           <a class="button is-info" href="${env}-topology.json">topology</a>
                           <a class="button is-info" href="${env}-peer-snapshot.json">peer-snapshot</a>
+                          ${optionalString (value.nodeConfig ? CheckpointsFile) ''
+                            <a class="button is-info" href="${env}-checkpoints.json">checkpoints</a>''}
                           <a class="button is-primary" href="${env}-db-sync-config.json">db-sync config</a>
                           <a class="button is-primary" href="${env}-submit-api-config.json">submit-api config</a>
                           <a class="button is-primary" href="${env}-mithril-signer-config.json">mithril-signer config</a>
@@ -344,6 +346,8 @@ let
             AlonzoGenesisFile = "${env}-${protNames.${p}.alonzo}-genesis.json";
           } // (optionalAttrs (p == "Cardano" && value.nodeConfig ? ConwayGenesisFile) {
             ConwayGenesisFile = "${env}-${protNames.${p}.conway}-genesis.json";
+          }) // (optionalAttrs (value.nodeConfig ? CheckpointsFile) {
+            CheckpointsFile = "${env}-checkpoints.json";
           });
         in ''
           ${if p != "Cardano" then ''
@@ -372,6 +376,9 @@ let
           ${jq}/bin/jq . < ${toFile "${env}-mithril-signer-config.json" (toJSON value.mithrilSignerConfig)} > $out/${env}-mithril-signer-config.json
           ${jq}/bin/jq . < ${mkTopology value} > $out/${env}-topology.json
           ${jq}/bin/jq . < ${./${env}/peer-snapshot.json} > $out/${env}-peer-snapshot.json
+          ${optionalString (value.nodeConfig ? CheckpointsFile) ''
+            ${jq}/bin/jq . < ${./${env}/checkpoints.json} > $out/${env}-checkpoints.json
+          ''}
         ''
       ) environments )
     }
