@@ -28,7 +28,7 @@ let
     edgeNodes ? [{addr = "127.0.0.1"; port = 3001;}]
   , bootstrapPeers ? null
   , useLedgerAfterSlot ? 0
-  , peerSnapshotFile ? "/tmp/peer-snapshot.json"
+  , peerSnapshotFile ? null
   }:
   let
     mkPublicRootsAccessPoints = map (edgeNode: {address = edgeNode.addr; port = edgeNode.port;}) edgeNodes;
