@@ -32,6 +32,19 @@
   TargetNumberOfKnownPeers = 150;
   TargetNumberOfRootPeers = 60;
 
+  # The consensus mode.  If set to "GenesisMode", a path to a peer snapshot
+  # file will need to be declared in the p2p topology file under key
+  # `peerSnapshotFile`.  A `CheckpointsFile` and corresponding
+  # `CheckpointsFileHash` is not required for preprod.
+  ConsensusMode = "PraosMode";
+
+  # Default parameter values for "GenesisMode"
+  SyncTargetNumberOfActivePeers = 0;
+  SyncTargetNumberOfActiveBigLedgerPeers = 30;
+  SyncTargetNumberOfEstablishedBigLedgerPeers = 50;
+  SyncTargetNumberOfKnownBigLedgerPeers = 100;
+  MinBigLedgerPeersForTrustedState = 5;
+
   ##### Update system parameters #####
 
   # This protocol version number gets used by block producing nodes as part
