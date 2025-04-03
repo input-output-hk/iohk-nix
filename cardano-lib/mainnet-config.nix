@@ -14,8 +14,8 @@
   ShelleyGenesisHash = "1a3be38bcbb7911969283716ad7aa550250226b76a61fc51cc9a9a35d9276d81";
   AlonzoGenesisFile = ./mainnet + "/alonzo-genesis.json";
   AlonzoGenesisHash = "7e94a15f55d1e82d10f09203fa1d40f8eede58fd8066542cf6566008068ed874";
-  CheckPointsFile = "placeholder str: ./mainnet + ...";
-  CheckPointsHash = "...";
+  CheckpointsFile = ./mainnet + "/checkpoints.json";
+  CheckpointsFileHash = "3e6dee5bae7acc6d870187e72674b37c929be8c66e62a552cf6a876b1af31ade";
 
   ##### Core protocol parameters #####
 
@@ -37,8 +37,8 @@
 
   MaxKnownMajorProtocolVersion = 2;
 
-  # The consensus mode.  If set to "GenesisMode", the CheckPointsFile and
-  # CheckpointsHash value above will be used and an absolute path to a peer
+  # The consensus mode.  If set to "GenesisMode", the `CheckpointsFile` and
+  # `CheckpointsFileHash` values above will be used and a path to a peer
   # snapshot file will need to be declared in the p2p topology file under key
   # `peerSnapshotFile`.
   ConsensusMode = "PraosMode";
