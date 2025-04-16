@@ -5,6 +5,7 @@
   "ConwayGenesisFile": "conway-genesis.json",
   "ApplicationName": "cardano-sl",
   "ApplicationVersion": 0,
+  "ConsensusMode": "PraosMode",
   "LastKnownBlockVersion-Alt": 0,
   "LastKnownBlockVersion-Major": 3,
   "LastKnownBlockVersion-Minor": 1,
