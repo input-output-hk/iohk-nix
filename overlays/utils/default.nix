@@ -1,5 +1,5 @@
 final: prev: let
-  inherit (final) system git nixFlakes cabal writeShellScriptBin;
+  inherit (final) system git nixStable cabal writeShellScriptBin;
 in {
   nixWrapped = writeShellScriptBin "nix" ''
     find_up() {
@@ -27,7 +27,7 @@ in {
       }
       trap atexit EXIT
     fi
-    GC_DONT_GC=1 ${nixFlakes}/bin/nix --experimental-features "nix-command flakes" "$@"
+    GC_DONT_GC=1 ${nixStable}/bin/nix --experimental-features "nix-command flakes" "$@"
   '';
   cabalWrapped = writeShellScriptBin "cabal" ''
     set -euo pipefail
@@ -85,5 +85,4 @@ in {
   checkStackProject = final.callPackage ../../ci/check-stack-project.nix { };
   sha256map-regenerate = final.callPackage ../../ci/sha256map-regenerate { };
   inherit (final.callPackages ../../ci/cabal-project-regenerate {}) cabalProjectRegenerate checkCabalProject;
-
 }
