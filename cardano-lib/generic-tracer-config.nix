@@ -6,14 +6,6 @@
 
   # ------------
 
-  # WarnRTViewMissing indicates whether to provide a warning if RTView is
-  # requested in config but cardano-tracer was built without it.
-  #
-  # If null cardano-tracer will set a default: true if RTView
-  # config is provided but cardano-tracer was built without it, false
-  # otherwise.
-  WarnRTViewMissing = null;
-
   # ekgRequestFreq specifies the period of how often EKG metrics will be
   # requested, in seconds. For example, if ekgRequestFreq is 10, cardano-tracer
   # will ask for new EKG metrics every ten seconds. There is no limit as
