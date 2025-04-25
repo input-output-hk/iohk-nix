@@ -3,7 +3,7 @@
 ############### Cardano Node Configuration ###############
 ##########################################################
 
-{
+with builtins; {
   ##### Locations #####
 
   ByronGenesisFile = ./preprod + "/byron-genesis.json";
@@ -44,6 +44,25 @@
   SyncTargetNumberOfEstablishedBigLedgerPeers = 50;
   SyncTargetNumberOfKnownBigLedgerPeers = 100;
   MinBigLedgerPeersForTrustedState = 5;
+
+  # Default Ledger Configuration
+  # Additional configuration options can be found at:
+  # https://ouroboros-consensus.cardano.intersectmbo.org/docs/for-developers/utxo-hd/migrating
+  LedgerDB = {
+    # The time interval between snapshots, in seconds.
+    SnapshotInterval = (fromJSON (readFile ./preprod/shelley-genesis.json)).securityParam * 2;
+
+    # The number of disk snapshots to keep.
+    NumOfDiskSnapshots = 2;
+
+    # When querying the store for a big range of UTxOs (such as with
+    # QueryUTxOByAddress), the store will be read in batches of this size.
+    QueryBatchSize = 100;
+
+    # The backend can either be in memory with `V2InMemory` or on disk with
+    # `V1LMDB`.
+    Backend = "V2InMemory";
+  };
 
   ##### Update system parameters #####
 

@@ -120,8 +120,8 @@ let
   # as needed.  Any node version string suffixes, such as `-pre`, should be
   # removed from this string identifier.
   #
-  # Min currently 10.2.1 for `GenesisMode` support.
-  minNodeVersion = { MinNodeVersion = "10.2.1"; };
+  # Min currently 10.4.0 for `LedgerDB` config support.
+  minNodeVersion = { MinNodeVersion = "10.4.0"; };
 
   environments = mapAttrs (name: env: {
     inherit name;
