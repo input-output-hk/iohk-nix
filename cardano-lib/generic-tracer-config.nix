@@ -133,7 +133,7 @@
 
     # If the network tag is AcceptAt, contents expects a string declaring the
     # socket path that cardano-tracer will create and listen on.
-    contents = "/tmp/cardano-tracer.socket";
+    contents = "/tmp/tracer.socket";
 
     # On the other hand, if network tag is ConnectTo, contents expects a list
     # of strings declaring the socket paths created by provider(s) which
