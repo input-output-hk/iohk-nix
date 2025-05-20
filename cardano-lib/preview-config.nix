@@ -22,7 +22,7 @@ with builtins; {
   EnableP2P = true;
   PeerSharing = true;
   TargetNumberOfActivePeers = 20;
-  TargetNumberOfEstablishedPeers = 40;
+  TargetNumberOfEstablishedPeers = 30;
   TargetNumberOfKnownPeers = 150;
   TargetNumberOfRootPeers = 60;
   ExperimentalHardForksEnabled = false;
@@ -41,7 +41,7 @@ with builtins; {
   # Default parameter values for "GenesisMode"
   SyncTargetNumberOfActivePeers = 0;
   SyncTargetNumberOfActiveBigLedgerPeers = 30;
-  SyncTargetNumberOfEstablishedBigLedgerPeers = 50;
+  SyncTargetNumberOfEstablishedBigLedgerPeers = 40;
   SyncTargetNumberOfKnownBigLedgerPeers = 100;
   MinBigLedgerPeersForTrustedState = 5;
 
