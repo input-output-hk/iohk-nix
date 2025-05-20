@@ -1,6 +1,6 @@
 {lib, writeText, runCommand, jq}:
 let
-  inherit (builtins) attrNames fromJSON readFile toFile toJSON;
+  inherit (builtins) attrNames elem fromJSON readFile toFile toJSON;
   inherit (lib) filterAttrs flip forEach listToAttrs mapAttrs mapAttrsToList optionalAttrs optionalString pipe;
 
   mkEdgeTopology = {
@@ -70,6 +70,12 @@ let
 
       bootstrapPeers = map (e: {address = e.addr; inherit (e) port;}) env.edgeNodes;
       useLedgerAfterSlot = env.usePeersFromLedgerAfterSlot;
+
+      # Genesis mode is now default for preview and preprod as of node 10.5
+      peerSnapshotFile =
+        if elem env.name ["preview" "preprod"]
+        then "peer-snapshot.json"
+        else null;
     };
   in
     if (env.nodeConfig.EnableP2P or false)
