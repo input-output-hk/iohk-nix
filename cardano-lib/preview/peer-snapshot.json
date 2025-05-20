@@ -1,8 +1,8 @@
 {
   "bigLedgerPools": [
     {
-      "accumulatedStake": 0.0820701633060363,
-      "relativeStake": 0.0820701633060363,
+      "accumulatedStake": 0.07492932456992851,
+      "relativeStake": 0.07492932456992851,
       "relays": [
         {
           "domain": "node1.cardano.gratis",
@@ -19,8 +19,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.12989060678573627,
-      "relativeStake": 0.04782044347969997,
+      "accumulatedStake": 0.1208522016459698,
+      "relativeStake": 0.045922877076041285,
       "relays": [
         {
           "domain": "tn-preview.psilobyte.io",
@@ -33,8 +33,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.17531495868249733,
-      "relativeStake": 0.04542435189676106,
+      "accumulatedStake": 0.15688725295849512,
+      "relativeStake": 0.036035051312525324,
       "relays": [
         {
           "address": "132.145.71.219",
@@ -43,8 +43,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.210210120665389,
-      "relativeStake": 0.03489516198289166,
+      "accumulatedStake": 0.18894724786432468,
+      "relativeStake": 0.03205999490582955,
       "relays": [
         {
           "domain": "adaboy-preview-1c.gleeze.com",
@@ -57,8 +57,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.23382167971879314,
-      "relativeStake": 0.023611559053404167,
+      "accumulatedStake": 0.2139055377336676,
+      "relativeStake": 0.024958289869342926,
       "relays": [
         {
           "domain": "preview.world.bbhmm.net",
@@ -67,8 +67,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.2545382114821117,
-      "relativeStake": 0.020716531763318526,
+      "accumulatedStake": 0.23695586832364748,
+      "relativeStake": 0.02305033058997988,
       "relays": [
         {
           "domain": "preview1.volcyada.com",
@@ -85,8 +85,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.27305736059038704,
-      "relativeStake": 0.01851914910827539,
+      "accumulatedStake": 0.25887486973528806,
+      "relativeStake": 0.021919001411640573,
       "relays": [
         {
           "address": "73.222.122.247",
@@ -95,8 +95,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.29142886247582445,
-      "relativeStake": 0.018371501885437354,
+      "accumulatedStake": 0.279813719704277,
+      "relativeStake": 0.020938849968988916,
       "relays": [
         {
           "domain": "relay-m.fluxpool.cc",
@@ -105,18 +105,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.30973013133174093,
-      "relativeStake": 0.01830126885591652,
-      "relays": [
-        {
-          "address": "204.216.214.226",
-          "port": 6000
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.32790992848456146,
-      "relativeStake": 0.018179797152820504,
+      "accumulatedStake": 0.2995575638191148,
+      "relativeStake": 0.019743844114837837,
       "relays": [
         {
           "domain": "sully.crabdance.com",
@@ -125,8 +115,18 @@
       ]
     },
     {
-      "accumulatedStake": 0.3445901119435669,
-      "relativeStake": 0.016680183459005484,
+      "accumulatedStake": 0.3186323578767154,
+      "relativeStake": 0.019074794057600573,
+      "relays": [
+        {
+          "address": "204.216.214.226",
+          "port": 6000
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.33494653669861274,
+      "relativeStake": 0.01631417882189736,
       "relays": [
         {
           "address": "161.97.167.41",
@@ -135,8 +135,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.35978898822952,
-      "relativeStake": 0.015198876285953034,
+      "accumulatedStake": 0.350630836983988,
+      "relativeStake": 0.015684300285375256,
       "relays": [
         {
           "address": "75.119.130.108",
@@ -145,8 +145,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.3741300980988669,
-      "relativeStake": 0.014341109869346901,
+      "accumulatedStake": 0.36612957142492975,
+      "relativeStake": 0.015498734440941752,
       "relays": [
         {
           "domain": "preview.leadstakepool.com",
@@ -159,18 +159,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.38811561299373687,
-      "relativeStake": 0.013985514894869981,
-      "relays": [
-        {
-          "domain": "1.tcp.au.ngrok.io",
-          "port": 25432
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.40195886956041216,
-      "relativeStake": 0.01384325656667532,
+      "accumulatedStake": 0.38119150244174455,
+      "relativeStake": 0.015061931016814793,
       "relays": [
         {
           "domain": "129.213.55.211",
@@ -179,28 +169,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.4150515473123398,
-      "relativeStake": 0.013092677751927613,
-      "relays": [
-        {
-          "address": "90.251.253.249",
-          "port": 3000
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.4272027926110439,
-      "relativeStake": 0.012151245298704117,
-      "relays": [
-        {
-          "address": "82.208.22.91",
-          "port": 6003
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.4392972100702174,
-      "relativeStake": 0.012094417459173485,
+      "accumulatedStake": 0.3938627192166735,
+      "relativeStake": 0.012671216774928936,
       "relays": [
         {
           "domain": "relay1.preview.stakepool.quebec",
@@ -209,18 +179,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.45106603036634835,
-      "relativeStake": 0.011768820296130982,
-      "relays": [
-        {
-          "domain": "previewrelay.stakepoolcentral.com",
-          "port": 15654
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.4626359604880269,
-      "relativeStake": 0.01156993012167856,
+      "accumulatedStake": 0.4061490077106836,
+      "relativeStake": 0.012286288494010093,
       "relays": [
         {
           "domain": "relay.test.lidonation.com",
@@ -229,8 +189,38 @@
       ]
     },
     {
-      "accumulatedStake": 0.4737601992646555,
-      "relativeStake": 0.011124238776628563,
+      "accumulatedStake": 0.41813172377484736,
+      "relativeStake": 0.011982716064163809,
+      "relays": [
+        {
+          "address": "82.208.22.91",
+          "port": 6003
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.43001810991920003,
+      "relativeStake": 0.011886386144352667,
+      "relays": [
+        {
+          "domain": "previewrelay.stakepoolcentral.com",
+          "port": 15654
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.44176160099998774,
+      "relativeStake": 0.011743491080787666,
+      "relays": [
+        {
+          "domain": "preview-r1.panl.org",
+          "port": 3015
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.453462753304623,
+      "relativeStake": 0.011701152304635273,
       "relays": [
         {
           "domain": "preview.frcan.com",
@@ -239,8 +229,38 @@
       ]
     },
     {
-      "accumulatedStake": 0.48477762551833975,
-      "relativeStake": 0.01101742625368424,
+      "accumulatedStake": 0.4651111130565143,
+      "relativeStake": 0.011648359751891353,
+      "relays": [
+        {
+          "domain": "1.tcp.au.ngrok.io",
+          "port": 25432
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.4767416932396813,
+      "relativeStake": 0.011630580183166967,
+      "relays": [
+        {
+          "domain": "r1.pv.mrbee.io",
+          "port": 3101
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.48824857406801925,
+      "relativeStake": 0.01150688082833792,
+      "relays": [
+        {
+          "address": "90.251.253.249",
+          "port": 3000
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.49956719035760133,
+      "relativeStake": 0.011318616289582096,
       "relays": [
         {
           "domain": "test.smaug.pool.pm",
@@ -249,22 +269,38 @@
       ]
     },
     {
-      "accumulatedStake": 0.4954954075946499,
-      "relativeStake": 0.01071778207631013,
+      "accumulatedStake": 0.5108845991894692,
+      "relativeStake": 0.011317408831867845,
       "relays": [
         {
-          "domain": "144.126.157.40",
-          "port": 3005
-        },
-        {
-          "domain": "144.126.157.40",
-          "port": 3006
+          "domain": "adar-monitor.freeddns.org",
+          "port": 3010
         }
       ]
     },
     {
-      "accumulatedStake": 0.5061011090972145,
-      "relativeStake": 0.010605701502564692,
+      "accumulatedStake": 0.5219747774918911,
+      "relativeStake": 0.011090178302421991,
+      "relays": [
+        {
+          "domain": "testnet.valhallapool.net",
+          "port": 3000
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.5330605585563831,
+      "relativeStake": 0.011085781064491942,
+      "relays": [
+        {
+          "domain": "relay01.preview.junglestakepool.com",
+          "port": 3001
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.5440409432027381,
+      "relativeStake": 0.010980384646355049,
       "relays": [
         {
           "address": "73.54.73.48",
@@ -277,8 +313,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.5166094920564,
-      "relativeStake": 0.010508382959185504,
+      "accumulatedStake": 0.5546844318556722,
+      "relativeStake": 0.010643488652934055,
       "relays": [
         {
           "address": "207.180.211.199",
@@ -287,18 +323,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.5269805029596154,
-      "relativeStake": 0.010371010903215374,
-      "relays": [
-        {
-          "domain": "adar-monitor.freeddns.org",
-          "port": 3010
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.5371541088095884,
-      "relativeStake": 0.010173605849972957,
+      "accumulatedStake": 0.5650202742274457,
+      "relativeStake": 0.010335842371773532,
       "relays": [
         {
           "address": "142.132.229.15",
@@ -307,88 +333,22 @@
       ]
     },
     {
-      "accumulatedStake": 0.5472617317361752,
-      "relativeStake": 0.010107622926586858,
+      "accumulatedStake": 0.5751592434084407,
+      "relativeStake": 0.010138969180994991,
       "relays": [
         {
-          "domain": "preview.adastack.net",
-          "port": 3001
+          "domain": "144.126.157.40",
+          "port": 3005
+        },
+        {
+          "domain": "144.126.157.40",
+          "port": 3006
         }
       ]
     },
     {
-      "accumulatedStake": 0.5573411644763102,
-      "relativeStake": 0.010079432740135013,
-      "relays": [
-        {
-          "domain": "preview-r1.panl.org",
-          "port": 3015
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.5672348751025477,
-      "relativeStake": 0.009893710626237373,
-      "relays": [
-        {
-          "domain": "preview-testnet-relay.cardanistas.io",
-          "port": 3001
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.5771071974373011,
-      "relativeStake": 0.009872322334753452,
-      "relays": [
-        {
-          "domain": "testnet.valhallapool.net",
-          "port": 3000
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.5867357380392444,
-      "relativeStake": 0.009628540601943255,
-      "relays": [
-        {
-          "domain": "relay01.preview.junglestakepool.com",
-          "port": 3001
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.596361390006102,
-      "relativeStake": 0.009625651966857624,
-      "relays": [
-        {
-          "address": "88.198.86.62",
-          "port": 4444
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.605876392470633,
-      "relativeStake": 0.009515002464531023,
-      "relays": [
-        {
-          "domain": "beta.stake-cardano-pool.com",
-          "port": 7002
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.6151980415303474,
-      "relativeStake": 0.009321649059714422,
-      "relays": [
-        {
-          "domain": "preview-node.world.dev.cardano.org",
-          "port": 30002
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.6245008714547821,
-      "relativeStake": 0.009302829924434602,
+      "accumulatedStake": 0.5852400905510023,
+      "relativeStake": 0.010080847142561643,
       "relays": [
         {
           "domain": "beadapool.ddns.net",
@@ -397,8 +357,38 @@
       ]
     },
     {
-      "accumulatedStake": 0.6337716727903856,
-      "relativeStake": 0.009270801335603611,
+      "accumulatedStake": 0.5953187478479806,
+      "relativeStake": 0.010078657296978143,
+      "relays": [
+        {
+          "domain": "preview-testnet-relay.cardanistas.io",
+          "port": 3001
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.6051898491665538,
+      "relativeStake": 0.009871101318573322,
+      "relays": [
+        {
+          "address": "88.198.86.62",
+          "port": 4444
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.6150003357630587,
+      "relativeStake": 0.009810486596504827,
+      "relays": [
+        {
+          "domain": "beta.stake-cardano-pool.com",
+          "port": 7002
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.6246770273218766,
+      "relativeStake": 0.009676691558817955,
       "relays": [
         {
           "domain": "relay1.afica.io",
@@ -407,8 +397,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.6429512245480681,
-      "relativeStake": 0.00917955175768248,
+      "accumulatedStake": 0.6342440198803942,
+      "relativeStake": 0.009566992558517645,
       "relays": [
         {
           "domain": "8.tcp.eu.ngrok.io",
@@ -417,8 +407,28 @@
       ]
     },
     {
-      "accumulatedStake": 0.6518578585805095,
-      "relativeStake": 0.008906634032441407,
+      "accumulatedStake": 0.6437970338724757,
+      "relativeStake": 0.009553013992081404,
+      "relays": [
+        {
+          "domain": "preview-node.world.dev.cardano.org",
+          "port": 30002
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.6531442264133044,
+      "relativeStake": 0.009347192540828698,
+      "relays": [
+        {
+          "address": "52.166.113.150",
+          "port": 6000
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.6623298626917907,
+      "relativeStake": 0.009185636278486333,
       "relays": [
         {
           "domain": "preview.testnet.cryptobounty.org",
@@ -427,8 +437,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.660735094730109,
-      "relativeStake": 0.008877236149599527,
+      "accumulatedStake": 0.6714859618018869,
+      "relativeStake": 0.009156099110096247,
       "relays": [
         {
           "domain": "bbotest.duckdns.org",
@@ -441,8 +451,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.6695959881682709,
-      "relativeStake": 0.008860893438161897,
+      "accumulatedStake": 0.680615602669717,
+      "relativeStake": 0.009129640867830033,
       "relays": [
         {
           "domain": "adrelay.hawak.cloud",
@@ -451,28 +461,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.6784430192443144,
-      "relativeStake": 0.008847031076043427,
-      "relays": [
-        {
-          "address": "194.163.149.210",
-          "port": 6000
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.6872847449331583,
-      "relativeStake": 0.008841725688843964,
-      "relays": [
-        {
-          "address": "52.166.113.150",
-          "port": 6000
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.6960505533902002,
-      "relativeStake": 0.00876580845704188,
+      "accumulatedStake": 0.6896841589116366,
+      "relativeStake": 0.00906855624191961,
       "relays": [
         {
           "domain": "preview-testnet-relay.junostakepool.com",
@@ -485,8 +475,28 @@
       ]
     },
     {
-      "accumulatedStake": 0.7046470484380947,
-      "relativeStake": 0.00859649504789447,
+      "accumulatedStake": 0.6987082267420294,
+      "relativeStake": 0.009024067830392737,
+      "relays": [
+        {
+          "address": "194.163.149.210",
+          "port": 6000
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.7077288587677396,
+      "relativeStake": 0.009020632025710277,
+      "relays": [
+        {
+          "domain": "preview.adastack.net",
+          "port": 3001
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.7166155563208372,
+      "relativeStake": 0.008886697553097522,
       "relays": [
         {
           "address": "128.140.96.209",
@@ -495,8 +505,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.7132138616695561,
-      "relativeStake": 0.008566813231461454,
+      "accumulatedStake": 0.7254909490777558,
+      "relativeStake": 0.00887539275691867,
       "relays": [
         {
           "domain": "esq.ddns.net",
@@ -509,8 +519,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.7217758278027888,
-      "relativeStake": 0.008561966133232722,
+      "accumulatedStake": 0.7343459170152995,
+      "relativeStake": 0.008854967937543728,
       "relays": [
         {
           "domain": "scarborough1.ddns.net",
@@ -527,8 +537,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.7303183807162953,
-      "relativeStake": 0.008542552913506482,
+      "accumulatedStake": 0.743183046883652,
+      "relativeStake": 0.00883712986835242,
       "relays": [
         {
           "domain": "alpha.relays.preview.mochipool.com",
@@ -537,8 +547,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.7388548202512225,
-      "relativeStake": 0.00853643953492719,
+      "accumulatedStake": 0.7520145594009607,
+      "relativeStake": 0.008831512517308753,
       "relays": [
         {
           "address": "5.161.75.212",
@@ -555,8 +565,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.7473552726553497,
-      "relativeStake": 0.008500452404127185,
+      "accumulatedStake": 0.7608130047126096,
+      "relativeStake": 0.008798445311648917,
       "relays": [
         {
           "address": "184.174.32.106",
@@ -565,8 +575,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.7558148357053845,
-      "relativeStake": 0.008459563050034834,
+      "accumulatedStake": 0.7695738783520798,
+      "relativeStake": 0.008760873639470219,
       "relays": [
         {
           "address": "194.60.201.143",
@@ -575,18 +585,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.7637965701199549,
-      "relativeStake": 0.00798173441457038,
-      "relays": [
-        {
-          "domain": "r1.pv.mrbee.io",
-          "port": 3101
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.7704680015578758,
-      "relativeStake": 0.006671431437920798,
+      "accumulatedStake": 0.7759782839694169,
+      "relativeStake": 0.006404405617337078,
       "relays": [
         {
           "address": "130.162.231.122",
@@ -595,18 +595,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.7768608544056234,
-      "relativeStake": 0.006392852847747649,
-      "relays": [
-        {
-          "domain": "relay.preview.cardanostakehouse.com",
-          "port": 11000
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.7830058055257566,
-      "relativeStake": 0.006144951120133221,
+      "accumulatedStake": 0.7819020942948828,
+      "relativeStake": 0.005923810325465886,
       "relays": [
         {
           "domain": "prv-relay1.apexpool.info",
@@ -615,38 +605,18 @@
       ]
     },
     {
-      "accumulatedStake": 0.7887943187564469,
-      "relativeStake": 0.005788513230690299,
+      "accumulatedStake": 0.7877762460324174,
+      "relativeStake": 0.005874151737534605,
       "relays": [
         {
-          "domain": "midnight-testnet.digitalfortress.online",
-          "port": 8001
+          "domain": "relay.preview.cardanostakehouse.com",
+          "port": 11000
         }
       ]
     },
     {
-      "accumulatedStake": 0.7937074027647479,
-      "relativeStake": 0.004913084008301075,
-      "relays": [
-        {
-          "domain": "preview.canadastakes.ca",
-          "port": 5002
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.7980714496079345,
-      "relativeStake": 0.004364046843186578,
-      "relays": [
-        {
-          "address": "194.60.201.143",
-          "port": 6001
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.8019901728269014,
-      "relativeStake": 0.003918723218966864,
+      "accumulatedStake": 0.7935772025276986,
+      "relativeStake": 0.0058009564952811845,
       "relays": [
         {
           "address": "198.13.63.94",
@@ -659,438 +629,28 @@
       ]
     },
     {
-      "accumulatedStake": 0.8057196010214365,
-      "relativeStake": 0.003729428194535047,
+      "accumulatedStake": 0.7986243718851926,
+      "relativeStake": 0.0050471693574940385,
       "relays": [
         {
-          "address": "18.219.254.123",
-          "port": 3001
+          "domain": "preview.canadastakes.ca",
+          "port": 5002
         }
       ]
     },
     {
-      "accumulatedStake": 0.8092948174576886,
-      "relativeStake": 0.0035752164362521524,
+      "accumulatedStake": 0.8029757679468225,
+      "relativeStake": 0.004351396061629847,
       "relays": [
         {
-          "domain": "testnet-relay.xstakepool.com",
-          "port": 3001
+          "address": "194.60.201.143",
+          "port": 6001
         }
       ]
     },
     {
-      "accumulatedStake": 0.8126366980777924,
-      "relativeStake": 0.0033418806201037745,
-      "relays": [
-        {
-          "domain": "topo-test.topopool.com",
-          "port": 3010
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.8157806684732062,
-      "relativeStake": 0.0031439703954138547,
-      "relays": [
-        {
-          "domain": "preview-relays.onyxstakepool.com",
-          "port": 3001
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.8188985818047745,
-      "relativeStake": 0.003117913331568277,
-      "relays": [
-        {
-          "domain": "preview.bladepool.com",
-          "port": 3001
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.8219440956341025,
-      "relativeStake": 0.003045513829327968,
-      "relays": [
-        {
-          "domain": "test.stakepool.at",
-          "port": 9001
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.8248943891527739,
-      "relativeStake": 0.0029502935186714696,
-      "relays": [
-        {
-          "address": "69.128.162.203",
-          "port": 3000
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.8278267964886092,
-      "relativeStake": 0.0029324073358352356,
-      "relays": [
-        {
-          "domain": "ava1.sytes.net",
-          "port": 6010
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.8306646909116712,
-      "relativeStake": 0.0028378944230619515,
-      "relays": [
-        {
-          "address": "0.0.0.0",
-          "port": 6000
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.8334061057774829,
-      "relativeStake": 0.0027414148658117163,
-      "relays": [
-        {
-          "domain": "pn1.powerfulpools.com",
-          "port": 6030
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.8360172272601899,
-      "relativeStake": 0.0026111214827070537,
-      "relays": [
-        {
-          "domain": "157.173.103.26",
-          "port": 6000
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.8385754996455976,
-      "relativeStake": 0.002558272385407773,
-      "relays": [
-        {
-          "domain": "d8bdbfbe.cardano-relay.bison.run",
-          "port": 1338
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.8411018147108861,
-      "relativeStake": 0.0025263150652883653,
-      "relays": [
-        {
-          "domain": "preview-test.ahlnet.nu",
-          "port": 2102
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.8434604966632334,
-      "relativeStake": 0.0023586819523473235,
-      "relays": [
-        {
-          "domain": "previewrelay1.intertreecryptoconsultants.com",
-          "port": 6000
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.8458152052897612,
-      "relativeStake": 0.0023547086265277833,
-      "relays": [
-        {
-          "domain": "1.tcp.ap.ngrok.io",
-          "port": 25317
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.848073622809319,
-      "relativeStake": 0.0022584175195578455,
-      "relays": [
-        {
-          "address": "2001:861:4000:2b80:216:3eff:fe05:9009",
-          "port": 6006
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.8503288092029117,
-      "relativeStake": 0.0022551863935926083,
-      "relays": [
-        {
-          "domain": "pv-relays.digitalfortress.online",
-          "port": 8001
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.8523771788804605,
-      "relativeStake": 0.002048369677548913,
-      "relays": [
-        {
-          "domain": "spec2-staging.spirestaking2.com",
-          "port": 3006
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.8543573699058132,
-      "relativeStake": 0.0019801910253527356,
-      "relays": [
-        {
-          "address": "95.216.173.194",
-          "port": 16000
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.85631067163027,
-      "relativeStake": 0.0019533017244567448,
-      "relays": [
-        {
-          "address": "2001:861:4000:2b80:216:3eff:feb6:d700",
-          "port": 6000
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.8582342230887304,
-      "relativeStake": 0.001923551458460416,
-      "relays": [
-        {
-          "address": "168.138.37.117",
-          "port": 6000
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.8601477871460929,
-      "relativeStake": 0.0019135640573624433,
-      "relays": [
-        {
-          "address": "88.198.86.61",
-          "port": 8888
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.8620520876850574,
-      "relativeStake": 0.001904300538964514,
-      "relays": [
-        {
-          "domain": "preview.ada.chicando.net",
-          "port": 3002
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.8639182650933709,
-      "relativeStake": 0.001866177408313493,
-      "relays": [
-        {
-          "domain": "hcm07xw90vx.sn.mynetname.net",
-          "port": 7000
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.8657815912026829,
-      "relativeStake": 0.0018633261093120661,
-      "relays": [
-        {
-          "address": "65.21.198.152",
-          "port": 3003
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.8676382367319643,
-      "relativeStake": 0.001856645529281337,
-      "relays": [
-        {
-          "domain": "spec1-staging.spirestaking2.com",
-          "port": 3005
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.869490253507229,
-      "relativeStake": 0.0018520167752646623,
-      "relays": [
-        {
-          "domain": "f7ca89d1.cardano-relay.stagebison.net",
-          "port": 1338
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.8713202989875742,
-      "relativeStake": 0.001830045480345298,
-      "relays": [
-        {
-          "domain": "relay.preview.crimsonpool.com",
-          "port": 3000
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.8731400016855072,
-      "relativeStake": 0.0018197026979329554,
-      "relays": [
-        {
-          "domain": "preview1-node.play.dev.cardano.org",
-          "port": 3001
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.8749328282582854,
-      "relativeStake": 0.001792826572778303,
-      "relays": [
-        {
-          "domain": "testicles.kiwipool.org",
-          "port": 9720
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.8767113289240224,
-      "relativeStake": 0.0017785006657368705,
-      "relays": [
-        {
-          "address": "185.43.205.110",
-          "port": 3003
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.8784877255230046,
-      "relativeStake": 0.0017763965989822344,
-      "relays": [
-        {
-          "address": "51.77.24.220",
-          "port": 4003
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.8802635706420974,
-      "relativeStake": 0.0017758451190927628,
-      "relays": [
-        {
-          "address": "152.53.108.208",
-          "port": 8081
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.882026211684637,
-      "relativeStake": 0.0017626410425396774,
-      "relays": [
-        {
-          "domain": "pv-relays.digitalfortress.online",
-          "port": 8001
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.8837802651122221,
-      "relativeStake": 0.0017540534275850338,
-      "relays": [
-        {
-          "domain": "pv-relays.digitalfortress.online",
-          "port": 8001
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.8855212558932251,
-      "relativeStake": 0.0017409907810030378,
-      "relays": [
-        {
-          "domain": "preview.happystaking.io",
-          "port": 3003
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.8872529948528243,
-      "relativeStake": 0.0017317389595991233,
-      "relays": [
-        {
-          "domain": "preview2-node.play.dev.cardano.org",
-          "port": 3001
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.888976768899246,
-      "relativeStake": 0.001723774046421786,
-      "relays": [
-        {
-          "domain": "test.paradoxicalsphere.com",
-          "port": 6080
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.8906980587790464,
-      "relativeStake": 0.001721289879800416,
-      "relays": [
-        {
-          "domain": "preview3-node.play.dev.cardano.org",
-          "port": 3001
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.8923845114262364,
-      "relativeStake": 0.0016864526471900435,
-      "relays": [
-        {
-          "address": "217.180.194.220",
-          "port": 6000
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.8940073128288271,
-      "relativeStake": 0.0016228014025906146,
-      "relays": [
-        {
-          "domain": "pr.adaloop.org",
-          "port": 4001
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.8955925080436528,
-      "relativeStake": 0.0015851952148256303,
-      "relays": [
-        {
-          "domain": "preview.cr0ss0ver.com",
-          "port": 5000
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.8971590229387262,
-      "relativeStake": 0.0015665148950734667,
-      "relays": [
-        {
-          "address": "67.250.33.227",
-          "port": 6000
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.8987096352720919,
-      "relativeStake": 0.001550612333365714,
+      "accumulatedStake": 0.8069822453953475,
+      "relativeStake": 0.004006477448524997,
       "relays": [
         {
           "address": "152.53.38.172",
@@ -1099,16 +659,456 @@
       ]
     },
     {
-      "accumulatedStake": 0.9002491762452564,
-      "relativeStake": 0.0015395409731644807,
+      "accumulatedStake": 0.8104090449238213,
+      "relativeStake": 0.003426799528473807,
       "relays": [
         {
-          "address": "173.67.34.66",
+          "address": "18.219.254.123",
+          "port": 3001
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8136855458249613,
+      "relativeStake": 0.0032765009011400826,
+      "relays": [
+        {
+          "address": "0.0.0.0",
+          "port": 6000
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8169449258680095,
+      "relativeStake": 0.003259380043048116,
+      "relays": [
+        {
+          "domain": "testnet-relay.xstakepool.com",
+          "port": 3001
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8200901707245438,
+      "relativeStake": 0.00314524485653437,
+      "relays": [
+        {
+          "domain": "topo-test.topopool.com",
+          "port": 3010
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8230415225591622,
+      "relativeStake": 0.0029513518346183545,
+      "relays": [
+        {
+          "domain": "preview-relays.onyxstakepool.com",
+          "port": 3001
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8259077097820545,
+      "relativeStake": 0.002866187222892296,
+      "relays": [
+        {
+          "domain": "preview1-node.play.dev.cardano.org",
+          "port": 3001
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8287712571737214,
+      "relativeStake": 0.002863547391666878,
+      "relays": [
+        {
+          "domain": "preview.bladepool.com",
+          "port": 3001
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.831621464793674,
+      "relativeStake": 0.0028502076199526543,
+      "relays": [
+        {
+          "domain": "test.stakepool.at",
+          "port": 9001
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8343965224822566,
+      "relativeStake": 0.002775057688582618,
+      "relays": [
+        {
+          "address": "69.128.162.203",
+          "port": 3000
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8371293038490271,
+      "relativeStake": 0.0027327813667703837,
+      "relays": [
+        {
+          "domain": "ava1.sytes.net",
+          "port": 6010
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8396838110067741,
+      "relativeStake": 0.0025545071577470903,
+      "relays": [
+        {
+          "domain": "pn1.powerfulpools.com",
+          "port": 6030
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8421062463768475,
+      "relativeStake": 0.0024224353700733753,
+      "relays": [
+        {
+          "domain": "157.173.103.26",
+          "port": 6000
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8445074920465109,
+      "relativeStake": 0.002401245669663414,
+      "relays": [
+        {
+          "domain": "d8bdbfbe.cardano-relay.bison.run",
+          "port": 1338
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8468284520228323,
+      "relativeStake": 0.0023209599763213845,
+      "relays": [
+        {
+          "domain": "preview-test.ahlnet.nu",
+          "port": 2102
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8490528613567806,
+      "relativeStake": 0.002224409333948284,
+      "relays": [
+        {
+          "domain": "previewrelay1.intertreecryptoconsultants.com",
+          "port": 6000
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8512165135483128,
+      "relativeStake": 0.002163652191532217,
+      "relays": [
+        {
+          "domain": "1.tcp.ap.ngrok.io",
+          "port": 25317
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8533793128994388,
+      "relativeStake": 0.0021627993511260163,
+      "relays": [
+        {
+          "address": "2001:861:4000:2b80:216:3eff:feb6:d700",
+          "port": 6000
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8555077656452508,
+      "relativeStake": 0.002128452745811908,
+      "relays": [
+        {
+          "address": "2001:861:4000:2b80:216:3eff:fe05:9009",
+          "port": 6006
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8575869423816379,
+      "relativeStake": 0.002079176736387211,
+      "relays": [
+        {
+          "domain": "pv-relays.digitalfortress.online",
+          "port": 8001
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8595479913610198,
+      "relativeStake": 0.0019610489793818937,
+      "relays": [
+        {
+          "domain": "relay0-testnet.zeropercentstaking.com",
+          "port": 6000
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8614747414292194,
+      "relativeStake": 0.0019267500681996567,
+      "relays": [
+        {
+          "domain": "spec2-staging.spirestaking2.com",
+          "port": 3006
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8633494101801545,
+      "relativeStake": 0.0018746687509350452,
+      "relays": [
+        {
+          "address": "95.216.173.194",
+          "port": 16000
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8651608932725234,
+      "relativeStake": 0.0018114830923688836,
+      "relays": [
+        {
+          "address": "88.198.86.61",
+          "port": 8888
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8669606166774921,
+      "relativeStake": 0.001799723404968765,
+      "relays": [
+        {
+          "address": "168.138.37.117",
+          "port": 6000
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8687125701175084,
+      "relativeStake": 0.0017519534400161603,
+      "relays": [
+        {
+          "address": "65.21.198.152",
+          "port": 3003
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8704588152571907,
+      "relativeStake": 0.0017462451396823857,
+      "relays": [
+        {
+          "domain": "spec1-staging.spirestaking2.com",
+          "port": 3005
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8721983074638494,
+      "relativeStake": 0.0017394922066586449,
+      "relays": [
+        {
+          "domain": "f7ca89d1.cardano-relay.stagebison.net",
+          "port": 1338
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8739203448121099,
+      "relativeStake": 0.0017220373482605066,
+      "relays": [
+        {
+          "domain": "relay.preview.crimsonpool.com",
+          "port": 3000
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8756061003072625,
+      "relativeStake": 0.0016857554951525912,
+      "relays": [
+        {
+          "domain": "testicles.kiwipool.org",
+          "port": 9720
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.877277701725191,
+      "relativeStake": 0.0016716014179285316,
+      "relays": [
+        {
+          "address": "152.53.108.208",
+          "port": 8081
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8789475866048305,
+      "relativeStake": 0.001669884879639547,
+      "relays": [
+        {
+          "domain": "preview.ada.chicando.net",
+          "port": 3002
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8806114119511061,
+      "relativeStake": 0.0016638253462755539,
+      "relays": [
+        {
+          "address": "51.77.24.220",
+          "port": 4003
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8822666226558188,
+      "relativeStake": 0.0016552107047127177,
+      "relays": [
+        {
+          "domain": "pv-relays.digitalfortress.online",
+          "port": 8001
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8839189824975974,
+      "relativeStake": 0.0016523598417785281,
+      "relays": [
+        {
+          "address": "185.43.205.110",
+          "port": 3003
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8855650825423037,
+      "relativeStake": 0.0016461000447063152,
+      "relays": [
+        {
+          "domain": "pv-relays.digitalfortress.online",
+          "port": 8001
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8871991853263814,
+      "relativeStake": 0.0016341027840777863,
+      "relays": [
+        {
+          "domain": "preview.happystaking.io",
+          "port": 3003
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.888827468799047,
+      "relativeStake": 0.0016282834726654958,
+      "relays": [
+        {
+          "domain": "preview2-node.play.dev.cardano.org",
+          "port": 3001
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8904466258087084,
+      "relativeStake": 0.0016191570096614337,
+      "relays": [
+        {
+          "domain": "preview3-node.play.dev.cardano.org",
+          "port": 3001
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8920297528765653,
+      "relativeStake": 0.0015831270678569557,
+      "relays": [
+        {
+          "address": "217.180.194.220",
+          "port": 6000
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8935831835041603,
+      "relativeStake": 0.0015534306275949645,
+      "relays": [
+        {
+          "domain": "preview.relays.liqwid.finance",
+          "port": 3001
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8951129383834835,
+      "relativeStake": 0.0015297548793231995,
+      "relays": [
+        {
+          "domain": "pr.adaloop.org",
+          "port": 4001
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8966190633410985,
+      "relativeStake": 0.0015061249576150688,
+      "relays": [
+        {
+          "domain": "hcm07xw90vx.sn.mynetname.net",
+          "port": 7000
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8981043106575523,
+      "relativeStake": 0.0014852473164537272,
+      "relays": [
+        {
+          "domain": "midnight-testnet.digitalfortress.online",
+          "port": 8001
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.899580599892866,
+      "relativeStake": 0.0014762892353137368,
+      "relays": [
+        {
+          "domain": "preview.cr0ss0ver.com",
+          "port": 5000
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.9010249706209849,
+      "relativeStake": 0.0014443707281188234,
+      "relays": [
+        {
+          "address": "67.250.33.227",
           "port": 6000
         }
       ]
     }
   ],
-  "slotNo": 76990859,
+  "slotNo": 81122692,
   "version": 1
 }
