@@ -36,7 +36,7 @@ with builtins; {
   # file will need to be declared in the p2p topology file under key
   # `peerSnapshotFile`.  A `CheckpointsFile` and corresponding
   # `CheckpointsFileHash` is not required for preview.
-  ConsensusMode = "PraosMode";
+  ConsensusMode = "GenesisMode";
 
   # Default parameter values for "GenesisMode"
   SyncTargetNumberOfActivePeers = 0;
