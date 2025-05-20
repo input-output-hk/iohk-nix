@@ -98,9 +98,9 @@ let
     store_retention_limit = 5;
   } // optionalAttrs (env ? mithrilAggregatorEndpointUrl) {
     aggregator_endpoint = env.mithrilAggregatorEndpointUrl;
-  } // optionalAttrs (env ? mithrilEraReaderParams) {
     era_reader_adapter_type = "cardano-chain";
     era_reader_adapter_params = toJSON env.mithrilEraReaderParams;
+    genesis_verification_key = env.mithrilGenesisVerificationKey;
   };
 
   mkSubmitApiConfig = name: nodeConfig: (filterAttrs (k: v: v != null) {
