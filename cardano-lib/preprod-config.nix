@@ -27,10 +27,6 @@ with builtins; {
   RequiresNetworkMagic = "RequiresMagic";
   EnableP2P = true;
   PeerSharing = true;
-  TargetNumberOfActivePeers = 20;
-  TargetNumberOfEstablishedPeers = 30;
-  TargetNumberOfKnownPeers = 150;
-  TargetNumberOfRootPeers = 60;
 
   # The consensus mode.  If set to "GenesisMode", a path to a peer snapshot
   # file will need to be declared in the p2p topology file under key
@@ -38,12 +34,26 @@ with builtins; {
   # `CheckpointsFileHash` is not required for preprod.
   ConsensusMode = "GenesisMode";
 
-  # Default parameter values for "GenesisMode"
-  SyncTargetNumberOfActivePeers = 0;
-  SyncTargetNumberOfActiveBigLedgerPeers = 30;
-  SyncTargetNumberOfEstablishedBigLedgerPeers = 40;
-  SyncTargetNumberOfKnownBigLedgerPeers = 100;
-  MinBigLedgerPeersForTrustedState = 5;
+  # Network Deadline and Sync Target Configuration
+  # To avoid config drift these will use ouroboros-network defaults which may change over time.
+  # The values shown below are examples.
+  # See: https://developers.cardano.org/docs/get-started/cardano-node/p2p
+  #
+  # MinBigLedgerPeersForTrustedState: 5
+  # SyncTargetNumberOfActiveBigLedgerPeers: 30
+  # SyncTargetNumberOfActivePeers: 5
+  # SyncTargetNumberOfEstablishedBigLedgerPeers: 40
+  # SyncTargetNumberOfEstablishedPeers: 10
+  # SyncTargetNumberOfKnownBigLedgerPeers: 100
+  # SyncTargetNumberOfKnownPeers: 150
+  # SyncTargetNumberOfRootPeers: 0
+  # TargetNumberOfActiveBigLedgerPeers: 5
+  # TargetNumberOfActivePeers: 20
+  # TargetNumberOfEstablishedBigLedgerPeers: 10
+  # TargetNumberOfEstablishedPeers: 30
+  # TargetNumberOfKnownBigLedgerPeers: 15
+  # TargetNumberOfKnownPeers: 150
+  # TargetNumberOfRootPeers: 60
 
   # Default Ledger Configuration
   # Additional configuration options can be found at:
