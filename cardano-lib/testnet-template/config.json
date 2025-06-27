@@ -70,6 +70,9 @@
     "ChainDB.CopyToImmutableDBEvent.CopiedBlockToImmutableDB": {
       "maxFrequency": 2.0
     },
+    "ChainDB.LedgerEvent.Forker": {
+      "severity": "Silence"
+    },
     "ChainSync.Client": {
       "severity": "Warning"
     },
@@ -81,6 +84,24 @@
     },
     "Mempool": {
       "severity": "Info"
+    },
+    "Mempool.AttemptAdd": {
+      "severity": "Silence"
+    },
+    "Mempool.AttemptingSync": {
+      "severity": "Silence"
+    },
+    "Mempool.LedgerFound": {
+      "severity": "Silence"
+    },
+    "Mempool.LedgerNotFound": {
+      "severity": "Silence"
+    },
+    "Mempool.SyncDone": {
+      "severity": "Silence"
+    },
+    "Mempool.SyncNotNeeded": {
+      "severity": "Silence"
     },
     "Net.ConnectionManager.Remote": {
       "severity": "Info"
