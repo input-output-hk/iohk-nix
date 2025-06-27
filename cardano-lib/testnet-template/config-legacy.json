@@ -1,10 +1,12 @@
 {
-  "ByronGenesisFile": "byron-genesis.json",
-  "ShelleyGenesisFile": "shelley-genesis.json",
   "AlonzoGenesisFile": "alonzo-genesis.json",
-  "ConwayGenesisFile": "conway-genesis.json",
   "ApplicationName": "cardano-sl",
   "ApplicationVersion": 0,
+  "ByronGenesisFile": "byron-genesis.json",
+  "ConwayGenesisFile": "conway-genesis.json",
+  "EnableP2P": true,
+  "ExperimentalHardForksEnabled": true,
+  "ExperimentalProtocolsEnabled": true,
   "LastKnownBlockVersion-Alt": 0,
   "LastKnownBlockVersion-Major": 3,
   "LastKnownBlockVersion-Minor": 1,
@@ -19,13 +21,11 @@
   "PBftSignatureThreshold": 1.1,
   "Protocol": "Cardano",
   "RequiresNetworkMagic": "RequiresMagic",
-  "TestShelleyHardForkAtEpoch": 0,
+  "ShelleyGenesisFile": "shelley-genesis.json",
   "TestAllegraHardForkAtEpoch": 0,
-  "TestMaryHardForkAtEpoch": 0,
   "TestAlonzoHardForkAtEpoch": 0,
-  "EnableP2P": true,
-  "ExperimentalProtocolsEnabled": true,
-  "ExperimentalHardForksEnabled": true,
+  "TestMaryHardForkAtEpoch": 0,
+  "TestShelleyHardForkAtEpoch": 0,
   "TraceAcceptPolicy": true,
   "TraceBlockFetchClient": false,
   "TraceBlockFetchDecisions": false,
@@ -65,15 +65,29 @@
   "TracingVerbosity": "NormalVerbosity",
   "TurnOnLogMetrics": true,
   "TurnOnLogging": true,
-  "defaultBackends": ["KatipBK"],
-  "defaultScribes": [["StdoutSK", "cardano"]],
+  "defaultBackends": [
+    "KatipBK"
+  ],
+  "defaultScribes": [
+    [
+      "StdoutSK",
+      "cardano"
+    ]
+  ],
   "hasEKG": 12788,
-  "hasPrometheus": ["0.0.0.0", 12798],
+  "hasPrometheus": [
+    "0.0.0.0",
+    12798
+  ],
   "minSeverity": "Debug",
   "options": {
     "mapBackends": {
-      "cardano.node.metrics": ["EKGViewBK"],
-      "cardano.node.resources": ["EKGViewBK"]
+      "cardano.node.metrics": [
+        "EKGViewBK"
+      ],
+      "cardano.node.resources": [
+        "EKGViewBK"
+      ]
     },
     "mapSubtrace": {
       "cardano.node.metrics": {
@@ -86,7 +100,9 @@
     "rpLogLimitBytes": 5000000,
     "rpMaxAgeHours": 24
   },
-  "setupBackends": ["KatipBK"],
+  "setupBackends": [
+    "KatipBK"
+  ],
   "setupScribes": [
     {
       "scFormat": "ScText",
