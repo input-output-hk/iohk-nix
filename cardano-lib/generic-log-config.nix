@@ -84,118 +84,46 @@
 
     # The following tracer configurations are configured to closely match the
     # default logging seen in the legacy cardano-node tracing system.
-    "BlockFetch.Decision" = {
-      severity = "Silence";
-    };
+    "BlockFetch.Decision".severity = "Silence";
+    "ChainDB.AddBlockEvent.AddBlockValidation".severity = "Silence";
+    "ChainDB".severity = "Info";
+    "ChainSync.Client".severity = "Warning";
+    "Forge.Loop".severity = "Info";
+    "Forge.StateInfo".severity = "Info";
+    "Mempool".severity = "Info";
+    "Net.ConnectionManager.Remote.ConnectionManagerCounters".severity = "Silence";
+    "Net.ConnectionManager.Remote".severity = "Info";
+    "Net.ErrorPolicy.Local".severity = "Info";
+    "Net.ErrorPolicy".severity = "Info";
+    "Net.InboundGovernor.Remote".severity = "Info";
+    "Net.InboundGovernor".severity = "Warning";
+    "Net.Mux.Remote".severity = "Info";
+    "Net.PeerSelection".severity = "Silence";
+    "Net.Subscription.DNS".severity = "Info";
+    "Net.Subscription.IP".severity = "Info";
+    "Resources".severity = "Silence";
+    "Startup.DiffusionInit".severity = "Info";
 
-    "ChainDB" = {
-      severity = "Info";
-    };
+    # A frequency limit for the number of messages per second may also be
+    # provided for any tracer.
+    "BlockFetch.Client.CompletedBlockFetch".maxFrequency = 2.0;
+    "ChainDB.AddBlockEvent.AddBlockValidation.ValidCandidate".maxFrequency = 2.0;
+    "ChainDB.AddBlockEvent.AddedBlockToQueue".maxFrequency = 2.0;
+    "ChainDB.AddBlockEvent.AddedBlockToVolatileDB".maxFrequency = 2.0;
+    "ChainDB.CopyToImmutableDBEvent.CopiedBlockToImmutableDB".maxFrequency = 2.0;
 
-    "ChainDB.AddBlockEvent.AddBlockValidation" = {
-      severity = "Silence";
-    };
-
-    "ChainSync.Client" = {
-      severity = "Warning";
-    };
-
-    "Net.ConnectionManager.Remote" = {
-      severity = "Info";
-    };
-
-    "Net.Subscription.DNS" = {
-      severity = "Info";
-    };
-
-    "Startup.DiffusionInit" = {
-      severity = "Info";
-    };
-
-    "Net.ErrorPolicy" = {
-      severity = "Info";
-    };
-
-    "Forge.Loop" = {
-      severity = "Info";
-    };
-
-    "Forge.StateInfo" = {
-      severity = "Info";
-    };
-
-    "Net.InboundGovernor.Remote" = {
-      severity = "Info";
-    };
-
-    "Net.Subscription.IP" = {
-      severity = "Info";
-    };
-
-    "Net.ErrorPolicy.Local" = {
-      severity = "Info";
-    };
-
-    "Mempool" = {
-      severity = "Info";
-    };
-
-    "Net.Mux.Remote" = {
-      severity = "Info";
-    };
-
-    "Net.InboundGovernor" = {
-      severity = "Warning";
-    };
-
-    "Net.PeerSelection" = {
-      severity = "Silence";
-    };
-
-    "Net.ConnectionManager.Remote.ConnectionManagerCounters" = {
-      severity = "Silence";
-    };
-
-    "Resources" = {
-      severity = "Silence";
-    };
-
-    "ChainDB.AddBlockEvent.AddedBlockToQueue" = {
-      # A frequency limit for the number of messages per second may also be
-      # provided for any tracer.
-      maxFrequency = 2.0;
-    };
-
-    "ChainDB.AddBlockEvent.AddedBlockToVolatileDB" = {
-      maxFrequency = 2.0;
-    };
-
-    "ChainDB.AddBlockEvent.AddBlockValidation.ValidCandidate" = {
-      maxFrequency = 2.0;
-    };
-
-    "ChainDB.CopyToImmutableDBEvent.CopiedBlockToImmutableDB" = {
-      maxFrequency = 2.0;
-    };
-
-    "BlockFetch.Client.CompletedBlockFetch" = {
-      maxFrequency = 2.0;
-    };
-
-    # Uncomment UTXO-HD tracer adjustments once UTXO-HD is released.
-    #
-    # These messages are UTxO-HD specific. On a regular node, the tracing
-    # system might warn at startup about config inconsistencies as those
-    # tracers do not exist. This warning is expected, and can be safely
-    # ignored. Silencing the tracers below aims at having a comparable log line
-    # rates in messages per second on both the UTxO-HD and regular node.
-    # "ChainDB.LedgerEvent.Forker".severity = "Silence";
-    # "Mempool.AttemptAdd".severity = "Silence";
-    # "Mempool.AttemptingSync".severity = "Silence";
-    # "Mempool.LedgerFound".severity = "Silence";
-    # "Mempool.LedgerNotFound".severity = "Silence";
-    # "Mempool.SyncDone".severity = "Silence";
-    # "Mempool.SyncNotNeeded".severity = "Silence";
+    # The following messages are UTxO-HD specific. Silencing these tracers aims
+    # at having comparable log line rates in messages per second on both the
+    # UTxO-HD and earlier non-UTxO-HD nodes.  The additional high granularity
+    # mempool silences are not redundant in the case that the top level Mempool
+    # severity is switched away from silence.
+    "ChainDB.LedgerEvent.Forker".severity = "Silence";
+    "Mempool.AttemptAdd".severity = "Silence";
+    "Mempool.AttemptingSync".severity = "Silence";
+    "Mempool.LedgerFound".severity = "Silence";
+    "Mempool.LedgerNotFound".severity = "Silence";
+    "Mempool.SyncDone".severity = "Silence";
+    "Mempool.SyncNotNeeded".severity = "Silence";
 
     # Enable this to investigate transaction validation errors.
     # "Mempool.RejectedTx".detail = "DDetailed";
