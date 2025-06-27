@@ -88,16 +88,10 @@
     "Mempool.AttemptAdd": {
       "severity": "Silence"
     },
-    "Mempool.AttemptingSync": {
-      "severity": "Silence"
-    },
     "Mempool.LedgerFound": {
       "severity": "Silence"
     },
     "Mempool.LedgerNotFound": {
-      "severity": "Silence"
-    },
-    "Mempool.SyncDone": {
       "severity": "Silence"
     },
     "Mempool.SyncNotNeeded": {

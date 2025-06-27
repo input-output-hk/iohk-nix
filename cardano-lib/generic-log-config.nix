@@ -119,10 +119,8 @@
     # severity is switched away from silence.
     "ChainDB.LedgerEvent.Forker".severity = "Silence";
     "Mempool.AttemptAdd".severity = "Silence";
-    "Mempool.AttemptingSync".severity = "Silence";
     "Mempool.LedgerFound".severity = "Silence";
     "Mempool.LedgerNotFound".severity = "Silence";
-    "Mempool.SyncDone".severity = "Silence";
     "Mempool.SyncNotNeeded".severity = "Silence";
 
     # Enable this to investigate transaction validation errors.
