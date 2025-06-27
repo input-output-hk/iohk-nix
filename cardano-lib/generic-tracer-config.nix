@@ -140,8 +140,8 @@
     # cardano-tracer will connect to.
     # contents = [
     #   "/tmp/cardano-node-1.sock"
-    #   "/tmp/cardano-node-1.sock"
-    #   "/tmp/cardano-node-1.sock"
+    #   "/tmp/cardano-node-2.sock"
+    #   "/tmp/cardano-node-3.sock"
     # ];
   };
 
@@ -165,7 +165,7 @@
   # as `JournalMode`.
   rotation = {
 
-    # rpFrequencySecs specifies rotation period, in seconds.
+    # rpFrequencySecs specifies rotation check period, in seconds.
     rpFrequencySecs = 60;
 
     # rpKeepFilesNum specifies the number of the log files that will be kept.

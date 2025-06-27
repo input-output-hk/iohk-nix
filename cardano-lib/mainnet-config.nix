@@ -30,7 +30,6 @@ with builtins; {
   EnableP2P = true;
   PeerSharing = true;
 
-  TraceMempool = false;
   MaxKnownMajorProtocolVersion = 2;
 
   # The consensus mode.  If set to "GenesisMode", the `CheckpointsFile` and
