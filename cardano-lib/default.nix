@@ -71,11 +71,20 @@ let
       bootstrapPeers = map (e: {address = e.addr; inherit (e) port;}) env.edgeNodes;
       useLedgerAfterSlot = env.useLedgerAfterSlot;
 
-      # Genesis mode is now default for preview and preprod as of node 10.5
-      peerSnapshotFile =
-        if elem env.name ["preview" "preprod"]
-        then "peer-snapshot.json"
-        else null;
+      # Genesis mode is now default for preview and preprod as of node 10.5.0.
+      #
+      # Also as of node 10.5.0, the peer snapshot file can be added to the
+      # topology file with a relative path to itself making the packaging
+      # cleaner.
+      #
+      # Note, however, if declared in the topology file and missing, it is a fatal
+      # error, regardless of ConsensusMode.
+      #
+      # Given that the peer snapshot file will be required/recommended as soon
+      # as genesis mode is used, and migration to genesis mode for all networks
+      # is coming soon, the snapshot will be declared in the topology which
+      # also makes genesis testing a bit easier.
+      peerSnapshotFile = "peer-snapshot.json";
     };
   in
     if (env.nodeConfig.EnableP2P or false)
