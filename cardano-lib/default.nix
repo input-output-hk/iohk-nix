@@ -137,8 +137,10 @@ let
   # as needed.  Any node version string suffixes, such as `-pre`, should be
   # removed from this string identifier.
   #
-  # Min currently 10.4.0 for `LedgerDB` config support.
-  minNodeVersion = { MinNodeVersion = "10.4.0"; };
+  # Min currently 10.6.0 for proper default handling of PeerSharing,
+  # TargetNumberOfKnownPeers and TargetNumberOfRootPeers parameters depending
+  # on whether node is a forger or not.
+  minNodeVersion = { MinNodeVersion = "10.6.0"; };
 
   mergeTraceOpts = cfg: traceOpts: cfg // {TraceOptions = getAttr "TraceOptions" cfg // traceOpts;};
 
