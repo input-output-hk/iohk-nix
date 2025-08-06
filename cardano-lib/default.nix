@@ -68,7 +68,14 @@ let
     p2pTopology = mkEdgeTopologyP2P {
       inherit (env) edgeNodes;
 
-      bootstrapPeers = map (e: {address = e.addr; inherit (e) port;}) env.edgeNodes;
+
+      # If an address is provided without a port or a port set to null within
+      # the attrs, the address will be interpreted as an SRV record.
+      bootstrapPeers = map (e:
+        {address = e.addr;}
+          // optionalAttrs (e ? port && e.port != null) {inherit (e) port;})
+      env.edgeNodes;
+
       useLedgerAfterSlot = env.useLedgerAfterSlot;
 
       # Genesis mode is now default for preview and preprod as of node 10.5.0.
