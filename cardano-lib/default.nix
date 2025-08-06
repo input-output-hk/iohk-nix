@@ -149,8 +149,6 @@ let
     # default derived configs:
     nodeConfig = mergeTraceOpts (defaultLogConfig // env.networkConfig) (env.extraTracerConfig or {});
     nodeConfigLegacy = defaultLogConfigLegacy // env.networkConfig // (env.extraTracerConfigLegacy or {});
-    nodeConfigBp = mergeTraceOpts (defaultLogConfig // env.networkConfigBp) (env.extraTracerConfig or {});
-    nodeConfigBpLegacy = defaultLogConfigLegacy // env.networkConfigBp // (env.extraTracerConfigLegacy or {});
     tracerConfig = defaultTracerConfig // {inherit (fromJSON (readFile ./${name}/shelley-genesis.json)) networkMagic;};
     consensusProtocol = env.networkConfig.Protocol;
     submitApiConfig = mkSubmitApiConfig name environments.${name}.nodeConfig;
@@ -192,7 +190,6 @@ let
       edgePort = 3001;
       confKey = "mainnet_full";
       networkConfig = import ./mainnet-config.nix // minNodeVersion;
-      networkConfigBp = import ./mainnet-config-bp.nix // minNodeVersion;
       useLedgerAfterSlot = 157852837;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
@@ -226,7 +223,6 @@ let
       ];
       edgePort = 3001;
       networkConfig = import ./preprod-config.nix // minNodeVersion;
-      networkConfigBp = import ./preprod-config-bp.nix // minNodeVersion;
       useLedgerAfterSlot = 93830456;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
@@ -256,7 +252,6 @@ let
       ];
       edgePort = 3001;
       networkConfig = import ./preview-config.nix // minNodeVersion;
-      networkConfigBp = import ./preview-config-bp.nix // minNodeVersion;
       useLedgerAfterSlot = 83116868;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
@@ -332,9 +327,7 @@ let
                       <td>
                         <div class="buttons has-addons">
                           <a class="button is-primary" href="${env}-config.json">config</a>
-                          <a class="button is-primary" href="${env}-config-bp.json">block-producer config</a>
                           <a class="button is-primary" href="${env}-config-legacy.json">config (legacy)</a>
-                          <a class="button is-primary" href="${env}-config-bp-legacy.json">block-producer config (legacy)</a>
                           <a class="button is-info" href="${env}-${protNames.${p}.n}-genesis.json">${protNames.${p}.n}Genesis</a>
                           ${optionalString (p == "Cardano") ''
                             <a class="button is-info" href="${env}-${protNames.${p}.shelley}-genesis.json">${protNames.${p}.shelley}Genesis</a>
@@ -386,14 +379,10 @@ let
         in ''
           ${if p != "Cardano" then ''
             ${jq}/bin/jq . < ${toFile "${env}-config.json" (toJSON (value.nodeConfig // genesisFile))} > $out/${env}-config.json
-            ${jq}/bin/jq . < ${toFile "${env}-config-bp.json" (toJSON (value.nodeConfigBp // genesisFile))} > $out/${env}-config-bp.json
             ${jq}/bin/jq . < ${toFile "${env}-config-legacy.json" (toJSON (value.nodeConfigLegacy // genesisFile))} > $out/${env}-config-legacy.json
-            ${jq}/bin/jq . < ${toFile "${env}-config-bp-legacy.json" (toJSON (value.nodeConfigBpLegacy // genesisFile))} > $out/${env}-config-bp-legacy.json
           '' else ''
             ${jq}/bin/jq . < ${toFile "${env}-config.json" (toJSON (value.nodeConfig // genesisFiles))} > $out/${env}-config.json
-            ${jq}/bin/jq . < ${toFile "${env}-config-bp.json" (toJSON (value.nodeConfigBp // genesisFiles))} > $out/${env}-config-bp.json
             ${jq}/bin/jq . < ${toFile "${env}-config-legacy.json" (toJSON (value.nodeConfigLegacy // genesisFiles))} > $out/${env}-config-legacy.json
-            ${jq}/bin/jq . < ${toFile "${env}-config-bp-legacy.json" (toJSON (value.nodeConfigBpLegacy // genesisFiles))} > $out/${env}-config-bp-legacy.json
           ''}
           ${optionalString (p == "RealPBFT" || p == "Byron") ''
             cp ${value.nodeConfig.GenesisFile} $out/${env}-${protNames.${p}.n}-genesis.json
