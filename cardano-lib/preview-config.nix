@@ -20,7 +20,6 @@ with builtins; {
 
   RequiresNetworkMagic = "RequiresMagic";
   EnableP2P = true;
-  PeerSharing = true;
 
   ExperimentalHardForksEnabled = false;
   ExperimentalProtocolsEnabled = false;
@@ -35,26 +34,33 @@ with builtins; {
   # `CheckpointsFileHash` is not required for preview.
   ConsensusMode = "GenesisMode";
 
-  # Network Deadline and Sync Target Configuration
+  # Peer Sharing Mode, Network Deadline and Sync Target Configuration
   # To avoid config drift these will use ouroboros-network defaults which may change over time.
   # The values shown below are examples.
   # See: https://developers.cardano.org/docs/get-started/cardano-node/p2p
   #
-  # MinBigLedgerPeersForTrustedState: 5
-  # SyncTargetNumberOfActiveBigLedgerPeers: 30
-  # SyncTargetNumberOfActivePeers: 5
-  # SyncTargetNumberOfEstablishedBigLedgerPeers: 40
-  # SyncTargetNumberOfEstablishedPeers: 10
-  # SyncTargetNumberOfKnownBigLedgerPeers: 100
-  # SyncTargetNumberOfKnownPeers: 150
-  # SyncTargetNumberOfRootPeers: 0
-  # TargetNumberOfActiveBigLedgerPeers: 5
-  # TargetNumberOfActivePeers: 20
-  # TargetNumberOfEstablishedBigLedgerPeers: 10
-  # TargetNumberOfEstablishedPeers: 30
-  # TargetNumberOfKnownBigLedgerPeers: 15
-  # TargetNumberOfKnownPeers: 150
-  # TargetNumberOfRootPeers: 60
+  # MinBigLedgerPeersForTrustedState = 5;
+  # SyncTargetNumberOfActiveBigLedgerPeers = 30;
+  # SyncTargetNumberOfActivePeers = 5;
+  # SyncTargetNumberOfEstablishedBigLedgerPeers = 40;
+  # SyncTargetNumberOfEstablishedPeers = 10;
+  # SyncTargetNumberOfKnownBigLedgerPeers = 100;
+  # SyncTargetNumberOfKnownPeers = 150;
+  # SyncTargetNumberOfRootPeers = 0;
+  # TargetNumberOfActiveBigLedgerPeers = 5;
+  # TargetNumberOfActivePeers = 20;
+  # TargetNumberOfEstablishedBigLedgerPeers = 10;
+  # TargetNumberOfEstablishedPeers = 30;
+  # TargetNumberOfKnownBigLedgerPeers = 15;
+  #
+  # Additionally, as of ouroboros-network `0.22.2` with cardano-node `10.6.0`,
+  # the following three node config parameters which previously required
+  # explicit configuration depending on whether the node is a forger are now
+  # handled automatically.
+  #
+  # PeerSharing: false for forgers, true for non-forgers
+  # TargetNumberOfKnownPeers: set according to forging status
+  # TargetNumberOfRootPeers: set according to forging status
 
   # Default Ledger Configuration
   # Additional configuration options can be found at:
