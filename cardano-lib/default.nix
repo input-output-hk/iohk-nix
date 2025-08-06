@@ -1,6 +1,6 @@
 {lib, writeText, runCommand, jq}:
 let
-  inherit (builtins) attrNames elem fromJSON getAttr readFile toFile toJSON;
+  inherit (builtins) attrNames fromJSON getAttr readFile toFile toJSON;
   inherit (lib) filterAttrs flip forEach listToAttrs mapAttrs mapAttrsToList optionalAttrs optionalString pipe;
 
   mkEdgeTopology = {
@@ -84,7 +84,7 @@ let
       # as genesis mode is used, and migration to genesis mode for all networks
       # is coming soon, the snapshot will be declared in the topology which
       # also makes genesis testing a bit easier.
-      peerSnapshotFile = "peer-snapshot.json";
+      peerSnapshotFile = "${env.name}-peer-snapshot.json";
     };
   in
     if (env.nodeConfig.EnableP2P or false)
