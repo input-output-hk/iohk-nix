@@ -65,6 +65,7 @@
   "TracingVerbosity": "NormalVerbosity",
   "TurnOnLogMetrics": true,
   "TurnOnLogging": true,
+  "UseTraceDispatcher": false,
   "defaultBackends": [
     "KatipBK"
   ],
@@ -76,7 +77,7 @@
   ],
   "hasEKG": 12788,
   "hasPrometheus": [
-    "0.0.0.0",
+    "127.0.0.1",
     12798
   ],
   "minSeverity": "Debug",
