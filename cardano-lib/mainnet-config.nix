@@ -27,7 +27,6 @@ with builtins; {
 
   # The mainnet does not include the network magic into addresses. Testnets do.
   RequiresNetworkMagic = "RequiresNoMagic";
-  EnableP2P = true;
 
   MaxKnownMajorProtocolVersion = 2;
 

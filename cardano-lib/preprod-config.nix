@@ -25,7 +25,6 @@ with builtins; {
 
   # The mainnet does not include the network magic into addresses. Testnets do.
   RequiresNetworkMagic = "RequiresMagic";
-  EnableP2P = true;
 
   # The consensus mode.  If set to "GenesisMode", a path to a peer snapshot
   # file will need to be declared in the p2p topology file under key
