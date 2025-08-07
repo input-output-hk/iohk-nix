@@ -94,7 +94,10 @@ let
       peerSnapshotFile = "${env.name}-peer-snapshot.json";
     };
   in
-    if (env.nodeConfig.EnableP2P or false)
+    # As of node 10.6.0 only p2p networking mode is available. Code supporting
+    # legacy networking will remain until the Dijkstra hard fork compels an
+    # upgrade.
+    if (env.nodeConfig.EnableP2P or true)
     then p2pTopology
     else legacyTopology;
 
@@ -144,9 +147,10 @@ let
   # as needed.  Any node version string suffixes, such as `-pre`, should be
   # removed from this string identifier.
   #
-  # Min currently 10.6.0 for proper default handling of PeerSharing,
+  # Min is currently 10.6.0 for proper default handling of PeerSharing,
   # TargetNumberOfKnownPeers and TargetNumberOfRootPeers parameters depending
-  # on whether node is a forger or not.
+  # on whether node is a forger or not, as well as removal of legacy
+  # networking mode.
   minNodeVersion = { MinNodeVersion = "10.6.0"; };
 
   mergeTraceOpts = cfg: traceOpts: cfg // {TraceOptions = getAttr "TraceOptions" cfg // traceOpts;};
