@@ -19,7 +19,6 @@ with builtins; {
   Protocol = "Cardano";
 
   RequiresNetworkMagic = "RequiresMagic";
-  EnableP2P = true;
 
   ExperimentalHardForksEnabled = false;
   ExperimentalProtocolsEnabled = false;
