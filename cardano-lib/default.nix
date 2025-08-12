@@ -1,6 +1,6 @@
 {lib, writeText, runCommand, jq}:
 let
-  inherit (builtins) attrNames elem fromJSON getAttr readFile toFile toJSON;
+  inherit (builtins) attrNames fromJSON getAttr readFile toFile toJSON;
   inherit (lib) filterAttrs flip forEach listToAttrs mapAttrs mapAttrsToList optionalAttrs optionalString pipe;
 
   mkEdgeTopology = {
@@ -68,17 +68,36 @@ let
     p2pTopology = mkEdgeTopologyP2P {
       inherit (env) edgeNodes;
 
-      bootstrapPeers = map (e: {address = e.addr; inherit (e) port;}) env.edgeNodes;
+
+      # If an address is provided without a port or a port set to null within
+      # the attrs, the address will be interpreted as an SRV record.
+      bootstrapPeers = map (e:
+        {address = e.addr;}
+          // optionalAttrs (e ? port && e.port != null) {inherit (e) port;})
+      env.edgeNodes;
+
       useLedgerAfterSlot = env.useLedgerAfterSlot;
 
-      # Genesis mode is now default for preview and preprod as of node 10.5
-      peerSnapshotFile =
-        if elem env.name ["preview" "preprod"]
-        then "peer-snapshot.json"
-        else null;
+      # Genesis mode is now default for preview and preprod as of node 10.5.0.
+      #
+      # As of node 10.5.0, the peer snapshot file can be added to the
+      # topology file with a relative path to itself making the packaging
+      # cleaner.
+      #
+      # As of node 10.6.0, the peer snapshot file can be added to the
+      # topology file and not be fatal if missing while in PraosMode.
+      #
+      # Given that the peer snapshot file will be required as soon as genesis
+      # mode is default, and migration to genesis mode for all networks is
+      # coming soon, the snapshot will be declared in all network topologies
+      # which also makes genesis testing a bit easier.
+      peerSnapshotFile = "${env.name}-peer-snapshot.json";
     };
   in
-    if (env.nodeConfig.EnableP2P or false)
+    # As of node 10.6.0 only p2p networking mode is available. Code supporting
+    # legacy networking will remain until the Dijkstra hard fork compels an
+    # upgrade.
+    if (env.nodeConfig.EnableP2P or true)
     then p2pTopology
     else legacyTopology;
 
@@ -128,8 +147,11 @@ let
   # as needed.  Any node version string suffixes, such as `-pre`, should be
   # removed from this string identifier.
   #
-  # Min currently 10.4.0 for `LedgerDB` config support.
-  minNodeVersion = { MinNodeVersion = "10.4.0"; };
+  # Min is currently 10.6.0 for proper default handling of PeerSharing,
+  # TargetNumberOfKnownPeers and TargetNumberOfRootPeers parameters depending
+  # on whether node is a forger or not, as well as removal of legacy
+  # networking mode.
+  minNodeVersion = { MinNodeVersion = "10.6.0"; };
 
   mergeTraceOpts = cfg: traceOpts: cfg // {TraceOptions = getAttr "TraceOptions" cfg // traceOpts;};
 
@@ -138,8 +160,6 @@ let
     # default derived configs:
     nodeConfig = mergeTraceOpts (defaultLogConfig // env.networkConfig) (env.extraTracerConfig or {});
     nodeConfigLegacy = defaultLogConfigLegacy // env.networkConfig // (env.extraTracerConfigLegacy or {});
-    nodeConfigBp = mergeTraceOpts (defaultLogConfig // env.networkConfigBp) (env.extraTracerConfig or {});
-    nodeConfigBpLegacy = defaultLogConfigLegacy // env.networkConfigBp // (env.extraTracerConfigLegacy or {});
     tracerConfig = defaultTracerConfig // {inherit (fromJSON (readFile ./${name}/shelley-genesis.json)) networkMagic;};
     consensusProtocol = env.networkConfig.Protocol;
     submitApiConfig = mkSubmitApiConfig name environments.${name}.nodeConfig;
@@ -181,7 +201,6 @@ let
       edgePort = 3001;
       confKey = "mainnet_full";
       networkConfig = import ./mainnet-config.nix // minNodeVersion;
-      networkConfigBp = import ./mainnet-config-bp.nix // minNodeVersion;
       useLedgerAfterSlot = 157852837;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
@@ -215,7 +234,6 @@ let
       ];
       edgePort = 3001;
       networkConfig = import ./preprod-config.nix // minNodeVersion;
-      networkConfigBp = import ./preprod-config-bp.nix // minNodeVersion;
       useLedgerAfterSlot = 93830456;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
@@ -245,7 +263,6 @@ let
       ];
       edgePort = 3001;
       networkConfig = import ./preview-config.nix // minNodeVersion;
-      networkConfigBp = import ./preview-config-bp.nix // minNodeVersion;
       useLedgerAfterSlot = 83116868;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
@@ -321,9 +338,7 @@ let
                       <td>
                         <div class="buttons has-addons">
                           <a class="button is-primary" href="${env}-config.json">config</a>
-                          <a class="button is-primary" href="${env}-config-bp.json">block-producer config</a>
                           <a class="button is-primary" href="${env}-config-legacy.json">config (legacy)</a>
-                          <a class="button is-primary" href="${env}-config-bp-legacy.json">block-producer config (legacy)</a>
                           <a class="button is-info" href="${env}-${protNames.${p}.n}-genesis.json">${protNames.${p}.n}Genesis</a>
                           ${optionalString (p == "Cardano") ''
                             <a class="button is-info" href="${env}-${protNames.${p}.shelley}-genesis.json">${protNames.${p}.shelley}Genesis</a>
@@ -375,14 +390,10 @@ let
         in ''
           ${if p != "Cardano" then ''
             ${jq}/bin/jq . < ${toFile "${env}-config.json" (toJSON (value.nodeConfig // genesisFile))} > $out/${env}-config.json
-            ${jq}/bin/jq . < ${toFile "${env}-config-bp.json" (toJSON (value.nodeConfigBp // genesisFile))} > $out/${env}-config-bp.json
             ${jq}/bin/jq . < ${toFile "${env}-config-legacy.json" (toJSON (value.nodeConfigLegacy // genesisFile))} > $out/${env}-config-legacy.json
-            ${jq}/bin/jq . < ${toFile "${env}-config-bp-legacy.json" (toJSON (value.nodeConfigBpLegacy // genesisFile))} > $out/${env}-config-bp-legacy.json
           '' else ''
             ${jq}/bin/jq . < ${toFile "${env}-config.json" (toJSON (value.nodeConfig // genesisFiles))} > $out/${env}-config.json
-            ${jq}/bin/jq . < ${toFile "${env}-config-bp.json" (toJSON (value.nodeConfigBp // genesisFiles))} > $out/${env}-config-bp.json
             ${jq}/bin/jq . < ${toFile "${env}-config-legacy.json" (toJSON (value.nodeConfigLegacy // genesisFiles))} > $out/${env}-config-legacy.json
-            ${jq}/bin/jq . < ${toFile "${env}-config-bp-legacy.json" (toJSON (value.nodeConfigBpLegacy // genesisFiles))} > $out/${env}-config-bp-legacy.json
           ''}
           ${optionalString (p == "RealPBFT" || p == "Byron") ''
             cp ${value.nodeConfig.GenesisFile} $out/${env}-${protNames.${p}.n}-genesis.json
