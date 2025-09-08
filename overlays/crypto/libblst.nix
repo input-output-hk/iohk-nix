@@ -2,7 +2,7 @@
 
 stdenv.mkDerivation rec {
   pname = "blst";
-  version = src.shortRev;
+  version = "0.3.14";
 
   inherit src;
 
@@ -10,7 +10,13 @@ stdenv.mkDerivation rec {
   # stuff run-time detected, and as such blst built on newer hardware should still
   # work on older. Notably Intel before Broadwell, and AMD before Ryzen, do not
   # support ADX, which means they lack MULX support, which blst uses.
+  # The `version` number is checked against the `Cargo.toml` file.
   buildPhase = ''
+    actual=$(grep -m1 -E '^version\s*=' bindings/rust/Cargo.toml | cut -d'"' -f2)
+    if [ "$actual" != "${version}" ]; then
+      echo "ERROR: Cargo.toml version mismatch (expected ${version}, found $actual) in iohk-nix/overlays/crypto/libblst.nix"
+      exit 1
+    fi
     ./build.sh -D__BLST_PORTABLE__ ${lib.optionalString stdenv.hostPlatform.isWindows "flavour=mingw64"}
   '' + lib.optionalString enableShared ''
     ./build.sh -D__BLST_PORTABLE__ -shared ${lib.optionalString stdenv.hostPlatform.isWindows "flavour=mingw64"}
