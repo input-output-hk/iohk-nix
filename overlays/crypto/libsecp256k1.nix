@@ -3,7 +3,7 @@
 
 stdenv.mkDerivation rec {
   pname = "secp256k1";
-  version = src.shortRev;
+  version = "0.3.2";
 
   inherit src;
 
@@ -17,6 +17,20 @@ stdenv.mkDerivation rec {
   ];
 
   doCheck = true;
+
+  # Verify .pc version matches derivation version
+  preCheck = ''
+    pc_file="libsecp256k1.pc"
+    if [ ! -f "$pc_file" ]; then
+      echo "ERROR: pkg-config file not found: $pc_file"
+      exit 1
+    fi
+    pc_version=$(sed -n 's/^Version: *//p' "$pc_file")
+    if [ "$pc_version" != "${version}" ]; then
+      echo "ERROR: Version mismatch: derivation has ${version}, but .pc file has $pc_version"
+      exit 1
+    fi
+  '';
 
   meta = with lib; {
     description = "Optimized C library for EC operations on curve secp256k1";
