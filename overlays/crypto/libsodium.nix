@@ -2,7 +2,7 @@
 
 stdenv.mkDerivation rec {
   pname = "libsodium-vrf";
-  version = src.shortRev;
+  version = "1.0.18";
 
   inherit src;
 
@@ -20,6 +20,20 @@ stdenv.mkDerivation rec {
   enableParallelBuilding = true;
 
   doCheck = true;
+
+  # Verify .pc version matches derivation version
+  preCheck = ''
+    pc_file="libsodium.pc"
+    if [ ! -f "$pc_file" ]; then
+      echo "ERROR: pkg-config file not found: $pc_file"
+      exit 1
+    fi
+    pc_version=$(sed -n 's/^Version: *//p' "$pc_file")
+    if [ "$pc_version" != "${version}" ]; then
+      echo "ERROR: Version mismatch: derivation has ${version}, but .pc file has $pc_version"
+      exit 1
+    fi
+  '';
 
   meta = with lib; {
     description = "A modern and easy-to-use crypto library - VRF fork";
