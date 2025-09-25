@@ -133,6 +133,18 @@ let
   mkSubmitApiConfig = name: nodeConfig: (filterAttrs (k: v: v != null) {
     GenesisHash = nodeConfig.ByronGenesisHash;
     inherit (nodeConfig) RequiresNetworkMagic;
+    TraceOptions = builtins.listToAttrs [
+      { name = "";
+        value = {
+          backends = [
+            "EKGBackend"
+            "Stdout HumanFormatColoured"
+          ];
+          detail = "DNormal";
+          severity = "Info";
+        };
+      }
+    ];
   })
   // defaultExplorerLogConfig;
 
