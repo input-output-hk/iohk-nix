@@ -5,6 +5,7 @@
   "ByronGenesisFile": "byron-genesis.json",
   "ConsensusMode": "PraosMode",
   "ConwayGenesisFile": "conway-genesis.json",
+  "DijkstraGenesisFile": "dijkstra-genesis.json",
   "ExperimentalHardForksEnabled": true,
   "ExperimentalProtocolsEnabled": true,
   "LastKnownBlockVersion-Alt": 0,
