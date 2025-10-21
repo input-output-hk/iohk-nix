@@ -209,7 +209,7 @@ let
       edgePort = 3001;
       confKey = "mainnet_full";
       networkConfig = import ./mainnet-config.nix // minNodeVersion;
-      useLedgerAfterSlot = 157852837;
+      useLedgerAfterSlot = 171244716;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
       };
@@ -242,7 +242,7 @@ let
       ];
       edgePort = 3001;
       networkConfig = import ./preprod-config.nix // minNodeVersion;
-      useLedgerAfterSlot = 93830456;
+      useLedgerAfterSlot = 107222389;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
       };
@@ -271,7 +271,7 @@ let
       ];
       edgePort = 3001;
       networkConfig = import ./preview-config.nix // minNodeVersion;
-      useLedgerAfterSlot = 83116868;
+      useLedgerAfterSlot = 96249565;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
       };
