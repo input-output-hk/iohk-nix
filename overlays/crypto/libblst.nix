@@ -1,4 +1,4 @@
-{ stdenv, lib, autoreconfHook, enableShared ? !stdenv.hostPlatform.isStatic && !stdenv.hostPlatform.isWindows, src }:
+{ stdenv, lib, autoreconfHook, enableShared ? !stdenv.hostPlatform.isStatic && !stdenv.hostPlatform.isWindows, fetchpatch, src }:
 
 stdenv.mkDerivation rec {
   pname = "blst";
@@ -6,7 +6,12 @@ stdenv.mkDerivation rec {
 
   inherit src;
 
-  patches = [ ./libblst.patch ];
+  patches = [
+    (fetchpatch {
+      url = https://github.com/supranational/blst/pull/276.diff;
+      hash = "sha256-ccGbrtGXfwDxBXY1ahPSjsODRW1tSmCMYWqDy6mNnLg=";
+    })
+  ];
 
   # note on -D__BLST_PORTABLE__, this should allow us to have MULX, and similar
   # stuff run-time detected, and as such blst built on newer hardware should still
