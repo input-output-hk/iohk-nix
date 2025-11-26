@@ -1,0 +1,42 @@
+From 6b86fb03c7d1396db7972a09acbb94319e7e5824 Mon Sep 17 00:00:00 2001
+From: Neil Mayhew <neil@mayhew.name>
+Date: Wed, 26 Nov 2025 12:33:37 -0700
+Subject: [PATCH] Fix inconsistency in how __blst_platform_cap is defined
+Content-Type: text/plain; charset=utf-8
+
+In C it's a BSS symbol, and in assembly it's a common symbol:
+
+$ nm -og libblst.a | grep __blst_platform_cap
+libblst.a:assembly.o:0000000000000004 C __blst_platform_cap
+libblst.a:server.o:0000000000000000 B __blst_platform_cap
+
+This causes problems for some toolchains.
+
+With this change, it becomes:
+
+$ nm -og libblst.a | grep __blst_platform_cap
+libblst.a:assembly.o:0000000000000004 C __blst_platform_cap
+libblst.a:server.o:0000000000000004 C __blst_platform_cap
+---
+ src/cpuid.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/cpuid.c b/src/cpuid.c
+index a1a01d4..bbba87e 100644
+--- a/src/cpuid.c
++++ b/src/cpuid.c
+@@ -5,9 +5,9 @@
+  */
+ 
+ #if (defined(__GNUC__) || defined(__clang__) || defined(__SUNPRO_C)) && !defined(_WIN32)
+-__attribute__((visibility("hidden")))
++__attribute__((visibility("hidden"), common))
+ #endif
+-int __blst_platform_cap = 0;
++int __blst_platform_cap;
+ 
+ #if defined(__x86_64__) || defined(__x86_64) || (defined(_M_X64) && !defined(_M_ARM64EC))
+ 
+-- 
+2.51.0
+

@@ -6,6 +6,8 @@ stdenv.mkDerivation rec {
 
   inherit src;
 
+  patches = [ ./libblst.patch ];
+
   # note on -D__BLST_PORTABLE__, this should allow us to have MULX, and similar
   # stuff run-time detected, and as such blst built on newer hardware should still
   # work on older. Notably Intel before Broadwell, and AMD before Ryzen, do not
