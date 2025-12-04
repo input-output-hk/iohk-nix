@@ -17,9 +17,6 @@
   # set in downstream code where the node's name is known.
   # TraceOptionNodeName =
 
-  # The frequency of peer messages.
-  TraceOptionPeerFrequency = 2000;
-
   # The frequency of resource messages.
   TraceOptionResourceFrequency = 1000;
 
@@ -84,19 +81,18 @@
 
     # The following tracer configurations are configured to closely match the
     # default logging seen in the legacy cardano-node tracing system.
-    "BlockFetch.Decision".severity = "Silence";
+    "BlockFetch.Decision".severity = "Info";
     "ChainDB.AddBlockEvent.AddBlockValidation".severity = "Silence";
     "ChainDB".severity = "Info";
     "ChainSync.Client".severity = "Warning";
     "Forge.Loop".severity = "Info";
     "Forge.StateInfo".severity = "Info";
     "Mempool".severity = "Info";
-    "Net.ConnectionManager.Remote.ConnectionManagerCounters".severity = "Silence";
     "Net.ConnectionManager.Remote".severity = "Info";
     "Net.InboundGovernor.Remote".severity = "Info";
     "Net.InboundGovernor".severity = "Warning";
     "Net.Mux.Remote".severity = "Info";
-    "Net.PeerSelection".severity = "Silence";
+    "Net.PeerSelection".severity = "Info";
     "Resources".severity = "Silence";
     "Startup.DiffusionInit".severity = "Info";
 
