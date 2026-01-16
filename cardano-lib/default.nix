@@ -276,6 +276,28 @@ let
         enableFutureGenesis = true;
       };
     };
+
+    dijkstra = rec {
+      useByronWallet = false;
+      private = false;
+      domain = "play.dev.cardano.org";
+      relaysNew = "dijkstra-node.play.dev.cardano.org";
+      explorerUrl = "https://dijkstra-explorer.play.dev.cardano.org";
+      smashUrl = "https://dijkstra-smash.play.dev.cardano.org";
+      metadataUrl = "https://metadata.play.dev.cardano.org";
+      edgeNodes = [
+        {
+          addr = relaysNew;
+          port = 3001;
+        }
+      ];
+      edgePort = 3001;
+      networkConfig = import ./dijkstra-config.nix // minNodeVersion;
+      useLedgerAfterSlot = 1468800;
+      extraDbSyncConfig = {
+        enableFutureGenesis = true;
+      };
+    };
   };
 
   # Move dead envs here for a grace period with an added deprecation warn trace prior to deletion.
@@ -299,7 +321,7 @@ let
   protNames = {
     RealPBFT = { n = "byron"; };
     TPraos   = { n = "shelley"; };
-    Cardano  = { n = "byron"; shelley = "shelley"; alonzo = "alonzo"; conway = "conway"; };
+    Cardano  = { n = "byron"; shelley = "shelley"; alonzo = "alonzo"; conway = "conway"; dijkstra = "dijkstra"; };
   };
 
   configHtml = environments:
@@ -353,6 +375,8 @@ let
                             <a class="button is-info" href="${env}-${protNames.${p}.alonzo}-genesis.json">${protNames.${p}.alonzo}Genesis</a>''}
                           ${optionalString (p == "Cardano" && value.nodeConfig ? ConwayGenesisFile) ''
                             <a class="button is-info" href="${env}-${protNames.${p}.conway}-genesis.json">${protNames.${p}.conway}Genesis</a>''}
+                          ${optionalString (p == "Cardano" && value.nodeConfig ? DijkstraGenesisFile) ''
+                            <a class="button is-info" href="${env}-${protNames.${p}.dijkstra}-genesis.json">${protNames.${p}.dijkstra}Genesis</a>''}
                           <a class="button is-info" href="${env}-topology.json">topology</a>
                           <a class="button is-info" href="${env}-peer-snapshot.json">peer-snapshot</a>
                           ${optionalString (value.nodeConfig ? CheckpointsFile) ''
@@ -392,6 +416,8 @@ let
             AlonzoGenesisFile = "${env}-${protNames.${p}.alonzo}-genesis.json";
           } // (optionalAttrs (p == "Cardano" && value.nodeConfig ? ConwayGenesisFile) {
             ConwayGenesisFile = "${env}-${protNames.${p}.conway}-genesis.json";
+          }) // (optionalAttrs (p == "Cardano" && value.nodeConfig ? DijkstraGenesisFile) {
+            DijkstraGenesisFile = "${env}-${protNames.${p}.dijkstra}-genesis.json";
           }) // (optionalAttrs (value.nodeConfig ? CheckpointsFile) {
             CheckpointsFile = "${env}-checkpoints.json";
           });
@@ -416,6 +442,9 @@ let
           ''}
           ${optionalString (p == "Cardano" && value.nodeConfigLegacy ? ConwayGenesisFile) ''
             cp ${value.nodeConfig.ConwayGenesisFile} $out/${env}-${protNames.${p}.conway}-genesis.json
+          ''}
+          ${optionalString (p == "Cardano" && value.nodeConfigLegacy ? DijkstraGenesisFile) ''
+            cp ${value.nodeConfig.DijkstraGenesisFile} $out/${env}-${protNames.${p}.dijkstra}-genesis.json
           ''}
           ${jq}/bin/jq . < ${toFile "${env}-db-sync-config.json" (toJSON (value.dbSyncConfig // { NodeConfigFile = "${env}-config.json"; }))} > $out/${env}-db-sync-config.json
           ${jq}/bin/jq . < ${toFile "${env}-submit-api-config.json" (toJSON value.submitApiConfig)} > $out/${env}-submit-api-config.json
