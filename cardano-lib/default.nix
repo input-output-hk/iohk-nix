@@ -372,7 +372,7 @@ let
                           <a class="button is-info" href="${env}-${protNames.${p}.n}-genesis.json">${protNames.${p}.n}Genesis</a>
                           ${optionalString (p == "Cardano") ''
                             <a class="button is-info" href="${env}-${protNames.${p}.shelley}-genesis.json">${protNames.${p}.shelley}Genesis</a>
-                            <a class="button is-info" href="${env}-${protNames.${p}.alonzo}-genesis.json">${protNames.${p}.alonzo}Genesis</a>''}
+                                <a class="button is-info" href="${env}-${protNames.${p}.alonzo}-genesis.json">${protNames.${p}.alonzo}Genesis</a>''}
                           ${optionalString (p == "Cardano" && value.nodeConfig ? ConwayGenesisFile) ''
                             <a class="button is-info" href="${env}-${protNames.${p}.conway}-genesis.json">${protNames.${p}.conway}Genesis</a>''}
                           ${optionalString (p == "Cardano" && value.nodeConfig ? DijkstraGenesisFile) ''
