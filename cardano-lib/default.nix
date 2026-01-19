@@ -440,10 +440,10 @@ let
             cp ${value.nodeConfig.ByronGenesisFile} $out/${env}-${protNames.${p}.n}-genesis.json
             cp ${value.nodeConfig.AlonzoGenesisFile} $out/${env}-${protNames.${p}.alonzo}-genesis.json
           ''}
-          ${optionalString (p == "Cardano" && value.nodeConfigLegacy ? ConwayGenesisFile) ''
+          ${optionalString (p == "Cardano" && value.nodeConfig ? ConwayGenesisFile) ''
             cp ${value.nodeConfig.ConwayGenesisFile} $out/${env}-${protNames.${p}.conway}-genesis.json
           ''}
-          ${optionalString (p == "Cardano" && value.nodeConfigLegacy ? DijkstraGenesisFile) ''
+          ${optionalString (p == "Cardano" && value.nodeConfig ? DijkstraGenesisFile) ''
             cp ${value.nodeConfig.DijkstraGenesisFile} $out/${env}-${protNames.${p}.dijkstra}-genesis.json
           ''}
           ${jq}/bin/jq . < ${toFile "${env}-db-sync-config.json" (toJSON (value.dbSyncConfig // { NodeConfigFile = "${env}-config.json"; }))} > $out/${env}-db-sync-config.json
