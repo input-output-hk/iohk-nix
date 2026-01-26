@@ -14,6 +14,8 @@ with builtins; {
   ShelleyGenesisHash = "363498d1024f84bb39d3fa9593ce391483cb40d479b87233f868d6e57c3a400d";
   AlonzoGenesisFile = ./preview + "/alonzo-genesis.json";
   AlonzoGenesisHash = "7e94a15f55d1e82d10f09203fa1d40f8eede58fd8066542cf6566008068ed874";
+  CheckpointsFile = ./preview + "/checkpoints.json";
+  CheckpointsFileHash = "bb5056ff1ced9d68dd99720695789664f6bf6f0cb02a4010df09b813e225ac51";
 
   ### Core protocol parameters #####
   Protocol = "Cardano";
@@ -29,10 +31,10 @@ with builtins; {
   TestAlonzoHardForkAtEpoch = 0;
   TestMaryHardForkAtEpoch = 0;
 
-  # The consensus mode.  If set to "GenesisMode", a path to a peer snapshot
-  # file will need to be declared in the p2p topology file under key
-  # `peerSnapshotFile`.  A `CheckpointsFile` and corresponding
-  # `CheckpointsFileHash` is not required for preview.
+  # The consensus mode.  If set to "GenesisMode", the `CheckpointsFile` and
+  # `CheckpointsFileHash` values above will be used and a path to a peer
+  # snapshot file will need to be declared in the p2p topology file under key
+  # `peerSnapshotFile`.
   ConsensusMode = "GenesisMode";
 
   # Network Deadline and Sync Target Configuration
