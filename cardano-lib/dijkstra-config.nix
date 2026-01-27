@@ -35,7 +35,7 @@ with builtins; {
   # file will need to be declared in the p2p topology file under key
   # `peerSnapshotFile`.  A `CheckpointsFile` and corresponding
   # `CheckpointsFileHash` is not required for dijkstra.
-  ConsensusMode = "PraosMode";
+  ConsensusMode = "GenesisMode";
 
   # Peer Sharing Mode, Network Deadline and Sync Target Configuration
   # To avoid config drift these will use ouroboros-network defaults which may change over time.

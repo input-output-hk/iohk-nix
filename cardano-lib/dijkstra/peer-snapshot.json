@@ -1,5 +1,36 @@
 {
-    "bigLedgerPools": [],
-    "slotNo": 1468800,
-    "version": 2
+  "bigLedgerPools": [
+    {
+      "accumulatedStake": 0.36114077983151965,
+      "relativeStake": 0.36114077983151965,
+      "relays": [
+        {
+          "address": "dijkstra-node.play.dev.cardano.org",
+          "port": 3001
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.6806071283044359,
+      "relativeStake": 0.3194663484729163,
+      "relays": [
+        {
+          "address": "dijkstra-node.play.dev.cardano.org",
+          "port": 3001
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 1,
+      "relativeStake": 0.319392871695564,
+      "relays": [
+        {
+          "address": "dijkstra-node.play.dev.cardano.org",
+          "port": 3001
+        }
+      ]
+    }
+  ],
+  "slotNo": 2313787,
+  "version": 2
 }
