@@ -32,6 +32,13 @@ with builtins; {
   # `CheckpointsFileHash` is not required for preprod.
   ConsensusMode = "GenesisMode";
 
+  # Mempool timeout parameters must be either all set or all unset.
+  # When unset cardano-node will use default values.
+  # Default example values are:
+  # MempoolTimeoutSoft = 1.0;
+  # MempoolTimeoutHard = 1.5;
+  # MempoolTimeoutCapacity = 5.0;
+
   # Peer Sharing Mode, Network Deadline and Sync Target Configuration
   # To avoid config drift these will use ouroboros-network defaults which may change over time.
   # The values shown below are examples.
