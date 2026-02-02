@@ -155,11 +155,9 @@ let
   # as needed.  Any node version string suffixes, such as `-pre`, should be
   # removed from this string identifier.
   #
-  # Min is currently 10.6.0 for proper default handling of PeerSharing,
-  # TargetNumberOfKnownPeers and TargetNumberOfRootPeers parameters depending
-  # on whether node is a forger or not, as well as removal of legacy
-  # networking mode.
-  minNodeVersion = { MinNodeVersion = "10.6.0"; };
+  # Min is currently 10.6.2 for proper default handling of mempool timeout
+  # parameters.
+  minNodeVersion = { MinNodeVersion = "10.6.2"; };
 
   mergeTraceOpts = cfg: traceOpts: cfg // {TraceOptions = getAttr "TraceOptions" cfg // traceOpts;};
 
