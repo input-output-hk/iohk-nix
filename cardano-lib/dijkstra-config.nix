@@ -7,11 +7,11 @@ with builtins; {
   ##### Locations #####
 
   ByronGenesisFile = ./dijkstra + "/byron-genesis.json";
-  ByronGenesisHash = "f546656692a35f759d4d68365e7aa3dd7561e47a2523be720193eaa83c69f256";
+  ByronGenesisHash = "9bdbd85630be6848fc31425efe0be0f1f0bce8ee2def551f62e5a7bb165f552c";
   ConwayGenesisFile = ./dijkstra + "/conway-genesis.json";
-  ConwayGenesisHash = "ace38afe42e7d21c381f8b4053bbc22ccaad40091be4a5ba428712081fb641f2";
+  ConwayGenesisHash = "1882545753507dc03566b98b4c67752980797cd7e196323eef9baa0d474cbbb6";
   ShelleyGenesisFile = ./dijkstra + "/shelley-genesis.json";
-  ShelleyGenesisHash = "ab181806a28d64e0f40db4e887c3f61910edc2a6733c534281ad4ba1d6b10349";
+  ShelleyGenesisHash = "a3d60a493cb73ab915084320cfaae32f9674c1394f52f98a261f855d42bdd885";
   AlonzoGenesisFile = ./dijkstra + "/alonzo-genesis.json";
   AlonzoGenesisHash = "cc143a4a73d7ab8cbc4bbd7750c91c5204cb597007cea3a317a1fc240c1954f1";
   DijkstraGenesisFile = ./dijkstra + "/dijkstra-genesis.json";
