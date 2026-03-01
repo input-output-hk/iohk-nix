@@ -296,6 +296,28 @@ let
         enableFutureGenesis = true;
       };
     };
+
+    sanchonet = rec {
+      useByronWallet = false;
+      private = false;
+      domain = "play.dev.cardano.org";
+      relaysNew = "sanchonet-node.play.dev.cardano.org";
+      explorerUrl = "https://sanchonet-explorer.play.dev.cardano.org";
+      smashUrl = "https://sanchonet-smash.play.dev.cardano.org";
+      metadataUrl = "https://metadata.play.dev.cardano.org";
+      edgeNodes = [
+        {
+          addr = relaysNew;
+          port = 3001;
+        }
+      ];
+      edgePort = 3001;
+      networkConfig = import ./sanchonet-config.nix // minNodeVersion;
+      useLedgerAfterSlot = 85535960;
+      extraDbSyncConfig = {
+        enableFutureGenesis = true;
+      };
+    };
   };
 
   # Move dead envs here for a grace period with an added deprecation warn trace prior to deletion.
