@@ -155,9 +155,9 @@ let
   # as needed.  Any node version string suffixes, such as `-pre`, should be
   # removed from this string identifier.
   #
-  # Min is currently 10.6.2 for proper default handling of mempool timeout
-  # parameters.
-  minNodeVersion = { MinNodeVersion = "10.6.2"; };
+  # Min is currently 10.7.0 due to change of config bundled peer-snapshot
+  # version.
+  minNodeVersion = { MinNodeVersion = "10.7.0"; };
 
   mergeTraceOpts = cfg: traceOpts: cfg // {TraceOptions = getAttr "TraceOptions" cfg // traceOpts;};
 
@@ -207,7 +207,7 @@ let
       edgePort = 3001;
       confKey = "mainnet_full";
       networkConfig = import ./mainnet-config.nix // minNodeVersion;
-      useLedgerAfterSlot = 177724800;
+      useLedgerAfterSlot = 182044807;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
       };
@@ -240,7 +240,7 @@ let
       ];
       edgePort = 3001;
       networkConfig = import ./preprod-config.nix // minNodeVersion;
-      useLedgerAfterSlot = 112406400;
+      useLedgerAfterSlot = 118022427;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
       };
@@ -269,7 +269,7 @@ let
       ];
       edgePort = 3001;
       networkConfig = import ./preview-config.nix // minNodeVersion;
-      useLedgerAfterSlot = 102729600;
+      useLedgerAfterSlot = 107222465;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
       };
@@ -291,7 +291,7 @@ let
       ];
       edgePort = 3001;
       networkConfig = import ./dijkstra-config.nix // minNodeVersion;
-      useLedgerAfterSlot = 1468800;
+      useLedgerAfterSlot = 2764738;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
       };
@@ -313,7 +313,7 @@ let
       ];
       edgePort = 3001;
       networkConfig = import ./sanchonet-config.nix // minNodeVersion;
-      useLedgerAfterSlot = 85535960;
+      useLedgerAfterSlot = 87091136;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
       };
