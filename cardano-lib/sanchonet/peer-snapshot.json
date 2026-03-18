@@ -1,116 +1,120 @@
 {
-    "bigLedgerPools": [
+  "NetworkMagic": 4,
+  "NodeToClientVersion": 23,
+  "Point": {
+    "blockPointHash": "19b0a3d15c8754d89047afe37d7b2feb7ce5bde42de59b8b7947b1b69d75a846",
+    "blockPointSlot": 87174171
+  },
+  "bigLedgerPools": [
+    {
+      "accumulatedStake": 0.12381444905958384,
+      "relativeStake": 0.12381444905958384,
+      "relays": [
         {
-            "accumulatedStake": 0.12381542869009075,
-            "relativeStake": 0.12381542869009075,
-            "relays": [
-                {
-                    "address": "cf1r1.sanchonet.pool.cardanofoundation.org",
-                    "port": 30004
-                },
-                {
-                    "address": "cf1r2.sanchonet.pool.cardanofoundation.org",
-                    "port": 30004
-                }
-            ]
+          "address": "cf1r1.sanchonet.pool.cardanofoundation.org",
+          "port": 30004
         },
         {
-            "accumulatedStake": 0.24503605014197166,
-            "relativeStake": 0.12122062145188092,
-            "relays": [
-                {
-                    "address": "sancho-testnet.able-pool.io",
-                    "port": 6002
-                },
-                {
-                    "address": "202.61.236.233",
-                    "port": 6002
-                },
-                {
-                    "address": "64.23.159.5",
-                    "port": 4000
-                }
-            ]
-        },
-        {
-            "accumulatedStake": 0.3617158472711874,
-            "relativeStake": 0.11667979712921572,
-            "relays": [
-                {
-                    "address": "sancho-testnet.able-pool.io",
-                    "port": 6002
-                }
-            ]
-        },
-        {
-            "accumulatedStake": 0.47379554225408377,
-            "relativeStake": 0.11207969498289638,
-            "relays": [
-                {
-                    "address": "sanchonet-node.play.dev.cardano.org",
-                    "port": 3001
-                }
-            ]
-        },
-        {
-            "accumulatedStake": 0.5832419327226263,
-            "relativeStake": 0.10944639046854246,
-            "relays": [
-                {
-                    "address": "35.203.93.134",
-                    "port": 6002
-                }
-            ]
-        },
-        {
-            "accumulatedStake": 0.6917131815782358,
-            "relativeStake": 0.1084712488556096,
-            "relays": [
-                {
-                    "address": "64.23.159.5",
-                    "port": 4000
-                }
-            ]
-        },
-        {
-            "accumulatedStake": 0.792929923248438,
-            "relativeStake": 0.10121674167020223,
-            "relays": [
-                {
-                    "address": "test.stakepool.at",
-                    "port": 3001
-                }
-            ]
-        },
-        {
-            "accumulatedStake": 0.8829547478757506,
-            "relativeStake": 9.002482462731248e-2,
-            "relays": [
-                {
-                    "address": "relay.hephy.io",
-                    "port": 9000
-                }
-            ]
-        },
-        {
-            "accumulatedStake": 0.925266228354431,
-            "relativeStake": 4.231148047868042e-2,
-            "relays": [
-                {
-                    "address": "node1.cardano.gratis",
-                    "port": 6401
-                },
-                {
-                    "address": "node2.cardano.gratis",
-                    "port": 6402
-                },
-                {
-                    "address": "mbb3.cardano.gratis",
-                    "port": 6403
-                }
-            ]
+          "address": "cf1r2.sanchonet.pool.cardanofoundation.org",
+          "port": 30004
         }
-    ],
-    "slotNo": 85541076,
-    "version": 2
+      ]
+    },
+    {
+      "accumulatedStake": 0.24504518337722664,
+      "relativeStake": 0.12123073431764278,
+      "relays": [
+        {
+          "address": "sancho-testnet.able-pool.io",
+          "port": 6002
+        },
+        {
+          "address": "202.61.236.233",
+          "port": 6002
+        },
+        {
+          "address": "64.23.159.5",
+          "port": 4000
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.3617616987315665,
+      "relativeStake": 0.11671651535433984,
+      "relays": [
+        {
+          "address": "sancho-testnet.able-pool.io",
+          "port": 6002
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.4737344210512866,
+      "relativeStake": 0.11197272231972012,
+      "relays": [
+        {
+          "address": "sanchonet-node.play.dev.cardano.org",
+          "port": 3001
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.5832506457564924,
+      "relativeStake": 0.10951622470520589,
+      "relays": [
+        {
+          "address": "35.203.93.134",
+          "port": 6002
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.6917861150309055,
+      "relativeStake": 0.108535469274413,
+      "relays": [
+        {
+          "address": "64.23.159.5",
+          "port": 4000
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.7927093113936725,
+      "relativeStake": 0.100923196362767,
+      "relays": [
+        {
+          "address": "test.stakepool.at",
+          "port": 3001
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8827884727745242,
+      "relativeStake": 0.09007916138085174,
+      "relays": [
+        {
+          "address": "relay.hephy.io",
+          "port": 9000
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.9251278462108486,
+      "relativeStake": 0.04233937343632441,
+      "relays": [
+        {
+          "address": "node1.cardano.gratis",
+          "port": 6401
+        },
+        {
+          "address": "node2.cardano.gratis",
+          "port": 6402
+        },
+        {
+          "address": "mbb3.cardano.gratis",
+          "port": 6403
+        }
+      ]
+    }
+  ]
 }
