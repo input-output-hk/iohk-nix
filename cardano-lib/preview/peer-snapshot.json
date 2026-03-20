@@ -739,16 +739,6 @@
       ]
     },
     {
-      "accumulatedStake": 0.8199319015571889,
-      "relativeStake": 0.002619643936915278,
-      "relays": [
-        {
-          "address": "0.0.0.0",
-          "port": 6000
-        }
-      ]
-    },
-    {
       "accumulatedStake": 0.8224080100575973,
       "relativeStake": 0.0024761085004084784,
       "relays": [
