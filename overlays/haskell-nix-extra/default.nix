@@ -55,7 +55,7 @@ in final: prev: with final; with lib; {
         passthru = drv.passthru // (optionalAttrs (drv.passthru ? exeName) {
           exePath = newdrv + "/bin/${drv.passthru.exeName}";
         });
-        nativeBuildInputs = optionals stdenv.hostPlatform.isDarwin [ darwin.signingUtils ];
+        nativeBuildInputs = optionals stdenv.hostPlatform.isDarwin [ buildPackages.darwin.signingUtils ];
       } (''
           mkdir -p $out
           # We link rather than copy from original, to save some space/time:
