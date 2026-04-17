@@ -55,7 +55,8 @@ in final: prev: with final; with lib; {
         passthru = drv.passthru // (optionalAttrs (drv.passthru ? exeName) {
           exePath = newdrv + "/bin/${drv.passthru.exeName}";
         });
-      } ''
+        nativeBuildInputs = optionals stdenv.hostPlatform.isDarwin [ buildPackages.darwin.signingUtils ];
+      } (''
           mkdir -p $out
           # We link rather than copy from original, to save some space/time:
           ln -s ${drv}/* $out/
@@ -66,7 +67,11 @@ in final: prev: with final; with lib; {
           cp --no-preserve=timestamps --recursive ${drv}/bin/*${stdenv.hostPlatform.extensions.executable} $out/bin/
           chmod -R +w $out/bin/*${stdenv.hostPlatform.extensions.executable}
           ${pkgsBuildBuild.haskellBuildUtils}/bin/set-git-rev "${gitrev}" $out/bin/*${stdenv.hostPlatform.extensions.executable}
-        '';
+        '' + optionalString stdenv.hostPlatform.isDarwin ''
+          for exe in $out/bin/*${stdenv.hostPlatform.extensions.executable}; do
+            signIfRequired "$exe"
+          done
+        '');
       in drv // newdrv;
 
   # Stamp executables from multiple derivations, identified by path in the attribute set
