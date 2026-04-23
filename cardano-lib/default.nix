@@ -297,6 +297,28 @@ let
       };
     };
 
+    leios = rec {
+      useByronWallet = false;
+      private = false;
+      domain = "play.dev.cardano.org";
+      relaysNew = "leios-node.play.dev.cardano.org";
+      explorerUrl = "https://leios-explorer.play.dev.cardano.org";
+      smashUrl = "https://leios-smash.play.dev.cardano.org";
+      metadataUrl = "https://metadata.play.dev.cardano.org";
+      edgeNodes = [
+        {
+          addr = relaysNew;
+          port = 3001;
+        }
+      ];
+      edgePort = 3001;
+      networkConfig = import ./leios-config.nix // minNodeVersion;
+      useLedgerAfterSlot = 1000;
+      extraDbSyncConfig = {
+        enableFutureGenesis = true;
+      };
+    };
+
     sanchonet = rec {
       useByronWallet = false;
       private = false;
