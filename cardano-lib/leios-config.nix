@@ -2,7 +2,6 @@
 ###############            Leios           ###############
 ############### Cardano Node Configuration ###############
 ##########################################################
-
 with builtins; {
   ##### Locations #####
 
@@ -35,7 +34,8 @@ with builtins; {
   # file will need to be declared in the p2p topology file under key
   # `peerSnapshotFile`.  A `CheckpointsFile` and corresponding
   # `CheckpointsFileHash` is not required for leios.
-  ConsensusMode = "GenesisMode";
+  # There's a syncing issue with GenesisMode being investigated
+  ConsensusMode = "PraosMode";
 
   # Leios specific customizations while it is on a ~10.5.1 versioning:
   # Node 10.5.x requires an explicitly declaration for P2P networking mode
