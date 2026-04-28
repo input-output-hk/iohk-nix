@@ -2,13 +2,13 @@
   "NetworkMagic": 4,
   "NodeToClientVersion": 23,
   "Point": {
-    "blockPointHash": "19b0a3d15c8754d89047afe37d7b2feb7ce5bde42de59b8b7947b1b69d75a846",
-    "blockPointSlot": 87174171
+    "blockPointHash": "02fd840463ac84e3d059672828214603e8eaa0f979100d3a4c14fdf234a94173",
+    "blockPointSlot": 90608373
   },
   "bigLedgerPools": [
     {
-      "accumulatedStake": 0.12381444905958384,
-      "relativeStake": 0.12381444905958384,
+      "accumulatedStake": 0.12387945108499981,
+      "relativeStake": 0.12387945108499981,
       "relays": [
         {
           "address": "cf1r1.sanchonet.pool.cardanofoundation.org",
@@ -21,8 +21,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.24504518337722664,
-      "relativeStake": 0.12123073431764278,
+      "accumulatedStake": 0.24522107639126253,
+      "relativeStake": 0.12134162530626272,
       "relays": [
         {
           "address": "sancho-testnet.able-pool.io",
@@ -39,8 +39,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.3617616987315665,
-      "relativeStake": 0.11671651535433984,
+      "accumulatedStake": 0.3619634305078892,
+      "relativeStake": 0.11674235411662665,
       "relays": [
         {
           "address": "sancho-testnet.able-pool.io",
@@ -49,8 +49,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.4737344210512866,
-      "relativeStake": 0.11197272231972012,
+      "accumulatedStake": 0.473773400945752,
+      "relativeStake": 0.11180997043786282,
       "relays": [
         {
           "address": "sanchonet-node.play.dev.cardano.org",
@@ -59,8 +59,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.5832506457564924,
-      "relativeStake": 0.10951622470520589,
+      "accumulatedStake": 0.5835139030575405,
+      "relativeStake": 0.10974050211178844,
       "relays": [
         {
           "address": "35.203.93.134",
@@ -69,8 +69,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.6917861150309055,
-      "relativeStake": 0.108535469274413,
+      "accumulatedStake": 0.6922314396491893,
+      "relativeStake": 0.10871753659164887,
       "relays": [
         {
           "address": "64.23.159.5",
@@ -79,8 +79,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.7927093113936725,
-      "relativeStake": 0.100923196362767,
+      "accumulatedStake": 0.7925239353549071,
+      "relativeStake": 0.10029249570571774,
       "relays": [
         {
           "address": "test.stakepool.at",
@@ -89,8 +89,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.8827884727745242,
-      "relativeStake": 0.09007916138085174,
+      "accumulatedStake": 0.8827396723430521,
+      "relativeStake": 0.09021573698814499,
       "relays": [
         {
           "address": "relay.hephy.io",
@@ -99,8 +99,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.9251278462108486,
-      "relativeStake": 0.04233937343632441,
+      "accumulatedStake": 0.9251664415068046,
+      "relativeStake": 0.042426769163752535,
       "relays": [
         {
           "address": "node1.cardano.gratis",
