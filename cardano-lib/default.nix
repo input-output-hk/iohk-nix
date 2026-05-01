@@ -317,6 +317,39 @@ let
       extraDbSyncConfig = {
         enableFutureGenesis = true;
       };
+
+      extraTracerConfig = {
+        "" = {
+          backends = [
+            "EKGBackend"
+            "Forwarder"
+            "PrometheusSimple suffix 127.0.0.1 12798"
+            "Stdout MachineFormat"
+          ];
+          detail = "DNormal";
+          severity = "Notice";
+        };
+
+        "Consensus.LeiosKernel" = {
+          severity = "Debug";
+          maxFrequency = 0;
+        };
+
+        "Consensus.LeiosPeer" = {
+          severity = "Debug";
+          maxFrequency = 0;
+        };
+
+        "LeiosFetch.Remote" = {
+          severity = "Debug";
+          maxFrequency = 0;
+        };
+
+        "LeiosNotify.Remote" = {
+          severity = "Debug";
+          maxFrequency = 0;
+        };
+      };
     };
 
     sanchonet = rec {
