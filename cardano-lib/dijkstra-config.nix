@@ -22,7 +22,9 @@ with builtins; {
 
   RequiresNetworkMagic = "RequiresMagic";
 
-  ExperimentalHardForksEnabled = true;
+  # For node 11.0.0, set false until the network is forked to PV11
+  ExperimentalHardForksEnabled = false;
+
   ExperimentalProtocolsEnabled = true;
   TestShelleyHardForkAtEpoch = 0;
   TestAllegraHardForkAtEpoch = 0;
