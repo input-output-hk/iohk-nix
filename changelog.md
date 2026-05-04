@@ -3,6 +3,10 @@
 Please read these notes when updating your project's `iohk-nix`
 version. There may have been changes which could break your build.
 
+## 2026-05-04
+  * Update blst to 0.3.15.
+  * Add CI check for invalid `flake.lock` file.
+
 ## 2023-04-20
   * Added `blst` library with dynamic, and static lirbaries, as well as pkg-config metadata.
   * Renamed `blst` to `libblst`

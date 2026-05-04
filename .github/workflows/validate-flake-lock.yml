@@ -1,0 +1,79 @@
+---
+name: Validate flake.lock
+
+on:
+  pull_request:
+    paths:
+    - flake.lock
+    - .github/workflows/validate-flake-lock.yml
+  push:
+    paths:
+    - flake.lock
+    - .github/workflows/validate-flake-lock.yml
+
+jobs:
+  validate:
+    name: Validate flake.lock narHashes
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+    - uses: cachix/install-nix-action@ab739621df7a23f52766f9ccc97f38da6b7af14f # v31
+    - name: Verify flake.lock narHashes
+      run: |
+        # Verify that every narHash in flake.lock matches what nix computes
+        # when fetching the source. This catches manually edited lock files
+        # and hash mismatches from poisoned local caches.
+        #
+        # We use an isolated cache dir so that:
+        # 1. We don't pollute or depend on the CI machine's nix cache
+        # 2. A poisoned cache can't cause false passes
+
+        export XDG_CACHE_HOME=$(mktemp -d)
+        trap 'rm -rf "$XDG_CACHE_HOME"' EXIT
+
+        locks=$(cat flake.lock)
+        if ! echo "$locks" | jq -e '.nodes.root.inputs' > /dev/null 2>&1; then
+          echo "::error::flake.lock is not valid JSON or is missing .nodes.root.inputs"
+          exit 1
+        fi
+        status=0
+
+        while IFS= read -r entry; do
+          node_id=$(echo "$entry" | jq -r '.key')
+          node=$(echo "$entry" | jq -c '.value')
+          type=$(echo "$node" | jq -r '.locked.type // empty')
+          owner=$(echo "$node" | jq -r '.locked.owner // empty')
+          repo=$(echo "$node" | jq -r '.locked.repo // empty')
+          rev=$(echo "$node" | jq -r '.locked.rev // empty')
+          locked_hash=$(echo "$node" | jq -r '.locked.narHash // empty')
+
+          if [ "$type" = "github" ] && [ -n "$owner" ] && [ -n "$repo" ] && [ -n "$rev" ] && [ -n "$locked_hash" ]; then
+            url="github:$owner/$repo/$rev"
+          else
+            echo "::error::Unsupported or malformed lock entry for node '$node_id' (type=${type:-unknown}, not a simple github ref with narHash)."
+            echo "  This workflow currently validates only simple github refs with owner, repo, and rev."
+            echo "  Update .github/workflows/validate-flake-lock.yml to validate this node type before merging."
+            status=1
+            continue
+          fi
+
+          echo "Checking node '$node_id' ($url)..."
+          if ! prefetch_json=$(nix flake prefetch "$url" --json); then
+            echo "::error::Failed to prefetch node '$node_id' from $url."
+            status=1
+            continue
+          fi
+
+          computed_hash=$(echo "$prefetch_json" | jq -r '.hash')
+          if [ "$locked_hash" != "$computed_hash" ]; then
+            echo "::error::Node '$node_id' narHash mismatch: flake.lock='$locked_hash' computed='$computed_hash'"
+            echo "  This usually means flake.lock was manually edited or generated with a poisoned nix cache."
+            echo "  Fix: clear your nix cache (rm -rf ~/.cache/nix/fetcher-cache-v*.sqlite ~/.cache/nix/tarball-cache*)"
+            echo "  then run 'nix flake update $node_id' and commit the updated flake.lock"
+            status=1
+          else
+            echo "Node '$node_id' narHash verified."
+          fi
+        done < <(echo "$locks" | jq -c '.nodes | to_entries[] | select(.key != "root")')
+
+        exit $status
