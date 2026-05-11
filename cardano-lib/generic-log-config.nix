@@ -116,15 +116,4 @@
     # Enable this to investigate transaction validation errors.
     # "Mempool.RejectedTx".detail = "DDetailed";
   };
-
-  # Required by the legacy tracing system, this key is still required for
-  # cardano-node to start.
-  minSeverity = "Critical";
-
-  # Required by some legacy tests which may otherwise fail to start.
-  defaultBackends = [];
-  defaultScribes = [];
-  options = {};
-  setupBackends = [];
-  setupScribes = [];
 }
