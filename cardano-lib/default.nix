@@ -68,7 +68,6 @@ let
   };
 
   defaultLogConfig = import ./generic-log-config.nix;
-  defaultLogConfigLegacy = import ./generic-log-config-legacy.nix;
   defaultExplorerLogConfig = import ./explorer-log-config.nix;
   defaultTracerConfig = import ./generic-tracer-config.nix;
 
@@ -107,8 +106,7 @@ let
       detail = "DNormal";
       severity = "Info";
     };
-  })
-  // defaultExplorerLogConfig;
+  });
 
   mkProxyTopology = relay: writeText "proxy-topology-file" ''
     wallet:
@@ -130,8 +128,7 @@ let
   environments = mapAttrs (name: env: {
     inherit name;
     # default derived configs:
-    nodeConfig = mergeTraceOpts (defaultLogConfig // env.networkConfig) (env.extraTracerConfig or {});
-    nodeConfigLegacy = defaultLogConfigLegacy // env.networkConfig // (env.extraTracerConfigLegacy or {});
+    nodeConfig = recursiveUpdate defaultLogConfig env.networkConfig;
     tracerConfig = defaultTracerConfig // {inherit (fromJSON (readFile ./${name}/shelley-genesis.json)) networkMagic;};
     consensusProtocol = env.networkConfig.Protocol;
     submitApiConfig = mkSubmitApiConfig name environments.${name}.nodeConfig;
@@ -177,10 +174,6 @@ let
       extraDbSyncConfig = {
         enableFutureGenesis = true;
       };
-
-      # Once legacy tracing system is removed, tracing mods can be placed back in $ENV-config.nix
-      extraTracerConfig.Mempool.severity = "Silence";
-      extraTracerConfigLegacy.TraceMempool = false;
     };
 
     preprod = rec {
@@ -354,7 +347,6 @@ let
                       <td>
                         <div class="buttons has-addons">
                           <a class="button is-primary" href="${env}-config.json">config</a>
-                          <a class="button is-primary" href="${env}-config-legacy.json">config (legacy)</a>
                           <a class="button is-info" href="${env}-${protNames.${p}.n}-genesis.json">${protNames.${p}.n}Genesis</a>
                           ${optionalString (p == "Cardano") ''
                             <a class="button is-info" href="${env}-${protNames.${p}.shelley}-genesis.json">${protNames.${p}.shelley}Genesis</a>
@@ -410,10 +402,8 @@ let
         in ''
           ${if p != "Cardano" then ''
             ${jq}/bin/jq . < ${toFile "${env}-config.json" (toJSON (value.nodeConfig // genesisFile))} > $out/${env}-config.json
-            ${jq}/bin/jq . < ${toFile "${env}-config-legacy.json" (toJSON (value.nodeConfigLegacy // genesisFile))} > $out/${env}-config-legacy.json
           '' else ''
             ${jq}/bin/jq . < ${toFile "${env}-config.json" (toJSON (value.nodeConfig // genesisFiles))} > $out/${env}-config.json
-            ${jq}/bin/jq . < ${toFile "${env}-config-legacy.json" (toJSON (value.nodeConfigLegacy // genesisFiles))} > $out/${env}-config-legacy.json
           ''}
           ${optionalString (p == "RealPBFT" || p == "Byron") ''
             cp ${value.nodeConfig.GenesisFile} $out/${env}-${protNames.${p}.n}-genesis.json
@@ -453,7 +443,6 @@ in {
     cardanoConfig
     defaultExplorerLogConfig
     defaultLogConfig
-    defaultLogConfigLegacy
     defaultTracerConfig
     eachEnv
     forEnvironments
