@@ -76,12 +76,6 @@ with builtins; {
   # Additional configuration options can be found at:
   # https://ouroboros-consensus.cardano.intersectmbo.org/docs/for-developers/utxo-hd/migrating
   LedgerDB = {
-    # The time interval between snapshots, in seconds.
-    SnapshotInterval = (fromJSON (readFile ./sanchonet/shelley-genesis.json)).securityParam * 2;
-
-    # The number of disk snapshots to keep.
-    NumOfDiskSnapshots = 2;
-
     # When querying the store for a big range of UTxOs (such as with
     # QueryUTxOByAddress), the store will be read in batches of this size.
     QueryBatchSize = 100000;
@@ -89,6 +83,23 @@ with builtins; {
     # The backend can either be in memory with `V2InMemory` or on disk with
     # `V1LMDB`.
     Backend = "V2InMemory";
+
+    Snapshots = {
+      # TODO -- revise: The time interval between snapshots, in slots.
+      SnapshotInterval = (fromJSON (readFile ./sanchonet/shelley-genesis.json)).securityParam * 2;
+
+      # A minimum duration between snapshots, in seconds (used to avoid excessive snapshots while syncing).
+      # Default is 10 minutes.
+      RateLimit = 600;
+
+      # Randomised snapshot delay range, in seconds.
+      # Both Min and Max need to be specified, otherwise the default delay of (5min, 10min) will be used
+      MinDelay = 300;
+      MaxDelay = 600;
+
+      # The number of disk snapshots to keep.
+      NumOfDiskSnapshots = 2;
+    };
   };
 
   ##### Update system parameters #####
