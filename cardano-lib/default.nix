@@ -119,11 +119,8 @@ let
   # as needed.  Any node version string suffixes, such as `-pre`, should be
   # removed from this string identifier.
   #
-  # Min is currently 10.7.0 due to change of config bundled peer-snapshot
-  # version.
-  minNodeVersion = { MinNodeVersion = "10.7.0"; };
-
-  mergeTraceOpts = cfg: traceOpts: cfg // {TraceOptions = getAttr "TraceOptions" cfg // traceOpts;};
+  # Min is currently 11.1.0 due to removal of legacy tracing system.
+  minNodeVersion = { MinNodeVersion = "11.1.0"; };
 
   environments = mapAttrs (name: env: {
     inherit name;
