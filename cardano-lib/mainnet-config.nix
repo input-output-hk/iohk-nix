@@ -90,6 +90,9 @@ with builtins; {
     Backend = "V2InMemory";
   };
 
+  # Environment customized tracing options
+  TraceOptions.Mempool.severity = "Silence";
+
   ##### Update system parameters #####
 
   # This protocol version number gets used by block producing nodes as part
