@@ -1,29 +1,9 @@
 {lib, writeText, runCommand, jq}:
 let
-  inherit (builtins) attrNames fromJSON getAttr readFile toFile toJSON;
-  inherit (lib) filterAttrs flip forEach listToAttrs mapAttrs mapAttrsToList optionalAttrs optionalString pipe;
+  inherit (builtins) attrNames fromJSON readFile toFile toJSON;
+  inherit (lib) filterAttrs flip forEach listToAttrs mapAttrs mapAttrsToList optionalAttrs optionalString pipe recursiveUpdate;
 
-  mkEdgeTopology = {
-    hostAddr ? "127.0.0.1"
-  , port ? 3001
-  , edgeHost ? "127.0.0.1"
-  , edgeNodes ? []
-  , edgePort ? if (edgeNodes != []) then 3001 else (if edgeHost == "127.0.0.1" then 7777 else 3001)
-  , valency ? 1
-  }:
-  let
-    mkProducers = map (edgeHost': { addr = edgeHost'; port = edgePort; inherit valency; }) edgeNodes;
-    topology = {
-      Producers = if (edgeNodes != []) then mkProducers else [
-        {
-          addr = edgeHost;
-          port = edgePort;
-          inherit valency;
-        }
-      ];
-    };
-  in toFile "topology.json" (toJSON topology);
-
+  # As of node 10.6.0 only p2p networking mode is available.
   mkEdgeTopologyP2P = {
     edgeNodes ? [{addr = "127.0.0.1"; port = 3001;}]
   , bootstrapPeers ? null
@@ -59,50 +39,35 @@ let
   in
     toFile "topology.json" (toJSON topology);
 
-  mkTopology = env: let
-    legacyTopology = mkEdgeTopology {
-      edgeNodes = [env.relaysNew];
-      valency = 2;
-      edgePort = env.edgePort or 3001;
-    };
-    p2pTopology = mkEdgeTopologyP2P {
-      inherit (env) edgeNodes;
+  mkTopology = env: mkEdgeTopologyP2P {
+    inherit (env) edgeNodes;
 
+    # If an address is provided without a port or a port set to null within
+    # the attrs, the address will be interpreted as an SRV record.
+    bootstrapPeers = map (e:
+      {address = e.addr;}
+        // optionalAttrs (e ? port && e.port != null) {inherit (e) port;})
+    env.edgeNodes;
 
-      # If an address is provided without a port or a port set to null within
-      # the attrs, the address will be interpreted as an SRV record.
-      bootstrapPeers = map (e:
-        {address = e.addr;}
-          // optionalAttrs (e ? port && e.port != null) {inherit (e) port;})
-      env.edgeNodes;
+    useLedgerAfterSlot = env.useLedgerAfterSlot;
 
-      useLedgerAfterSlot = env.useLedgerAfterSlot;
-
-      # Genesis mode is now default for preview and preprod as of node 10.5.0.
-      #
-      # As of node 10.5.0, the peer snapshot file can be added to the
-      # topology file with a relative path to itself making the packaging
-      # cleaner.
-      #
-      # As of node 10.6.0, the peer snapshot file can be added to the
-      # topology file and not be fatal if missing while in PraosMode.
-      #
-      # Given that the peer snapshot file will be required as soon as genesis
-      # mode is default, and migration to genesis mode for all networks is
-      # coming soon, the snapshot will be declared in all network topologies
-      # which also makes genesis testing a bit easier.
-      peerSnapshotFile = "${env.name}-peer-snapshot.json";
-    };
-  in
-    # As of node 10.6.0 only p2p networking mode is available. Code supporting
-    # legacy networking will remain until the Dijkstra hard fork compels an
-    # upgrade.
-    if (env.nodeConfig.EnableP2P or true)
-    then p2pTopology
-    else legacyTopology;
+    # Genesis mode is now default for preview and preprod as of node 10.5.0.
+    #
+    # As of node 10.5.0, the peer snapshot file can be added to the
+    # topology file with a relative path to itself making the packaging
+    # cleaner.
+    #
+    # As of node 10.6.0, the peer snapshot file can be added to the
+    # topology file and not be fatal if missing while in PraosMode.
+    #
+    # Given that the peer snapshot file will be required as soon as genesis
+    # mode is default, and migration to genesis mode for all networks is
+    # coming soon, the snapshot will be declared in all network topologies
+    # which also makes genesis testing a bit easier.
+    peerSnapshotFile = "${env.name}-peer-snapshot.json";
+  };
 
   defaultLogConfig = import ./generic-log-config.nix;
-  defaultLogConfigLegacy = import ./generic-log-config-legacy.nix;
   defaultExplorerLogConfig = import ./explorer-log-config.nix;
   defaultTracerConfig = import ./generic-tracer-config.nix;
 
@@ -141,8 +106,7 @@ let
       detail = "DNormal";
       severity = "Info";
     };
-  })
-  // defaultExplorerLogConfig;
+  });
 
   mkProxyTopology = relay: writeText "proxy-topology-file" ''
     wallet:
@@ -155,17 +119,13 @@ let
   # as needed.  Any node version string suffixes, such as `-pre`, should be
   # removed from this string identifier.
   #
-  # Min is currently 10.7.0 due to change of config bundled peer-snapshot
-  # version.
-  minNodeVersion = { MinNodeVersion = "10.7.0"; };
-
-  mergeTraceOpts = cfg: traceOpts: cfg // {TraceOptions = getAttr "TraceOptions" cfg // traceOpts;};
+  # Min is currently 11.1.0 due to removal of legacy tracing system.
+  minNodeVersion = { MinNodeVersion = "11.1.0"; };
 
   environments = mapAttrs (name: env: {
     inherit name;
     # default derived configs:
-    nodeConfig = mergeTraceOpts (defaultLogConfig // env.networkConfig) (env.extraTracerConfig or {});
-    nodeConfigLegacy = defaultLogConfigLegacy // env.networkConfig // (env.extraTracerConfigLegacy or {});
+    nodeConfig = recursiveUpdate defaultLogConfig env.networkConfig;
     tracerConfig = defaultTracerConfig // {inherit (fromJSON (readFile ./${name}/shelley-genesis.json)) networkMagic;};
     consensusProtocol = env.networkConfig.Protocol;
     submitApiConfig = mkSubmitApiConfig name environments.${name}.nodeConfig;
@@ -211,10 +171,6 @@ let
       extraDbSyncConfig = {
         enableFutureGenesis = true;
       };
-
-      # Once legacy tracing system is removed, tracing mods can be placed back in $ENV-config.nix
-      extraTracerConfig.Mempool.severity = "Silence";
-      extraTracerConfigLegacy.TraceMempool = false;
     };
 
     preprod = rec {
@@ -388,7 +344,6 @@ let
                       <td>
                         <div class="buttons has-addons">
                           <a class="button is-primary" href="${env}-config.json">config</a>
-                          <a class="button is-primary" href="${env}-config-legacy.json">config (legacy)</a>
                           <a class="button is-info" href="${env}-${protNames.${p}.n}-genesis.json">${protNames.${p}.n}Genesis</a>
                           ${optionalString (p == "Cardano") ''
                             <a class="button is-info" href="${env}-${protNames.${p}.shelley}-genesis.json">${protNames.${p}.shelley}Genesis</a>
@@ -444,10 +399,8 @@ let
         in ''
           ${if p != "Cardano" then ''
             ${jq}/bin/jq . < ${toFile "${env}-config.json" (toJSON (value.nodeConfig // genesisFile))} > $out/${env}-config.json
-            ${jq}/bin/jq . < ${toFile "${env}-config-legacy.json" (toJSON (value.nodeConfigLegacy // genesisFile))} > $out/${env}-config-legacy.json
           '' else ''
             ${jq}/bin/jq . < ${toFile "${env}-config.json" (toJSON (value.nodeConfig // genesisFiles))} > $out/${env}-config.json
-            ${jq}/bin/jq . < ${toFile "${env}-config-legacy.json" (toJSON (value.nodeConfigLegacy // genesisFiles))} > $out/${env}-config-legacy.json
           ''}
           ${optionalString (p == "RealPBFT" || p == "Byron") ''
             cp ${value.nodeConfig.GenesisFile} $out/${env}-${protNames.${p}.n}-genesis.json
@@ -487,13 +440,11 @@ in {
     cardanoConfig
     defaultExplorerLogConfig
     defaultLogConfig
-    defaultLogConfigLegacy
     defaultTracerConfig
     eachEnv
     forEnvironments
     forEnvironmentsCustom
     mkConfigHtml
-    mkEdgeTopology
     mkEdgeTopologyP2P
     mkExplorerConfig
     mkMithrilSignerConfig

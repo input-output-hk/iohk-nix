@@ -13,9 +13,14 @@
   "LastKnownBlockVersion-Minor": 1,
   "LedgerDB": {
     "Backend": "V2InMemory",
-    "NumOfDiskSnapshots": 2,
     "QueryBatchSize": 100000,
-    "SnapshotInterval": 216
+    "Snapshots": {
+      "MaxDelay": 600,
+      "MinDelay": 300,
+      "NumOfDiskSnapshots": 2,
+      "RateLimit": 600,
+      "SnapshotInterval": 864
+    }
   },
   "MaxConcurrencyDeadline": 4,
   "MaxKnownMajorProtocolVersion": 2,
