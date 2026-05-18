@@ -95,9 +95,7 @@ let
     genesis_verification_key = env.mithrilGenesisVerificationKey;
   };
 
-  mkSubmitApiConfig = name: nodeConfig: (filterAttrs (k: v: v != null) {
-    GenesisHash = nodeConfig.ByronGenesisHash;
-    inherit (nodeConfig) RequiresNetworkMagic;
+  mkSubmitApiConfig = {
     TraceOptions."" = {
       backends = [
         "EKGBackend"
@@ -106,7 +104,7 @@ let
       detail = "DNormal";
       severity = "Info";
     };
-  });
+  };
 
   mkProxyTopology = relay: writeText "proxy-topology-file" ''
     wallet:
@@ -129,7 +127,7 @@ let
     nodeConfig = recursiveUpdate defaultLogConfig env.networkConfig;
     tracerConfig = defaultTracerConfig // {inherit (fromJSON (readFile ./${name}/shelley-genesis.json)) networkMagic;};
     consensusProtocol = env.networkConfig.Protocol;
-    submitApiConfig = mkSubmitApiConfig name environments.${name}.nodeConfig;
+    submitApiConfig = mkSubmitApiConfig;
     dbSyncConfig =
       mkDbSyncConfig name environments.${name}.nodeConfig (env.extraDbSyncConfig or {});
     explorerConfig = mkExplorerConfig name environments.${name}.nodeConfig;
