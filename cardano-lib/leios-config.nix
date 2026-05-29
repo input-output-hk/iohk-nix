@@ -6,11 +6,11 @@ with builtins; {
   ##### Locations #####
 
   ByronGenesisFile = ./leios + "/byron-genesis.json";
-  ByronGenesisHash = "ddca2eff1541dea157e8c0cee0c04a7759e22f60d86277893278fbf6749a80f7";
+  ByronGenesisHash = "f129c04485787c21f2473daf7d8d3777a1bbe5ba3d97330b138350bb642fc737";
   ConwayGenesisFile = ./leios + "/conway-genesis.json";
-  ConwayGenesisHash = "a0cd1c00f7b6e6267544200ae84d56a800ae9ccb04d10da33e138760170f1e7b";
+  ConwayGenesisHash = "888213e09f95526e820b164bf40ca47c2a41e42f1757da37e4bd360b4daf28d8";
   ShelleyGenesisFile = ./leios + "/shelley-genesis.json";
-  ShelleyGenesisHash = "6fb68ffebdd43232618801f6e88d37fbb01a84b08b92e50ffe6941c484820271";
+  ShelleyGenesisHash = "50aa6b14c99bcb47b98ba9159c3370ea1e2599bdaa623d0882ff1f3f848ab2fd";
   AlonzoGenesisFile = ./leios + "/alonzo-genesis.json";
   AlonzoGenesisHash = "387a7c4880477ce7b128566fa7f9f9ed99ee04476084e9f6332b6d42d907faab";
   DijkstraGenesisFile = ./leios + "/dijkstra-genesis.json";
@@ -37,15 +37,7 @@ with builtins; {
   # There's a syncing issue with GenesisMode being investigated.
   ConsensusMode = "PraosMode";
 
-  # Leios specific customizations while it is on a ~10.5.1 versioning:
-  # Node 10.5.x requires an explicitly declaration for P2P networking mode
-  EnableP2P = true;
-  # Node 10.5.x requires an explicit peer sharing value (this should be set false for bps)
-  PeerSharing = true;
-  # Node 10.5.x requires some explicit network params -- these should be 100, 100 for bps
-  TargetNumberOfKnownPeers = 150;
-  TargetNumberOfRootPeers = 60;
-  # Leios specific adjustment
+  # Leios specific customizations:
   MempoolCapacityBytesOverride = 25000000;
 
   # Default Ledger Configuration
@@ -53,7 +45,7 @@ with builtins; {
   # https://ouroboros-consensus.cardano.intersectmbo.org/docs/for-developers/utxo-hd/migrating
   LedgerDB = {
     # The time interval between snapshots, in seconds.
-    SnapshotInterval = (fromJSON (readFile ./leios/shelley-genesis.json)).securityParam * 2;
+    SnapshotInterval = (fromJSON (readFile ./leios/shelley-genesis.json)).securityParam * 40;
 
     # The number of disk snapshots to keep.
     NumOfDiskSnapshots = 2;
