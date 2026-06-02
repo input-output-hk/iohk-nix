@@ -6,11 +6,11 @@ with builtins; {
   ##### Locations #####
 
   ByronGenesisFile = ./leios + "/byron-genesis.json";
-  ByronGenesisHash = "f129c04485787c21f2473daf7d8d3777a1bbe5ba3d97330b138350bb642fc737";
+  ByronGenesisHash = "73522baa9b5c2afecb8794a17a5fc0650ba6621c0d96d0a18d514d94d3755efe";
   ConwayGenesisFile = ./leios + "/conway-genesis.json";
-  ConwayGenesisHash = "888213e09f95526e820b164bf40ca47c2a41e42f1757da37e4bd360b4daf28d8";
+  ConwayGenesisHash = "7b465adc9d084af42e3f7685e561e974e0804b7efeaed12cf2f1ee409e91cc99";
   ShelleyGenesisFile = ./leios + "/shelley-genesis.json";
-  ShelleyGenesisHash = "50aa6b14c99bcb47b98ba9159c3370ea1e2599bdaa623d0882ff1f3f848ab2fd";
+  ShelleyGenesisHash = "35381da1578c03d357599dce448cc6f3dddd5ae1020145b7c1cbd607607500e0";
   AlonzoGenesisFile = ./leios + "/alonzo-genesis.json";
   AlonzoGenesisHash = "387a7c4880477ce7b128566fa7f9f9ed99ee04476084e9f6332b6d42d907faab";
   DijkstraGenesisFile = ./leios + "/dijkstra-genesis.json";
@@ -38,14 +38,14 @@ with builtins; {
   ConsensusMode = "PraosMode";
 
   # Leios specific customizations:
-  MempoolCapacityBytesOverride = 25000000;
+  MempoolCapacityBytesOverride = 5000000;
 
   # Default Ledger Configuration
   # Additional configuration options can be found at:
   # https://ouroboros-consensus.cardano.intersectmbo.org/docs/for-developers/utxo-hd/migrating
   LedgerDB = {
     # The time interval between snapshots, in seconds.
-    SnapshotInterval = (fromJSON (readFile ./leios/shelley-genesis.json)).securityParam * 40;
+    SnapshotInterval = (fromJSON (readFile ./leios/shelley-genesis.json)).securityParam * 2;
 
     # The number of disk snapshots to keep.
     NumOfDiskSnapshots = 2;
