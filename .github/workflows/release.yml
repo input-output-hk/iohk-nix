@@ -5,21 +5,28 @@ on:
     tags:
       - '*'
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # required to publish the GitHub release
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
       - name: Install nix
-        uses: cachix/install-nix-action@v20
+        uses: cachix/install-nix-action@ab739621df7a23f52766f9ccc97f38da6b7af14f # v31
         with:
           nix_path: nixpkgs=https://github.com/nixos/nixpkgs/archive/release-22.11.tar.gz
           extra_nix_config: |
             trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ= loony-tools:pr9m4BkM/5/eSTZlkQyRt57Jz7OMBxNSUiMC4FkcNfk=
             substituters = https://cache.nixos.org/ https://cache.iog.io/ https://cache.zw3rk.com/
       - name: Build
-        uses: workflow/nix-shell-action@v3.2.1
+        uses: workflow/nix-shell-action@0a573af0eac8ee96a41b2b029576afca28a1031c # v3.2.1
         with:
           packages: zip
           script: |
@@ -39,6 +46,6 @@ jobs:
               (cd __pkgs && zip -9 $sys.zip $sys.*)
             done
       - name: Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@26994186c0ac3ef5cae75ac16aa32e8153525f77 # v1
         with:
           files: __pkgs/*

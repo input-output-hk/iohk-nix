@@ -11,6 +11,9 @@ on:
     - flake.lock
     - .github/workflows/validate-flake-lock.yml
 
+permissions:
+  contents: read
+
 jobs:
   validate:
     name: Validate flake.lock narHashes
