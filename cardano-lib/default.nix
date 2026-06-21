@@ -69,6 +69,7 @@ let
 
   defaultLogConfig = import ./generic-log-config.nix;
   defaultExplorerLogConfig = import ./explorer-log-config.nix;
+  defaultSubmitApiConfig = import ./generic-submit-api-config.nix;
   defaultTracerConfig = import ./generic-tracer-config.nix;
 
   mkExplorerConfig = name: nodeConfig: filterAttrs (k: v: v != null) {
@@ -95,17 +96,6 @@ let
     genesis_verification_key = env.mithrilGenesisVerificationKey;
   };
 
-  mkSubmitApiConfig = {
-    TraceOptions."" = {
-      backends = [
-        "EKGBackend"
-        "Stdout HumanFormatColoured"
-      ];
-      detail = "DNormal";
-      severity = "Info";
-    };
-  };
-
   mkProxyTopology = relay: writeText "proxy-topology-file" ''
     wallet:
       relays: [[{ host: ${relay} }]]
@@ -127,7 +117,7 @@ let
     nodeConfig = recursiveUpdate defaultLogConfig env.networkConfig;
     tracerConfig = defaultTracerConfig // {inherit (fromJSON (readFile ./${name}/shelley-genesis.json)) networkMagic;};
     consensusProtocol = env.networkConfig.Protocol;
-    submitApiConfig = mkSubmitApiConfig;
+    submitApiConfig = defaultSubmitApiConfig;
     dbSyncConfig =
       mkDbSyncConfig name environments.${name}.nodeConfig (env.extraDbSyncConfig or {});
     explorerConfig = mkExplorerConfig name environments.${name}.nodeConfig;
@@ -439,6 +429,7 @@ in {
     cardanoConfig
     defaultExplorerLogConfig
     defaultLogConfig
+    defaultSubmitApiConfig
     defaultTracerConfig
     eachEnv
     forEnvironments
