@@ -38,7 +38,7 @@ with builtins; {
   ConsensusMode = "PraosMode";
 
   # Leios specific customizations:
-  MempoolCapacityBytesOverride = 5000000;
+  MempoolCapacityBytesOverride = 500000;
 
   # Default Ledger Configuration
   # Additional configuration options can be found at:
