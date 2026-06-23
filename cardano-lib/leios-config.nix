@@ -59,6 +59,16 @@ with builtins; {
     Backend = "V2InMemory";
   };
 
+  LeiosDbConfig = {
+    # Can be "InMemory" or "SQLite", with the default being "SQLite".
+    Backend = "SQLite";
+
+    # If backend is "SQLite" an extra key is expected for file path.
+    # This can be either an absolute path or a relative path to node process cwd.
+    # The default is "leios.db".
+    Filepath = "leios.db";
+  };
+
   ##### Update system parameters #####
 
   LastKnownBlockVersion-Major = 3;
