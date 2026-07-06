@@ -6,11 +6,11 @@ with builtins; {
   ##### Locations #####
 
   ByronGenesisFile = ./leios + "/byron-genesis.json";
-  ByronGenesisHash = "73522baa9b5c2afecb8794a17a5fc0650ba6621c0d96d0a18d514d94d3755efe";
+  ByronGenesisHash = "6dcd75ebc4806830f911fe9ea52134730fee55963d2164725b70a288ab0b4d93";
   ConwayGenesisFile = ./leios + "/conway-genesis.json";
-  ConwayGenesisHash = "7b465adc9d084af42e3f7685e561e974e0804b7efeaed12cf2f1ee409e91cc99";
+  ConwayGenesisHash = "be1957c0cd07a6e004ac139749ceccdf5adb510da804947d9da06f536646a259";
   ShelleyGenesisFile = ./leios + "/shelley-genesis.json";
-  ShelleyGenesisHash = "35381da1578c03d357599dce448cc6f3dddd5ae1020145b7c1cbd607607500e0";
+  ShelleyGenesisHash = "e533fe77127432e7a96adc36af78250bf7cfd67fefba6bfd28e8667e8513911f";
   AlonzoGenesisFile = ./leios + "/alonzo-genesis.json";
   AlonzoGenesisHash = "387a7c4880477ce7b128566fa7f9f9ed99ee04476084e9f6332b6d42d907faab";
   DijkstraGenesisFile = ./leios + "/dijkstra-genesis.json";
@@ -44,28 +44,43 @@ with builtins; {
   # Additional configuration options can be found at:
   # https://ouroboros-consensus.cardano.intersectmbo.org/docs/for-developers/utxo-hd/migrating
   LedgerDB = {
-    # The time interval between snapshots, in seconds.
-    SnapshotInterval = (fromJSON (readFile ./leios/shelley-genesis.json)).securityParam * 2;
-
-    # The number of disk snapshots to keep.
-    NumOfDiskSnapshots = 2;
-
     # When querying the store for a big range of UTxOs (such as with
     # QueryUTxOByAddress), the store will be read in batches of this size.
     QueryBatchSize = 100000;
 
+
     # The backend can either be in memory with `V2InMemory` or on disk with
-    # `V1LMDB`.
+    # `V2LSM`.
     Backend = "V2InMemory";
+
+    # Instead of an object (attribute set) with individual options, a
+    # predefined snapshot policy can be selected by name, e.g.
+    # `Snapshots = "Mithril";`.
+    Snapshots = {
+      # The snapshot interval in slots.
+      SnapshotInterval = (fromJSON (readFile ./leios/shelley-genesis.json)).securityParam * 2;
+
+      # A minimum duration between snapshots, in seconds (used to avoid excessive snapshots while syncing).
+      # Default is 10 minutes.
+      RateLimit = 600;
+
+      # Randomised snapshot delay range, in seconds.
+      # Both Min and Max need to be specified, otherwise the default delay of (5min, 10min) will be used.
+      MinDelay = 300;
+      MaxDelay = 600;
+
+      # The number of disk snapshots to keep.
+      NumOfDiskSnapshots = 2;
+    };
   };
 
   LeiosDbConfig = {
     # Can be "InMemory" or "SQLite", with the default being "SQLite".
     Backend = "SQLite";
 
-    # If backend is "SQLite" an extra key is expected for file path.
-    # This can be either an absolute path or a relative path to node process cwd.
-    # The default is "leios.db".
+    # If backend is "SQLite" an extra key is expected for file path. This can
+    # be either an absolute path or a relative path to node --database-path
+    # arg. The default is "leios.db".
     Filepath = "leios.db";
   };
 
@@ -74,4 +89,39 @@ with builtins; {
   LastKnownBlockVersion-Major = 3;
   LastKnownBlockVersion-Minor = 1;
   LastKnownBlockVersion-Alt = 0;
+
+  # Leios tracer customizations.
+  TraceOptions = {
+    # Set the default logging to machine format.
+    "" = {
+      backends = [
+        "EKGBackend"
+        "Forwarder"
+        "PrometheusSimple suffix 127.0.0.1 12798"
+        "Stdout MachineFormat"
+      ];
+      detail = "DNormal";
+      severity = "Notice";
+    };
+
+    "Consensus.LeiosKernel" = {
+      severity = "Debug";
+      maxFrequency = 0;
+    };
+
+    "Consensus.LeiosPeer" = {
+      severity = "Debug";
+      maxFrequency = 0;
+    };
+
+    "LeiosFetch.Remote" = {
+      severity = "Debug";
+      maxFrequency = 0;
+    };
+
+    "LeiosNotify.Remote" = {
+      severity = "Debug";
+      maxFrequency = 0;
+    };
+  };
 }
