@@ -104,8 +104,7 @@ let
   # Changes to minimum required node version typically occur with changes to
   # genesis files across all networks at once.  This defn will be applied to
   # all networks by default but can be overridden on a per network basis below
-  # as needed.  Any node version string suffixes, such as `-pre`, should be
-  # removed from this string identifier.
+  # as needed.
   #
   # Min is currently 11.1.0 due to removal of legacy tracing system and
   # introduction of deterministic snapshots.
@@ -239,6 +238,61 @@ let
       useLedgerAfterSlot = 6220823;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
+      };
+    };
+
+    leios = rec {
+      useByronWallet = false;
+      private = false;
+      domain = "play.dev.cardano.org";
+      relaysNew = "leios-node.play.dev.cardano.org";
+      explorerUrl = "https://leios-explorer.play.dev.cardano.org";
+      smashUrl = "https://leios-smash.play.dev.cardano.org";
+      metadataUrl = "https://metadata.play.dev.cardano.org";
+      edgeNodes = [
+        {
+          addr = relaysNew;
+          port = 3001;
+        }
+      ];
+      edgePort = 3001;
+      networkConfig = import ./leios-config.nix // { MinNodeVersion = "11.1.0-prototype-2026w27"; };
+      useLedgerAfterSlot = 1000;
+      extraDbSyncConfig = {
+        enableFutureGenesis = true;
+      };
+
+      extraTracerConfig = {
+        "" = {
+          backends = [
+            "EKGBackend"
+            "Forwarder"
+            "PrometheusSimple suffix 127.0.0.1 12798"
+            "Stdout MachineFormat"
+          ];
+          detail = "DNormal";
+          severity = "Notice";
+        };
+
+        "Consensus.LeiosKernel" = {
+          severity = "Debug";
+          maxFrequency = 0;
+        };
+
+        "Consensus.LeiosPeer" = {
+          severity = "Debug";
+          maxFrequency = 0;
+        };
+
+        "LeiosFetch.Remote" = {
+          severity = "Debug";
+          maxFrequency = 0;
+        };
+
+        "LeiosNotify.Remote" = {
+          severity = "Debug";
+          maxFrequency = 0;
+        };
       };
     };
 
