@@ -51,7 +51,11 @@ with builtins; {
   # The values shown below are examples.
   # See: https://developers.cardano.org/docs/get-started/cardano-node/p2p
   #
+  # While the network is only comprised of IO Labs pools, allow syncing with
+  # Genesis Mode from a small BLP set:
   # MinBigLedgerPeersForTrustedState = 5;
+  MinBigLedgerPeersForTrustedState = 1;
+  #
   # SyncTargetNumberOfActiveBigLedgerPeers = 30;
   # SyncTargetNumberOfActivePeers = 5;
   # SyncTargetNumberOfEstablishedBigLedgerPeers = 40;
