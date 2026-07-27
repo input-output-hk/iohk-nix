@@ -73,6 +73,14 @@ with builtins; {
   # TargetNumberOfKnownPeers: set according to forging status
   # TargetNumberOfRootPeers: set according to forging status
 
+  # Active network override (dijkstra only)
+  #
+  # While the network is comprised only of IO Labs pools, the big ledger peer
+  # set is too small to reach trusted state at the ouroboros-network default
+  # of 5, which stalls a Genesis Mode sync.  Lower the threshold so a sync can
+  # complete.
+  MinBigLedgerPeersForTrustedState = 1;
+
   # Default Ledger Configuration
   # Additional configuration options can be found at:
   # https://ouroboros-consensus.cardano.intersectmbo.org/docs/for-developers/utxo-hd/migrating
