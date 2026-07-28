@@ -42,7 +42,11 @@
 
     # Submit-api emits a small, fixed set of namespaces, all under the
     # `TxSubmitApi` root. Their built-in severities are already sensible, so
-    # none are overridden by default:
+    # none are overridden by default. With the `Info` cutoff above everything
+    # here is emitted except `InitializeMetrics`, which includes one line per
+    # transaction submitted or failed. Raising the cutoff to `Notice` silences
+    # every trace a healthy submit-api produces, leaving only warnings and
+    # errors:
     #
     #   TxSubmitApi.Application.Stopping                 (Info)
     #   TxSubmitApi.Application.InitializeMetrics        (Debug; below the cutoff above)

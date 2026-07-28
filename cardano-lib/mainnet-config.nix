@@ -86,11 +86,13 @@ with builtins; {
     # predefined snapshot policy can be selected by name, e.g.
     # `Snapshots = "Mithril";`.
     Snapshots = {
-      # The snapshot interval in slots.
-      SnapshotInterval = (fromJSON (readFile ./mainnet/shelley-genesis.json)).securityParam * 2;
+      # The snapshot interval in slots.  Use `securityParam * 40` to provide
+      # intra-epoch snapshot redundancy while minimizing potential IOWAIT stall on some
+      # spec constrained machines during snapshot write.
+      SnapshotInterval = (fromJSON (readFile ./mainnet/shelley-genesis.json)).securityParam * 40;
 
-      # Start taking the snaphots at a slot offset.
-      # SlotOffset = 172800;
+      # Slot offset at which snapshot scheduling begins.
+      SlotOffset = 0;
 
       # A minimum duration between snapshots, in seconds (used to avoid excessive snapshots while syncing).
       # Default is 10 minutes.
