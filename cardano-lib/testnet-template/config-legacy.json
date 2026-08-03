@@ -14,7 +14,7 @@
     "Backend": "V2InMemory",
     "NumOfDiskSnapshots": 2,
     "QueryBatchSize": 100000,
-    "SnapshotInterval": 216
+    "SnapshotInterval": 4320
   },
   "MaxConcurrencyDeadline": 4,
   "MaxKnownMajorProtocolVersion": 2,

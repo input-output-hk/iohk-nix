@@ -75,7 +75,7 @@ with builtins; {
   # https://ouroboros-consensus.cardano.intersectmbo.org/docs/for-developers/utxo-hd/migrating
   LedgerDB = {
     # The time interval between snapshots, in seconds.
-    SnapshotInterval = (fromJSON (readFile ./preview/shelley-genesis.json)).securityParam * 2;
+    SnapshotInterval = (fromJSON (readFile ./preview/shelley-genesis.json)).securityParam * 40;
 
     # The number of disk snapshots to keep.
     NumOfDiskSnapshots = 2;
