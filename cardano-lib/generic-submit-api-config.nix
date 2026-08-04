@@ -13,7 +13,7 @@
         # Forwarder and PrometheusSimple backends are not available for submit-api.
         "EKGBackend"
 
-        # Only one of the following can be enabled, which determines for format
+        # Only one of the following can be enabled, which determines the format
         # of submit-api logging to stdout.
         "Stdout HumanFormatColoured"
         # "Stdout HumanFormatUncoloured"
@@ -37,7 +37,7 @@
       # which allows for the unconditional silencing of a specific trace,
       # essentially representing the deactivation of tracers -- a semantic
       # continuation of the functionality in the legacy system.
-      severity = "Notice";
+      severity = "Info";
     };
 
     # Submit-api emits a small, fixed set of namespaces, all under the
