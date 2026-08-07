@@ -3,6 +3,38 @@
 Please read these notes when updating your project's `iohk-nix`
 version. There may have been changes which could break your build.
 
+## 2026-08-07
+  * **Breaking:** legacy tracing (iohk-monitoring) config generation is removed,
+    in line with cardano-node 11.1 dropping the legacy tracing system.
+    `minNodeVersion` is now `11.1.0`.
+
+    Removed from `cardanoLib`:
+      * `defaultLogConfigLegacy` - use `defaultLogConfig`.
+      * `mkEdgeTopology` - use `mkEdgeTopologyP2P`.  Legacy networking mode no
+        longer exists; `mkTopology` is now unconditionally p2p.
+
+    Removed from every `environments.<env>` attrset:
+      * `nodeConfigLegacy` - use `nodeConfig`.  The generated
+        `<env>-config-legacy.json` artifacts are no longer published.
+
+    Changed in `cardanoLib`:
+      * `submitApiConfig` is now the network-independent
+        `defaultSubmitApiConfig` (new, also exported).  It carries only
+        trace-dispatcher tracing options; the previous `GenesisHash` and
+        `RequiresNetworkMagic` keys were unused by cardano-submit-api and are
+        no longer emitted.  Consumers that read network identity out of
+        `submitApiConfig` must take it from `nodeConfig` instead.
+      * `explorer-log-config.nix` remains legacy iohk-monitoring format for
+        db-sync and similar consumers.  It is not a valid tracing config for
+        trace-dispatcher services.
+
+  * `LedgerDB` snapshot options moved under a `LedgerDB.Snapshots` key and
+    `SnapshotInterval` is now denominated in **slots**, not seconds, following
+    the deterministic snapshot work in node 11.1.  Per-network values are set
+    to `securityParam * 40`.
+
+  * Added a `leios` environment for the Leios prototype network.
+
 ## 2026-05-04
   * Update blst to 0.3.15.
   * Add CI check for invalid `flake.lock` file.
