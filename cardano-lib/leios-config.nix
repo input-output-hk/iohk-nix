@@ -6,11 +6,11 @@ with builtins; {
   ##### Locations #####
 
   ByronGenesisFile = ./leios + "/byron-genesis.json";
-  ByronGenesisHash = "6dcd75ebc4806830f911fe9ea52134730fee55963d2164725b70a288ab0b4d93";
+  ByronGenesisHash = "e26f92ae4692880d53cfdf6646b556ec3e6f058f7376eb775d86398997784f43";
   ConwayGenesisFile = ./leios + "/conway-genesis.json";
-  ConwayGenesisHash = "be1957c0cd07a6e004ac139749ceccdf5adb510da804947d9da06f536646a259";
+  ConwayGenesisHash = "dd03f3220ba06532ba5edac295e6eefed493721814a0622eb4d0ef31253ca573";
   ShelleyGenesisFile = ./leios + "/shelley-genesis.json";
-  ShelleyGenesisHash = "e533fe77127432e7a96adc36af78250bf7cfd67fefba6bfd28e8667e8513911f";
+  ShelleyGenesisHash = "735d3f9f1f79066ead4ef7df4ac7e6ed25e8d78b7b9c7e5ec5ee1b88476e1c3f";
   AlonzoGenesisFile = ./leios + "/alonzo-genesis.json";
   AlonzoGenesisHash = "387a7c4880477ce7b128566fa7f9f9ed99ee04476084e9f6332b6d42d907faab";
   DijkstraGenesisFile = ./leios + "/dijkstra-genesis.json";
