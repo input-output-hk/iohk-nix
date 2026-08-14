@@ -1,4 +1,8 @@
 {
+  # Legacy iohk-monitoring format, consumed by db-sync and similar apps.  It is
+  # not a valid tracing config for trace-dispatcher services; cardano-submit-api
+  # uses generic-submit-api-config.nix instead.
+
   # global filter; messages must have at least this severity to pass:
   minSeverity = "Info";
 

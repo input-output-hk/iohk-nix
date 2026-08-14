@@ -1,14 +1,4 @@
 {
-  # Enable or disable logging overall
-  TurnOnLogging = true;
-
-  # Enable the collection of various OS metrics such as memory and CPU use.
-  # These metrics can be directed to the logs or monitoring backends.
-  TurnOnLogMetrics = true;
-
-  # Use the modern tracing system instead of the legacy tracing system.
-  UseTraceDispatcher = true;
-
   # Match the metrics prefix of the legacy tracing system to minimize breaking
   # changes.
   TraceOptionMetricsPrefix = "cardano.node.metrics.";
@@ -116,15 +106,4 @@
     # Enable this to investigate transaction validation errors.
     # "Mempool.RejectedTx".detail = "DDetailed";
   };
-
-  # Required by the legacy tracing system, this key is still required for
-  # cardano-node to start.
-  minSeverity = "Critical";
-
-  # Required by some legacy tests which may otherwise fail to start.
-  defaultBackends = [];
-  defaultScribes = [];
-  options = {};
-  setupBackends = [];
-  setupScribes = [];
 }

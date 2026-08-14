@@ -1,5 +1,7 @@
 name: Validate IOG Core GH Action
 on: push
+permissions:
+  contents: read
 jobs:
   integration:
     strategy:
@@ -9,7 +11,7 @@ jobs:
     name: GitHub Action integration test
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: input-output-hk/actions/base@latest
+    - uses: input-output-hk/actions/base@dbb6ea6d50ffc37a2d481fd8047aff028bac3223 # latest
     - name: Check pkg-config
       run: |
         pkg-config --libs libblst
