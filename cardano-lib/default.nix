@@ -147,10 +147,6 @@ let
           addr = "backbone.mainnet.cardanofoundation.org";
           port = 3001;
         }
-        {
-          addr = "backbone.mainnet.emurgornd.com";
-          port = 3001;
-        }
       ];
       edgePort = 3001;
       confKey = "mainnet_full";
