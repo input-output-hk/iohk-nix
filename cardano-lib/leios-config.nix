@@ -6,15 +6,15 @@ with builtins; {
   ##### Locations #####
 
   ByronGenesisFile = ./leios + "/byron-genesis.json";
-  ByronGenesisHash = "e26f92ae4692880d53cfdf6646b556ec3e6f058f7376eb775d86398997784f43";
+  ByronGenesisHash = "5809f031d8dc8ae8091f66a80ebe8f7d173e475436110c462a0533ed65954639";
   ConwayGenesisFile = ./leios + "/conway-genesis.json";
-  ConwayGenesisHash = "dd03f3220ba06532ba5edac295e6eefed493721814a0622eb4d0ef31253ca573";
+  ConwayGenesisHash = "e2951aa7f08dcd89bb6ca7fcf9acae5c46bdefb5a9affbac769bbe1902e982eb";
   ShelleyGenesisFile = ./leios + "/shelley-genesis.json";
-  ShelleyGenesisHash = "735d3f9f1f79066ead4ef7df4ac7e6ed25e8d78b7b9c7e5ec5ee1b88476e1c3f";
+  ShelleyGenesisHash = "1944510a4fd91415444285231058f6f6ff0f6f3ff3d0356c76c00c5a77f29567";
   AlonzoGenesisFile = ./leios + "/alonzo-genesis.json";
   AlonzoGenesisHash = "387a7c4880477ce7b128566fa7f9f9ed99ee04476084e9f6332b6d42d907faab";
   DijkstraGenesisFile = ./leios + "/dijkstra-genesis.json";
-  DijkstraGenesisHash = "c6afe2641a407ee17f3625ed304571c3762e3123d38f4d8ae663f765f6c2bcb6";
+  DijkstraGenesisHash = "aa1238f505479a9b104d2cc001b4bf951062cd527200bea9a1857bdd0dc41085";
 
   ### Core protocol parameters #####
   Protocol = "Cardano";
@@ -38,7 +38,7 @@ with builtins; {
   ConsensusMode = "PraosMode";
 
   # Leios specific customizations:
-  MempoolCapacityBytesOverride = 500000;
+  MempoolCapacityBytesOverride = 2000000;
 
   # Default Ledger Configuration
   # Additional configuration options can be found at:
