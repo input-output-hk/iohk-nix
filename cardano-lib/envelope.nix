@@ -9,7 +9,7 @@
 # shape can be validated and handed to consumers ahead of POM being dropped.
 {lib, cardanoConfigSrc}:
 let
-  inherit (builtins) attrNames elem filter fromJSON listToAttrs readFile;
+  inherit (builtins) attrNames elem filter fromJSON isAttrs isList listToAttrs map readFile;
   inherit (lib) concatMap foldl' optionalAttrs recursiveUpdate;
 
   # The component sections, matching `schemas/<section>.schema.json`.
@@ -67,6 +67,80 @@ let
     "MaxKnownMajorProtocolVersion"
   ];
 
+  # Obsolete iohk-monitoring keys, dropped outright.  Unlike `removedKeys` these
+  # go only at the top level.  Taken from `tracingObsoleteKeys` in Migrate.hs.
+  tracingObsoleteKeys = [
+    "UseTraceDispatcher"
+    "TurnOnLogging"
+    "TurnOnLogMetrics"
+    "defaultBackends"
+    "defaultScribes"
+    "setupBackends"
+    "setupScribes"
+    "minSeverity"
+    "options"
+  ];
+
+  # Keys renamed in the current naming series, as old -> new.  cardano-config
+  # only accepts the new names.  Taken from `renamedFields` in Migrate.hs.
+  # Matching is on the whole key, so `SyncTargetNumberOfRootPeers` is untouched
+  # by the `TargetNumberOf*` entries.
+  renamedKeys = {
+    EnableRpc = "EnableGrpc";
+    RpcSocketPath = "GrpcSocketPath";
+    TargetNumberOfRootPeers = "DeadlineTargetNumberOfRootPeers";
+    TargetNumberOfKnownPeers = "DeadlineTargetNumberOfKnownPeers";
+    TargetNumberOfEstablishedPeers = "DeadlineTargetNumberOfEstablishedPeers";
+    TargetNumberOfActivePeers = "DeadlineTargetNumberOfActivePeers";
+    TargetNumberOfKnownBigLedgerPeers = "DeadlineTargetNumberOfKnownBigLedgerPeers";
+    TargetNumberOfEstablishedBigLedgerPeers = "DeadlineTargetNumberOfEstablishedBigLedgerPeers";
+    TargetNumberOfActiveBigLedgerPeers = "DeadlineTargetNumberOfActiveBigLedgerPeers";
+  };
+
+  # The generic sub-keys of an `AcceptedConnectionsLimit` object.  Too generic to
+  # rewrite unconditionally, so cardano-config scopes them to that key.  Taken
+  # from `acceptedConnectionsLimitFields` in Migrate.hs.
+  acceptedConnectionsLimitKeys = {
+    hardLimit = "HardLimit";
+    softLimit = "SoftLimit";
+    delay = "Delay";
+  };
+
+  # `renameLegacy` from Migrate.hs: drop removed keys and rewrite renamed ones at
+  # any depth, recursing through objects and arrays alike.  Runs before the
+  # regrouping below, exactly as `migrate = reshape . renameLegacy` does.
+  #
+  # Where both the old and the new name are present at the same level the new
+  # name wins, matching the `RenamedKeyCollision` branch upstream.  We drop the
+  # old one silently; cardano-config warns.
+  renameLegacy = value:
+    if isAttrs value then
+      let
+        present = attrNames value;
+        collidingOld = filter (k: renamedKeys ? ${k} && elem renamedKeys.${k} present) present;
+        kept = filter (k: !(elem k removedKeys) && !(elem k collidingOld)) present;
+        rekey = k: {
+          name = renamedKeys.${k} or k;
+          value = scoped k (renameLegacy value.${k});
+        };
+      in
+        listToAttrs (map rekey kept)
+    else if isList value then map renameLegacy value
+    else value;
+
+  # Scoped fixups applied to a key's value after recursion.  Only the
+  # AcceptedConnectionsLimit rename is mirrored: the `LedgerDB` fixups upstream
+  # (`nestSnapshotOptions`, `nestBackend`) gather a legacy *flat* LedgerDB into
+  # the nested form, and every config here already emits the nested form, so
+  # they would be no-ops.  Revisit if a flat LedgerDB ever appears.
+  scoped = key: value:
+    if key == "AcceptedConnectionsLimit" && isAttrs value
+    then listToAttrs (map (k: {
+           name = acceptedConnectionsLimitKeys.${k} or k;
+           value = value.${k};
+         }) (attrNames value))
+    else value;
+
   # Envelope annotations, lifted out of the config body.
   envelopeKeys = ["$schema" "Version" "MinNodeVersion" "Configuration"];
 
@@ -74,22 +148,31 @@ let
   # Schema.hs.  The schema gives no default to read it from.
   formatVersion = 1;
 
-  # Where a flat key lands inside `Configuration`.  An unrecognised key is kept
-  # at the top of `Configuration` rather than dropped, matching migrate, so
-  # nothing is silently lost.  It still warns on the next parse.
+  # Where a flat key lands inside `Configuration`, mirroring `place` in
+  # Migrate.hs and keeping its branch order.  An unrecognised key is kept at the
+  # top of `Configuration` rather than dropped, matching migrate, so nothing is
+  # silently lost.  It still warns on the next parse.
+  #
+  # `removedKeys` is not tested here: `renameLegacy` has already dropped those at
+  # every depth, which is where migrate does it.
   placeKey = body: key:
     let
       value = body.${key};
-      nest = section: {${section} = {${key} = value;};};
+      nestAs = section: targetKey: {${section} = {${targetKey} = value;};};
+      nest = section: nestAs section key;
     in
-      if elem key removedKeys then {}
+      if elem key tracingObsoleteKeys then {}
       else if elem key tracingKeys then nest "HermodTracing"
+      # The obsolete Byron software-version name is repurposed as the tracing
+      # node name, since nothing else reads it.
+      else if key == "ApplicationName" then nestAs "HermodTracing" "TraceOptionNodeName"
       else if propertyToSection ? ${key} then nest propertyToSection.${key}
       else {${key} = value;};
 
   mkEnvelope = nodeConfig:
     let
-      body = removeAttrs nodeConfig envelopeKeys;
+      renamed = renameLegacy nodeConfig;
+      body = removeAttrs renamed envelopeKeys;
       configuration = foldl' (acc: key: recursiveUpdate acc (placeKey body key)) {} (attrNames body);
     in
       {
@@ -110,12 +193,18 @@ let
 
   # Top-level keys of a flat node config that cardano-config would not resolve.
   # `allowed` carries the ones a caller keeps on purpose.
+  #
+  # Reported against the key as written, not the renamed one, so a config still
+  # using an old name is flagged rather than silently accepted.  `renamedKeys`
+  # names are therefore deliberately absent from `recognisedKeys`: migrate would
+  # rewrite them, but we would rather fix the source.  An obsolete tracing key is
+  # reported for the same reason, since migrate drops it outright.
   unrecognisedKeys = allowed: nodeConfig:
     filter (k: !(elem k (recognisedKeys ++ allowed))) (attrNames nodeConfig);
 
 in
   assert (builtins.length (attrNames propertyToSection)) == propertyCount;
   {
-    inherit mkEnvelope propertyToSection recognisedKeys removedKeys tracingKeys
-      unrecognisedKeys;
+    inherit mkEnvelope propertyToSection recognisedKeys removedKeys renamedKeys
+      tracingKeys tracingObsoleteKeys unrecognisedKeys;
   }
