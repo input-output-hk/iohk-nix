@@ -17,6 +17,23 @@
         "type": "github"
       }
     },
+    "cardano-config": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1788876644,
+        "narHash": "sha256-y/L7xZ7314UuAEJPwANBkuN+Jib0W86eiBAGX20zT7Y=",
+        "owner": "IntersectMBO",
+        "repo": "cardano-config",
+        "rev": "6d4f91680bbfb526f4bbac0c8365b0d0cce318aa",
+        "type": "github"
+      },
+      "original": {
+        "owner": "IntersectMBO",
+        "repo": "cardano-config",
+        "rev": "6d4f91680bbfb526f4bbac0c8365b0d0cce318aa",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1751071626,
@@ -36,6 +53,7 @@
     "root": {
       "inputs": {
         "blst": "blst",
+        "cardano-config": "cardano-config",
         "nixpkgs": "nixpkgs",
         "secp256k1": "secp256k1",
         "sodium": "sodium"

@@ -19,16 +19,15 @@ with builtins; {
 
   ##### Core protocol parameters #####
 
-  # This is the instance of the Ouroboros family that we are running.
-  # The node also supports various test and mock instances.
-  # "RealPBFT" is the real (ie not mock) (permissive) OBFT protocol, which
-  # is what we use on mainnet in Byron era.
+  # Vestigial for the node: cardano-config lists it in `removedFields`, so it is
+  # dropped from the enveloped config and node defaults to Cardano without it.
+  # Kept because db-sync still reads it from the flat config as a mandatory key,
+  # `o .: "Protocol"` in Cardano/DbSync/Config/Node.hs.  Drop once db-sync reads
+  # an envelope.  See also `LastKnownBlockVersion-*` below.
   Protocol = "Cardano";
 
   # The mainnet does not include the network magic into addresses. Testnets do.
   RequiresNetworkMagic = "RequiresNoMagic";
-
-  MaxKnownMajorProtocolVersion = 2;
 
   # The consensus mode.  If set to "GenesisMode", the `CheckpointsFile` and
   # `CheckpointsFileHash` values above will be used and a path to a peer
@@ -115,6 +114,12 @@ with builtins; {
 
   # This protocol version number gets used by block producing nodes as part
   # part of the system for agreeing on and synchronising protocol updates.
+  #
+  # cardano-config drops these three, so they are absent from the enveloped
+  # config and the Byron supported protocol version comes from consensus
+  # defaults instead.  Kept here because the flat config has two readers that
+  # require them: node's POM parser, and db-sync's `parseByronProtocolVersion`,
+  # which reads all three with `.:`.  Drop once db-sync reads an envelope.
   LastKnownBlockVersion-Major = 3;
   LastKnownBlockVersion-Minor = 0;
   LastKnownBlockVersion-Alt = 0;

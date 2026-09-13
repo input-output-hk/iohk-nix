@@ -18,6 +18,9 @@ with builtins; {
   CheckpointsFileHash = "bb5056ff1ced9d68dd99720695789664f6bf6f0cb02a4010df09b813e225ac51";
 
   ### Core protocol parameters #####
+
+  # Dropped from the enveloped config; kept for db-sync, which reads it from
+  # the flat config as a mandatory key.  See mainnet-config.nix.
   Protocol = "Cardano";
 
   RequiresNetworkMagic = "RequiresMagic";
