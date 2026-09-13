@@ -19,16 +19,8 @@ with builtins; {
 
   ##### Core protocol parameters #####
 
-  # This is the instance of the Ouroboros family that we are running.
-  # The node also supports various test and mock instances.
-  # "RealPBFT" is the real (ie not mock) (permissive) OBFT protocol, which
-  # is what we use on mainnet in Byron era.
-  Protocol = "Cardano";
-
   # The mainnet does not include the network magic into addresses. Testnets do.
   RequiresNetworkMagic = "RequiresNoMagic";
-
-  MaxKnownMajorProtocolVersion = 2;
 
   # The consensus mode.  If set to "GenesisMode", the `CheckpointsFile` and
   # `CheckpointsFileHash` values above will be used and a path to a peer

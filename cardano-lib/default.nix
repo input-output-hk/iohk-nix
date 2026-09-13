@@ -1,7 +1,16 @@
-{lib, writeText, runCommand, jq}:
+# `cardanoConfigSrc` is the IntersectMBO/cardano-config source, supplying the
+# JSON schemas the enveloped node config is built from.  Optional so the
+# non-flake entry point keeps working; `nodeConfigEnveloped` is the only
+# attribute that needs it, and only fails if evaluated without it.
+{lib, writeText, runCommand, jq, cardanoConfigSrc ? null}:
 let
-  inherit (builtins) attrNames fromJSON readFile toFile toJSON;
+  inherit (builtins) attrNames filter fromJSON readFile toFile toJSON;
   inherit (lib) filterAttrs flip forEach listToAttrs mapAttrs mapAttrsToList optionalAttrs optionalString pipe recursiveUpdate;
+
+  envelope =
+    if cardanoConfigSrc == null
+    then throw "cardanoLib: nodeConfigEnveloped needs `cardanoConfigSrc`, the IntersectMBO/cardano-config source"
+    else import ./envelope.nix {inherit lib cardanoConfigSrc;};
 
   # As of node 10.6.0 only p2p networking mode is available.
   mkEdgeTopologyP2P = {
@@ -106,16 +115,30 @@ let
   # all networks by default but can be overridden on a per network basis below
   # as needed.
   #
-  # Min is currently 11.1.0 due to removal of legacy tracing system and
-  # introduction of deterministic snapshots.
-  minNodeVersion = { MinNodeVersion = "11.1.0"; };
+  # Min is currently 11.2.0 for the node 11.2 config series.  Node 11.2 adopts
+  # cardano-config as a second config parser alongside its own, resolving with
+  # both and warning on divergence.  Config keys it treats as removed are no
+  # longer emitted here so those warnings stay quiet.
+  #
+  # The keys dropped so far are inert on 11.1 as well, so this bump is ahead of
+  # a hard incompatibility.  Revisit the wording once the 11.2 config shape
+  # changes land.
+  minNodeVersion = { MinNodeVersion = "11.2.0"; };
 
   environments = mapAttrs (name: env: {
     inherit name;
     # default derived configs:
     nodeConfig = recursiveUpdate defaultLogConfig env.networkConfig;
+
+    # The same config in the cardano-config Version1 envelope.  Not yet
+    # consumable by a node, see envelope.nix.  Node 11.2 takes `nodeConfig`.
+    nodeConfigEnveloped = envelope.mkEnvelope environments.${name}.nodeConfig;
     tracerConfig = defaultTracerConfig // {inherit (fromJSON (readFile ./${name}/shelley-genesis.json)) networkMagic;};
-    consensusProtocol = env.networkConfig.Protocol;
+    # The node config `Protocol` key is vestigial as of node 11.2 and is no
+    # longer emitted.  Cardano is the only consensus protocol still supported,
+    # and node defaults to it when the key is absent.  This attribute is kept
+    # for consumers and to drive the config html table below.
+    consensusProtocol = "Cardano";
     submitApiConfig = defaultSubmitApiConfig;
     dbSyncConfig =
       mkDbSyncConfig name environments.${name}.nodeConfig (env.extraDbSyncConfig or {});
@@ -350,6 +373,8 @@ let
                       <td>
                         <div class="buttons has-addons">
                           <a class="button is-primary" href="${env}-config.json">config</a>
+                          ${optionalString (cardanoConfigSrc != null) ''
+                            <a class="button is-primary" href="${env}-config-enveloped.json">config (enveloped)</a>''}
                           <a class="button is-info" href="${env}-${protNames.${p}.n}-genesis.json">${protNames.${p}.n}Genesis</a>
                           ${optionalString (p == "Cardano") ''
                             <a class="button is-info" href="${env}-${protNames.${p}.shelley}-genesis.json">${protNames.${p}.shelley}Genesis</a>
@@ -381,6 +406,71 @@ let
     </html>
   '';
 
+  # Node config keys kept on purpose even though cardano-config does not resolve
+  # them.  Everything else unrecognised fails mkConfigLint.
+  #
+  # LastKnownBlockVersion-Major and -Minor are mandatory for the node's POM
+  # parser but dropped by cardano-config migrate, so they have to stay in the
+  # flat config while POM is the parser that runs the node.  Drop these three
+  # once POM is gone.
+  allowedConfigKeys = [
+    "LastKnownBlockVersion-Major"
+    "LastKnownBlockVersion-Minor"
+    "LastKnownBlockVersion-Alt"
+  ];
+
+  # Per environment additions to the above.
+  allowedConfigKeysFor = {
+    # Leios prototype key, ahead of the cardano-config schema.
+    leios = ["LeiosDbConfig"];
+  };
+
+  # Flat node configs to lint.  The testnet template is included because
+  # cardano-parts copies it when standing up a new network.
+  lintTargets =
+    mapAttrs (name: env: env.nodeConfig) environments
+    // {testnet-template = fromJSON (readFile ./testnet-template/config.json);};
+
+  # Report every top-level config key cardano-config would not resolve.  Fails
+  # the build if there are any, listing them per environment.
+  #
+  # This is the check the JSON schemas cannot do: neither schema sets
+  # additionalProperties, so a stray or removed key validates clean against
+  # them.  The recognised key set is read from the schemas, so bumping the
+  # cardano-config pin keeps it current.
+  #
+  # Deliberately a derivation rather than an eval time assert.  cardano-lib is
+  # imported by every downstream consumer, and a failing assert here would break
+  # their evaluation rather than just this check.
+  mkConfigLint = targets: let
+    findings = mapAttrsToList (name: nodeConfig: {
+      inherit name;
+      keys = envelope.unrecognisedKeys
+        (allowedConfigKeys ++ (allowedConfigKeysFor.${name} or []))
+        nodeConfig;
+    }) targets;
+
+    bad = filter (f: f.keys != []) findings;
+  in
+    runCommand "cardano-config-lint" {} (
+      if bad == []
+      then ''
+        echo "no unrecognised node config keys in: ${toString (attrNames targets)}"
+        touch $out
+      ''
+      else ''
+        echo "node config keys cardano-config will not resolve:"
+        ${toString (map (f: ''
+          echo "  ${f.name}: ${toString f.keys}"
+        '') bad)}
+        echo
+        echo "Each is either a key cardano-config removed, or a typo it would keep"
+        echo "and warn about on every parse.  Drop it, or add it to"
+        echo "allowedConfigKeys in cardano-lib/default.nix if it is deliberate."
+        exit 1
+      ''
+    );
+
   # Any environments using the HFC protocol of "Cardano" need a second genesis file attribute of
   # genesisFileHfc in order to generate the html table in mkConfigHtml
   mkConfigHtml = environments: runCommand "cardano-html" { buildInputs = [ jq ]; } ''
@@ -402,11 +492,19 @@ let
           }) // (optionalAttrs (value.nodeConfig ? CheckpointsFile) {
             CheckpointsFile = "${env}-checkpoints.json";
           });
+
+          # The config as published, ie with genesis paths rewritten to the
+          # sibling files copied below rather than absolute store paths.
+          relativeNodeConfig =
+            value.nodeConfig // (if p != "Cardano" then genesisFile else genesisFiles);
         in ''
           ${if p != "Cardano" then ''
             ${jq}/bin/jq . < ${toFile "${env}-config.json" (toJSON (value.nodeConfig // genesisFile))} > $out/${env}-config.json
           '' else ''
             ${jq}/bin/jq . < ${toFile "${env}-config.json" (toJSON (value.nodeConfig // genesisFiles))} > $out/${env}-config.json
+          ''}
+          ${optionalString (cardanoConfigSrc != null) ''
+            ${jq}/bin/jq . < ${toFile "${env}-config-enveloped.json" (toJSON (envelope.mkEnvelope relativeNodeConfig))} > $out/${env}-config-enveloped.json
           ''}
           ${optionalString (p == "RealPBFT" || p == "Byron") ''
             cp ${value.nodeConfig.GenesisFile} $out/${env}-${protNames.${p}.n}-genesis.json
@@ -451,13 +549,19 @@ in {
     eachEnv
     forEnvironments
     forEnvironmentsCustom
+    lintTargets
     mkConfigHtml
+    mkConfigLint
     mkEdgeTopologyP2P
     mkExplorerConfig
     mkMithrilSignerConfig
     mkProxyTopology
     mkTopology
     ;
+
+  # Flat config to cardano-config Version1 envelope, and the key to component
+  # mapping it is built from.
+  inherit (envelope) mkEnvelope propertyToSection;
 
   # For now we export live and dead environments.
   environments = environments // dead_environments;
