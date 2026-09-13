@@ -17,8 +17,6 @@ with builtins; {
   DijkstraGenesisHash = "aa1238f505479a9b104d2cc001b4bf951062cd527200bea9a1857bdd0dc41085";
 
   ### Core protocol parameters #####
-  Protocol = "Cardano";
-
   RequiresNetworkMagic = "RequiresMagic";
 
   ExperimentalHardForksEnabled = true;

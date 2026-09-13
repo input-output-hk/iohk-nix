@@ -18,8 +18,6 @@ with builtins; {
   CheckpointsFileHash = "bb5056ff1ced9d68dd99720695789664f6bf6f0cb02a4010df09b813e225ac51";
 
   ### Core protocol parameters #####
-  Protocol = "Cardano";
-
   RequiresNetworkMagic = "RequiresMagic";
 
   ExperimentalHardForksEnabled = false;
