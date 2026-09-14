@@ -8,21 +8,51 @@
 # resolves with cardano-config alone.  That also means the envelope inherits
 # cardano-config's adapter gaps, so not every environment can use it; see
 # `configFormat` in default.nix.
+#
+# ## This whole module is transitional
+#
+# It exists because the flat form is the source of truth and the envelope is
+# derived from it.  That direction is forced, not chosen: `migrate` drops the
+# keys in `removedKeys`, among them the LastKnownBlockVersion-* that POM
+# requires, so the envelope is derivable from the flat config but not the
+# reverse.
+#
+# The end state is to write each `<env>-config.nix` in envelope shape directly.
+# At that point the translation below is dead and can go with it: `renameLegacy`,
+# `placeKey`, `propertyToSection`, every hardcoded key table, the scoped fixups,
+# and `mkConfigDrift` in default.nix which only exists to police those tables.
+# What survives is the lint, which validates keys against the schemas and is
+# useful either way.
+#
+# Three things have to be true first, and none of them are yet:
+#
+#   * the node drops POM, so nothing needs the flat form's dropped keys
+#   * cardano-api reads the envelope, so db-sync and friends can be pointed at
+#     one (`readNodeConfig` is flat-only today)
+#   * no consumer still takes the flat `nodeConfig` as a file, which
+#     `mkExplorerConfig` currently does for db-sync and the explorer
+#
+# So treat the brittleness below as a cost of the transition rather than
+# something to invest in hardening.
 {lib, cardanoConfigSrc}:
 let
-  inherit (builtins) attrNames elem filter fromJSON isAttrs isList listToAttrs map readFile;
+  inherit (builtins) attrNames elemAt elem filter fromJSON isAttrs isList isString listToAttrs
+    map match pathExists split
+    readFile;
   inherit (lib) concatMap foldl' optionalAttrs recursiveUpdate;
 
-  # The component sections, matching `schemas/<section>.schema.json`.
-  sections = [
-    "ConsensusConfig"
-    "LocalConnectionsConfig"
-    "MempoolConfig"
-    "NetworkConfig"
-    "ProtocolConfig"
-    "StorageConfig"
-    "TestingConfig"
-  ];
+  # The whole-configuration schema names the envelope annotations, every
+  # component section, and `HermodTracing`, all as top-level properties.  Split
+  # on whether a matching `schemas/<name>.schema.json` exists to tell the
+  # sections from the rest, so an added or renamed section is picked up by a pin
+  # bump rather than silently ignored.
+  topLevelProperties =
+    filter (k: k != "$schema")
+      (attrNames (fromJSON (readFile "${cardanoConfigSrc}/schemas/config.schema.json")).properties);
+
+  hasSectionSchema = name: pathExists "${cardanoConfigSrc}/schemas/${name}.schema.json";
+
+  sections = filter hasSectionSchema topLevelProperties;
 
   schemaProperties = section:
     filter (k: k != "$schema")
@@ -142,11 +172,18 @@ let
          }) (attrNames value))
     else value;
 
-  # Envelope annotations, lifted out of the config body.
-  envelopeKeys = ["$schema" "Version" "MinNodeVersion" "Configuration"];
+  # Envelope annotations, lifted out of the config body.  These are the
+  # whole-config schema's top-level properties that are not a component section
+  # and not `HermodTracing`, whose shape cardano-config leaves to
+  # trace-dispatcher.  `$schema` is filtered out above, so add it back.
+  envelopeKeys =
+    ["$schema"]
+    ++ filter (k: !(hasSectionSchema k) && k != "HermodTracing") topLevelProperties;
 
   # The format version this envelope declares, `currentFormatVersion` in
-  # Schema.hs.  The schema gives no default to read it from.
+  # Schema.hs.  The schema only constrains it to `minimum: 1`, so read it from
+  # the source; `mkConfigDrift` in default.nix fails the build if this and the
+  # pin disagree.
   formatVersion = 1;
 
   # The annotation `migrate` stamps.  Emitting it is what makes a config
@@ -155,10 +192,12 @@ let
   # makes.  With it, migrate is a no-op and the node parses warning free.
   #
   # The `vX` tag tracks the format version, not the release: upstream cuts one
-  # per major and the schemas cannot change without bumping it, so `v1` matches
-  # `formatVersion` above.  See the versioning section of the cardano-config
-  # README.
-  schemaUrl = "https://raw.githubusercontent.com/IntersectMBO/cardano-config/v1/schemas/config.schema.json";
+  # per major and the schemas cannot change without bumping it, so the tag is
+  # derived from `formatVersion` rather than written twice.  See the versioning
+  # section of the cardano-config README.
+  schemaUrl =
+    "https://raw.githubusercontent.com/IntersectMBO/cardano-config"
+    + "/v${toString formatVersion}/schemas/config.schema.json";
 
   # Where a flat key lands inside `Configuration`, mirroring `place` in
   # Migrate.hs and keeping its branch order.  An unrecognised key is kept at the
@@ -198,6 +237,69 @@ let
         inherit (nodeConfig) MinNodeVersion;
       };
 
+  # The same values as cardano-config holds them, extracted from the pinned
+  # source so `mkConfigDrift` in default.nix can fail the build when a pin bump
+  # changes one.  `propertyToSection`, `sections` and `envelopeKeys` are derived
+  # from the JSON schemas and so need no check; everything below lives only as a
+  # Haskell literal.
+  #
+  # Parsing is line based against the upstream formatting.  An upstream reformat
+  # therefore breaks the check rather than letting drift through, which is the
+  # right way round but is a real maintenance cost.
+  #
+  # This is the most temporary code here, and the least worth hardening: it
+  # exists only to police tables that exist only because the envelope is derived
+  # from a flat source.  Writing the configs in envelope shape deletes the
+  # tables, and this with them.  See the module header.
+  upstream = let
+    migrateHs = readFile "${cardanoConfigSrc}/src/Cardano/Configuration/File/Migrate.hs";
+    schemaHs = readFile "${cardanoConfigSrc}/src/Cardano/Configuration/Schema.hs";
+
+    sourceLines = text: filter isString (split "\n" text);
+
+    # The lines of a `<name> =\n  [ .. ]` literal, brackets excluded.
+    listBody = text: name:
+      (foldl'
+        (acc: l:
+          if acc.done then acc
+          else if !acc.started then acc // {started = l == "${name} =";}
+          else if l == "  ]" then acc // {done = true;}
+          else acc // {out = acc.out ++ [l];})
+        {started = false; done = false; out = [];}
+        (sourceLines text)).out;
+
+    # One quoted string per line, for a `[Text]` literal.
+    strings = text: name:
+      concatMap
+        (l: let m = match "[^\"]*\"([^\"]+)\".*" l; in if m == null then [] else m)
+        (listBody text name);
+
+    # Two quoted strings per line, for a `[(Text, Text)]` rename table.
+    renames = text: name:
+      listToAttrs (concatMap
+        (l:
+          let m = match "[^\"]*\"([^\"]+)\", *\"([^\"]+)\".*" l;
+          in if m == null then [] else [{name = elemAt m 0; value = elemAt m 1;}])
+        (listBody text name));
+
+    intDef = text: name:
+      let m = match ".*\n${name} = ([0-9]+)\n.*" text;
+      in if m == null then null else fromJSON (elemAt m 0);
+  in {
+    removedKeys = strings migrateHs "removedFields";
+    tracingKeys = strings migrateHs "tracingLegacyKeys";
+    tracingObsoleteKeys = strings migrateHs "tracingObsoleteKeys";
+    renamedKeys = renames migrateHs "renamedFields";
+    acceptedConnectionsLimitKeys = renames migrateHs "acceptedConnectionsLimitFields";
+    formatVersion = intDef schemaHs "currentFormatVersion";
+  };
+
+  # What the checker compares: our value against the pin's, per name.
+  driftPairs = {
+    inherit removedKeys tracingKeys tracingObsoleteKeys renamedKeys
+      acceptedConnectionsLimitKeys formatVersion;
+  };
+
   # Every key cardano-config resolves out of a flat config.  A key outside this
   # set is either one of `removedKeys`, which migrate silently drops, or an
   # unrecognised key, which it keeps and warns about on every parse.  Both are
@@ -218,6 +320,7 @@ let
 in
   assert (builtins.length (attrNames propertyToSection)) == propertyCount;
   {
-    inherit mkEnvelope propertyToSection recognisedKeys removedKeys renamedKeys
-      tracingKeys tracingObsoleteKeys unrecognisedKeys;
+    inherit driftPairs mkEnvelope propertyToSection recognisedKeys removedKeys
+      renamedKeys sections tracingKeys tracingObsoleteKeys unrecognisedKeys
+      upstream;
   }
