@@ -26,7 +26,7 @@ with builtins; {
   # `CheckpointsFileHash` values above will be used and a path to a peer
   # snapshot file will need to be declared in the p2p topology file under key
   # `peerSnapshotFile`.
-  ConsensusMode = "PraosMode";
+  ConsensusMode = "GenesisMode";
 
   # Mempool timeout parameters must be either all set or all unset.
   # When unset cardano-node will use default values.
