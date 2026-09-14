@@ -307,6 +307,10 @@
       # Fails if any environment, or the testnet template, carries a node config
       # key cardano-config will not resolve.
       cardano-config-lint = pkgs.cardanoLib.mkConfigLint pkgs.cardanoLib.lintTargets;
+
+      # Fails if envelope.nix and the cardano-config pin disagree about any value
+      # that cannot be derived from the JSON schemas.
+      cardano-config-drift = pkgs.cardanoLib.mkConfigDrift;
     };
   };
 }
