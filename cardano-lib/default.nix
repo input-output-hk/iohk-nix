@@ -143,16 +143,20 @@ let
     # `explorerConfig` embed their own copy of the flat `nodeConfig`, so they are
     # unaffected either way.
     #
-    # Given an envelope, node 11.2 skips its own POM parser and resolves with
-    # cardano-config alone, so the envelope inherits cardano-config's gaps.  Two
-    # consequences, both from `adapterGaps` in the node's CardanoConfigAdapter.hs:
+    # Given an envelope the node skips its own POM parser and resolves with
+    # cardano-config alone, so the envelope inherits whatever that adapter does
+    # not map.  Every environment is enveloped now; `CheckpointsFile`, the one
+    # gap that previously forced mainnet and preview to stay flat, is mapped as
+    # of the adapter fix carried for the 11.2 series.
     #
-    #   - CheckpointsFile/CheckpointsFileHash have no cardano-config counterpart
-    #     and always resolve empty.  An environment setting them must stay flat;
-    #     `mkConfigHtml` refuses the combination rather than publish it.
-    #   - Byron supported-protocol-version becomes a fixed 1/0/0, since
-    #     cardano-config does not model LastKnownBlockVersion-*.  Deliberate
-    #     upstream, and it applies to every enveloped environment.
+    # **This therefore requires a node carrying that fix.** An older node given
+    # an enveloped config that sets CheckpointsFile resolves the checkpoints
+    # configuration to empty, silently.  `minNodeVersion` is the contract that
+    # says so.
+    #
+    # Byron supported-protocol-version still becomes a fixed 1/0/0 on this path,
+    # since cardano-config does not model LastKnownBlockVersion-*.  Deliberate
+    # upstream, and it applies to every enveloped environment.
     configFormat = env.configFormat or "enveloped";
     tracerConfig = defaultTracerConfig // {inherit (fromJSON (readFile ./${name}/shelley-genesis.json)) networkMagic;};
     # The node config `Protocol` key is vestigial as of node 11.2 and is no
@@ -195,8 +199,6 @@ let
       edgePort = 3001;
       confKey = "mainnet_full";
       networkConfig = import ./mainnet-config.nix // minNodeVersion;
-      # Sets CheckpointsFile, which cardano-config does not map yet.
-      configFormat = "flat";
       useLedgerAfterSlot = 194140785;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
@@ -255,8 +257,6 @@ let
       ];
       edgePort = 3001;
       networkConfig = import ./preview-config.nix // minNodeVersion;
-      # Sets CheckpointsFile, which cardano-config does not map yet.
-      configFormat = "flat";
       useLedgerAfterSlot = 119231973;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
@@ -523,18 +523,9 @@ let
 
           # One config per environment, in whichever form that environment
           # selects.  See `configFormat` above.
-          #
-          # Refused rather than published: on the enveloped path cardano-config
-          # is the only parser, and its adapter always resolves the checkpoints
-          # configuration to empty, so the keys would be silently inert.
           publishedNodeConfig =
             if value.configFormat == "enveloped"
-            then
-              assert (!(value.nodeConfig ? CheckpointsFile)) || throw
-                ("cardanoLib: environment ${env} sets CheckpointsFile and cannot use "
-                 + "configFormat = \"enveloped\"; cardano-config's adapter does not map "
-                 + "it yet, see adapterGaps in the node's CardanoConfigAdapter.hs");
-              envelope.mkEnvelope relativeNodeConfig
+            then envelope.mkEnvelope relativeNodeConfig
             else relativeNodeConfig;
         in ''
           ${jq}/bin/jq . < ${toFile "${env}-config.json" (toJSON publishedNodeConfig)} > $out/${env}-config.json
