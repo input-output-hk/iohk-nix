@@ -1,12 +1,13 @@
 # Reshape a flat node config into the cardano-config Version1 envelope.
 #
-# This mirrors `cardano-config migrate`, so the output should match what that
-# command produces from the same input, less the `$schema` annotation.  See
-# `Cardano.Configuration.File.Migrate` in IntersectMBO/cardano-config.
+# This mirrors `cardano-config migrate`, so the output matches what that command
+# produces from the same input.  See `Cardano.Configuration.File.Migrate` in
+# IntersectMBO/cardano-config.
 #
-# Node 11.2 still parses the config with its own POM parser, which reads flat
-# keys only, so this form cannot yet be given to a node.  It is generated so the
-# shape can be validated and handed to consumers ahead of POM being dropped.
+# Node 11.2 reads this form: given an envelope it skips its own POM parser and
+# resolves with cardano-config alone.  That also means the envelope inherits
+# cardano-config's adapter gaps, so not every environment can use it; see
+# `configFormat` in default.nix.
 {lib, cardanoConfigSrc}:
 let
   inherit (builtins) attrNames elem filter fromJSON isAttrs isList listToAttrs map readFile;
@@ -148,6 +149,17 @@ let
   # Schema.hs.  The schema gives no default to read it from.
   formatVersion = 1;
 
+  # The annotation `migrate` stamps.  Emitting it is what makes a config
+  # canonical: cardano-config warns `MigratedToCurrentFormat` whenever migrate
+  # changes the document, and without `$schema` adding it is the one change it
+  # makes.  With it, migrate is a no-op and the node parses warning free.
+  #
+  # The `vX` tag tracks the format version, not the release: upstream cuts one
+  # per major and the schemas cannot change without bumping it, so `v1` matches
+  # `formatVersion` above.  See the versioning section of the cardano-config
+  # README.
+  schemaUrl = "https://raw.githubusercontent.com/IntersectMBO/cardano-config/v1/schemas/config.schema.json";
+
   # Where a flat key lands inside `Configuration`, mirroring `place` in
   # Migrate.hs and keeping its branch order.  An unrecognised key is kept at the
   # top of `Configuration` rather than dropped, matching migrate, so nothing is
@@ -176,6 +188,7 @@ let
       configuration = foldl' (acc: key: recursiveUpdate acc (placeKey body key)) {} (attrNames body);
     in
       {
+        "$schema" = schemaUrl;
         Version = formatVersion;
         Configuration = configuration;
       }
