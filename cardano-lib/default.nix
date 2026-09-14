@@ -252,8 +252,8 @@ let
         }
       ];
       edgePort = 3001;
-      networkConfig = import ./leios-config.nix // { MinNodeVersion = "11.1.0-prototype-2026w32"; };
-      useLedgerAfterSlot = 64800;
+      networkConfig = import ./leios-config.nix // { MinNodeVersion = "11.1.0.164-prototype-2026w36"; };
+      useLedgerAfterSlot = 151200;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
       };
