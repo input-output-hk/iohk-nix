@@ -130,9 +130,30 @@ let
     # default derived configs:
     nodeConfig = recursiveUpdate defaultLogConfig env.networkConfig;
 
-    # The same config in the cardano-config Version1 envelope.  Not yet
-    # consumable by a node, see envelope.nix.  Node 11.2 takes `nodeConfig`.
+    # The same config in the cardano-config Version1 envelope.  Node 11.2 reads
+    # either form: given an envelope it skips its own POM parser and resolves
+    # with cardano-config alone.
     nodeConfigEnveloped = envelope.mkEnvelope environments.${name}.nodeConfig;
+
+    # Which form `mkConfigHtml` publishes as `<env>-config.json`.  One file per
+    # environment, never both.  Override per environment in the definitions
+    # below with `configFormat = "flat";`.
+    #
+    # Only affects the published node config.  `dbSyncConfig` and
+    # `explorerConfig` embed their own copy of the flat `nodeConfig`, so they are
+    # unaffected either way.
+    #
+    # Given an envelope, node 11.2 skips its own POM parser and resolves with
+    # cardano-config alone, so the envelope inherits cardano-config's gaps.  Two
+    # consequences, both from `adapterGaps` in the node's CardanoConfigAdapter.hs:
+    #
+    #   - CheckpointsFile/CheckpointsFileHash have no cardano-config counterpart
+    #     and always resolve empty.  An environment setting them must stay flat;
+    #     `mkConfigHtml` refuses the combination rather than publish it.
+    #   - Byron supported-protocol-version becomes a fixed 1/0/0, since
+    #     cardano-config does not model LastKnownBlockVersion-*.  Deliberate
+    #     upstream, and it applies to every enveloped environment.
+    configFormat = env.configFormat or "enveloped";
     tracerConfig = defaultTracerConfig // {inherit (fromJSON (readFile ./${name}/shelley-genesis.json)) networkMagic;};
     # The node config `Protocol` key is vestigial as of node 11.2 and is no
     # longer emitted.  Cardano is the only consensus protocol still supported,
@@ -174,6 +195,8 @@ let
       edgePort = 3001;
       confKey = "mainnet_full";
       networkConfig = import ./mainnet-config.nix // minNodeVersion;
+      # Sets CheckpointsFile, which cardano-config does not map yet.
+      configFormat = "flat";
       useLedgerAfterSlot = 194140785;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
@@ -232,6 +255,8 @@ let
       ];
       edgePort = 3001;
       networkConfig = import ./preview-config.nix // minNodeVersion;
+      # Sets CheckpointsFile, which cardano-config does not map yet.
+      configFormat = "flat";
       useLedgerAfterSlot = 119231973;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
@@ -373,8 +398,6 @@ let
                       <td>
                         <div class="buttons has-addons">
                           <a class="button is-primary" href="${env}-config.json">config</a>
-                          ${optionalString (cardanoConfigSrc != null) ''
-                            <a class="button is-primary" href="${env}-config-enveloped.json">config (enveloped)</a>''}
                           <a class="button is-info" href="${env}-${protNames.${p}.n}-genesis.json">${protNames.${p}.n}Genesis</a>
                           ${optionalString (p == "Cardano") ''
                             <a class="button is-info" href="${env}-${protNames.${p}.shelley}-genesis.json">${protNames.${p}.shelley}Genesis</a>
@@ -497,15 +520,24 @@ let
           # sibling files copied below rather than absolute store paths.
           relativeNodeConfig =
             value.nodeConfig // (if p != "Cardano" then genesisFile else genesisFiles);
+
+          # One config per environment, in whichever form that environment
+          # selects.  See `configFormat` above.
+          #
+          # Refused rather than published: on the enveloped path cardano-config
+          # is the only parser, and its adapter always resolves the checkpoints
+          # configuration to empty, so the keys would be silently inert.
+          publishedNodeConfig =
+            if value.configFormat == "enveloped"
+            then
+              assert (!(value.nodeConfig ? CheckpointsFile)) || throw
+                ("cardanoLib: environment ${env} sets CheckpointsFile and cannot use "
+                 + "configFormat = \"enveloped\"; cardano-config's adapter does not map "
+                 + "it yet, see adapterGaps in the node's CardanoConfigAdapter.hs");
+              envelope.mkEnvelope relativeNodeConfig
+            else relativeNodeConfig;
         in ''
-          ${if p != "Cardano" then ''
-            ${jq}/bin/jq . < ${toFile "${env}-config.json" (toJSON (value.nodeConfig // genesisFile))} > $out/${env}-config.json
-          '' else ''
-            ${jq}/bin/jq . < ${toFile "${env}-config.json" (toJSON (value.nodeConfig // genesisFiles))} > $out/${env}-config.json
-          ''}
-          ${optionalString (cardanoConfigSrc != null) ''
-            ${jq}/bin/jq . < ${toFile "${env}-config-enveloped.json" (toJSON (envelope.mkEnvelope relativeNodeConfig))} > $out/${env}-config-enveloped.json
-          ''}
+          ${jq}/bin/jq . < ${toFile "${env}-config.json" (toJSON publishedNodeConfig)} > $out/${env}-config.json
           ${optionalString (p == "RealPBFT" || p == "Byron") ''
             cp ${value.nodeConfig.GenesisFile} $out/${env}-${protNames.${p}.n}-genesis.json
           ''}
