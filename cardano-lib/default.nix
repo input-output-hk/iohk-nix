@@ -474,12 +474,24 @@ let
     }) targets;
 
     bad = filter (f: f.keys != []) findings;
+
+    # On success the output is the evidence, not an empty file: what was checked
+    # and what was allowed through, so a green job stays auditable after the
+    # build log is gone and two revisions can be diffed against each other.
+    passed = writeText "cardano-config-lint.json" (toJSON {
+      checked = attrNames targets;
+      recognisedKeys = envelope.recognisedKeys;
+      allowed = {
+        all = allowedConfigKeys;
+        perEnvironment = allowedConfigKeysFor;
+      };
+    });
   in
     runCommand "cardano-config-lint" {} (
       if bad == []
       then ''
         echo "no unrecognised node config keys in: ${toString (attrNames targets)}"
-        touch $out
+        cp ${passed} $out
       ''
       else ''
         echo "node config keys cardano-config will not resolve:"
@@ -490,6 +502,69 @@ let
         echo "Each is either a key cardano-config removed, or a typo it would keep"
         echo "and warn about on every parse.  Drop it, or add it to"
         echo "allowedConfigKeys in cardano-lib/default.nix if it is deliberate."
+        exit 1
+      ''
+    );
+
+  # Fails if `envelope.nix` and the pinned cardano-config disagree about any
+  # value it cannot derive from the JSON schemas.
+  #
+  # `propertyToSection`, `sections` and `envelopeKeys` are read from the schemas,
+  # so a pin bump carries them automatically and they need no check.  The rename
+  # and drop tables, and the format version, exist only as Haskell literals, so
+  # they are restated in `envelope.nix` and compared here.  `removedFields` alone
+  # gained two entries between cardano-config 1.0.0.0 and 1.1.0.0, so this is the
+  # drift that actually happens.
+  #
+  # Deliberately a derivation rather than an eval time assert, for the same
+  # reason as `mkConfigLint`: cardano-lib is imported by every downstream
+  # consumer and a failing assert would break their evaluation.
+  #
+  # What this cannot catch: the behavioural rules, the `ApplicationName` collapse
+  # and the deliberately omitted flat `LedgerDB` fixups.  Only comparing
+  # `mkEnvelope` output against real `cardano-config migrate` output covers
+  # those, which needs a built binary and so belongs downstream, in cardano-parts
+  # or capkgs CI.
+  #
+  # Temporary by design.  This check polices tables that only exist because the
+  # envelope is derived from a flat source of truth; writing each
+  # `<env>-config.nix` in envelope shape deletes the tables and this job with
+  # them.  See the header of envelope.nix for what has to land first.
+  mkConfigDrift = let
+    drifted = filterAttrs (name: ours: ours != envelope.upstream.${name}) envelope.driftPairs;
+    names = attrNames drifted;
+
+    # On success the output is the agreed-upon values rather than an empty file,
+    # so a green job records what the pin said at this revision and two
+    # revisions can be diffed to see which tables moved.
+    passed = writeText "cardano-config-drift.json" (toJSON {
+      agreed = envelope.driftPairs;
+      derivedFromSchemas = {
+        inherit (envelope) sections;
+        propertyToSection = envelope.propertyToSection;
+      };
+    });
+  in
+    runCommand "cardano-config-drift" {} (
+      if names == []
+      then ''
+        echo "envelope.nix agrees with the cardano-config pin on: ${toString (attrNames envelope.driftPairs)}"
+        cp ${passed} $out
+      ''
+      else ''
+        echo "envelope.nix disagrees with the pinned cardano-config source:"
+        ${toString (map (n: ''
+          echo "  ${n}"
+          echo "    envelope.nix: ${toJSON envelope.driftPairs.${n}}"
+          echo "    cardano-config: ${toJSON envelope.upstream.${n}}"
+        '') names)}
+        echo
+        echo "Update the corresponding binding in cardano-lib/envelope.nix to match,"
+        echo "then re-check that mkEnvelope still reproduces cardano-config migrate."
+        echo
+        echo "A null on the cardano-config side means the extraction found nothing,"
+        echo "which usually means upstream reformatted the literal rather than"
+        echo "changed it; the parsing in envelope.nix is line based."
         exit 1
       ''
     );
@@ -585,6 +660,9 @@ in {
   # Flat config to cardano-config Version1 envelope, and the key to component
   # mapping it is built from.
   inherit (envelope) mkEnvelope propertyToSection;
+
+  # Drift detection against the cardano-config pin, see mkConfigDrift.
+  inherit mkConfigDrift;
 
   # For now we export live and dead environments.
   environments = environments // dead_environments;

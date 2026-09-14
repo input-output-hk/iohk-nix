@@ -69,8 +69,30 @@ version. There may have been changes which could break your build.
     This catches what the schemas cannot: neither sets `additionalProperties`,
     so a removed or misspelled key validates clean against them.
 
-    New in `cardanoLib`: `mkConfigLint`, `lintTargets`, `mkEnvelope`,
-    `propertyToSection`.
+  * New `hydraJobs.cardano-config-drift`, built by `mkConfigDrift`, fails if
+    `envelope.nix` and the pinned cardano-config disagree about any value that
+    cannot be derived from the JSON schemas: the rename and drop tables and the
+    format version, which exist only as Haskell literals and so are restated in
+    Nix.  `removedFields` alone gained two entries between cardano-config
+    1.0.0.0 and 1.1.0.0, so this is drift that happens in practice.
+
+    The section list and the envelope annotations are now derived from
+    `config.schema.json` rather than restated, so an added or renamed section
+    arrives with a pin bump instead of being silently ignored, and the `$schema`
+    URL's version tag is derived from the format version.
+
+    Both this and `cardano-config-lint` write their result to `$out` as JSON on
+    success rather than an empty file, so a green job records what it checked
+    and two revisions can be diffed to see what moved.
+
+    Neither check covers the behavioural parts of `migrate`, the
+    `ApplicationName` collapse and the deliberately omitted flat `LedgerDB`
+    fixups.  Only comparing `mkEnvelope` output against real
+    `cardano-config migrate` output covers those, which needs a built binary and
+    so belongs downstream.
+
+    New in `cardanoLib`: `mkConfigLint`, `lintTargets`, `mkConfigDrift`,
+    `mkEnvelope`, `propertyToSection`.
 
     `mkEnvelope` reproduces `cardano-config migrate` for any flat config, not
     just the ones shipped here, so it can be used on a hand-written config.  It
