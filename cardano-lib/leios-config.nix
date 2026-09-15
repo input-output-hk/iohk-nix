@@ -128,5 +128,21 @@ with builtins; {
       severity = "Debug";
       maxFrequency = 0;
     };
+
+    "LeiosNotify.Remote.Receive.RequestNext" = {
+      severity = "Silence";
+    };
+
+    "LeiosNotify.Remote.Receive.Votes" = {
+      severity = "Silence";
+    };
+
+    "LeiosNotify.Remote.Send.RequestNext" = {
+      severity = "Silence";
+    };
+
+    "LeiosNotify.Remote.Send.Votes" = {
+      severity = "Silence";
+    };
   };
 }
