@@ -20,26 +20,25 @@ version. There may have been changes which could break your build.
     them on every parse.  `minNodeVersion` is now `11.2.0`.
 
     Dropped from every `environments.<env>.nodeConfig`:
-      * `Protocol` - read `environments.<env>.consensusProtocol` instead.  It
-        carries the same value and is present on older iohk-nix revisions too,
-        where it is derived from the dropped key, so consumers can move to it
-        before bumping their pin.  A consumer still reading
-        `nodeConfig.Protocol` fails at evaluation with `attribute 'Protocol'
-        missing`.
       * `MaxKnownMajorProtocolVersion` - mainnet only, and read by nothing in
         the node source.
 
     Additionally dropped from `testnet-template/config.json`:
       * `PBftSignatureThreshold`, `ApplicationName`, `ApplicationVersion`.
 
-    `LastKnownBlockVersion-Major`, `-Minor` and `-Alt` are deliberately kept:
-    cardano-config drops them but the node's own parser still requires the first
-    two.
+    `Protocol` and `LastKnownBlockVersion-Major`, `-Minor`, `-Alt` are
+    deliberately kept.  cardano-config drops all four, so they are absent from
+    the enveloped config, but the flat `nodeConfig` has two readers that require
+    them: the node's own POM parser, which needs the first two block-version
+    keys, and db-sync, which reads `Protocol` and all three block-version keys
+    as mandatory in `Cardano/DbSync/Config/Node.hs`.  They can go once db-sync
+    reads an envelope.
 
     Changed in `cardanoLib`:
       * `consensusProtocol` is now the literal `"Cardano"` rather than being
         derived from `networkConfig.Protocol`.  Cardano is the only consensus
-        protocol still supported.
+        protocol still supported, and the key it was derived from goes away
+        once db-sync reads an envelope.
 
   * **Breaking:** `<env>-config.json` is now published in the cardano-config
     Version1 envelope for every environment, rather than the flat single-file

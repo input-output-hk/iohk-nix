@@ -17,6 +17,11 @@ with builtins; {
   DijkstraGenesisHash = "aa1238f505479a9b104d2cc001b4bf951062cd527200bea9a1857bdd0dc41085";
 
   ### Core protocol parameters #####
+
+  # Dropped from the enveloped config; kept for db-sync, which reads it from
+  # the flat config as a mandatory key.  See mainnet-config.nix.
+  Protocol = "Cardano";
+
   RequiresNetworkMagic = "RequiresMagic";
 
   ExperimentalHardForksEnabled = true;

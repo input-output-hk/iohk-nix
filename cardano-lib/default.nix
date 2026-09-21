@@ -159,10 +159,11 @@ let
     # upstream, and it applies to every enveloped environment.
     configFormat = env.configFormat or "enveloped";
     tracerConfig = defaultTracerConfig // {inherit (fromJSON (readFile ./${name}/shelley-genesis.json)) networkMagic;};
-    # The node config `Protocol` key is vestigial as of node 11.2 and is no
-    # longer emitted.  Cardano is the only consensus protocol still supported,
-    # and node defaults to it when the key is absent.  This attribute is kept
-    # for consumers and to drive the config html table below.
+    # Cardano is the only consensus protocol still supported, so this is a
+    # literal rather than a read of `networkConfig.Protocol`.  That key is
+    # vestigial for the node and absent from the enveloped config, and stays in
+    # the flat config only for db-sync, so reading it here would couple this
+    # attribute to a key that goes away once db-sync reads an envelope.
     consensusProtocol = "Cardano";
     submitApiConfig = defaultSubmitApiConfig;
     dbSyncConfig =
@@ -432,14 +433,21 @@ let
   # Node config keys kept on purpose even though cardano-config does not resolve
   # them.  Everything else unrecognised fails mkConfigLint.
   #
-  # LastKnownBlockVersion-Major and -Minor are mandatory for the node's POM
-  # parser but dropped by cardano-config migrate, so they have to stay in the
-  # flat config while POM is the parser that runs the node.  Drop these three
-  # once POM is gone.
+  # All four are dropped by cardano-config migrate, so none reaches the
+  # enveloped config.  They stay in the flat config because it has two readers
+  # that require them:
+  #
+  #   * the node's POM parser, for LastKnownBlockVersion-Major and -Minor;
+  #   * db-sync, for Protocol and all three block-version keys, read with `.:`
+  #     in Cardano/DbSync/Config/Node.hs.
+  #
+  # POM stops mattering once nothing is published flat, but db-sync keeps these
+  # alive until it reads an envelope.  Drop them then.
   allowedConfigKeys = [
     "LastKnownBlockVersion-Major"
     "LastKnownBlockVersion-Minor"
     "LastKnownBlockVersion-Alt"
+    "Protocol"
   ];
 
   # Per environment additions to the above.
