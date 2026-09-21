@@ -37,26 +37,27 @@
 {lib, cardanoConfigSrc}:
 let
   inherit (builtins) attrNames elemAt elem filter fromJSON isAttrs isList isString listToAttrs
-    map match pathExists split
+    map match split
     readFile;
   inherit (lib) concatMap foldl' optionalAttrs recursiveUpdate;
 
-  # The whole-configuration schema names the envelope annotations, every
-  # component section, and `HermodTracing`, all as top-level properties.  Split
-  # on whether a matching `schemas/<name>.schema.json` exists to tell the
-  # sections from the rest, so an added or renamed section is picked up by a pin
-  # bump rather than silently ignored.
-  topLevelProperties =
-    filter (k: k != "$schema")
-      (attrNames (fromJSON (readFile "${cardanoConfigSrc}/schemas/config.schema.json")).properties);
+  # As of cardano-config 2.0.0.0 there is one schema file.  Its top level is the
+  # envelope annotations alone; every component section sits under
+  # `Configuration` with its properties inlined.  Before 2.0.0.0 the sections
+  # were also top-level properties and each had its own
+  # `schemas/<name>.schema.json`, which is what this used to read.
+  configSchema = fromJSON (readFile "${cardanoConfigSrc}/schemas/config.schema.json");
 
-  hasSectionSchema = name: pathExists "${cardanoConfigSrc}/schemas/${name}.schema.json";
+  sectionSchemas = configSchema.properties.Configuration.properties;
 
-  sections = filter hasSectionSchema topLevelProperties;
+  # The component sections.  `HermodTracing` sits alongside them but carries no
+  # properties, because cardano-config describes it only as a path or an object
+  # and leaves the shape to trace-dispatcher.  So "has properties" is what
+  # separates a component from the rest, and an added or renamed section is
+  # picked up by a pin bump rather than silently ignored.
+  sections = filter (name: sectionSchemas.${name} ? properties) (attrNames sectionSchemas);
 
-  schemaProperties = section:
-    filter (k: k != "$schema")
-      (attrNames (fromJSON (readFile "${cardanoConfigSrc}/schemas/${section}.schema.json")).properties);
+  schemaProperties = section: attrNames sectionSchemas.${section}.properties;
 
   # Every component property name mapped to the section that owns it.  Read
   # from the schemas rather than restated here, so bumping the cardano-config
@@ -118,7 +119,13 @@ let
   # by the `TargetNumberOf*` entries.
   renamedKeys = {
     EnableRpc = "EnableGrpc";
+    MempoolCapacityBytesOverride = "CapacityBytesOverride";
     RpcSocketPath = "GrpcSocketPath";
+    RpcListenAddress = "GrpcListenAddress";
+    RpcListenPort = "GrpcListenPort";
+    RpcTlsCertificateFile = "GrpcTlsCertificateFile";
+    RpcTlsPrivateKeyFile = "GrpcTlsPrivateKeyFile";
+    RpcTlsChainCertificateFiles = "GrpcTlsChainCertificateFiles";
     TargetNumberOfRootPeers = "DeadlineTargetNumberOfRootPeers";
     TargetNumberOfKnownPeers = "DeadlineTargetNumberOfKnownPeers";
     TargetNumberOfEstablishedPeers = "DeadlineTargetNumberOfEstablishedPeers";
@@ -172,19 +179,16 @@ let
          }) (attrNames value))
     else value;
 
-  # Envelope annotations, lifted out of the config body.  These are the
-  # whole-config schema's top-level properties that are not a component section
-  # and not `HermodTracing`, whose shape cardano-config leaves to
-  # trace-dispatcher.  `$schema` is filtered out above, so add it back.
-  envelopeKeys =
-    ["$schema"]
-    ++ filter (k: !(hasSectionSchema k) && k != "HermodTracing") topLevelProperties;
+  # Envelope annotations, lifted out of the config body.  Since 2.0.0.0 the
+  # schema's top level is exactly these, the body having moved under
+  # `Configuration`, so they are read off directly.
+  envelopeKeys = attrNames configSchema.properties;
 
   # The format version this envelope declares, `currentFormatVersion` in
   # Schema.hs.  The schema only constrains it to `minimum: 1`, so read it from
   # the source; `mkConfigDrift` in default.nix fails the build if this and the
   # pin disagree.
-  formatVersion = 1;
+  formatVersion = 2;
 
   # The annotation `migrate` stamps.  Emitting it is what makes a config
   # canonical: cardano-config warns `MigratedToCurrentFormat` whenever migrate
