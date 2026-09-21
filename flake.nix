@@ -22,8 +22,11 @@
     # haskell.nix, hackage.nix, CHaP and iohk-nix itself, none of which belong
     # in this lock.
     #
-    # Pinned to cardano-config-1.1.0.0, matching the node 11.2 pin.
-    cardano-config = { url = "github:IntersectMBO/cardano-config?rev=6d4f91680bbfb526f4bbac0c8365b0d0cce318aa"; flake = false; };
+    # Pinned to the release the node resolves to, so both sides read the same
+    # schemas.  The node takes cardano-config from CHaP bounded `^>= 2.1`, which
+    # is `>= 2.1 && < 2.2`, so 2.1.0.0 even though 2.2.x is published.  Follow
+    # the node when bumping this.
+    cardano-config = { url = "github:IntersectMBO/cardano-config/cardano-config-2.1.0.0"; flake = false; };
   };
 
   outputs = { self, nixpkgs, ... }@inputs: rec {

@@ -135,9 +135,13 @@ let
     # with cardano-config alone.
     nodeConfigEnveloped = envelope.mkEnvelope environments.${name}.nodeConfig;
 
-    # Which form `mkConfigHtml` publishes as `<env>-config.json`.  One file per
-    # environment, never both.  Override per environment in the definitions
-    # below with `configFormat = "flat";`.
+    # Which dialect `mkConfigHtml` publishes as `<env>-config.json`.  One file
+    # per environment, never both.  Override per environment in the definitions
+    # below with `configFormat = "legacy";`.
+    #
+    # The names match the node's own `ConfigurationDialect`: `legacy` is the
+    # flat, pre-cardano-config form both parsers read, `enveloped` is the
+    # cardano-config envelope only cardano-config reads.
     #
     # Only affects the published node config.  `dbSyncConfig` and
     # `explorerConfig` embed their own copy of the flat `nodeConfig`, so they are
@@ -145,14 +149,12 @@ let
     #
     # Given an envelope the node skips its own POM parser and resolves with
     # cardano-config alone, so the envelope inherits whatever that adapter does
-    # not map.  Every environment is enveloped now; `CheckpointsFile`, the one
-    # gap that previously forced mainnet and preview to stay flat, is mapped as
-    # of the adapter fix carried for the 11.2 series.
+    # not map.
     #
-    # **This therefore requires a node carrying that fix.** An older node given
-    # an enveloped config that sets CheckpointsFile resolves the checkpoints
-    # configuration to empty, silently.  `minNodeVersion` is the contract that
-    # says so.
+    # **Enveloping therefore requires a node whose adapter maps
+    # `CheckpointsFile`.** An older one given an enveloped config that sets it
+    # resolves the checkpoints configuration to empty, silently.
+    # `minNodeVersion` is the contract that says which nodes are safe.
     #
     # Byron supported-protocol-version still becomes a fixed 1/0/0 on this path,
     # since cardano-config does not model LastKnownBlockVersion-*.  Deliberate
@@ -604,12 +606,13 @@ let
           relativeNodeConfig =
             value.nodeConfig // (if p != "Cardano" then genesisFile else genesisFiles);
 
-          # One config per environment, in whichever form that environment
+          # One config per environment, in whichever dialect that environment
           # selects.  See `configFormat` above.
           publishedNodeConfig =
-            if value.configFormat == "enveloped"
-            then envelope.mkEnvelope relativeNodeConfig
-            else relativeNodeConfig;
+            if value.configFormat == "enveloped" then envelope.mkEnvelope relativeNodeConfig
+            else if value.configFormat == "legacy" then relativeNodeConfig
+            else throw ("cardanoLib: ${env} sets configFormat = \"${value.configFormat}\";"
+                        + " expected \"enveloped\" or \"legacy\"");
         in ''
           ${jq}/bin/jq . < ${toFile "${env}-config.json" (toJSON publishedNodeConfig)} > $out/${env}-config.json
           ${optionalString (p == "RealPBFT" || p == "Byron") ''
