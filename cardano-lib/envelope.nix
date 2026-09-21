@@ -119,6 +119,11 @@ let
   renamedKeys = {
     EnableRpc = "EnableGrpc";
     RpcSocketPath = "GrpcSocketPath";
+    RpcListenAddress = "GrpcListenAddress";
+    RpcListenPort = "GrpcListenPort";
+    RpcTlsCertificateFile = "GrpcTlsCertificateFile";
+    RpcTlsPrivateKeyFile = "GrpcTlsPrivateKeyFile";
+    RpcTlsChainCertificateFiles = "GrpcTlsChainCertificateFiles";
     TargetNumberOfRootPeers = "DeadlineTargetNumberOfRootPeers";
     TargetNumberOfKnownPeers = "DeadlineTargetNumberOfKnownPeers";
     TargetNumberOfEstablishedPeers = "DeadlineTargetNumberOfEstablishedPeers";
@@ -184,7 +189,7 @@ let
   # Schema.hs.  The schema only constrains it to `minimum: 1`, so read it from
   # the source; `mkConfigDrift` in default.nix fails the build if this and the
   # pin disagree.
-  formatVersion = 1;
+  formatVersion = 2;
 
   # The annotation `migrate` stamps.  Emitting it is what makes a config
   # canonical: cardano-config warns `MigratedToCurrentFormat` whenever migrate

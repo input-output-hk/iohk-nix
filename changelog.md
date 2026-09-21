@@ -4,6 +4,17 @@ Please read these notes when updating your project's `iohk-nix`
 version. There may have been changes which could break your build.
 
 ## 2026-09-13
+  * **Breaking:** `mainnet` now defaults to `ConsensusMode: GenesisMode`, as
+    preprod, preview, sanchonet and dijkstra already did.  leios stays on
+    `PraosMode`.
+
+    Genesis mode requires a peer snapshot: the topology must declare
+    `peerSnapshotFile`, and unlike PraosMode a missing snapshot is fatal rather
+    than tolerated.  `mkTopology` declares it for every network and
+    `mainnet-peer-snapshot.json` is published alongside the config, so consumers
+    taking both from here need no change.  A hand-assembled topology, or one
+    carried over from before the snapshot was declared, will not start.
+
   * **Breaking:** keys that cardano-config treats as removed are no longer
     emitted in any environment's `nodeConfig`, so node 11.2 does not warn about
     them on every parse.  `minNodeVersion` is now `11.2.0`.
