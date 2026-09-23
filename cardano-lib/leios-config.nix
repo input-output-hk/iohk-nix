@@ -37,9 +37,6 @@ with builtins; {
   # There's a syncing issue with GenesisMode being investigated.
   ConsensusMode = "PraosMode";
 
-  # Leios specific customizations:
-  MempoolCapacityBytesOverride = 2000000;
-
   # Default Ledger Configuration
   # Additional configuration options can be found at:
   # https://ouroboros-consensus.cardano.intersectmbo.org/docs/for-developers/utxo-hd/migrating
@@ -81,12 +78,10 @@ with builtins; {
 
   LeiosDbConfig = {
     # Can be "InMemory" or "SQLite", with the default being "SQLite".
+    # As of w38a:
+    #   leios.imm.db follows --database-path or --immutable-database-path
+    #   leios.vol.db follows --database-path or --volatile-database-path
     Backend = "SQLite";
-
-    # If backend is "SQLite" an extra key is expected for file path. This can
-    # be either an absolute path or a relative path to node --database-path
-    # arg. The default is "leios.db".
-    Filepath = "leios.db";
   };
 
   ##### Update system parameters #####
