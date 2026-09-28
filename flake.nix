@@ -22,9 +22,12 @@
     # haskell.nix, hackage.nix, CHaP and iohk-nix itself, none of which belong
     # in this lock.
     #
-    # Pinned to pull/22/head, cardano-config 2.0.0.0, matching the node 11.2
-    # pin.  Move to the 2.0.0.0 tag once it merges.
-    cardano-config = { url = "github:IntersectMBO/cardano-config?rev=29d5cf3f600a5a7fb2fd4b6fe06df21c06d30d8d"; flake = false; };
+    # Pinned to main, cardano-config 2.0.0.0, where pull/22 landed as a squash.
+    # Not a tag: the CHANGELOG heading there is still `Unreleased`, and upstream
+    # dates that heading before tagging, so neither `cardano-config-2.0.0.0` nor
+    # the `v2` the schemas' `$id` points at exists yet.  Move to the tag once it
+    # is cut.
+    cardano-config = { url = "github:IntersectMBO/cardano-config?rev=d6340b13b9c789441905f27d90984a6018bbe503"; flake = false; };
   };
 
   outputs = { self, nixpkgs, ... }@inputs: rec {
