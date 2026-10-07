@@ -113,7 +113,7 @@ let
     };
   };
 
-  # This attribute is here for iohk-nix/release.nix Hydra builds.
+  # Vestigial: this existed for the Hydra jobset in release.nix, which is gone.
   # Projects should generally use the haskell-nix-extra overlay directly.
   haskell-nix-extra-packages = let
     baseOverlays = overlays;

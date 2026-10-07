@@ -4,6 +4,12 @@ Please read these notes when updating your project's `iohk-nix`
 version. There may have been changes which could break your build.
 
 ## 2026-10-06
+  * **Breaking:** `release.nix` is removed.  It was the Hydra jobset for the
+    niv entry point, and its `cardano-deployment` job could no longer evaluate:
+    `mkConfigHtml` now envelopes, which needs the `cardanoConfigSrc` that
+    `default.nix` does not pass.  CI builds the flake's `hydraJobs`, so the
+    jobset had no remaining consumer.  The niv entry point itself stays.
+
   * **Breaking:** `mainnet` now defaults to `ConsensusMode: GenesisMode`, as
     preprod, preview, sanchonet and dijkstra already did.  leios stays on
     `PraosMode`.
