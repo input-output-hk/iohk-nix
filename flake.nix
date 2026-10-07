@@ -314,6 +314,10 @@
       # Fails if envelope.nix and the cardano-config pin disagree about any value
       # that cannot be derived from the JSON schemas.
       cardano-config-drift = pkgs.cardanoLib.mkConfigDrift;
+
+      # Fails if any published node config does not validate against the JSON
+      # schema from the cardano-config pin.
+      cardano-config-schema = pkgs.cardanoLib.mkConfigSchema pkgs.cardanoLib.environments;
     };
   };
 }

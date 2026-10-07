@@ -2,10 +2,10 @@
 # JSON schemas the enveloped node config is built from.  Optional so the
 # non-flake entry point keeps working; `nodeConfigEnveloped` is the only
 # attribute that needs it, and only fails if evaluated without it.
-{lib, writeText, runCommand, jq, cardanoConfigSrc ? null}:
+{lib, writeText, runCommand, jq, yajsv, cardanoConfigSrc ? null}:
 let
   inherit (builtins) attrNames filter fromJSON readFile toFile toJSON;
-  inherit (lib) filterAttrs flip forEach listToAttrs mapAttrs mapAttrsToList optionalAttrs optionalString pipe recursiveUpdate;
+  inherit (lib) filterAttrs flip forEach listToAttrs mapAttrs mapAttrsToList optionalAttrs optionalString partition pipe recursiveUpdate;
 
   envelope =
     if cardanoConfigSrc == null
@@ -579,6 +579,78 @@ let
       ''
     );
 
+  # Validate every published node config against the JSON schema from the
+  # cardano-config pin.
+  #
+  # This validates the artifact, not the attrset.  `mkConfigLint` reads
+  # `env.nodeConfig`; this reads what `mkConfigHtml` writes, after the genesis
+  # paths are rewritten to the sibling files, because that is the file an
+  # operator downloads.
+  #
+  # Only the enveloped dialect is covered.  The pin ships a single schema,
+  # `config.schema.json`, describing the envelope; the legacy one-file schema
+  # that cardano-config 1.x carried is gone, so a legacy environment has nothing
+  # to validate against.  Those are named in the output rather than passed over
+  # in silence.
+  #
+  # `testnet-template/config.json` is deliberately not a target even though
+  # `mkConfigLint` covers it.  It names five genesis files and supplies no
+  # hashes, which downstream tooling fills in per network, so it cannot satisfy
+  # a schema that makes them mandatory.  It is also never published, so there
+  # is no artifact to check.
+  #
+  # What this cannot catch is a stray key.  The schema sets
+  # `additionalProperties` nowhere, at any depth, so an unrecognised key
+  # validates clean.  `mkConfigLint` covers that at the top level of the flat
+  # config and nothing covers one nested inside a section.
+  #
+  # Deliberately a derivation rather than an eval time assert, for the same
+  # reason as `mkConfigLint` and `mkConfigDrift`.
+  mkConfigSchema = environments: let
+    schema = "${cardanoConfigSrc}/schemas/config.schema.json";
+
+    byFormat = partition (env: environments.${env}.configFormat == "enveloped") (attrNames environments);
+
+    published = mkConfigHtml environments;
+    targets = map (env: "${published}/${env}-config.json") byFormat.right;
+
+    # The `$id` upstream gives the schema is the same URL `envelope.nix` stamps
+    # into every config we publish.  Were a pin bump to move one and not the
+    # other, our documents would claim conformance to a schema this job never
+    # read, which is the one failure the validation itself cannot show.
+    schemaId = (fromJSON (readFile schema))."$id";
+
+    # On success the output is the evidence rather than an empty file, matching
+    # the other two jobs: what was validated, what was not, and against which
+    # schema, so a green job stays readable after the build log is gone.
+    passed = writeText "cardano-config-schema.json" (toJSON {
+      inherit schemaId;
+      schema = "cardano-config pin, schemas/config.schema.json";
+      validated = byFormat.right;
+      skippedLegacyDialect = byFormat.wrong;
+      notCovered = {
+        testnet-template = "names genesis files without hashes, which the schema requires";
+      };
+    });
+  in
+    runCommand "cardano-config-schema" {buildInputs = [yajsv];} (
+      if schemaId != envelope.schemaUrl
+      then ''
+        echo "the pinned schema and the \$schema we publish disagree:"
+        echo "  cardano-config \$id: ${schemaId}"
+        echo "  envelope.nix:        ${envelope.schemaUrl}"
+        echo
+        echo "Every enveloped config we publish would claim conformance to a schema"
+        echo "this job did not validate it against.  Reconcile schemaUrl in"
+        echo "cardano-lib/envelope.nix with the pin before trusting either."
+        exit 1
+      ''
+      else ''
+        yajsv -s ${schema} ${toString targets}
+        cp ${passed} $out
+      ''
+    );
+
   # Any environments using the HFC protocol of "Cardano" need a second genesis file attribute of
   # genesisFileHfc in order to generate the html table in mkConfigHtml
   mkConfigHtml = environments: runCommand "cardano-html" { buildInputs = [ jq ]; } ''
@@ -661,6 +733,7 @@ in {
     lintTargets
     mkConfigHtml
     mkConfigLint
+    mkConfigSchema
     mkEdgeTopologyP2P
     mkExplorerConfig
     mkMithrilSignerConfig
