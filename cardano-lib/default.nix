@@ -1,7 +1,7 @@
 # `cardanoConfigSrc` is the IntersectMBO/cardano-config source, supplying the
 # JSON schemas the enveloped node config is built from.  Optional so the
-# non-flake entry point keeps working; `nodeConfigEnveloped` is the only
-# attribute that needs it, and only fails if evaluated without it.
+# non-flake entry point keeps working: only the envelope attributes need it,
+# and they fail only when evaluated.  The throw below names them.
 {lib, writeText, runCommand, jq, yajsv, cardanoConfigSrc ? null}:
 let
   inherit (builtins) attrNames filter fromJSON readFile toFile toJSON;
@@ -9,7 +9,12 @@ let
 
   envelope =
     if cardanoConfigSrc == null
-    then throw "cardanoLib: nodeConfigEnveloped needs `cardanoConfigSrc`, the IntersectMBO/cardano-config source"
+    then throw ("cardanoLib: `cardanoConfigSrc`, the IntersectMBO/cardano-config source, was"
+                + " not supplied.  It is needed by mkEnvelope, propertyToSection,"
+                + " nodeConfigEnveloped, mkConfigLint, mkConfigDrift and mkConfigSchema, and"
+                + " by mkConfigHtml for any environment on the enveloped dialect, which is"
+                + " the default.  The flat nodeConfig and everything derived from it, such"
+                + " as dbSyncConfig and explorerConfig, work without it.")
     else import ./envelope.nix {inherit lib cardanoConfigSrc;};
 
   # As of node 10.6.0 only p2p networking mode is available.
