@@ -92,18 +92,19 @@ version. There may have been changes which could break your build.
     arrives with a pin bump instead of being silently ignored, and the `$schema`
     URL's version tag is derived from the format version.
 
-    Both this and `cardano-config-lint` write their result to `$out` as JSON on
-    success rather than an empty file, so a green job records what it checked
-    and two revisions can be diffed to see what moved.
+    This, `cardano-config-lint` and `cardano-config-schema` all write their
+    result to `$out` as JSON on success rather than an empty file, so a green
+    job records what it checked and two revisions can be diffed to see what
+    moved.
 
-    Neither check covers the behavioural parts of `migrate`, the
+    None of them covers the behavioural parts of `migrate`, the
     `ApplicationName` collapse and the deliberately omitted flat `LedgerDB`
     fixups.  Only comparing `mkEnvelope` output against real
     `cardano-config migrate` output covers those, which needs a built binary and
     so belongs downstream.
 
     New in `cardanoLib`: `mkConfigLint`, `lintTargets`, `mkConfigDrift`,
-    `mkEnvelope`, `propertyToSection`.
+    `mkConfigSchema`, `mkEnvelope`, `propertyToSection`.
 
     `mkEnvelope` reproduces `cardano-config migrate` for any flat config, not
     just the ones shipped here, so it can be used on a hand-written config.  It
@@ -119,6 +120,25 @@ version. There may have been changes which could break your build.
     `mkConfigLint` reports a pre-rename key such as `TargetNumberOfRootPeers` as
     unrecognised rather than silently accepting it.  `migrate` would rewrite it,
     but the source is better fixed.
+
+  * New `hydraJobs.cardano-config-schema`, built by `mkConfigSchema`, validates
+    every published `<env>-config.json` against `config.schema.json` from the
+    cardano-config pin.  It reads the artifact `mkConfigHtml` writes rather than
+    the Nix attrset, so what is checked is the file an operator downloads,
+    genesis paths and all.  Type and enum errors are caught at any depth: a
+    `Backend` of `V1LMDB` three levels inside `Storage` fails the build.
+
+    Only the enveloped dialect is covered.  The pin ships one schema, for the
+    envelope; the legacy one-file schema cardano-config 1.x carried is gone, so
+    a `configFormat = "legacy"` environment is named as skipped in the job
+    output rather than passed over in silence.  The testnet template is not a
+    target either, as it names genesis files without the hashes the schema
+    requires and is never published.
+
+    It also fails if the schema's own `$id` and the `$schema` URL `envelope.nix`
+    stamps into every config disagree.  That is the one way a pin bump could
+    leave published configs claiming conformance to a schema the validation
+    never read.
 
   * New source-only flake input `cardano-config`, pinned to
     `cardano-config-2.1.0.0`.  That is the release cardano-node resolves to: it

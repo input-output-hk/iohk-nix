@@ -325,6 +325,6 @@ in
   assert (builtins.length (attrNames propertyToSection)) == propertyCount;
   {
     inherit driftPairs mkEnvelope propertyToSection recognisedKeys removedKeys
-      renamedKeys sections tracingKeys tracingObsoleteKeys unrecognisedKeys
-      upstream;
+      renamedKeys schemaUrl sections tracingKeys tracingObsoleteKeys
+      unrecognisedKeys upstream;
   }
