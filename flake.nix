@@ -23,10 +23,9 @@
     # in this lock.
     #
     # Pinned to the release the node resolves to, so both sides read the same
-    # schemas.  The node takes cardano-config from CHaP bounded `^>= 2.1`, which
-    # is `>= 2.1 && < 2.2`, so 2.1.0.0 even though 2.2.x is published.  Follow
-    # the node when bumping this.
-    cardano-config = { url = "github:IntersectMBO/cardano-config/cardano-config-2.1.0.0"; flake = false; };
+    # schemas.  The node takes cardano-config from CHaP bounded `^>= 2.2`, which
+    # is `>= 2.2 && < 2.3`, so 2.2.1.0.  Follow the node when bumping this.
+    cardano-config = { url = "github:IntersectMBO/cardano-config/cardano-config-2.2.1.0"; flake = false; };
   };
 
   outputs = { self, nixpkgs, ... }@inputs: rec {
