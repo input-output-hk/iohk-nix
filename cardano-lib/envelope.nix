@@ -144,6 +144,23 @@ let
     delay = "Delay";
   };
 
+  # The `LedgerDB.Snapshots` renames, scoped to that object upstream.  Taken
+  # from `snapshotOptionFields` in Migrate.hs, new in cardano-config 2.0.0.0.
+  snapshotRenamedKeys = {
+    SnapshotInterval = "Interval";
+    SlotOffset = "Offset";
+  };
+
+  # Rewrite one object's keys through a rename table.  Where both names are
+  # present the new one wins, as upstream does.
+  renameIn = table: obj:
+    let
+      present = attrNames obj;
+      collidingOld = filter (k: table ? ${k} && elem table.${k} present) present;
+      kept = filter (k: !(elem k collidingOld)) present;
+    in
+      listToAttrs (map (k: {name = table.${k} or k; value = obj.${k};}) kept);
+
   # `renameLegacy` from Migrate.hs: drop removed keys and rewrite renamed ones at
   # any depth, recursing through objects and arrays alike.  Runs before the
   # regrouping below, exactly as `migrate = reshape . renameLegacy` does.
@@ -166,17 +183,18 @@ let
     else if isList value then map renameLegacy value
     else value;
 
-  # Scoped fixups applied to a key's value after recursion.  Only the
-  # AcceptedConnectionsLimit rename is mirrored: the `LedgerDB` fixups upstream
-  # (`nestSnapshotOptions`, `nestBackend`) gather a legacy *flat* LedgerDB into
-  # the nested form, and every config here already emits the nested form, so
-  # they would be no-ops.  Revisit if a flat LedgerDB ever appears.
+  # Scoped fixups, mirroring the upstream rewrites that apply under a parent key
+  # rather than at any depth.
+  #
+  # `nestSnapshotOptions` and `nestBackend` are not mirrored: they gather a
+  # legacy flat LedgerDB into the nested form and every config here is nested
+  # already.  If one is ever added, nest before this rename as upstream does,
+  # since the rename only looks at an existing `Snapshots` object.
   scoped = key: value:
     if key == "AcceptedConnectionsLimit" && isAttrs value
-    then listToAttrs (map (k: {
-           name = acceptedConnectionsLimitKeys.${k} or k;
-           value = value.${k};
-         }) (attrNames value))
+    then renameIn acceptedConnectionsLimitKeys value
+    else if key == "LedgerDB" && isAttrs value && value ? Snapshots && isAttrs value.Snapshots
+    then value // {Snapshots = renameIn snapshotRenamedKeys value.Snapshots;}
     else value;
 
   # Envelope annotations, lifted out of the config body.  Since 2.0.0.0 the
@@ -295,12 +313,13 @@ let
     tracingObsoleteKeys = strings migrateHs "tracingObsoleteKeys";
     renamedKeys = renames migrateHs "renamedFields";
     acceptedConnectionsLimitKeys = renames migrateHs "acceptedConnectionsLimitFields";
+    snapshotRenamedKeys = renames migrateHs "snapshotOptionFields";
     formatVersion = intDef schemaHs "currentFormatVersion";
   };
 
   # What the checker compares: our value against the pin's, per name.
   driftPairs = {
-    inherit removedKeys tracingKeys tracingObsoleteKeys renamedKeys
+    inherit removedKeys tracingKeys tracingObsoleteKeys renamedKeys snapshotRenamedKeys
       acceptedConnectionsLimitKeys formatVersion;
   };
 
