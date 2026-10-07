@@ -3,7 +3,7 @@
 ############### Cardano Node Configuration ###############
 ##########################################################
 
-with builtins; {
+{
   ##### Locations #####
 
   ByronGenesisFile = ./mainnet + "/byron-genesis.json";
@@ -19,22 +19,21 @@ with builtins; {
 
   ##### Core protocol parameters #####
 
-  # This is the instance of the Ouroboros family that we are running.
-  # The node also supports various test and mock instances.
-  # "RealPBFT" is the real (ie not mock) (permissive) OBFT protocol, which
-  # is what we use on mainnet in Byron era.
+  # Vestigial for the node: cardano-config lists it in `removedFields`, so it is
+  # dropped from the enveloped config and node defaults to Cardano without it.
+  # Kept because db-sync still reads it from the flat config as a mandatory key,
+  # `o .: "Protocol"` in Cardano/DbSync/Config/Node.hs.  Drop once db-sync reads
+  # an envelope.  See also `LastKnownBlockVersion-*` below.
   Protocol = "Cardano";
 
   # The mainnet does not include the network magic into addresses. Testnets do.
   RequiresNetworkMagic = "RequiresNoMagic";
 
-  MaxKnownMajorProtocolVersion = 2;
-
   # The consensus mode.  If set to "GenesisMode", the `CheckpointsFile` and
   # `CheckpointsFileHash` values above will be used and a path to a peer
   # snapshot file will need to be declared in the p2p topology file under key
   # `peerSnapshotFile`.
-  ConsensusMode = "PraosMode";
+  ConsensusMode = "GenesisMode";
 
   # Mempool timeout parameters must be either all set or all unset.
   # When unset cardano-node will use default values.
@@ -82,30 +81,14 @@ with builtins; {
     # `V2LSM`.
     Backend = "V2InMemory";
 
-    # Instead of an object (attribute set) with individual options, a
-    # predefined snapshot policy can be selected by name, e.g.
+    # Derived from the security parameter, see snapshot-policy.nix.  Instead of
+    # an object a predefined policy can be selected by name, e.g.
     # `Snapshots = "Mithril";`.
-    Snapshots = {
-      # The snapshot interval in slots.  Use `securityParam * 40` to provide
-      # intra-epoch snapshot redundancy while minimizing potential IOWAIT stall on some
-      # spec constrained machines during snapshot write.
-      SnapshotInterval = (fromJSON (readFile ./mainnet/shelley-genesis.json)).securityParam * 40;
-
-      # Slot offset at which snapshot scheduling begins.
-      SlotOffset = 0;
-
-      # A minimum duration between snapshots, in seconds (used to avoid excessive snapshots while syncing).
-      # Default is 10 minutes.
-      # RateLimit = 600;
-
-      # Randomised snapshot delay range, in seconds.
-      # Both Min and Max need to be specified, otherwise the default delay of (5min, 10min) will be used.
-      # MinDelay = 300;
-      # MaxDelay = 600;
-
-      # The number of disk snapshots to keep.
-      NumOfDiskSnapshots = 2;
-    };
+    #
+    # A minimum duration between snapshots, in seconds, used to avoid excessive
+    # snapshots while syncing.  Defaults to 10 minutes.
+    # Snapshots.RateLimit = 600;
+    Snapshots = import ./snapshot-policy.nix ./mainnet/shelley-genesis.json;
   };
 
   # Environment customized tracing options
@@ -115,6 +98,12 @@ with builtins; {
 
   # This protocol version number gets used by block producing nodes as part
   # part of the system for agreeing on and synchronising protocol updates.
+  #
+  # cardano-config drops these three, so they are absent from the enveloped
+  # config and the Byron supported protocol version comes from consensus
+  # defaults instead.  Kept here because the flat config has two readers that
+  # require them: node's POM parser, and db-sync's `parseByronProtocolVersion`,
+  # which reads all three with `.:`.  Drop once db-sync reads an envelope.
   LastKnownBlockVersion-Major = 3;
   LastKnownBlockVersion-Minor = 0;
   LastKnownBlockVersion-Alt = 0;

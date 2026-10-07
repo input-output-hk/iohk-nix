@@ -3,7 +3,7 @@
 ############### Cardano Node Configuration ###############
 ##########################################################
 
-with builtins; {
+{
   ##### Locations #####
 
   ByronGenesisFile = ./preprod + "/byron-genesis.json";
@@ -17,10 +17,8 @@ with builtins; {
 
   ##### Core protocol parameters #####
 
-  # This is the instance of the Ouroboros family that we are running.
-  # The node also supports various test and mock instances.
-  # "RealPBFT" is the real (ie not mock) (permissive) OBFT protocol, which
-  # is what we use on mainnet in Byron era.
+  # Dropped from the enveloped config; kept for db-sync, which reads it from
+  # the flat config as a mandatory key.  See mainnet-config.nix.
   Protocol = "Cardano";
 
   # The mainnet does not include the network magic into addresses. Testnets do.
@@ -78,30 +76,14 @@ with builtins; {
     # `V2LSM`.
     Backend = "V2InMemory";
 
-    # Instead of an object (attribute set) with individual options, a
-    # predefined snapshot policy can be selected by name, e.g.
+    # Derived from the security parameter, see snapshot-policy.nix.  Instead of
+    # an object a predefined policy can be selected by name, e.g.
     # `Snapshots = "Mithril";`.
-    Snapshots = {
-      # The snapshot interval in slots.  Use `securityParam * 40` to provide
-      # intra-epoch snapshot redundancy while minimizing potential IOWAIT stall on some
-      # spec constrained machines during snapshot write.
-      SnapshotInterval = (fromJSON (readFile ./preprod/shelley-genesis.json)).securityParam * 40;
-
-      # Slot offset at which snapshot scheduling begins.
-      SlotOffset = 0;
-
-      # A minimum duration between snapshots, in seconds (used to avoid excessive snapshots while syncing).
-      # Default is 10 minutes.
-      # RateLimit = 600;
-
-      # Randomised snapshot delay range, in seconds.
-      # Both Min and Max need to be specified, otherwise the default delay of (5min, 10min) will be used.
-      # MinDelay = 300;
-      # MaxDelay = 600;
-
-      # The number of disk snapshots to keep.
-      NumOfDiskSnapshots = 2;
-    };
+    #
+    # A minimum duration between snapshots, in seconds, used to avoid excessive
+    # snapshots while syncing.  Defaults to 10 minutes.
+    # Snapshots.RateLimit = 600;
+    Snapshots = import ./snapshot-policy.nix ./preprod/shelley-genesis.json;
   };
 
   ##### Update system parameters #####
