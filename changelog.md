@@ -4,6 +4,26 @@ Please read these notes when updating your project's `iohk-nix`
 version. There may have been changes which could break your build.
 
 ## 2026-10-06
+  * The ledger snapshot policy is derived from each network's security
+    parameter, in the new `cardano-lib/snapshot-policy.nix`, rather than
+    restated in every `<env>-config.nix`.
+
+    `MinDelay` and `MaxDelay` are now set rather than left to defaults.  The
+    randomised delay spreads snapshot writes over the first quarter of each
+    interval, `MaxDelay = 10k` in slots converted to seconds, against the
+    existing `Interval = 40k` slots.  Upstream defaults `MaxDelay` to a flat
+    21600s, which is `10k` for mainnet only and exceeds the whole interval on a
+    smaller network, so a delayed write could land after the next snapshot was
+    due.  Resulting values, all networks running 1s slots:
+
+        mainnet, preprod                 Interval 86400  delay 300..21600
+        preview, sanchonet, dijkstra     Interval 17280  delay 300..4320
+        leios                            Interval  4320  delay 300..1080
+
+    `MinDelay` clamps to `MaxDelay` where that falls below 300s, since the
+    node's parser rejects `MinDelay > MaxDelay`.  `testnet-template/config.json`
+    carries the same values for its own `k` of 108.
+
   * **Breaking:** `release.nix` is removed.  It was the Hydra jobset for the
     niv entry point, and its `cardano-deployment` job could no longer evaluate:
     `mkConfigHtml` now envelopes, which needs the `cardanoConfigSrc` that
@@ -118,10 +138,12 @@ version. There may have been changes which could break your build.
     `TargetNumberOf*` peer targets to their `Deadline` prefixed names, and
     `MempoolCapacityBytesOverride` to `CapacityBytesOverride`), drops the same
     removed and obsolete keys,
-    collapses `ApplicationName` into `HermodTracing.TraceOptionNodeName`, and
-    PascalCases the `AcceptedConnectionsLimit` sub-keys.  The one exception is a
-    legacy *flat* `LedgerDB`, which `migrate` gathers into the nested form and
-    this does not, since the configs here already emit the nested form.
+    collapses `ApplicationName` into `HermodTracing.TraceOptionNodeName`,
+    PascalCases the `AcceptedConnectionsLimit` sub-keys, and rewrites
+    `SnapshotInterval` and `SlotOffset` to `Interval` and `Offset` inside
+    `LedgerDB.Snapshots`.  The one exception is a legacy *flat* `LedgerDB`,
+    which `migrate` gathers into the nested form and this does not, since every
+    config here emits the nested form already.
 
     `mkConfigLint` reports a pre-rename key such as `TargetNumberOfRootPeers` as
     unrecognised rather than silently accepting it.  `migrate` would rewrite it,
