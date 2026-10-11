@@ -154,6 +154,14 @@ let
     SlotOffset = "Offset";
   };
 
+  # Both names of the mempool capacity override.  A `"NoOverride"` value under
+  # either is dropped rather than carried forward, see `renameLegacy`.  Taken
+  # from `mempoolCapacityOverrideKeys` in Migrate.hs.
+  mempoolCapacityOverrideKeys = [
+    "MempoolCapacityBytesOverride"
+    "CapacityBytesOverride"
+  ];
+
   # Rewrite one object's keys through a rename table.  Where both names are
   # present the new one wins, as upstream does.
   renameIn = table: obj:
@@ -174,7 +182,14 @@ let
   renameLegacy = value:
     if isAttrs value then
       let
-        present = attrNames value;
+        # A mempool capacity override of "NoOverride" means the same as omitting
+        # the key, which is now the only way to say it, so upstream drops the
+        # entry under either name.  Dropped here before the collision check, as
+        # it is upstream, or a "NoOverride" under the old name would rename onto
+        # a real value under the new one.
+        isNoOverride = k:
+          elem k mempoolCapacityOverrideKeys && value.${k} == "NoOverride";
+        present = filter (k: !(isNoOverride k)) (attrNames value);
         collidingOld = filter (k: renamedKeys ? ${k} && elem renamedKeys.${k} present) present;
         kept = filter (k: !(elem k removedKeys) && !(elem k collidingOld)) present;
         rekey = k: {
@@ -293,11 +308,25 @@ let
         {started = false; done = false; out = [];}
         (sourceLines text)).out;
 
+    # Every quoted string of a `<name> = ["a", "b"]` literal written on one
+    # line.  Upstream writes the short lists that way, and `listBody` only sees
+    # the multi-line form, so a one-liner would silently scrape as empty.
+    # Returns null when there is no such literal, to tell "not inline" apart
+    # from "inline and empty".
+    inlineStrings = text: name:
+      let m = match ".*\n${name} = (\\[[^\n]*)\n.*" text;
+      in if m == null
+         then null
+         else concatMap (x: if isList x then x else []) (split "\"([^\"]+)\"" (elemAt m 0));
+
     # One quoted string per line, for a `[Text]` literal.
     strings = text: name:
-      concatMap
-        (l: let m = match "[^\"]*\"([^\"]+)\".*" l; in if m == null then [] else m)
-        (listBody text name);
+      let inline = inlineStrings text name;
+      in if inline != null
+         then inline
+         else concatMap
+           (l: let m = match "[^\"]*\"([^\"]+)\".*" l; in if m == null then [] else m)
+           (listBody text name);
 
     # Two quoted strings per line, for a `[(Text, Text)]` rename table.
     renames = text: name:
@@ -317,12 +346,14 @@ let
     renamedKeys = renames migrateHs "renamedFields";
     acceptedConnectionsLimitKeys = renames migrateHs "acceptedConnectionsLimitFields";
     snapshotRenamedKeys = renames migrateHs "snapshotOptionFields";
+    mempoolCapacityOverrideKeys = strings migrateHs "mempoolCapacityOverrideKeys";
     formatVersion = intDef schemaHs "currentFormatVersion";
   };
 
   # What the checker compares: our value against the pin's, per name.
   driftPairs = {
     inherit removedKeys tracingKeys tracingObsoleteKeys renamedKeys snapshotRenamedKeys
+      mempoolCapacityOverrideKeys
       acceptedConnectionsLimitKeys formatVersion;
   };
 
