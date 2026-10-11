@@ -17,8 +17,8 @@
 
   ##### Core protocol parameters #####
 
-  # Dropped from the enveloped config; kept for db-sync, which reads it from
-  # the flat config as a mandatory key.  See mainnet-config.nix.
+  # Dropped from the enveloped config, and nothing reads it from the legacy
+  # config either.  Kept for now.  See mainnet-config.nix.
   Protocol = "Cardano";
 
   # The mainnet does not include the network magic into addresses. Testnets do.
