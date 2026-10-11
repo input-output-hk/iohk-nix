@@ -19,11 +19,13 @@
 
   ##### Core protocol parameters #####
 
-  # Vestigial for the node: cardano-config lists it in `removedFields`, so it is
-  # dropped from the enveloped config and node defaults to Cardano without it.
-  # Kept because db-sync still reads it from the flat config as a mandatory key,
-  # `o .: "Protocol"` in Cardano/DbSync/Config/Node.hs.  Drop once db-sync reads
-  # an envelope.  See also `LastKnownBlockVersion-*` below.
+  # Vestigial.  cardano-config lists it in `removedFields`, so it is dropped
+  # from the enveloped config, and POM reads it `.:?` defaulting to Cardano, so
+  # a legacy config without it parses too.  db-sync was the one reader that
+  # required it and it now reads an envelope, so nothing needs this key.  Kept
+  # only so that this series changes the shape of the published configs without
+  # changing their content.  Drop with the legacy config.  Contrast
+  # `LastKnownBlockVersion-*` below, which POM does require.
   Protocol = "Cardano";
 
   # The mainnet does not include the network magic into addresses. Testnets do.
@@ -101,9 +103,8 @@
   #
   # cardano-config drops these three, so they are absent from the enveloped
   # config and the Byron supported protocol version comes from consensus
-  # defaults instead.  Kept here because the flat config has two readers that
-  # require them: node's POM parser, and db-sync's `parseByronProtocolVersion`,
-  # which reads all three with `.:`.  Drop once db-sync reads an envelope.
+  # defaults instead.  Kept because POM reads all three with `.:`, so a legacy
+  # config missing any of them fails to parse.  Drop with the legacy config.
   LastKnownBlockVersion-Major = 3;
   LastKnownBlockVersion-Minor = 0;
   LastKnownBlockVersion-Alt = 0;

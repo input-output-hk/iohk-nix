@@ -1,4 +1,4 @@
-# Reshape a flat node config into the cardano-config Version1 envelope.
+# Reshape a legacy node config into the cardano-config Version1 envelope.
 #
 # This mirrors `cardano-config migrate`, so the output matches what that command
 # produces from the same input.  See `Cardano.Configuration.File.Migrate` in
@@ -11,10 +11,10 @@
 #
 # ## This whole module is transitional
 #
-# It exists because the flat form is the source of truth and the envelope is
+# It exists because the legacy form is the source of truth and the envelope is
 # derived from it.  That direction is forced, not chosen: `migrate` drops the
 # keys in `removedKeys`, among them the LastKnownBlockVersion-* that POM
-# requires, so the envelope is derivable from the flat config but not the
+# requires, so the envelope is derivable from the legacy config but not the
 # reverse.
 #
 # The end state is to write each `<env>-config.nix` in envelope shape directly.
@@ -26,11 +26,14 @@
 #
 # Three things have to be true first, and none of them are yet:
 #
-#   * the node drops POM, so nothing needs the flat form's dropped keys
-#   * cardano-api reads the envelope, so db-sync and friends can be pointed at
-#     one (`readNodeConfig` is flat-only today)
-#   * no consumer still takes the flat `nodeConfig` as a file, which
-#     `mkExplorerConfig` currently does for db-sync and the explorer
+#   * the node drops POM, so nothing needs the legacy form's dropped keys
+#   * cardano-api reads the envelope, so anything following the chain through
+#     it can be pointed at one.  `readNodeConfig` is legacy-only today and
+#     requires the three LastKnownBlockVersion keys with `.:`, so it keeps them
+#     alive on its own, independently of POM.  db-sync is not the blocker here:
+#     it parses the node config itself and is moving to the envelope that way
+#   * no consumer still takes the legacy `nodeConfig` as a file, which
+#     `mkExplorerConfig` currently does for the explorer
 #
 # So treat the brittleness below as a cost of the transition rather than
 # something to invest in hardening.
@@ -86,7 +89,7 @@ let
   # Keys cardano-config no longer parses, dropped rather than carried forward as
   # perpetual unrecognised key warnings.  Taken from `removedFields` in
   # Migrate.hs.  Note `LastKnownBlockVersion-Major` and `-Minor` remain
-  # mandatory for the node's POM parser, so they stay in the flat config and are
+  # mandatory for the node's POM parser, so they stay in the legacy config and are
   # dropped only here.
   removedKeys = [
     "PBftSignatureThreshold"
@@ -271,7 +274,7 @@ let
   #
   # This is the most temporary code here, and the least worth hardening: it
   # exists only to police tables that exist only because the envelope is derived
-  # from a flat source.  Writing the configs in envelope shape deletes the
+  # from a legacy source.  Writing the configs in envelope shape deletes the
   # tables, and this with them.  See the module header.
   upstream = let
     migrateHs = readFile "${cardanoConfigSrc}/src/Cardano/Configuration/File/Migrate.hs";
@@ -323,13 +326,13 @@ let
       acceptedConnectionsLimitKeys formatVersion;
   };
 
-  # Every key cardano-config resolves out of a flat config.  A key outside this
+  # Every key cardano-config resolves out of a legacy config.  A key outside this
   # set is either one of `removedKeys`, which migrate silently drops, or an
   # unrecognised key, which it keeps and warns about on every parse.  Both are
   # worth catching, so neither is included here.
   recognisedKeys = attrNames propertyToSection ++ tracingKeys ++ envelopeKeys;
 
-  # Top-level keys of a flat node config that cardano-config would not resolve.
+  # Top-level keys of a legacy node config that cardano-config would not resolve.
   # `allowed` carries the ones a caller keeps on purpose.
   #
   # Reported against the key as written, not the renamed one, so a config still

@@ -13,7 +13,7 @@ let
                 + " not supplied.  It is needed by mkEnvelope, propertyToSection,"
                 + " nodeConfigEnveloped, mkConfigLint, mkConfigDrift and mkConfigSchema, and"
                 + " by mkConfigHtml for any environment on the enveloped dialect, which is"
-                + " the default.  The flat nodeConfig and everything derived from it, such"
+                + " the default.  The legacy nodeConfig and everything derived from it, such"
                 + " as dbSyncConfig and explorerConfig, work without it.")
     else import ./envelope.nix {inherit lib cardanoConfigSrc;};
 
@@ -149,7 +149,7 @@ let
     # cardano-config envelope only cardano-config reads.
     #
     # Only affects the published node config.  `dbSyncConfig` and
-    # `explorerConfig` embed their own copy of the flat `nodeConfig`, so they are
+    # `explorerConfig` embed their own copy of the legacy `nodeConfig`, so they are
     # unaffected either way.
     #
     # Given an envelope the node skips its own POM parser and resolves with
@@ -168,7 +168,7 @@ let
     tracerConfig = defaultTracerConfig // {inherit (fromJSON (readFile ./${name}/shelley-genesis.json)) networkMagic;};
     # Cardano is the only consensus protocol still supported, so this is a
     # literal rather than a read of `networkConfig.Protocol`.  That key is
-    # vestigial and absent from the enveloped config.  It stays in the flat
+    # vestigial and absent from the enveloped config.  It stays in the legacy
     # config, which the node reads through its own POM parser, so reading it
     # here would couple this attribute to a key that goes once POM does.
     consensusProtocol = "Cardano";
@@ -441,15 +441,22 @@ let
   # them.  Everything else unrecognised fails mkConfigLint.
   #
   # All four are dropped by cardano-config migrate, so none reaches the
-  # enveloped config.  They stay in the flat config because it has two readers
-  # that require them:
+  # enveloped config.  They stay in the legacy config, but not for the same
+  # reason and not for the same span:
   #
-  #   * the node's POM parser, for LastKnownBlockVersion-Major and -Minor;
-  #   * db-sync, for Protocol and all three block-version keys, read with `.:`
-  #     in Cardano/DbSync/Config/Node.hs.
+  #   * the three block-version keys have two readers that require them, both
+  #     reading all three with `.:`, so a legacy config missing any one fails to
+  #     parse: the node's POM parser, and `readNodeConfig` in cardano-api, which
+  #     anything following the chain through that API goes through.  They
+  #     outlive POM by as long as cardano-api stays legacy-only.
   #
-  # POM stops mattering once nothing is published flat, but db-sync keeps these
-  # alive until it reads an envelope.  Drop them then.
+  #   * Protocol has no reader left.  POM takes it `.:?` defaulting to Cardano,
+  #     cardano-api never reads it, and db-sync, which did require it, reads an
+  #     envelope now.  It is kept only so this series changes the shape of the
+  #     published configs without changing their content.
+  #
+  # So Protocol can go as soon as changing content is acceptable, and the
+  # block-version keys go when POM and cardano-api have both moved.
   allowedConfigKeys = [
     "LastKnownBlockVersion-Major"
     "LastKnownBlockVersion-Minor"
@@ -542,7 +549,7 @@ let
   # or capkgs CI.
   #
   # Temporary by design.  This check polices tables that only exist because the
-  # envelope is derived from a flat source of truth; writing each
+  # envelope is derived from a legacy source of truth; writing each
   # `<env>-config.nix` in envelope shape deletes the tables and this job with
   # them.  See the header of envelope.nix for what has to land first.
   mkConfigDrift = let
@@ -606,7 +613,7 @@ let
   #
   # What this cannot catch is a stray key.  The schema sets
   # `additionalProperties` nowhere, at any depth, so an unrecognised key
-  # validates clean.  `mkConfigLint` covers that at the top level of the flat
+  # validates clean.  `mkConfigLint` covers that at the top level of the legacy
   # config and nothing covers one nested inside a section.
   #
   # Deliberately a derivation rather than an eval time assert, for the same
@@ -750,7 +757,7 @@ in {
   # mapping it is built from.
   inherit (envelope) mkEnvelope propertyToSection;
 
-  # For callers that assemble a flat config of their own and want to check it
+  # For callers that assemble a legacy config of their own and want to check it
   # before enveloping.  `unrecognisedKeys` reports what cardano-config would
   # not resolve, naming keys as written, so a `renamedKeys` name is reported
   # rather than quietly migrated.  It returns three kinds of key and they need
