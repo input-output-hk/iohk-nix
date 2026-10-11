@@ -750,6 +750,15 @@ in {
   # mapping it is built from.
   inherit (envelope) mkEnvelope propertyToSection;
 
+  # For callers that assemble a flat config of their own and want to check it
+  # before enveloping.  `unrecognisedKeys` reports what cardano-config would
+  # not resolve, naming keys as written, so a `renamedKeys` name is reported
+  # rather than quietly migrated.  It returns three kinds of key and they need
+  # telling apart: a `renamedKeys` name still applies under its new name, a
+  # `removedKeys` name is dropped on purpose, and anything else is kept outside
+  # every section where the node ignores it.  Only the last is a fault.
+  inherit (envelope) recognisedKeys removedKeys renamedKeys unrecognisedKeys;
+
   # Drift detection against the cardano-config pin, see mkConfigDrift.
   inherit mkConfigDrift;
 
