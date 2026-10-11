@@ -17,6 +17,18 @@ let
   upstreamedDeprecation = p: builtins.trace "WARNING: commonLib.${p} is deprecated. Please use it from nixpkgs directly instead.";
   sources = defaultSources // sourcesOverride;
 
+  # The cardano-config source cardano-lib needs for its envelope attributes.
+  # Read from flake.lock rather than pinned again in nix/sources.json, so the
+  # two entry points cannot drift onto different schema versions and quietly
+  # produce different envelopes. `narHash` is the hash of the unpacked tree,
+  # which is what fetchTarball wants.
+  cardanoConfigSrc =
+    let node = (builtins.fromJSON (builtins.readFile ./flake.lock)).nodes."cardano-config".locked;
+    in builtins.fetchTarball {
+      url = "https://github.com/${node.owner}/${node.repo}/archive/${node.rev}.tar.gz";
+      sha256 = node.narHash;
+    };
+
   commonLib = rec {
     fetchNixpkgs = throw "Please use niv to pin nixpkgs instead.";
     # Equivalent of <nixpkgs> but pinned instead of system
@@ -80,7 +92,7 @@ let
   };
 
 
-  cardanoLib = commonLib.pkgsDefault.callPackage ./cardano-lib {};
+  cardanoLib = commonLib.pkgsDefault.callPackage ./cardano-lib {inherit cardanoConfigSrc;};
   jormungandrLib = commonLib.pkgsDefault.callPackage ./jormungandr-lib { inherit rust-packages; };
 
   tests = {
