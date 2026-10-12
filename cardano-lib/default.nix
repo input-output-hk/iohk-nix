@@ -135,7 +135,7 @@ let
     # default derived configs:
     nodeConfig = recursiveUpdate defaultLogConfig env.networkConfig;
 
-    # The same config in the cardano-config Version1 envelope.  Node 11.2 reads
+    # The same config in the cardano-config envelope.  Node 11.2 reads
     # either form: given an envelope it skips its own POM parser and resolves
     # with cardano-config alone.
     nodeConfigEnveloped = envelope.mkEnvelope environments.${name}.nodeConfig;
@@ -781,7 +781,7 @@ in {
     mkTopology
     ;
 
-  # Flat config to cardano-config Version1 envelope, and the key to component
+  # Flat config to the cardano-config envelope, and the key to component
   # mapping it is built from.
   inherit (envelope) mkEnvelope propertyToSection;
 
