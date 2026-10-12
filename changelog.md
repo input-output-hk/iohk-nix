@@ -25,10 +25,10 @@ version. There may have been changes which could break your build.
     carries the same values for its own `k` of 108.
 
   * **Breaking:** `release.nix` is removed.  It was the Hydra jobset for the
-    niv entry point, and its `cardano-deployment` job could no longer evaluate:
-    `mkConfigHtml` now envelopes, which needs the `cardanoConfigSrc` that
-    `default.nix` does not pass.  CI builds the flake's `hydraJobs`, so the
-    jobset had no remaining consumer.  The niv entry point itself stays.
+    niv entry point, and CI builds the flake's `hydraJobs` instead, so the
+    jobset had no remaining consumer.  The niv entry point itself stays, and
+    `default.nix` now reads `cardanoConfigSrc` from `flake.lock` so it envelopes
+    the same way the flake does.
 
   * **Breaking:** `mainnet` now defaults to `ConsensusMode: GenesisMode`, as
     preprod, preview, sanchonet and dijkstra already did.  leios stays on
@@ -54,11 +54,13 @@ version. There may have been changes which could break your build.
 
     `Protocol` and `LastKnownBlockVersion-Major`, `-Minor`, `-Alt` are
     deliberately kept.  cardano-config drops all four, so they are absent from
-    the enveloped config, but the flat `nodeConfig` has two readers that require
-    them: the node's own POM parser, which needs the first two block-version
-    keys, and db-sync, which reads `Protocol` and all three block-version keys
-    as mandatory in `Cardano/DbSync/Config/Node.hs`.  They can go once db-sync
-    reads an envelope.
+    the enveloped config, but the flat `nodeConfig` has three readers that
+    require them: the node's own POM parser, which needs the first two
+    block-version keys; cardano-api's `readNodeConfig`, which is legacy-only and
+    takes all three with `.:`; and db-sync, which reads `Protocol` and all three
+    as mandatory in `Cardano/DbSync/Config/Node.hs`.  db-sync is moving to the
+    envelope in its own parser, so cardano-api is the one that keeps these alive
+    on its own.
 
     Changed in `cardanoLib`:
       * `consensusProtocol` is now the literal `"Cardano"` rather than being
