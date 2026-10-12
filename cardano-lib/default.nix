@@ -472,9 +472,25 @@ let
 
   # Flat node configs to lint.  The testnet template is included because
   # cardano-parts copies it when standing up a new network.
+  #
+  # `preview-lsm` stands in for a host rather than an environment: the nixos
+  # service assembles the config it envelopes, so a key it adds is linted
+  # nowhere else.  It mirrors the `withUtxoHdLsmt` branch of `baseInstanceConfig`
+  # in cardano-node-service.nix, the only place the service adds config keys of
+  # its own that the environments do not carry.  Being a hand-kept mirror it
+  # drifts silently if that branch grows; it catches a top-level key, not the
+  # nested shape, which is what `scoped` in envelope.nix is for.
   lintTargets =
     mapAttrs (name: env: env.nodeConfig) environments
-    // {testnet-template = fromJSON (readFile ./testnet-template/config.json);};
+    // {
+      testnet-template = fromJSON (readFile ./testnet-template/config.json);
+      preview-lsm = recursiveUpdate environments.preview.nodeConfig {
+        LedgerDB = {
+          Backend = "V2LSM";
+          LSMDatabasePath = "/ephemeral/cardano-node/";
+        };
+      };
+    };
 
   # Report every top-level config key cardano-config would not resolve.  Fails
   # the build if there are any, listing them per environment.
