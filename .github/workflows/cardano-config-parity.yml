@@ -18,16 +18,17 @@ on:
     paths:
     - cardano-lib/**
     - ci/cardano-config-parity.nix
+    - default.nix
+    - nix/**
     - flake.lock
     - .github/workflows/cardano-config-parity.yml
+  # Unfiltered on purpose.  The pull request filter above is an approximation
+  # of what `import ../. {}` evaluates, so a dependency added outside that list
+  # would stop being covered without anything saying so.  Running every master
+  # push turns that from never caught into caught at merge.
   push:
     branches:
     - master
-    paths:
-    - cardano-lib/**
-    - ci/cardano-config-parity.nix
-    - flake.lock
-    - .github/workflows/cardano-config-parity.yml
 
 permissions:
   contents: read
