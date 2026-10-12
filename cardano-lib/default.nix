@@ -2,7 +2,7 @@
 # JSON schemas the enveloped node config is built from.  Optional so the
 # non-flake entry point keeps working: only the envelope attributes need it,
 # and they fail only when evaluated.  The throw below names them.
-{lib, writeText, runCommand, jq, yajsv, cardanoConfigSrc ? null}:
+{lib, writeText, runCommand, jq, yajsv, diffutils, cardanoConfigSrc ? null}:
 let
   inherit (builtins) attrNames filter fromJSON readFile toFile toJSON;
   inherit (lib) filterAttrs flip forEach listToAttrs mapAttrs mapAttrsToList optionalAttrs optionalString partition pipe recursiveUpdate;
@@ -504,6 +504,114 @@ let
       };
     };
 
+  # What the parity check feeds through both implementations: everything the
+  # lint covers, plus the shapes a consumer can hand `mkEnvelope` that no
+  # environment produces.  The nixos service assembles the config it envelopes,
+  # so those are the ones that reach `mkEnvelope` without being published here.
+  #
+  # Keep `$schema` out of these.  `migrate` carries an existing one through and
+  # `mkEnvelope` always stamps its own, so an input that declares one is a known
+  # divergence rather than a regression.
+  parityTargets =
+    lintTargets
+    // {
+      envelope-shaped = {Configuration.Network.MaxConcurrencyDeadline = 7;};
+      envelope-and-flat = {
+        ConsensusMode = "PraosMode";
+        Configuration.Network.MaxConcurrencyDeadline = 7;
+      };
+      old-section-names = {Configuration.StorageConfig.LedgerDB.QueryBatchSize = 100000;};
+      flat-lsm-backend = {
+        LedgerDB = {
+          Backend = "V2LSM";
+          LSMDatabasePath = "/ephemeral/cardano-node/";
+        };
+      };
+      flat-snapshot-options = {
+        LedgerDB = {
+          Backend = "V2InMemory";
+          SnapshotInterval = 86400;
+          NumOfDiskSnapshots = 2;
+        };
+      };
+      mithril-snapshots = {LedgerDB = {Snapshots = "Mithril";};};
+      renamed-keys = {
+        TargetNumberOfRootPeers = 60;
+        AcceptedConnectionsLimit = {hardLimit = 1024; softLimit = 768; delay = 5;};
+      };
+      removed-keys = {
+        Protocol = "Cardano";
+        LastKnownBlockVersion-Major = 3;
+        MaxKnownMajorProtocolVersion = 2;
+      };
+    };
+
+  # Run each target through `mkEnvelope` and through the pinned
+  # `cardano-config migrate`, and fail on any difference.
+  #
+  # This is the check `mkConfigDrift` cannot be: drift compares the key tables
+  # copied out of Migrate.hs, so it is blind to a transformation that was never
+  # mirrored at all.  Both the flat `LedgerDB` fold and the dropped
+  # `Configuration` body were that shape, and both pass a table comparison.
+  #
+  # `exe` is a cardano-config binary, taken as an argument rather than through
+  # `callPackage` on purpose.  The prebuilt one comes from capkgs as a
+  # content-addressed closure, which needs the `fetch-closure` experimental
+  # feature, so the caller decides whether to pay that.  Nothing in cardanoLib
+  # mentions capkgs, and an overlay consumer cannot reach it.
+  mkConfigParity = exe: targets: let
+    flatOf = name: writeText "${name}-flat.json" (toJSON targets.${name});
+    wantOf = name: writeText "${name}-envelope.json" (toJSON (envelope.mkEnvelope targets.${name}));
+
+    checks = lib.concatMapStringsSep "\n"
+      (name: ''check ${name} ${flatOf name} ${wantOf name}'')
+      (attrNames targets);
+
+    passed = writeText "cardano-config-parity.json" (toJSON {
+      checked = attrNames targets;
+      against = "cardano-config migrate, from the pinned release";
+    });
+  in
+    runCommand "cardano-config-parity" {nativeBuildInputs = [exe jq diffutils];} ''
+      status=0
+
+      check() {
+        name="$1"
+        flat="$2"
+        want="$3"
+
+        if ! cardano-config migrate "$flat" > "$name.got" 2> "$name.err"; then
+          echo "FAIL $name: cardano-config migrate exited non-zero"
+          sed 's/^/  /' "$name.err"
+          status=1
+          return
+        fi
+
+        jq -S . "$name.got" > "$name.got.norm"
+        jq -S . "$want" > "$name.want.norm"
+
+        if diff -u "$name.want.norm" "$name.got.norm" > "$name.diff"; then
+          echo "ok $name"
+        else
+          echo "FAIL $name: mkEnvelope and cardano-config migrate disagree"
+          echo "  -- is mkEnvelope, ++ is migrate"
+          sed 's/^/  /' "$name.diff"
+          status=1
+        fi
+      }
+
+      ${checks}
+
+      if [ "$status" -ne 0 ]; then
+        echo
+        echo "envelope.nix no longer reproduces cardano-config migrate.  Mirror the"
+        echo "transformation it is missing, or record the divergence in the module header."
+        exit 1
+      fi
+
+      cp ${passed} $out
+    '';
+
   # Report every top-level config key cardano-config would not resolve.  Fails
   # the build if there are any, listing them per environment.
   #
@@ -773,7 +881,9 @@ in {
     lintTargets
     mkConfigHtml
     mkConfigLint
+    mkConfigParity
     mkConfigSchema
+    parityTargets
     mkEdgeTopologyP2P
     mkExplorerConfig
     mkMithrilSignerConfig
