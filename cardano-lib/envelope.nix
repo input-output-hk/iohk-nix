@@ -162,6 +162,20 @@ let
     delay = "Delay";
   };
 
+  # The sections that carried a `Config` suffix before cardano-config 2.0.0.0,
+  # as old -> new.  Renamed at the `Configuration` level only, since the current
+  # names are too generic to rewrite at depth.  Taken from `sectionRenames` in
+  # Migrate.hs.
+  sectionRenames = {
+    ConsensusConfig = "Consensus";
+    LocalConnectionsConfig = "LocalConnections";
+    MempoolConfig = "Mempool";
+    NetworkConfig = "Network";
+    ProtocolConfig = "Protocol";
+    StorageConfig = "Storage";
+    TestingConfig = "Testing";
+  };
+
   # The `LedgerDB.Snapshots` renames, scoped to that object upstream.  Taken
   # from `snapshotOptionFields` in Migrate.hs, new in cardano-config 2.0.0.0.
   snapshotRenamedKeys = {
@@ -350,11 +364,16 @@ let
       # A `Configuration` naming a file rather than holding one is rejected
       # here, as upstream rejects a section that does, rather than failing
       # inside `recursiveUpdate` against a value that is not a set.
+      #
+      # A body written against cardano-config before 2.0.0.0 still names its
+      # sections with the `Config` suffix, so rename them here, at the only
+      # level sections live at, before the regrouped flat keys merge in under
+      # the current names.
       envelopeBody =
         if !(renamed ? Configuration)
         then {}
         else if isAttrs renamed.Configuration
-        then renamed.Configuration
+        then renameIn sectionRenames renamed.Configuration
         else throw ("cardanoLib: the node config's `Configuration` is a "
           + "${typeOf renamed.Configuration} rather than a configuration object."
           + "  It holds the configuration directly, so copy the contents of the"
@@ -442,6 +461,7 @@ let
     renamedKeys = renames migrateHs "renamedFields";
     acceptedConnectionsLimitKeys = renames migrateHs "acceptedConnectionsLimitFields";
     snapshotRenamedKeys = renames migrateHs "snapshotOptionFields";
+    sectionRenames = renames migrateHs "sectionRenames";
     snapshotFlatKeys = strings migrateHs "snapshotOptionKeys";
     mempoolCapacityOverrideKeys = strings migrateHs "mempoolCapacityOverrideKeys";
     formatVersion = intDef schemaHs "currentFormatVersion";
@@ -450,7 +470,7 @@ let
   # What the checker compares: our value against the pin's, per name.
   driftPairs = {
     inherit removedKeys tracingKeys tracingObsoleteKeys renamedKeys snapshotRenamedKeys
-      snapshotFlatKeys mempoolCapacityOverrideKeys
+      snapshotFlatKeys sectionRenames mempoolCapacityOverrideKeys
       acceptedConnectionsLimitKeys formatVersion;
   };
 

@@ -145,9 +145,12 @@ version. There may have been changes which could break your build.
     collapses `ApplicationName` into `HermodTracing.TraceOptionNodeName`,
     PascalCases the `AcceptedConnectionsLimit` sub-keys, and rewrites
     `SnapshotInterval` and `SlotOffset` to `Interval` and `Offset` inside
-    `LedgerDB.Snapshots`.  The one exception is a legacy *flat* `LedgerDB`,
-    which `migrate` gathers into the nested form and this does not, since every
-    config here emits the nested form already.
+    `LedgerDB.Snapshots`.  It also gathers a legacy *flat* `LedgerDB` into the
+    nested form, both the snapshot options and the `V2LSM` backend with its
+    `LSMDatabasePath`, and renames a section still carrying its pre-2.0.0.0
+    `Config` suffix.  Neither reaches the configs here, which are nested and
+    current already, but the nixos service assembles the config it envelopes and
+    a caller may write either shape.
 
     `mkConfigLint` reports a pre-rename key such as `TargetNumberOfRootPeers` as
     unrecognised rather than silently accepting it.  `migrate` would rewrite it,
