@@ -129,14 +129,14 @@ version. There may have been changes which could break your build.
     job records what it checked and two revisions can be diffed to see what
     moved.
 
-    None of them covers the behavioural parts of `migrate`, the
-    `ApplicationName` collapse and the deliberately omitted flat `LedgerDB`
-    fixups.  Only comparing `mkEnvelope` output against real
-    `cardano-config migrate` output covers those, which needs a built binary and
-    so belongs downstream.
+    What none of them covers is behaviour.  Drift compares the tables copied
+    out of `Migrate.hs`, so a transformation never mirrored at all passes it;
+    that is the shape of both the flat `LedgerDB` fold and the dropped
+    `Configuration` body.  `cardano-config-parity` below is the check for that.
 
     New in `cardanoLib`: `mkConfigLint`, `lintTargets`, `mkConfigDrift`,
-    `mkConfigSchema`, `mkEnvelope`, `propertyToSection`.
+    `mkConfigSchema`, `mkConfigParity`, `parityTargets`, `mkEnvelope`,
+    `propertyToSection`.
 
     `mkEnvelope` reproduces `cardano-config migrate` for any flat config, not
     just the ones shipped here, so it can be used on a hand-written config.  It
@@ -176,6 +176,22 @@ version. There may have been changes which could break your build.
     stamps into every config disagree.  That is the one way a pin bump could
     leave published configs claiming conformance to a schema the validation
     never read.
+
+  * New `mkConfigParity`, which runs each target through `mkEnvelope` and
+    through a cardano-config binary's own `migrate` and fails on any
+    difference.  `parityTargets` covers everything the lint does plus the
+    shapes no environment produces but a caller can hand `mkEnvelope`:
+    envelope-shaped input, pre-2.0.0.0 section names, a flat `V2LSM` backend,
+    flat snapshot options, a Mithril policy, and keys this series renames or
+    removes.
+
+    The binary is a parameter, so a caller with a cardano-config to hand can
+    use it directly.  Here it runs from GitHub Actions rather than Hydra, see
+    `ci/cardano-config-parity.nix`: the prebuilt binary is a
+    content-addressed closure, so reaching it needs the `fetch-closure`
+    experimental feature, and a flake output carrying that would fail
+    `nix flake check` for every consumer without it.  Nothing `cardanoLib`
+    exports fetches anything, so the feature is this repository's cost alone.
 
   * New source-only flake input `cardano-config`, pinned to
     `cardano-config-2.2.1.0`.  That is the release cardano-node resolves to: it

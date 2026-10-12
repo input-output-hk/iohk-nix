@@ -678,11 +678,10 @@ let
   # reason as `mkConfigLint`: cardano-lib is imported by every downstream
   # consumer and a failing assert would break their evaluation.
   #
-  # What this cannot catch: the behavioural rules, the `ApplicationName` collapse
-  # and the deliberately omitted flat `LedgerDB` fixups.  Only comparing
-  # `mkEnvelope` output against real `cardano-config migrate` output covers
-  # those, which needs a built binary and so belongs downstream, in cardano-parts
-  # or capkgs CI.
+  # What this cannot catch is behaviour.  It compares the tables copied out of
+  # Migrate.hs, so a transformation that was never mirrored at all passes it.
+  # `mkConfigParity` is the check for that, run from the parity workflow under
+  # .github rather than from here, since it needs a cardano-config binary.
   #
   # Temporary by design.  This check polices tables that only exist because the
   # envelope is derived from a legacy source of truth; writing each
