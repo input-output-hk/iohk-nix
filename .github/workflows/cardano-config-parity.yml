@@ -1,0 +1,56 @@
+---
+name: cardano-config parity
+
+# Fails if cardano-lib's envelope.nix no longer reproduces the output of the
+# pinned `cardano-config migrate`.
+#
+# Here rather than on Hydra because the check needs a prebuilt cardano-config
+# binary, which is a content-addressed closure and so needs the `fetch-closure`
+# experimental feature. A flake output carrying that would fail `nix flake
+# check` for every consumer without the feature, so the job is built by path
+# and the feature is enabled in the installer step, alongside the substituters.
+#
+# No secrets, a read-only token and no write permissions, so a fork PR reaches
+# nothing a `nix build` of its own tree would not already reach.
+
+on:
+  pull_request:
+    paths:
+    - cardano-lib/**
+    - ci/cardano-config-parity.nix
+    - flake.lock
+    - .github/workflows/cardano-config-parity.yml
+  push:
+    branches:
+    - master
+    paths:
+    - cardano-lib/**
+    - ci/cardano-config-parity.nix
+    - flake.lock
+    - .github/workflows/cardano-config-parity.yml
+
+permissions:
+  contents: read
+
+jobs:
+  parity:
+    name: Check envelope.nix against cardano-config migrate
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      with:
+        persist-credentials: false
+
+    - uses: cachix/install-nix-action@ab739621df7a23f52766f9ccc97f38da6b7af14f # v31
+      with:
+        # `fetch-closure` is needed for the prebuilt binary the check pins.
+        # Set here rather than through the flake's own nixConfig, which would
+        # need `--accept-flake-config` and let any flake in the tree set
+        # whatever it liked.
+        extra_nix_config: |
+          experimental-features = nix-command flakes fetch-closure
+          trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=
+          substituters = https://cache.nixos.org/ https://cache.iog.io/
+
+    - name: Build the parity check
+      run: nix build --no-link -f ci/cardano-config-parity.nix
