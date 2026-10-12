@@ -1,8 +1,11 @@
-# Reshape a legacy node config into the cardano-config Version1 envelope.
+# Reshape a legacy node config into the cardano-config envelope.
 #
-# This mirrors `cardano-config migrate`, so the output matches what that command
-# produces from the same input.  See `Cardano.Configuration.File.Migrate` in
-# IntersectMBO/cardano-config.
+# This mirrors `cardano-config migrate`, so for the configs here the two produce
+# the same output from the same input.  It is not a general equivalence:
+# upstream warns where this drops silently, carries an existing `$schema` and
+# `Version` through where this always stamps its own, and rejects a section that
+# names a file rather than holding one.  See
+# `Cardano.Configuration.File.Migrate` in IntersectMBO/cardano-config.
 #
 # Node 11.2 reads this form: given an envelope it skips its own POM parser and
 # resolves with cardano-config alone.  That also means the envelope inherits
@@ -17,14 +20,14 @@
 # requires, so the envelope is derivable from the legacy config but not the
 # reverse.
 #
-# The end state is to write each `<env>-config.nix` in envelope shape directly.
-# At that point the translation below is dead and can go with it: `renameLegacy`,
-# `placeKey`, `propertyToSection`, every hardcoded key table, the scoped fixups,
-# and `mkConfigDrift` in default.nix which only exists to police those tables.
-# What survives is the lint, which validates keys against the schemas and is
-# useful either way.
+# The end state is that nothing hands this a flat key.  At that point the
+# translation below is dead and can go with it: `renameLegacy`, `placeKey`,
+# `propertyToSection`, every hardcoded key table, the scoped fixups, and
+# `mkConfigDrift` in default.nix which only exists to police those tables.  What
+# survives is the envelope annotations, which something still has to stamp, and
+# the lint, which validates keys against the schemas and is useful either way.
 #
-# Three things have to be true first, and none of them are yet:
+# Four things have to be true first, and none of them are yet:
 #
 #   * the node drops POM, so nothing needs the legacy form's dropped keys
 #   * cardano-api reads the envelope, so anything following the chain through
@@ -34,6 +37,14 @@
 #     it parses the node config itself and is moving to the envelope that way
 #   * no consumer still takes the legacy `nodeConfig` as a file, which
 #     `mkExplorerConfig` currently does for the explorer
+#   * every caller of the nixos service writes envelope shape, and the service
+#     stops synthesising flat keys of its own.  Writing each `<env>-config.nix`
+#     in envelope shape is not enough on its own: the service envelopes the
+#     assembled instance config, so a flat `nodeConfig`, `extraNodeConfig` or
+#     `extraNodeInstanceConfig` from any consumer keeps the translation alive.
+#     Them staying flat is a decision rather than an oversight, it is what keeps
+#     ogmios, tx-centrifuge and cardano-parts working unchanged, so expect this
+#     to be the last of the four to come true
 #
 # So treat the brittleness below as a cost of the transition rather than
 # something to invest in hardening.
@@ -154,6 +165,19 @@ let
     SlotOffset = "Offset";
   };
 
+  # The snapshot options a legacy config may write flat under `LedgerDB`, which
+  # cardano-config reads only from a nested `Snapshots` object.  These are the
+  # pre-rename spellings; `snapshotRenamedKeys` rewrites two of them afterwards.
+  # Taken from `snapshotOptionKeys` in Migrate.hs.
+  snapshotFlatKeys = [
+    "SnapshotInterval"
+    "SlotOffset"
+    "RateLimit"
+    "MinDelay"
+    "MaxDelay"
+    "NumOfDiskSnapshots"
+  ];
+
   # Both names of the mempool capacity override.  A `"NoOverride"` value under
   # either is dropped rather than carried forward, see `renameLegacy`.  Taken
   # from `mempoolCapacityOverrideKeys` in Migrate.hs.
@@ -201,18 +225,57 @@ let
     else if isList value then map renameLegacy value
     else value;
 
+  # Gather the flat snapshot options under `Snapshots`, the only form
+  # cardano-config's LedgerDB codec reads.  An existing `Snapshots` wins and the
+  # flat keys are dropped rather than merged, since it is an explicit policy and
+  # may be the string `"Mithril"`.  Mirrors `nestSnapshotOptions` in Migrate.hs.
+  nestSnapshotOptions = ledgerDb:
+    let
+      flat = filter (k: elem k snapshotFlatKeys) (attrNames ledgerDb);
+      rest = removeAttrs ledgerDb flat;
+    in
+      if flat == [] then ledgerDb
+      else if rest ? Snapshots then rest
+      else rest // {Snapshots = listToAttrs (map (k: {name = k; value = ledgerDb.${k};}) flat);};
+
+  # Rewrite the renamed snapshot options, which only applies to an options
+  # object.  A `"Mithril"` policy is left alone.  Mirrors
+  # `renameSnapshotOptions` in Migrate.hs.
+  renameSnapshotOptions = ledgerDb:
+    if ledgerDb ? Snapshots && isAttrs ledgerDb.Snapshots
+    then ledgerDb // {Snapshots = renameIn snapshotRenamedKeys ledgerDb.Snapshots;}
+    else ledgerDb;
+
+  # Fold the flat `V2LSM` backend into the tagged form the LedgerDB codec reads.
+  # `V2InMemory` is a plain string on both sides and is left alone.  Mirrors
+  # `nestBackend` in Migrate.hs.
+  nestBackend = ledgerDb:
+    if (ledgerDb.Backend or null) == "V2LSM"
+    then
+      removeAttrs ledgerDb ["LSMDatabasePath" "LSMExportPath"]
+      // {
+        Backend.LSM =
+          optionalAttrs (ledgerDb ? LSMDatabasePath) {DatabasePath = ledgerDb.LSMDatabasePath;}
+          // optionalAttrs (ledgerDb ? LSMExportPath) {ExportPath = ledgerDb.LSMExportPath;};
+      }
+    else ledgerDb;
+
   # Scoped fixups, mirroring the upstream rewrites that apply under a parent key
   # rather than at any depth.
   #
-  # `nestSnapshotOptions` and `nestBackend` are not mirrored: they gather a
-  # legacy flat LedgerDB into the nested form and every config here is nested
-  # already.  If one is ever added, nest before this rename as upstream does,
-  # since the rename only looks at an existing `Snapshots` object.
+  # The three LedgerDB rewrites run in upstream's order: nest, then rename, since
+  # the rename only looks at an existing `Snapshots` object, then fold the
+  # backend.  The shipped env configs are already nested, but the nixos service
+  # assembles the config it envelopes and writes `Backend = "V2LSM"` with a
+  # sibling `LSMDatabasePath`, so a host reaches these even when no environment
+  # does.  Omitting them costs no setting, since cardano-config reads both
+  # shapes, but leaves the file non-canonical and the node warns
+  # `MigratedToCurrentFormat` on every start.
   scoped = key: value:
     if key == "AcceptedConnectionsLimit" && isAttrs value
     then renameIn acceptedConnectionsLimitKeys value
-    else if key == "LedgerDB" && isAttrs value && value ? Snapshots && isAttrs value.Snapshots
-    then value // {Snapshots = renameIn snapshotRenamedKeys value.Snapshots;}
+    else if key == "LedgerDB" && isAttrs value
+    then nestBackend (renameSnapshotOptions (nestSnapshotOptions value))
     else value;
 
   # Envelope annotations, lifted out of the config body.  Since 2.0.0.0 the
@@ -346,6 +409,7 @@ let
     renamedKeys = renames migrateHs "renamedFields";
     acceptedConnectionsLimitKeys = renames migrateHs "acceptedConnectionsLimitFields";
     snapshotRenamedKeys = renames migrateHs "snapshotOptionFields";
+    snapshotFlatKeys = strings migrateHs "snapshotOptionKeys";
     mempoolCapacityOverrideKeys = strings migrateHs "mempoolCapacityOverrideKeys";
     formatVersion = intDef schemaHs "currentFormatVersion";
   };
@@ -353,7 +417,7 @@ let
   # What the checker compares: our value against the pin's, per name.
   driftPairs = {
     inherit removedKeys tracingKeys tracingObsoleteKeys renamedKeys snapshotRenamedKeys
-      mempoolCapacityOverrideKeys
+      snapshotFlatKeys mempoolCapacityOverrideKeys
       acceptedConnectionsLimitKeys formatVersion;
   };
 
