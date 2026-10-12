@@ -15,7 +15,7 @@
   AlonzoGenesisFile = ./dijkstra + "/alonzo-genesis.json";
   AlonzoGenesisHash = "cc143a4a73d7ab8cbc4bbd7750c91c5204cb597007cea3a317a1fc240c1954f1";
   DijkstraGenesisFile = ./dijkstra + "/dijkstra-genesis.json";
-  DijkstraGenesisHash = "c6afe2641a407ee17f3625ed304571c3762e3123d38f4d8ae663f765f6c2bcb6";
+  DijkstraGenesisHash = "d939e640f5aece1b33b15345b7ae095aa2d8f93f703292e8ec1564c6b02d5f30";
 
   ### Core protocol parameters #####
 
