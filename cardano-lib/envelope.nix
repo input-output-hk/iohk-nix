@@ -56,7 +56,7 @@
 let
   inherit (builtins) attrNames elemAt elem filter fromJSON isAttrs isList isString listToAttrs
     map match split
-    readFile;
+    readFile typeOf;
   inherit (lib) concatMap foldl' optionalAttrs recursiveUpdate;
 
   # As of cardano-config 2.0.0.0 there is one schema file.  Its top level is the
@@ -346,7 +346,21 @@ let
       # other envelope annotations; the enveloped value wins a collision, as
       # upstream does.  `renameLegacy` has already recursed through it, so the
       # renames and the scoped fixups apply at depth either way.
-      configuration = recursiveUpdate regrouped (renamed.Configuration or {});
+      #
+      # A `Configuration` naming a file rather than holding one is rejected
+      # here, as upstream rejects a section that does, rather than failing
+      # inside `recursiveUpdate` against a value that is not a set.
+      envelopeBody =
+        if !(renamed ? Configuration)
+        then {}
+        else if isAttrs renamed.Configuration
+        then renamed.Configuration
+        else throw ("cardanoLib: the node config's `Configuration` is a "
+          + "${typeOf renamed.Configuration} rather than a configuration object."
+          + "  It holds the configuration directly, so copy the contents of the"
+          + " file it names in under it.");
+
+      configuration = recursiveUpdate regrouped envelopeBody;
     in
       {
         "$schema" = schemaUrl;
