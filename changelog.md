@@ -92,6 +92,10 @@ version. There may have been changes which could break your build.
     a Nix value, including `dbSyncConfig` and `explorerConfig` which embed their
     own copy, are unaffected by `configFormat`.
 
+    `leios` publishes `legacy`.  Its `LeiosDbConfig` is a prototype key the
+    cardano-config schema does not carry, and only POM reads it, so an envelope
+    would drop the Leios database layout and leave the node on its default.
+
   * Enveloped configs carry the `$schema` annotation cardano-config expects.
     Without it the node reports `MigratedToCurrentFormat` on every parse; with
     it the configuration is canonical and parses without warnings.  The URL

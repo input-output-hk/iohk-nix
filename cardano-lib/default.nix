@@ -309,6 +309,16 @@ let
       ];
       edgePort = 3001;
       networkConfig = import ./leios-config.nix // { MinNodeVersion = "11.1.0.164-prototype-2026w38a"; };
+
+      # `LeiosDbConfig` is a prototype key the cardano-config schema does not
+      # carry, so cardano-config keeps it outside every section and ignores it.
+      # An enveloped config skips POM, which is the only parser that reads the
+      # key, so the published config would silently drop the Leios database
+      # layout and the node would fall back to its default.  Repointing a
+      # populated node is not recoverable, so this stays legacy until the
+      # cardano-config adapter carries the Leios keys.
+      configFormat = "legacy";
+
       useLedgerAfterSlot = 151200;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
@@ -466,7 +476,9 @@ let
 
   # Per environment additions to the above.
   allowedConfigKeysFor = {
-    # Leios prototype key, ahead of the cardano-config schema.
+    # Leios prototype key, ahead of the cardano-config schema.  Allowed because
+    # POM reads it and leios stays on `configFormat = "legacy"` for that reason,
+    # not because cardano-config resolves it.
     leios = ["LeiosDbConfig"];
   };
 
