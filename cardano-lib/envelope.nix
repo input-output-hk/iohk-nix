@@ -38,10 +38,14 @@
 #   * no consumer still takes the legacy `nodeConfig` as a file, which
 #     `mkExplorerConfig` currently does for the explorer
 #   * every caller of the nixos service writes envelope shape, and the service
-#     stops synthesising flat keys of its own.  Writing each `<env>-config.nix`
-#     in envelope shape is not enough on its own: the service envelopes the
-#     assembled instance config, so a flat `nodeConfig`, `extraNodeConfig` or
-#     `extraNodeInstanceConfig` from any consumer keeps the translation alive.
+#     stops synthesising flat keys of its own.  It cannot do the latter while any
+#     consumer still sets `configFormat = "legacy"`, since POM reads the flat
+#     spelling and only that; see `baseInstanceConfig` in
+#     cardano-node-service.nix for the mechanics.  Writing each
+#     `<env>-config.nix` in envelope shape is not enough on its own either: the
+#     service envelopes the assembled instance config, so a flat `nodeConfig`,
+#     `extraNodeConfig` or `extraNodeInstanceConfig` from any consumer keeps the
+#     translation alive.
 #     Them staying flat is a decision rather than an oversight, it is what keeps
 #     ogmios, tx-centrifuge and cardano-parts working unchanged, so expect this
 #     to be the last of the four to come true
