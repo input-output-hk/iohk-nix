@@ -327,6 +327,12 @@
       # that cannot be derived from the JSON schemas.
       cardano-config-drift = pkgs.cardanoLib.mkConfigDrift;
 
+      # `mkEnvelope` against the pinned `cardano-config migrate` is deliberately
+      # not here: it needs a binary fetched with `fetchClosure`, and a job in
+      # this set makes `nix flake check` fail for anyone without that
+      # experimental feature.  It runs from GitHub Actions instead, see
+      # ci/cardano-config-parity.nix.
+
       # Fails if any published node config does not validate against the JSON
       # schema from the cardano-config pin.
       cardano-config-schema = pkgs.cardanoLib.mkConfigSchema pkgs.cardanoLib.environments;
