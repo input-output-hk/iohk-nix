@@ -215,7 +215,14 @@ let
           elem k mempoolCapacityOverrideKeys && value.${k} == "NoOverride";
         present = filter (k: !(isNoOverride k)) (attrNames value);
         collidingOld = filter (k: renamedKeys ? ${k} && elem renamedKeys.${k} present) present;
-        kept = filter (k: !(elem k removedKeys) && !(elem k collidingOld)) present;
+
+        # `Protocol` is both a removed key, the legacy protocol selector, which is
+        # a string, and the current name of a section, which is an object, so
+        # only the former is dropped.  Reachable once a caller writes part of the
+        # config in envelope shape, see `mkEnvelope`.
+        isRemovedKey = k: elem k removedKeys && !(k == "Protocol" && isAttrs value.${k});
+
+        kept = filter (k: !(isRemovedKey k) && !(elem k collidingOld)) present;
         rekey = k: {
           name = renamedKeys.${k} or k;
           value = scoped k (renameLegacy value.${k});
@@ -327,7 +334,15 @@ let
     let
       renamed = renameLegacy nodeConfig;
       body = removeAttrs renamed envelopeKeys;
-      configuration = foldl' (acc: key: recursiveUpdate acc (placeKey body key)) {} (attrNames body);
+      regrouped = foldl' (acc: key: recursiveUpdate acc (placeKey body key)) {} (attrNames body);
+
+      # A caller may already write part of the config in envelope shape, which
+      # is where this is all going once POM is dropped.  Keep that body and
+      # regroup the flat siblings into it, rather than dropping it with the
+      # other envelope annotations; the enveloped value wins a collision, as
+      # upstream does.  `renameLegacy` has already recursed through it, so the
+      # renames and the scoped fixups apply at depth either way.
+      configuration = recursiveUpdate regrouped (renamed.Configuration or {});
     in
       {
         "$schema" = schemaUrl;
