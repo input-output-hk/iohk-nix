@@ -1,7 +1,21 @@
-{lib, writeText, runCommand, jq}:
+# `cardanoConfigSrc` is the IntersectMBO/cardano-config source, supplying the
+# JSON schemas the enveloped node config is built from.  Optional so the
+# non-flake entry point keeps working: only the envelope attributes need it,
+# and they fail only when evaluated.  The throw below names them.
+{lib, writeText, runCommand, jq, yajsv, diffutils, cardanoConfigSrc ? null}:
 let
-  inherit (builtins) attrNames fromJSON readFile toFile toJSON;
-  inherit (lib) filterAttrs flip forEach listToAttrs mapAttrs mapAttrsToList optionalAttrs optionalString pipe recursiveUpdate;
+  inherit (builtins) attrNames filter fromJSON readFile toFile toJSON;
+  inherit (lib) filterAttrs flip forEach listToAttrs mapAttrs mapAttrsToList optionalAttrs optionalString partition pipe recursiveUpdate;
+
+  envelope =
+    if cardanoConfigSrc == null
+    then throw ("cardanoLib: `cardanoConfigSrc`, the IntersectMBO/cardano-config source, was"
+                + " not supplied.  It is needed by mkEnvelope, propertyToSection,"
+                + " nodeConfigEnveloped, mkConfigLint, mkConfigDrift and mkConfigSchema, and"
+                + " by mkConfigHtml for any environment on the enveloped dialect, which is"
+                + " the default.  The legacy nodeConfig and everything derived from it, such"
+                + " as dbSyncConfig and explorerConfig, work without it.")
+    else import ./envelope.nix {inherit lib cardanoConfigSrc;};
 
   # As of node 10.6.0 only p2p networking mode is available.
   mkEdgeTopologyP2P = {
@@ -106,16 +120,58 @@ let
   # all networks by default but can be overridden on a per network basis below
   # as needed.
   #
-  # Min is currently 11.1.0 due to removal of legacy tracing system and
-  # introduction of deterministic snapshots.
-  minNodeVersion = { MinNodeVersion = "11.1.0"; };
+  # Min is currently 11.2.0 for the node 11.2 config series.  Node 11.2 adopts
+  # cardano-config as a second config parser alongside its own, resolving with
+  # both and warning on divergence.  Config keys it treats as removed are no
+  # longer emitted here so those warnings stay quiet.
+  #
+  # The keys dropped so far are inert on 11.1 as well, so this bump is ahead of
+  # a hard incompatibility.  Revisit the wording once the 11.2 config shape
+  # changes land.
+  minNodeVersion = { MinNodeVersion = "11.2.0"; };
 
   environments = mapAttrs (name: env: {
     inherit name;
     # default derived configs:
     nodeConfig = recursiveUpdate defaultLogConfig env.networkConfig;
+
+    # The same config in the cardano-config envelope.  Node 11.2 reads
+    # either form: given an envelope it skips its own POM parser and resolves
+    # with cardano-config alone.
+    nodeConfigEnveloped = envelope.mkEnvelope environments.${name}.nodeConfig;
+
+    # Which dialect `mkConfigHtml` publishes as `<env>-config.json`.  One file
+    # per environment, never both.  Override per environment in the definitions
+    # below with `configFormat = "legacy";`.
+    #
+    # The names match the node's own `ConfigurationDialect`: `legacy` is the
+    # flat, pre-cardano-config form both parsers read, `enveloped` is the
+    # cardano-config envelope only cardano-config reads.
+    #
+    # Only affects the published node config.  `dbSyncConfig` and
+    # `explorerConfig` embed their own copy of the legacy `nodeConfig`, so they are
+    # unaffected either way.
+    #
+    # Given an envelope the node skips its own POM parser and resolves with
+    # cardano-config alone, so the envelope inherits whatever that adapter does
+    # not map.
+    #
+    # **Enveloping therefore requires a node whose adapter maps
+    # `CheckpointsFile`.** An older one given an enveloped config that sets it
+    # resolves the checkpoints configuration to empty, silently.
+    # `minNodeVersion` is the contract that says which nodes are safe.
+    #
+    # Byron supported-protocol-version still becomes a fixed 1/0/0 on this path,
+    # since cardano-config does not model LastKnownBlockVersion-*.  Deliberate
+    # upstream, and it applies to every enveloped environment.
+    configFormat = env.configFormat or "enveloped";
     tracerConfig = defaultTracerConfig // {inherit (fromJSON (readFile ./${name}/shelley-genesis.json)) networkMagic;};
-    consensusProtocol = env.networkConfig.Protocol;
+    # Cardano is the only consensus protocol still supported, so this is a
+    # literal rather than a read of `networkConfig.Protocol`.  That key is
+    # vestigial and absent from the enveloped config.  It stays in the legacy
+    # config, which the node reads through its own POM parser, so reading it
+    # here would couple this attribute to a key that goes once POM does.
+    consensusProtocol = "Cardano";
     submitApiConfig = defaultSubmitApiConfig;
     dbSyncConfig =
       mkDbSyncConfig name environments.${name}.nodeConfig (env.extraDbSyncConfig or {});
@@ -253,6 +309,16 @@ let
       ];
       edgePort = 3001;
       networkConfig = import ./leios-config.nix // { MinNodeVersion = "11.1.0.164-prototype-2026w38a"; };
+
+      # `LeiosDbConfig` is a prototype key the cardano-config schema does not
+      # carry, so cardano-config keeps it outside every section and ignores it.
+      # An enveloped config skips POM, which is the only parser that reads the
+      # key, so the published config would silently drop the Leios database
+      # layout and the node would fall back to its default.  Repointing a
+      # populated node is not recoverable, so this stays legacy until the
+      # cardano-config adapter carries the Leios keys.
+      configFormat = "legacy";
+
       useLedgerAfterSlot = 151200;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
@@ -381,6 +447,357 @@ let
     </html>
   '';
 
+  # Node config keys kept on purpose even though cardano-config does not resolve
+  # them.  Everything else unrecognised fails mkConfigLint.
+  #
+  # All four are dropped by cardano-config migrate, so none reaches the
+  # enveloped config.  They stay in the legacy config, but not for the same
+  # reason and not for the same span:
+  #
+  #   * the three block-version keys have two readers that require them, both
+  #     reading all three with `.:`, so a legacy config missing any one fails to
+  #     parse: the node's POM parser, and `readNodeConfig` in cardano-api, which
+  #     anything following the chain through that API goes through.  They
+  #     outlive POM by as long as cardano-api stays legacy-only.
+  #
+  #   * Protocol has no reader left.  POM takes it `.:?` defaulting to Cardano,
+  #     cardano-api never reads it, and db-sync, which did require it, reads an
+  #     envelope now.  It is kept only so this series changes the shape of the
+  #     published configs without changing their content.
+  #
+  # So Protocol can go as soon as changing content is acceptable, and the
+  # block-version keys go when POM and cardano-api have both moved.
+  allowedConfigKeys = [
+    "LastKnownBlockVersion-Major"
+    "LastKnownBlockVersion-Minor"
+    "LastKnownBlockVersion-Alt"
+    "Protocol"
+  ];
+
+  # Per environment additions to the above.
+  allowedConfigKeysFor = {
+    # Leios prototype key, ahead of the cardano-config schema.  Allowed because
+    # POM reads it and leios stays on `configFormat = "legacy"` for that reason,
+    # not because cardano-config resolves it.
+    leios = ["LeiosDbConfig"];
+  };
+
+  # Flat node configs to lint.  The testnet template is included because
+  # cardano-parts copies it when standing up a new network.
+  #
+  # `preview-lsm` stands in for a host rather than an environment: the nixos
+  # service assembles the config it envelopes, so a key it adds is linted
+  # nowhere else.  It mirrors the `withUtxoHdLsmt` branch of `baseInstanceConfig`
+  # in cardano-node-service.nix, the only place the service adds config keys of
+  # its own that the environments do not carry.  Being a hand-kept mirror it
+  # drifts silently if that branch grows; it catches a top-level key, not the
+  # nested shape, which is what `scoped` in envelope.nix is for.
+  lintTargets =
+    mapAttrs (name: env: env.nodeConfig) environments
+    // {
+      testnet-template = fromJSON (readFile ./testnet-template/config.json);
+      preview-lsm = recursiveUpdate environments.preview.nodeConfig {
+        LedgerDB = {
+          Backend = "V2LSM";
+          LSMDatabasePath = "/ephemeral/cardano-node/";
+        };
+      };
+    };
+
+  # What the parity check feeds through both implementations: everything the
+  # lint covers, plus the shapes a consumer can hand `mkEnvelope` that no
+  # environment produces.  The nixos service assembles the config it envelopes,
+  # so those are the ones that reach `mkEnvelope` without being published here.
+  #
+  # Keep `$schema` out of these.  `migrate` carries an existing one through and
+  # `mkEnvelope` always stamps its own, so an input that declares one is a known
+  # divergence rather than a regression.
+  parityTargets =
+    lintTargets
+    // {
+      envelope-shaped = {Configuration.Network.MaxConcurrencyDeadline = 7;};
+      envelope-and-flat = {
+        ConsensusMode = "PraosMode";
+        Configuration.Network.MaxConcurrencyDeadline = 7;
+      };
+      old-section-names = {Configuration.StorageConfig.LedgerDB.QueryBatchSize = 100000;};
+      flat-lsm-backend = {
+        LedgerDB = {
+          Backend = "V2LSM";
+          LSMDatabasePath = "/ephemeral/cardano-node/";
+        };
+      };
+      flat-snapshot-options = {
+        LedgerDB = {
+          Backend = "V2InMemory";
+          SnapshotInterval = 86400;
+          NumOfDiskSnapshots = 2;
+        };
+      };
+      mithril-snapshots = {LedgerDB = {Snapshots = "Mithril";};};
+      renamed-keys = {
+        TargetNumberOfRootPeers = 60;
+        AcceptedConnectionsLimit = {hardLimit = 1024; softLimit = 768; delay = 5;};
+      };
+      removed-keys = {
+        Protocol = "Cardano";
+        LastKnownBlockVersion-Major = 3;
+        MaxKnownMajorProtocolVersion = 2;
+      };
+    };
+
+  # Run each target through `mkEnvelope` and through the pinned
+  # `cardano-config migrate`, and fail on any difference.
+  #
+  # This is the check `mkConfigDrift` cannot be: drift compares the key tables
+  # copied out of Migrate.hs, so it is blind to a transformation that was never
+  # mirrored at all.  Both the flat `LedgerDB` fold and the dropped
+  # `Configuration` body were that shape, and both pass a table comparison.
+  #
+  # `exe` is a cardano-config binary, taken as an argument rather than through
+  # `callPackage` on purpose.  The prebuilt one comes from capkgs as a
+  # content-addressed closure, which needs the `fetch-closure` experimental
+  # feature, so the caller decides whether to pay that.  Nothing in cardanoLib
+  # mentions capkgs, and an overlay consumer cannot reach it.
+  mkConfigParity = exe: targets: let
+    flatOf = name: writeText "${name}-flat.json" (toJSON targets.${name});
+    wantOf = name: writeText "${name}-envelope.json" (toJSON (envelope.mkEnvelope targets.${name}));
+
+    checks = lib.concatMapStringsSep "\n"
+      (name: ''check ${name} ${flatOf name} ${wantOf name}'')
+      (attrNames targets);
+
+    passed = writeText "cardano-config-parity.json" (toJSON {
+      checked = attrNames targets;
+      against = "cardano-config migrate, from the pinned release";
+    });
+  in
+    runCommand "cardano-config-parity" {nativeBuildInputs = [exe jq diffutils];} ''
+      status=0
+
+      check() {
+        name="$1"
+        flat="$2"
+        want="$3"
+
+        if ! cardano-config migrate "$flat" > "$name.got" 2> "$name.err"; then
+          echo "FAIL $name: cardano-config migrate exited non-zero"
+          sed 's/^/  /' "$name.err"
+          status=1
+          return
+        fi
+
+        jq -S . "$name.got" > "$name.got.norm"
+        jq -S . "$want" > "$name.want.norm"
+
+        if diff -u "$name.want.norm" "$name.got.norm" > "$name.diff"; then
+          echo "ok $name"
+        else
+          echo "FAIL $name: mkEnvelope and cardano-config migrate disagree"
+          echo "  -- is mkEnvelope, ++ is migrate"
+          sed 's/^/  /' "$name.diff"
+          status=1
+        fi
+      }
+
+      ${checks}
+
+      if [ "$status" -ne 0 ]; then
+        echo
+        echo "envelope.nix no longer reproduces cardano-config migrate.  Mirror the"
+        echo "transformation it is missing, or record the divergence in the module header."
+        exit 1
+      fi
+
+      cp ${passed} $out
+    '';
+
+  # Report every top-level config key cardano-config would not resolve.  Fails
+  # the build if there are any, listing them per environment.
+  #
+  # This is the check the JSON schemas cannot do: neither schema sets
+  # additionalProperties, so a stray or removed key validates clean against
+  # them.  The recognised key set is read from the schemas, so bumping the
+  # cardano-config pin keeps it current.
+  #
+  # Deliberately a derivation rather than an eval time assert.  cardano-lib is
+  # imported by every downstream consumer, and a failing assert here would break
+  # their evaluation rather than just this check.
+  mkConfigLint = targets: let
+    findings = mapAttrsToList (name: nodeConfig: {
+      inherit name;
+      keys = envelope.unrecognisedKeys
+        (allowedConfigKeys ++ (allowedConfigKeysFor.${name} or []))
+        nodeConfig;
+    }) targets;
+
+    bad = filter (f: f.keys != []) findings;
+
+    # On success the output is the evidence, not an empty file: what was checked
+    # and what was allowed through, so a green job stays auditable after the
+    # build log is gone and two revisions can be diffed against each other.
+    passed = writeText "cardano-config-lint.json" (toJSON {
+      checked = attrNames targets;
+      recognisedKeys = envelope.recognisedKeys;
+      allowed = {
+        all = allowedConfigKeys;
+        perEnvironment = allowedConfigKeysFor;
+      };
+    });
+  in
+    runCommand "cardano-config-lint" {} (
+      if bad == []
+      then ''
+        echo "no unrecognised node config keys in: ${toString (attrNames targets)}"
+        cp ${passed} $out
+      ''
+      else ''
+        echo "node config keys cardano-config will not resolve:"
+        ${toString (map (f: ''
+          echo "  ${f.name}: ${toString f.keys}"
+        '') bad)}
+        echo
+        echo "Each is either a key cardano-config removed, or a typo it would keep"
+        echo "and warn about on every parse.  Drop it, or add it to"
+        echo "allowedConfigKeys in cardano-lib/default.nix if it is deliberate."
+        exit 1
+      ''
+    );
+
+  # Fails if `envelope.nix` and the pinned cardano-config disagree about any
+  # value it cannot derive from the JSON schemas.
+  #
+  # `propertyToSection`, `sections` and `envelopeKeys` are read from the schemas,
+  # so a pin bump carries them automatically and they need no check.  The rename
+  # and drop tables, and the format version, exist only as Haskell literals, so
+  # they are restated in `envelope.nix` and compared here.  `removedFields` alone
+  # gained two entries between cardano-config 1.0.0.0 and 1.1.0.0, so this is the
+  # drift that actually happens.
+  #
+  # Deliberately a derivation rather than an eval time assert, for the same
+  # reason as `mkConfigLint`: cardano-lib is imported by every downstream
+  # consumer and a failing assert would break their evaluation.
+  #
+  # What this cannot catch is behaviour.  It compares the tables copied out of
+  # Migrate.hs, so a transformation that was never mirrored at all passes it.
+  # `mkConfigParity` is the check for that, run from the parity workflow under
+  # .github rather than from here, since it needs a cardano-config binary.
+  #
+  # Temporary by design.  This check polices tables that only exist because the
+  # envelope is derived from a legacy source of truth; writing each
+  # `<env>-config.nix` in envelope shape deletes the tables and this job with
+  # them.  See the header of envelope.nix for what has to land first.
+  mkConfigDrift = let
+    drifted = filterAttrs (name: ours: ours != envelope.upstream.${name}) envelope.driftPairs;
+    names = attrNames drifted;
+
+    # On success the output is the agreed-upon values rather than an empty file,
+    # so a green job records what the pin said at this revision and two
+    # revisions can be diffed to see which tables moved.
+    passed = writeText "cardano-config-drift.json" (toJSON {
+      agreed = envelope.driftPairs;
+      derivedFromSchemas = {
+        inherit (envelope) sections;
+        propertyToSection = envelope.propertyToSection;
+      };
+    });
+  in
+    runCommand "cardano-config-drift" {} (
+      if names == []
+      then ''
+        echo "envelope.nix agrees with the cardano-config pin on: ${toString (attrNames envelope.driftPairs)}"
+        cp ${passed} $out
+      ''
+      else ''
+        echo "envelope.nix disagrees with the pinned cardano-config source:"
+        ${toString (map (n: ''
+          echo "  ${n}"
+          echo "    envelope.nix: ${toJSON envelope.driftPairs.${n}}"
+          echo "    cardano-config: ${toJSON envelope.upstream.${n}}"
+        '') names)}
+        echo
+        echo "Update the corresponding binding in cardano-lib/envelope.nix to match,"
+        echo "then re-check that mkEnvelope still reproduces cardano-config migrate."
+        echo
+        echo "A null on the cardano-config side means the extraction found nothing,"
+        echo "which usually means upstream reformatted the literal rather than"
+        echo "changed it; the parsing in envelope.nix is line based."
+        exit 1
+      ''
+    );
+
+  # Validate every published node config against the JSON schema from the
+  # cardano-config pin.
+  #
+  # This validates the artifact, not the attrset.  `mkConfigLint` reads
+  # `env.nodeConfig`; this reads what `mkConfigHtml` writes, after the genesis
+  # paths are rewritten to the sibling files, because that is the file an
+  # operator downloads.
+  #
+  # Only the enveloped dialect is covered.  The pin ships a single schema,
+  # `config.schema.json`, describing the envelope; the legacy one-file schema
+  # that cardano-config 1.x carried is gone, so a legacy environment has nothing
+  # to validate against.  Those are named in the output rather than passed over
+  # in silence.
+  #
+  # `testnet-template/config.json` is deliberately not a target even though
+  # `mkConfigLint` covers it.  It names five genesis files and supplies no
+  # hashes, which downstream tooling fills in per network, so it cannot satisfy
+  # a schema that makes them mandatory.  It is also never published, so there
+  # is no artifact to check.
+  #
+  # What this cannot catch is a stray key.  The schema sets
+  # `additionalProperties` nowhere, at any depth, so an unrecognised key
+  # validates clean.  `mkConfigLint` covers that at the top level of the legacy
+  # config and nothing covers one nested inside a section.
+  #
+  # Deliberately a derivation rather than an eval time assert, for the same
+  # reason as `mkConfigLint` and `mkConfigDrift`.
+  mkConfigSchema = environments: let
+    schema = "${cardanoConfigSrc}/schemas/config.schema.json";
+
+    byFormat = partition (env: environments.${env}.configFormat == "enveloped") (attrNames environments);
+
+    published = mkConfigHtml environments;
+    targets = map (env: "${published}/${env}-config.json") byFormat.right;
+
+    # The `$id` upstream gives the schema is the same URL `envelope.nix` stamps
+    # into every config we publish.  Were a pin bump to move one and not the
+    # other, our documents would claim conformance to a schema this job never
+    # read, which is the one failure the validation itself cannot show.
+    schemaId = (fromJSON (readFile schema))."$id";
+
+    # On success the output is the evidence rather than an empty file, matching
+    # the other two jobs: what was validated, what was not, and against which
+    # schema, so a green job stays readable after the build log is gone.
+    passed = writeText "cardano-config-schema.json" (toJSON {
+      inherit schemaId;
+      schema = "cardano-config pin, schemas/config.schema.json";
+      validated = byFormat.right;
+      skippedLegacyDialect = byFormat.wrong;
+      notCovered = {
+        testnet-template = "names genesis files without hashes, which the schema requires";
+      };
+    });
+  in
+    runCommand "cardano-config-schema" {buildInputs = [yajsv];} (
+      if schemaId != envelope.schemaUrl
+      then ''
+        echo "the pinned schema and the \$schema we publish disagree:"
+        echo "  cardano-config \$id: ${schemaId}"
+        echo "  envelope.nix:        ${envelope.schemaUrl}"
+        echo
+        echo "Every enveloped config we publish would claim conformance to a schema"
+        echo "this job did not validate it against.  Reconcile schemaUrl in"
+        echo "cardano-lib/envelope.nix with the pin before trusting either."
+        exit 1
+      ''
+      else ''
+        yajsv -s ${schema} ${toString targets}
+        cp ${passed} $out
+      ''
+    );
+
   # Any environments using the HFC protocol of "Cardano" need a second genesis file attribute of
   # genesisFileHfc in order to generate the html table in mkConfigHtml
   mkConfigHtml = environments: runCommand "cardano-html" { buildInputs = [ jq ]; } ''
@@ -402,12 +819,21 @@ let
           }) // (optionalAttrs (value.nodeConfig ? CheckpointsFile) {
             CheckpointsFile = "${env}-checkpoints.json";
           });
+
+          # The config as published, ie with genesis paths rewritten to the
+          # sibling files copied below rather than absolute store paths.
+          relativeNodeConfig =
+            value.nodeConfig // (if p != "Cardano" then genesisFile else genesisFiles);
+
+          # One config per environment, in whichever dialect that environment
+          # selects.  See `configFormat` above.
+          publishedNodeConfig =
+            if value.configFormat == "enveloped" then envelope.mkEnvelope relativeNodeConfig
+            else if value.configFormat == "legacy" then relativeNodeConfig
+            else throw ("cardanoLib: ${env} sets configFormat = \"${value.configFormat}\";"
+                        + " expected \"enveloped\" or \"legacy\"");
         in ''
-          ${if p != "Cardano" then ''
-            ${jq}/bin/jq . < ${toFile "${env}-config.json" (toJSON (value.nodeConfig // genesisFile))} > $out/${env}-config.json
-          '' else ''
-            ${jq}/bin/jq . < ${toFile "${env}-config.json" (toJSON (value.nodeConfig // genesisFiles))} > $out/${env}-config.json
-          ''}
+          ${jq}/bin/jq . < ${toFile "${env}-config.json" (toJSON publishedNodeConfig)} > $out/${env}-config.json
           ${optionalString (p == "RealPBFT" || p == "Byron") ''
             cp ${value.nodeConfig.GenesisFile} $out/${env}-${protNames.${p}.n}-genesis.json
           ''}
@@ -451,13 +877,34 @@ in {
     eachEnv
     forEnvironments
     forEnvironmentsCustom
+    lintTargets
     mkConfigHtml
+    mkConfigLint
+    mkConfigParity
+    mkConfigSchema
+    parityTargets
     mkEdgeTopologyP2P
     mkExplorerConfig
     mkMithrilSignerConfig
     mkProxyTopology
     mkTopology
     ;
+
+  # Flat config to the cardano-config envelope, and the key to component
+  # mapping it is built from.
+  inherit (envelope) mkEnvelope propertyToSection;
+
+  # For callers that assemble a legacy config of their own and want to check it
+  # before enveloping.  `unrecognisedKeys` reports what cardano-config would
+  # not resolve, naming keys as written, so a `renamedKeys` name is reported
+  # rather than quietly migrated.  It returns three kinds of key and they need
+  # telling apart: a `renamedKeys` name still applies under its new name, a
+  # `removedKeys` name is dropped on purpose, and anything else is kept outside
+  # every section where the node ignores it.  Only the last is a fault.
+  inherit (envelope) recognisedKeys removedKeys renamedKeys unrecognisedKeys;
+
+  # Drift detection against the cardano-config pin, see mkConfigDrift.
+  inherit mkConfigDrift;
 
   # For now we export live and dead environments.
   environments = environments // dead_environments;

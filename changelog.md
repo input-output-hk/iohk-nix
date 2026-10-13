@@ -3,6 +3,206 @@
 Please read these notes when updating your project's `iohk-nix`
 version. There may have been changes which could break your build.
 
+## 2026-10-06
+  * The ledger snapshot policy is derived from each network's security
+    parameter, in the new `cardano-lib/snapshot-policy.nix`, rather than
+    restated in every `<env>-config.nix`.
+
+    `MinDelay` and `MaxDelay` are now set rather than left to defaults.  The
+    randomised delay spreads snapshot writes over the first quarter of each
+    interval, `MaxDelay = 10k` in slots converted to seconds, against the
+    existing `Interval = 40k` slots.  Upstream defaults `MaxDelay` to a flat
+    21600s, which is `10k` for mainnet only and exceeds the whole interval on a
+    smaller network, so a delayed write could land after the next snapshot was
+    due.  Resulting values, all networks running 1s slots:
+
+        mainnet, preprod                 Interval 86400  delay 300..21600
+        preview, sanchonet, dijkstra     Interval 17280  delay 300..4320
+        leios                            Interval  4320  delay 300..1080
+
+    `MinDelay` clamps to `MaxDelay` where that falls below 300s, since the
+    node's parser rejects `MinDelay > MaxDelay`.  `testnet-template/config.json`
+    carries the same values for its own `k` of 108.
+
+  * **Breaking:** `release.nix` is removed.  It was the Hydra jobset for the
+    niv entry point, and CI builds the flake's `hydraJobs` instead, so the
+    jobset had no remaining consumer.  The niv entry point itself stays, and
+    `default.nix` now reads `cardanoConfigSrc` from `flake.lock` so it envelopes
+    the same way the flake does.
+
+  * **Breaking:** `mainnet` now defaults to `ConsensusMode: GenesisMode`, as
+    preprod, preview, sanchonet and dijkstra already did.  leios stays on
+    `PraosMode`.
+
+    Genesis mode requires a peer snapshot: the topology must declare
+    `peerSnapshotFile`, and unlike PraosMode a missing snapshot is fatal rather
+    than tolerated.  `mkTopology` declares it for every network and
+    `mainnet-peer-snapshot.json` is published alongside the config, so consumers
+    taking both from here need no change.  A hand-assembled topology, or one
+    carried over from before the snapshot was declared, will not start.
+
+  * **Breaking:** keys that cardano-config treats as removed are no longer
+    emitted in any environment's `nodeConfig`, so node 11.2 does not warn about
+    them on every parse.  `minNodeVersion` is now `11.2.0`.
+
+    Dropped from every `environments.<env>.nodeConfig`:
+      * `MaxKnownMajorProtocolVersion` - mainnet only, and read by nothing in
+        the node source.
+
+    Additionally dropped from `testnet-template/config.json`:
+      * `PBftSignatureThreshold`, `ApplicationName`, `ApplicationVersion`.
+
+    `Protocol` and `LastKnownBlockVersion-Major`, `-Minor`, `-Alt` are
+    deliberately kept.  cardano-config drops all four, so they are absent from
+    the enveloped config, but the flat `nodeConfig` has three readers that
+    require them: the node's own POM parser, which needs the first two
+    block-version keys; cardano-api's `readNodeConfig`, which is legacy-only and
+    takes all three with `.:`; and db-sync, which reads `Protocol` and all three
+    as mandatory in `Cardano/DbSync/Config/Node.hs`.  db-sync is moving to the
+    envelope in its own parser, so cardano-api is the one that keeps these alive
+    on its own.
+
+    Changed in `cardanoLib`:
+      * `consensusProtocol` is now the literal `"Cardano"` rather than being
+        derived from `networkConfig.Protocol`.  Cardano is the only consensus
+        protocol still supported, and the key it was derived from goes away
+        once db-sync reads an envelope.
+
+  * **Breaking:** `<env>-config.json` is now published in the cardano-config
+    envelope for every environment, rather than the flat single-file form.
+    Still one config artifact per environment.
+
+    **This requires a node whose cardano-config adapter maps
+    `CheckpointsFile`.** Given an envelope the node skips its own parser and
+    resolves with cardano-config alone, so an older node reads an enveloped
+    mainnet or preview config with its checkpoints configuration silently empty.
+    `minNodeVersion`, now `11.2.0`, is the contract that says which nodes are
+    safe.
+
+    New on every `environments.<env>`:
+      * `configFormat` - `"enveloped"` (default) or `"legacy"`, selecting the
+        dialect published for that environment.  The names match the node's own
+        `ConfigurationDialect`.
+      * `nodeConfigEnveloped` - the enveloped form of `nodeConfig`, regardless
+        of `configFormat`.
+
+    Byron supported-protocol-version becomes a fixed 1/0/0 on the enveloped
+    path, as cardano-config does not model `LastKnownBlockVersion-*`.  That is
+    deliberate upstream and applies to every environment.
+
+    `nodeConfig` itself is unchanged and remains flat.  Consumers reading it as
+    a Nix value, including `dbSyncConfig` and `explorerConfig` which embed their
+    own copy, are unaffected by `configFormat`.
+
+    `leios` publishes `legacy`.  Its `LeiosDbConfig` is a prototype key the
+    cardano-config schema does not carry, and only POM reads it, so an envelope
+    would drop the Leios database layout and leave the node on its default.
+
+  * Enveloped configs carry the `$schema` annotation cardano-config expects.
+    Without it the node reports `MigratedToCurrentFormat` on every parse; with
+    it the configuration is canonical and parses without warnings.  The URL
+    points at the upstream `vN` tag for the config format version, currently
+    `v2`, rather than at a release.
+
+  * New `hydraJobs.cardano-config-lint`, built by `mkConfigLint`, fails if any
+    environment or the testnet template carries a top-level node config key
+    cardano-config will not resolve.  The recognised set is read from the
+    cardano-config JSON schema, so bumping that pin keeps the check current.
+    This catches what the schema cannot: it does not set
+    `additionalProperties`, so a removed or misspelled key validates clean
+    against it.
+
+  * New `hydraJobs.cardano-config-drift`, built by `mkConfigDrift`, fails if
+    `envelope.nix` and the pinned cardano-config disagree about any value that
+    cannot be derived from the JSON schemas: the rename and drop tables and the
+    format version, which exist only as Haskell literals and so are restated in
+    Nix.  `removedFields` alone gained two entries between cardano-config
+    1.0.0.0 and 1.1.0.0, so this is drift that happens in practice.
+
+    The section list and the envelope annotations are now derived from
+    `config.schema.json` rather than restated, so an added or renamed section
+    arrives with a pin bump instead of being silently ignored, and the `$schema`
+    URL's version tag is derived from the format version.
+
+    This, `cardano-config-lint` and `cardano-config-schema` all write their
+    result to `$out` as JSON on success rather than an empty file, so a green
+    job records what it checked and two revisions can be diffed to see what
+    moved.
+
+    What none of them covers is behaviour.  Drift compares the tables copied
+    out of `Migrate.hs`, so a transformation never mirrored at all passes it;
+    that is the shape of both the flat `LedgerDB` fold and the dropped
+    `Configuration` body.  `cardano-config-parity` below is the check for that.
+
+    New in `cardanoLib`: `mkConfigLint`, `lintTargets`, `mkConfigDrift`,
+    `mkConfigSchema`, `mkConfigParity`, `parityTargets`, `mkEnvelope`,
+    `propertyToSection`.
+
+    `mkEnvelope` reproduces `cardano-config migrate` for any flat config, not
+    just the ones shipped here, so it can be used on a hand-written config.  It
+    applies the same renames (the `Rpc*` keys to their `Grpc*` spellings, the
+    `TargetNumberOf*` peer targets to their `Deadline` prefixed names, and
+    `MempoolCapacityBytesOverride` to `CapacityBytesOverride`), drops the same
+    removed and obsolete keys,
+    collapses `ApplicationName` into `HermodTracing.TraceOptionNodeName`,
+    PascalCases the `AcceptedConnectionsLimit` sub-keys, and rewrites
+    `SnapshotInterval` and `SlotOffset` to `Interval` and `Offset` inside
+    `LedgerDB.Snapshots`.  It also gathers a legacy *flat* `LedgerDB` into the
+    nested form, both the snapshot options and the `V2LSM` backend with its
+    `LSMDatabasePath`, and renames a section still carrying its pre-2.0.0.0
+    `Config` suffix.  Neither reaches the configs here, which are nested and
+    current already, but the nixos service assembles the config it envelopes and
+    a caller may write either shape.
+
+    `mkConfigLint` reports a pre-rename key such as `TargetNumberOfRootPeers` as
+    unrecognised rather than silently accepting it.  `migrate` would rewrite it,
+    but the source is better fixed.
+
+  * New `hydraJobs.cardano-config-schema`, built by `mkConfigSchema`, validates
+    every published `<env>-config.json` against `config.schema.json` from the
+    cardano-config pin.  It reads the artifact `mkConfigHtml` writes rather than
+    the Nix attrset, so what is checked is the file an operator downloads,
+    genesis paths and all.  Type and enum errors are caught at any depth: a
+    `Backend` of `V1LMDB` three levels inside `Storage` fails the build.
+
+    Only the enveloped dialect is covered.  The pin ships one schema, for the
+    envelope; the legacy one-file schema cardano-config 1.x carried is gone, so
+    a `configFormat = "legacy"` environment is named as skipped in the job
+    output rather than passed over in silence.  The testnet template is not a
+    target either, as it names genesis files without the hashes the schema
+    requires and is never published.
+
+    It also fails if the schema's own `$id` and the `$schema` URL `envelope.nix`
+    stamps into every config disagree.  That is the one way a pin bump could
+    leave published configs claiming conformance to a schema the validation
+    never read.
+
+  * New `mkConfigParity`, which runs each target through `mkEnvelope` and
+    through a cardano-config binary's own `migrate` and fails on any
+    difference.  `parityTargets` covers everything the lint does plus the
+    shapes no environment produces but a caller can hand `mkEnvelope`:
+    envelope-shaped input, pre-2.0.0.0 section names, a flat `V2LSM` backend,
+    flat snapshot options, a Mithril policy, and keys this series renames or
+    removes.
+
+    The binary is a parameter, so a caller with a cardano-config to hand can
+    use it directly.  Here it runs from GitHub Actions rather than Hydra, see
+    `ci/cardano-config-parity.nix`: the prebuilt binary is a
+    content-addressed closure, so reaching it needs the `fetch-closure`
+    experimental feature, and a flake output carrying that would fail
+    `nix flake check` for every consumer without it.  Nothing `cardanoLib`
+    exports fetches anything, so the feature is this repository's cost alone.
+
+  * New source-only flake input `cardano-config`, pinned to
+    `cardano-config-2.2.1.0`.  That is the release cardano-node resolves to: it
+    takes cardano-config from CHaP bounded `^>= 2.2`, which is
+    `>= 2.2 && < 2.3`.  Follow the node when bumping it, so both sides read the
+    same schema.
+
+    It supplies the JSON schema the key-to-component mapping is built from.  Its
+    own flake is deliberately not used as an input, as it pulls haskell.nix,
+    hackage.nix, CHaP and iohk-nix itself.
+
 ## 2026-08-07
   * **Breaking:** legacy tracing (iohk-monitoring) config generation is removed,
     in line with cardano-node 11.1 dropping the legacy tracing system.
