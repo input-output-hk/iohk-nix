@@ -28,8 +28,7 @@
   "TestMaryHardForkAtEpoch": 0,
   "TestShelleyHardForkAtEpoch": 0,
   "TraceOptionForwarder": {
-    "connQueueSize": 64,
-    "disconnQueueSize": 128,
+    "queueSize": 128,
     "maxReconnectDelay": 30
   },
   "TraceOptionMetricsPrefix": "cardano.node.metrics.",

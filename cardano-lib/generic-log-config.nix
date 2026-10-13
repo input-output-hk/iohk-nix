@@ -22,8 +22,7 @@
   # The maxReconnectDelay config option specifies the maximum delay in seconds
   # between (re-)connection attempts of a forwarder.
   TraceOptionForwarder = {
-    connQueueSize = 64;
-    disconnQueueSize = 128;
+    queueSize = 128;
     maxReconnectDelay = 30;
   };
 
