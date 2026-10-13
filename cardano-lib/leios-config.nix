@@ -127,4 +127,7 @@
       severity = "Silence";
     };
   };
+
+  # Prefer Tx submission logic v2
+  TxSubmissionLogicVersion = "TxSubmissionLogicV2";
 }
