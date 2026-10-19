@@ -2,13 +2,13 @@
   "NetworkMagic": 1,
   "NodeToClientVersion": 23,
   "Point": {
-    "blockPointHash": "a31c9616f0eb18b62f738b160c0bff1036f2713a7ca5ab00108773d995bcf5d4",
-    "blockPointSlot": 134598619
+    "blockPointHash": "06f0a499891590a822a165a714164563d2ff7e7bcb40fc3b678a1d3e4846318f",
+    "blockPointSlot": 136686845
   },
   "bigLedgerPools": [
     {
-      "accumulatedStake": 0.3111432284162329,
-      "relativeStake": 0.3111432284162329,
+      "accumulatedStake": 0.3110114230550359,
+      "relativeStake": 0.3110114230550359,
       "relays": [
         {
           "address": "preprod1-node.play.dev.cardano.org",
@@ -17,8 +17,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.4985564713123952,
-      "relativeStake": 0.18741324289616232,
+      "accumulatedStake": 0.4980289492336089,
+      "relativeStake": 0.187017526178573,
       "relays": [
         {
           "address": "85.235.64.182",
@@ -27,8 +27,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.6190181876970382,
-      "relativeStake": 0.12046171638464294,
+      "accumulatedStake": 0.6185316301135475,
+      "relativeStake": 0.12050268087993854,
       "relays": [
         {
           "address": "preprod3-node.play.dev.cardano.org",
@@ -37,8 +37,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.7394742996647515,
-      "relativeStake": 0.12045611196771336,
+      "accumulatedStake": 0.7390317610565271,
+      "relativeStake": 0.1205001309429797,
       "relays": [
         {
           "address": "preprod2-node.play.dev.cardano.org",
@@ -47,8 +47,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.7703017497705498,
-      "relativeStake": 0.030827450105798234,
+      "accumulatedStake": 0.7700880210171458,
+      "relativeStake": 0.031056259960618646,
       "relays": [
         {
           "address": "node1.cardano.gratis",
@@ -65,8 +65,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.7951448347394628,
-      "relativeStake": 0.024843084968913076,
+      "accumulatedStake": 0.7950301291111272,
+      "relativeStake": 0.02494210809398139,
       "relays": [
         {
           "address": "132.226.203.38",
@@ -75,8 +75,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.8167654920544353,
-      "relativeStake": 0.021620657314972497,
+      "accumulatedStake": 0.8165913259820425,
+      "relativeStake": 0.02156119687091532,
       "relays": [
         {
           "address": "preprod-node.pool.milkomeda.com",
@@ -85,8 +85,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.8352591250637654,
-      "relativeStake": 0.018493633009330126,
+      "accumulatedStake": 0.835068026869932,
+      "relativeStake": 0.018476700887889472,
       "relays": [
         {
           "address": "73.222.122.247",
@@ -95,8 +95,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.8480637787059597,
-      "relativeStake": 0.01280465364219423,
+      "accumulatedStake": 0.8478609570054159,
+      "relativeStake": 0.01279293013548389,
       "relays": [
         {
           "address": "relay1.preprod.pool.cardano.services",
@@ -109,8 +109,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.8559498340904782,
-      "relativeStake": 0.007886055384518578,
+      "accumulatedStake": 0.855769080851298,
+      "relativeStake": 0.0079081238458821,
       "relays": [
         {
           "address": "adact.preprod.relay1.adacapital.io",
@@ -119,8 +119,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.8636420904723165,
-      "relativeStake": 0.0076922563818383255,
+      "accumulatedStake": 0.8635546037022186,
+      "relativeStake": 0.007785522850920624,
       "relays": [
         {
           "address": "logicalmechanism.asuscomm.com",
@@ -133,8 +133,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.8707112381417181,
-      "relativeStake": 0.007069147669401505,
+      "accumulatedStake": 0.8706437102782045,
+      "relativeStake": 0.007089106575985938,
       "relays": [
         {
           "address": "node1.cardano.gratis",
@@ -151,8 +151,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.876539956123373,
-      "relativeStake": 0.0058287179816549455,
+      "accumulatedStake": 0.8765018439473785,
+      "relativeStake": 0.005858133669173981,
       "relays": [
         {
           "address": "adaboy-preprod-2b.gleeze.com",
@@ -165,28 +165,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.881495254614598,
-      "relativeStake": 0.004955298491224959,
-      "relays": [
-        {
-          "address": "161.97.136.104",
-          "port": 3000
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.886430455172839,
-      "relativeStake": 0.004935200558241059,
-      "relays": [
-        {
-          "address": "pp-relay1.apexpool.info",
-          "port": 4001
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.8912517282458221,
-      "relativeStake": 0.004821273072983007,
+      "accumulatedStake": 0.8820775370946455,
+      "relativeStake": 0.005575693147267043,
       "relays": [
         {
           "address": "preprod.canadastakes.ca",
@@ -195,8 +175,28 @@
       ]
     },
     {
-      "accumulatedStake": 0.8957972684099873,
-      "relativeStake": 0.004545540164165268,
+      "accumulatedStake": 0.8870282886610115,
+      "relativeStake": 0.004950751566365866,
+      "relays": [
+        {
+          "address": "161.97.136.104",
+          "port": 3000
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8919773673413852,
+      "relativeStake": 0.004949078680373797,
+      "relays": [
+        {
+          "address": "pp-relay1.apexpool.info",
+          "port": 4001
+        }
+      ]
+    },
+    {
+      "accumulatedStake": 0.8965186590096271,
+      "relativeStake": 0.0045412916682419395,
       "relays": [
         {
           "address": "relay1.preprod.blinklabs.cloud",
@@ -209,26 +209,12 @@
       ]
     },
     {
-      "accumulatedStake": 0.899536644547279,
-      "relativeStake": 0.003739376137291717,
+      "accumulatedStake": 0.9002546239828908,
+      "relativeStake": 0.0037359649732636303,
       "relays": [
         {
           "address": "tn-preprod.psilobyte.io",
           "port": 4101
-        }
-      ]
-    },
-    {
-      "accumulatedStake": 0.9027237699614054,
-      "relativeStake": 0.003187125414126364,
-      "relays": [
-        {
-          "address": "cf1r1.preprod.pool.cardanofoundation.org",
-          "port": 30000
-        },
-        {
-          "address": "cf1r2.preprod.pool.cardanofoundation.org",
-          "port": 30000
         }
       ]
     }

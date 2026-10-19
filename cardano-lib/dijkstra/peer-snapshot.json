@@ -2,13 +2,13 @@
   "NetworkMagic": 6,
   "NodeToClientVersion": 23,
   "Point": {
-    "blockPointHash": "9db43db7e395c1b2a2e65be9fefba2d7ce42c95003cf49142f3a0fcce4497c67",
-    "blockPointSlot": 19169672
+    "blockPointHash": "ef02c2e25d634dd47489ae98875e337a368da1d3d41b0020a823ea79822a5d5c",
+    "blockPointSlot": 21256400
   },
   "bigLedgerPools": [
     {
-      "accumulatedStake": 0.2694098350150126,
-      "relativeStake": 0.2694098350150126,
+      "accumulatedStake": 0.26943512979399425,
+      "relativeStake": 0.26943512979399425,
       "relays": [
         {
           "address": "dijkstra-node.play.dev.cardano.org",
@@ -17,8 +17,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.5276581847049214,
-      "relativeStake": 0.25824834968990884,
+      "accumulatedStake": 0.5276712089745447,
+      "relativeStake": 0.25823607918055047,
       "relays": [
         {
           "address": "104.197.53.67",
@@ -27,8 +27,8 @@
       ]
     },
     {
-      "accumulatedStake": 0.7638520158549974,
-      "relativeStake": 0.23619383115007603,
+      "accumulatedStake": 0.7638413470735759,
+      "relativeStake": 0.23617013809903123,
       "relays": [
         {
           "address": "dijkstra-node.play.dev.cardano.org",
@@ -38,7 +38,7 @@
     },
     {
       "accumulatedStake": 1,
-      "relativeStake": 0.23614798414500257,
+      "relativeStake": 0.2361586529264241,
       "relays": [
         {
           "address": "dijkstra-node.play.dev.cardano.org",
