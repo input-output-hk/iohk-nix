@@ -207,7 +207,7 @@ let
       edgePort = 3001;
       confKey = "mainnet_full";
       networkConfig = import ./mainnet-config.nix // minNodeVersion;
-      useLedgerAfterSlot = 194140785;
+      useLedgerAfterSlot = 200620811;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
       };
@@ -236,7 +236,7 @@ let
       ];
       edgePort = 3001;
       networkConfig = import ./preprod-config.nix // minNodeVersion;
-      useLedgerAfterSlot = 130118358;
+      useLedgerAfterSlot = 136598413;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
       };
@@ -265,7 +265,7 @@ let
       ];
       edgePort = 3001;
       networkConfig = import ./preview-config.nix // minNodeVersion;
-      useLedgerAfterSlot = 119231973;
+      useLedgerAfterSlot = 125712163;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
       };
@@ -287,7 +287,7 @@ let
       ];
       edgePort = 3001;
       networkConfig = import ./dijkstra-config.nix // minNodeVersion;
-      useLedgerAfterSlot = 14774360;
+      useLedgerAfterSlot = 21254381;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
       };
@@ -341,7 +341,7 @@ let
       ];
       edgePort = 3001;
       networkConfig = import ./sanchonet-config.nix // minNodeVersion;
-      useLedgerAfterSlot = 90547255;
+      useLedgerAfterSlot = 105580745;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
       };
