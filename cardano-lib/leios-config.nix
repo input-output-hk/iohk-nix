@@ -6,15 +6,15 @@
   ##### Locations #####
 
   ByronGenesisFile = ./leios + "/byron-genesis.json";
-  ByronGenesisHash = "5809f031d8dc8ae8091f66a80ebe8f7d173e475436110c462a0533ed65954639";
+  ByronGenesisHash = "3cbc289e3855d93a54877d5106743e1a77cdee3aaed675e62f19c2a373d698a2";
   ConwayGenesisFile = ./leios + "/conway-genesis.json";
-  ConwayGenesisHash = "e2951aa7f08dcd89bb6ca7fcf9acae5c46bdefb5a9affbac769bbe1902e982eb";
+  ConwayGenesisHash = "7e237f0c935539f5571297e3171946dd83929719496cbf51d0dab814a47ae0de";
   ShelleyGenesisFile = ./leios + "/shelley-genesis.json";
-  ShelleyGenesisHash = "1944510a4fd91415444285231058f6f6ff0f6f3ff3d0356c76c00c5a77f29567";
+  ShelleyGenesisHash = "d1b19e006c1198fb7ac9d53073c1a9f77acb1a9474c92310006ae4418290cda3";
   AlonzoGenesisFile = ./leios + "/alonzo-genesis.json";
-  AlonzoGenesisHash = "387a7c4880477ce7b128566fa7f9f9ed99ee04476084e9f6332b6d42d907faab";
+  AlonzoGenesisHash = "a0f11e3609a551b5f6cb8feeeea30cb5b70839ec9dffcd726a5323a1e3f3b12a";
   DijkstraGenesisFile = ./leios + "/dijkstra-genesis.json";
-  DijkstraGenesisHash = "aa1238f505479a9b104d2cc001b4bf951062cd527200bea9a1857bdd0dc41085";
+  DijkstraGenesisHash = "868a465b7115ae653ec532f46eca1a31a89211a96e810d78f82d6e60e3cdca87";
 
   ### Core protocol parameters #####
 
@@ -32,6 +32,7 @@
   TestMaryHardForkAtEpoch = 0;
   TestBabbageHardForkAtEpoch = 0;
   TestConwayHardForkAtEpoch = 0;
+  TestDijkstraHardForkAtEpoch = 0;
 
   # The consensus mode.  If set to "GenesisMode", a path to a peer snapshot
   # file will need to be declared in the p2p topology file under key
@@ -47,7 +48,6 @@
     # When querying the store for a big range of UTxOs (such as with
     # QueryUTxOByAddress), the store will be read in batches of this size.
     QueryBatchSize = 100000;
-
 
     # The backend can either be in memory with `V2InMemory` or on disk with
     # `V2LSM`.
@@ -129,5 +129,5 @@
   };
 
   # Prefer Tx submission logic v2
-  TxSubmissionLogicVersion = "TxSubmissionLogicV2";
+  TxSubmissionLogicVersion = "TxSubmissionLogicV1";
 }
