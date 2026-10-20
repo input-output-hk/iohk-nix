@@ -476,10 +476,10 @@ let
 
   # Per environment additions to the above.
   allowedConfigKeysFor = {
-    # Leios prototype key, ahead of the cardano-config schema.  Allowed because
-    # POM reads it and leios stays on `configFormat = "legacy"` for that reason,
-    # not because cardano-config resolves it.
-    leios = ["LeiosDbConfig"];
+    # Leios prototype keys, ahead of the cardano-config schema.  Allowed because
+    # POM reads them and leios stays on `configFormat = "legacy"` for that
+    # reason, not because cardano-config resolves them.
+    leios = ["LeiosDbConfig" "LeiosMinOfferLead"];
   };
 
   # Flat node configs to lint.  The testnet template is included because

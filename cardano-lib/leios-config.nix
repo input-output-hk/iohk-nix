@@ -63,6 +63,12 @@
     Snapshots = import ./snapshot-policy.nix ./leios/shelley-genesis.json;
   };
 
+  # Minimum lead above the immutable tip, in slots, for relaying EB offers.
+  # W42 defaults to 3600, which suppresses fresh offers on this short-horizon
+  # network (k = 108, activeSlotsCoeff = 0.05, one-second slots). Keep a
+  # 20-minute buffer while allowing room for chain-density fluctuations.
+  LeiosMinOfferLead = 1200;
+
   LeiosDbConfig = {
     # Can be "InMemory" or "SQLite", with the default being "SQLite".
     # As of w38a:
