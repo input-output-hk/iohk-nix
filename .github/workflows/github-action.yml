@@ -11,7 +11,7 @@ jobs:
     name: GitHub Action integration test
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: input-output-hk/actions/base@9d070998e87f30712ba2282f57a5717fc19ff8be # latest
+    - uses: input-output-hk/actions/base@77d9db52baebd90239cc4004d88df2101baf8ead # latest
     - name: Check pkg-config
       run: |
         pkg-config --libs libblst
