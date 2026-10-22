@@ -18,6 +18,16 @@ stdenv.mkDerivation rec {
       exit 1
     fi
     ./build.sh -D__BLST_PORTABLE__ ${lib.optionalString stdenv.hostPlatform.isWindows "flavour=mingw64"}
+  '' + lib.optionalString stdenv.hostPlatform.isWindows ''
+    # The assembly emits `__blst_platform_cap` as a common symbol, while
+    # server.o defines it (-D__BLST_PORTABLE__). GHC's runtime linker on
+    # Windows reports that as a duplicate definition, so partially link both
+    # objects into one, where the common symbol resolves to the definition.
+    mkdir objs
+    (cd objs && ${stdenv.cc.targetPrefix}ar x ../libblst.a)
+    ${stdenv.cc.targetPrefix}ld -r -o blst.o objs/*.o
+    rm -r objs libblst.a
+    ${stdenv.cc.targetPrefix}ar rcs libblst.a blst.o
   '' + lib.optionalString enableShared ''
     ./build.sh -D__BLST_PORTABLE__ -shared ${lib.optionalString stdenv.hostPlatform.isWindows "flavour=mingw64"}
   '';
