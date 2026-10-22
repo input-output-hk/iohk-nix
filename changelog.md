@@ -194,10 +194,10 @@ version. There may have been changes which could break your build.
     exports fetches anything, so the feature is this repository's cost alone.
 
   * New source-only flake input `cardano-config`, pinned to
-    `cardano-config-2.2.1.0`.  That is the release cardano-node resolves to: it
-    takes cardano-config from CHaP bounded `^>= 2.2`, which is
-    `>= 2.2 && < 2.3`.  Follow the node when bumping it, so both sides read the
-    same schema.
+    `cardano-config-2.2.2.0`.  That is the release cardano-node resolves to: it
+    takes cardano-config from CHaP bounded `^>= 2.2`, and its build plan freezes
+    `cardano-config ==2.2.2.0`.  Follow the node when bumping it, so both sides
+    read the same schema.
 
     It supplies the JSON schema the key-to-component mapping is built from.  Its
     own flake is deliberately not used as an input, as it pulls haskell.nix,

@@ -23,7 +23,7 @@
 {iohk-nix ? import ../. {}}: let
   cardanoConfigExe = builtins.fetchClosure {
     fromStore = "https://cache.iog.io";
-    fromPath = /nix/store/ipg0p99a09rs2z5dbgg7qvyydm2vbhm2-cardano-config-exe-cardano-config-2.2.1.0;
+    fromPath = /nix/store/n4zwk3ysfcpi2ya6bq4yvhx9ars54p8y-cardano-config-exe-cardano-config-2.2.2.0;
     inputAddressed = true;
   };
 
