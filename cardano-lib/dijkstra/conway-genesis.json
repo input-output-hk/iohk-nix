@@ -1,9 +1,9 @@
 {
   "committee": {
     "members": {
-      "keyHash-671d6c3c9f485afcc728cc4dda5943e53116233f303f492fe4d41b90": 293,
-      "keyHash-6cc00ee6c757f444fbb3e0665ba5ad2736bdf852c5ee9a46409af505": 293,
-      "keyHash-d783895e9121ce95c2b5e56170a10e8f63e00e50ebf8c0c9dfd2818b": 293
+      "keyHash-62123391e02b376661db415b33017ce5a3cc51a69fc779f6140131d3": 293,
+      "keyHash-984049375878525511828417e1583f9e5101bcde0483cb9a37f1b956": 293,
+      "keyHash-cd20fa7f9ce75b5e248e59e9ebb71d213e44b3109eb931dc8db410ae": 293
     },
     "threshold": {
       "denominator": 3,
@@ -17,7 +17,7 @@
       "dataHash": "2a61e2f4b63442978140c77a70daab3961b22b12b63b13949a390c097214d1c5",
       "url": "ipfs://bafkreiazhhawe7sjwuthcfgl3mmv2swec7sukvclu3oli7qdyz4uhhuvmy"
     },
-    "script": "fa24fb305126805cf2164c161d852a0e7330cf988f1fe558cf7d4a64"
+    "script": "e3172285605e502bde008a7efe2b2eec516958b7bae911947a5c9373"
   },
   "dRepActivity": 20,
   "dRepDeposit": 500000000,
@@ -32,6 +32,14 @@
     "ppTechnicalGroup": 0.67,
     "treasuryWithdrawal": 0.67,
     "updateToConstitution": 0.75
+  },
+  "extraConfig": {
+    "delegs": {
+      "data": {}
+    },
+    "initialDReps": {
+      "data": {}
+    }
   },
   "govActionDeposit": 100000000000,
   "govActionLifetime": 30,

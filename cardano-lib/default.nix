@@ -287,7 +287,7 @@ let
       ];
       edgePort = 3001;
       networkConfig = import ./dijkstra-config.nix // minNodeVersion;
-      useLedgerAfterSlot = 21254381;
+      useLedgerAfterSlot = 259200;
       extraDbSyncConfig = {
         enableFutureGenesis = true;
       };

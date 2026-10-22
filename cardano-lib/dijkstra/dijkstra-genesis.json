@@ -1,8 +1,26 @@
 {
-  "maxRefScriptSizePerBlock": 1048576,
-  "maxRefScriptSizePerTx": 204800,
+  "leiosAnnouncementPeriodLength": 1000,
+  "leiosCommitteeSize": 900,
+  "leiosDiffusionPeriodLength": 7000,
+  "leiosQuorumStakeThreshold": 0.75,
+  "leiosVotePeriodLength": 4000,
+  "maxEndorserBlockExecutionUnits": {
+    "memory": 720000000,
+    "steps": 200000000000
+  },
+  "maxEndorserBlockReferencesSize": 40000,
+  "maxEndorserBlockTxsSize": 260000,
   "maxPledgeLeverage": null,
+  "maxRefScriptSizePerBlock": 1048576,
+  "maxRefScriptSizePerEndorserBlock": 1048576,
+  "maxRefScriptSizePerTx": 204800,
   "minPoolMargin": 0.015,
+  "perasBootstrapRound": 0,
+  "perasCertBoost": 15,
+  "perasHealingFactor": 0.5,
+  "perasMinCandidateBlockAge": 90,
+  "perasQuorumThresholdSafetyMargin": 0.05,
+  "perasTargetCommitteeSize": 800,
   "plutusV4CostModel": [
     100788, 420, 1, 1, 1000, 173, 0, 1, 1000, 59957, 4, 1, 11183, 32, 201305,
     8356, 4, 16000, 100, 16000, 100, 16000, 100, 16000, 100, 16000, 100, 16000,
@@ -24,26 +42,8 @@
     36, 333849714, 1, 254006273, 72, 2174038, 72, 2261318, 64571, 4, 207616,
     8310, 4, 1293828, 28716, 63, 0, 1, 1006041, 43623, 251, 0, 1
   ],
-  "refScriptCostMultiplier": 1.2,
-  "refScriptCostStride": 25600,
-  "leiosAnnouncementPeriodLength": 1000,
-  "leiosVotePeriodLength": 4000,
-  "leiosDiffusionPeriodLength": 7000,
-  "leiosCommitteeSize": 900,
-  "leiosQuorumStakeThreshold": 0.75,
-  "maxEndorserBlockReferencesSize": 100000,
-  "maxEndorserBlockTxsSize": 1000000,
-  "maxEndorserBlockExecutionUnits": {
-    "memory": 310000000,
-    "steps": 100000000000
-  },
-  "maxRefScriptSizePerEndorserBlock": 4000000,
-  "perasMinCandidateBlockAge": 90,
-  "perasHealingFactor": 0.5,
-  "perasCertBoost": 15,
-  "perasTargetCommitteeSize": 800,
-  "perasBootstrapRound": 0,
-  "perasQuorumThresholdSafetyMargin": 0.05,
+  "refInputsCostPerDatumByte": 0,
   "refInputsCostPerMultiAssetPolicy": 0,
-  "refInputsCostPerDatumByte": 0
+  "refScriptCostMultiplier": 1.2,
+  "refScriptCostStride": 25600
 }

@@ -7,15 +7,15 @@
   ##### Locations #####
 
   ByronGenesisFile = ./dijkstra + "/byron-genesis.json";
-  ByronGenesisHash = "9bdbd85630be6848fc31425efe0be0f1f0bce8ee2def551f62e5a7bb165f552c";
+  ByronGenesisHash = "245e5b28a31c6bc3e8b78f1223294ae09e57b6d2543b51aba7cf9dadff161238";
   ConwayGenesisFile = ./dijkstra + "/conway-genesis.json";
-  ConwayGenesisHash = "1882545753507dc03566b98b4c67752980797cd7e196323eef9baa0d474cbbb6";
+  ConwayGenesisHash = "e18ab8efc363ad170142706723568f1520a57f0dc05354e1d458041da18a3704";
   ShelleyGenesisFile = ./dijkstra + "/shelley-genesis.json";
-  ShelleyGenesisHash = "a3d60a493cb73ab915084320cfaae32f9674c1394f52f98a261f855d42bdd885";
+  ShelleyGenesisHash = "b47eb627b52bf9cfe5ffd865658b47b5747a088d150a9c27216de374e836c385";
   AlonzoGenesisFile = ./dijkstra + "/alonzo-genesis.json";
-  AlonzoGenesisHash = "cc143a4a73d7ab8cbc4bbd7750c91c5204cb597007cea3a317a1fc240c1954f1";
+  AlonzoGenesisHash = "387a7c4880477ce7b128566fa7f9f9ed99ee04476084e9f6332b6d42d907faab";
   DijkstraGenesisFile = ./dijkstra + "/dijkstra-genesis.json";
-  DijkstraGenesisHash = "c5a3556eecdaefbb4718e6002163237bc9bf1cd2e1fec6efd42b71d959f42ae3";
+  DijkstraGenesisHash = "ad58e282eff1f48c241faf6319f88ed54843821627a6be69470f05d7904e4601";
 
   ### Core protocol parameters #####
 
@@ -25,9 +25,8 @@
 
   RequiresNetworkMagic = "RequiresMagic";
 
-  # For node 11.0.0, set false until the network is forked to PV11
-  ExperimentalHardForksEnabled = false;
-
+  # For node 11.2.0 pre-release, set true and hard fork to PV12
+  ExperimentalHardForksEnabled = true;
   ExperimentalProtocolsEnabled = true;
   TestShelleyHardForkAtEpoch = 0;
   TestAllegraHardForkAtEpoch = 0;
@@ -82,7 +81,7 @@
   # set is too small to reach trusted state at the ouroboros-network default
   # of 5, which stalls a Genesis Mode sync.  Lower the threshold so a sync can
   # complete.
-  MinBigLedgerPeersForTrustedState = 1;
+  MinBigLedgerPeersForTrustedState = 3;
 
   # Default Ledger Configuration
   # Additional configuration options can be found at:
