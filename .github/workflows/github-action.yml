@@ -11,9 +11,21 @@ jobs:
     name: GitHub Action integration test
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: input-output-hk/actions/base@77d9db52baebd90239cc4004d88df2101baf8ead # latest
+    - uses: input-output-hk/actions/base@6217329012a2fd613c8eec9a3f523684a8e91720 # latest
     - name: Check pkg-config
       run: |
         pkg-config --libs libblst
         pkg-config --libs libsodium
         pkg-config --libs libsecp256k1
+    # Git Bash puts its own mingw64\bin first on PATH; ours must still win.
+    - name: Check library precedence in Git Bash
+      if: runner.os == 'Windows'
+      shell: bash
+      run: |
+        echo "$PATH" | tr ':' '\n' | head -3
+        openssl=$(command -v openssl)
+        dll=$(where.exe libcrypto-3-x64.dll | head -1 | tr -d '\r')
+        echo "openssl: $openssl"
+        echo "libcrypto: $dll"
+        [[ "$openssl" == /c/msys64/clang64/* ]]
+        [[ "${dll,,}" == 'c:\msys64\clang64\'* ]]
