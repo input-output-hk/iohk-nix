@@ -308,7 +308,7 @@ let
         }
       ];
       edgePort = 3001;
-      networkConfig = import ./leios-config.nix // { MinNodeVersion = "11.1.0.164-prototype-2026w42"; };
+      networkConfig = import ./leios-config.nix // { MinNodeVersion = "11.2.0.164-prototype-2026w42"; };
 
       # `LeiosDbConfig` is a prototype key the cardano-config schema does not
       # carry, so cardano-config keeps it outside every section and ignores it.
@@ -454,19 +454,16 @@ let
   # enveloped config.  They stay in the legacy config, but not for the same
   # reason and not for the same span:
   #
-  #   * the three block-version keys have two readers that require them, both
-  #     reading all three with `.:`, so a legacy config missing any one fails to
-  #     parse: the node's POM parser, and `readNodeConfig` in cardano-api, which
-  #     anything following the chain through that API goes through.  They
-  #     outlive POM by as long as cardano-api stays legacy-only.
+  #   * POM requires `LastKnownBlockVersion-Major` and `-Minor` with `.:`, so a
+  #     legacy config missing either fails to parse.  It defaults `-Alt`, which
+  #     is kept alongside them.
   #
-  #   * Protocol has no reader left.  POM takes it `.:?` defaulting to Cardano,
-  #     cardano-api never reads it, and db-sync, which did require it, reads an
-  #     envelope now.  It is kept only so this series changes the shape of the
-  #     published configs without changing their content.
+  #   * Protocol has no reader.  POM takes it `.:?` defaulting to Cardano.  It
+  #     is kept only so this series changes the shape of the published configs
+  #     without changing their content.
   #
   # So Protocol can go as soon as changing content is acceptable, and the
-  # block-version keys go when POM and cardano-api have both moved.
+  # block-version keys go with POM.
   allowedConfigKeys = [
     "LastKnownBlockVersion-Major"
     "LastKnownBlockVersion-Minor"

@@ -27,14 +27,11 @@
 # survives is the envelope annotations, which something still has to stamp, and
 # the lint, which validates keys against the schemas and is useful either way.
 #
-# Four things have to be true first, and none of them are yet:
+# Three things have to be true first, and none of them are yet:
 #
-#   * the node drops POM, so nothing needs the legacy form's dropped keys
-#   * cardano-api reads the envelope, so anything following the chain through
-#     it can be pointed at one.  `readNodeConfig` is legacy-only today and
-#     requires the three LastKnownBlockVersion keys with `.:`, so it keeps them
-#     alive on its own, independently of POM.  db-sync is not the blocker here:
-#     it parses the node config itself and is moving to the envelope that way
+#   * the node drops POM, the last reader of the legacy form's dropped keys.  It
+#     requires `LastKnownBlockVersion-Major` and `-Minor` with `.:`, and only
+#     ever sees the legacy dialect
 #   * no consumer still takes the legacy `nodeConfig` as a file, which
 #     `mkExplorerConfig` currently does for the explorer
 #   * every caller of the nixos service writes envelope shape, and the service

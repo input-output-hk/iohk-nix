@@ -3,7 +3,7 @@
 Please read these notes when updating your project's `iohk-nix`
 version. There may have been changes which could break your build.
 
-## 2026-10-06
+## 2026-10-22
   * The ledger snapshot policy is derived from each network's security
     parameter, in the new `cardano-lib/snapshot-policy.nix`, rather than
     restated in every `<env>-config.nix`.
@@ -52,21 +52,17 @@ version. There may have been changes which could break your build.
     Additionally dropped from `testnet-template/config.json`:
       * `PBftSignatureThreshold`, `ApplicationName`, `ApplicationVersion`.
 
-    `Protocol` and `LastKnownBlockVersion-Major`, `-Minor`, `-Alt` are
-    deliberately kept.  cardano-config drops all four, so they are absent from
-    the enveloped config, but the flat `nodeConfig` has three readers that
-    require them: the node's own POM parser, which needs the first two
-    block-version keys; cardano-api's `readNodeConfig`, which is legacy-only and
-    takes all three with `.:`; and db-sync, which reads `Protocol` and all three
-    as mandatory in `Cardano/DbSync/Config/Node.hs`.  db-sync is moving to the
-    envelope in its own parser, so cardano-api is the one that keeps these alive
-    on its own.
+    `Protocol` and `LastKnownBlockVersion-Major`, `-Minor`, `-Alt` are kept in
+    the legacy `nodeConfig`; cardano-config drops all four from the enveloped
+    config.  POM requires `-Major` and `-Minor` with `.:` and defaults `-Alt`.
+    `Protocol` it reads `.:?`, so that one is kept only to change the shape of
+    the published configs without changing their content.
 
     Changed in `cardanoLib`:
       * `consensusProtocol` is now the literal `"Cardano"` rather than being
         derived from `networkConfig.Protocol`.  Cardano is the only consensus
         protocol still supported, and the key it was derived from goes away
-        once db-sync reads an envelope.
+        with the legacy config.
 
   * **Breaking:** `<env>-config.json` is now published in the cardano-config
     envelope for every environment, rather than the flat single-file form.
