@@ -176,13 +176,13 @@
   },
   "lovelacePerUTxOWord": 34482,
   "maxBlockExUnits": {
-    "memory": 50000000,
-    "steps": 40000000000
+    "exUnitsMem": 72000000,
+    "exUnitsSteps": 20000000000
   },
   "maxCollateralInputs": 3,
   "maxTxExUnits": {
-    "memory": 10000000,
-    "steps": 10000000000
+    "exUnitsMem": 16500000,
+    "exUnitsSteps": 10000000000
   },
   "maxValueSize": 5000
 }
