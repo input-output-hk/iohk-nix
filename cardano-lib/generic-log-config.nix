@@ -81,6 +81,7 @@
     "Net.InboundGovernor.Remote".severity = "Info";
     "Net.InboundGovernor".severity = "Warning";
     "Net.Mux.Remote".severity = "Info";
+    "Net.Mux.Remote.Bearer".severity = "Silence";
     "Net.PeerSelection".severity = "Info";
     "Resources".severity = "Silence";
     "Startup.DiffusionInit".severity = "Info";
