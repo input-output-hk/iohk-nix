@@ -13,6 +13,21 @@
     sodium = { url = "github:input-output-hk/libsodium?rev=dbb48cce5429cb6585c9034f002568964f1ce567"; flake = false; };
     secp256k1 = { url = "github:bitcoin-core/secp256k1?ref=v0.3.2"; flake = false; };
     blst = { url = "github:supranational/blst?ref=v0.3.15"; flake = false; };
+
+    # Source only, for the JSON schemas under `schemas/`.  These give the
+    # authoritative key to component mapping used to build the enveloped node
+    # config, so a rev bump here keeps that mapping current.
+    #
+    # Deliberately not a flake input proper: cardano-config's own flake pulls
+    # haskell.nix, hackage.nix, CHaP and iohk-nix itself, none of which belong
+    # in this lock.
+    #
+    # Pinned to a cardano-config whose schemas match the one the node builds
+    # against, so both sides read the same ones.  The version numbers need not
+    # match; bump when the schemas move, and bump the binary in
+    # ci/cardano-config-parity.nix with it.  By tag, not rev: the parity check
+    # derives the expected binary name from the tag.
+    cardano-config = { url = "github:IntersectMBO/cardano-config/cardano-config-2.2.2.0"; flake = false; };
   };
 
   outputs = { self, nixpkgs, ... }@inputs: rec {
@@ -25,7 +40,9 @@
       haskell-nix-crypto = import ./overlays/haskell-nix-crypto;
       haskell-nix-extra = import ./overlays/haskell-nix-extra;
       cardano-lib = (final: prev: {
-        cardanoLib = final.callPackage ./cardano-lib {};
+        cardanoLib = final.callPackage ./cardano-lib {
+          cardanoConfigSrc = inputs.cardano-config;
+        };
       });
       utils = import ./overlays/utils;
     };
@@ -303,6 +320,24 @@
     };
     hydraJobs = dist // {
       cardano-deployment = pkgs.cardanoLib.mkConfigHtml pkgs.cardanoLib.environments;
+
+      # Fails if any environment, or the testnet template, carries a node config
+      # key cardano-config will not resolve.
+      cardano-config-lint = pkgs.cardanoLib.mkConfigLint pkgs.cardanoLib.lintTargets;
+
+      # Fails if envelope.nix and the cardano-config pin disagree about any value
+      # that cannot be derived from the JSON schemas.
+      cardano-config-drift = pkgs.cardanoLib.mkConfigDrift;
+
+      # `mkEnvelope` against the pinned `cardano-config migrate` is deliberately
+      # not here: it needs a binary fetched with `fetchClosure`, and a job in
+      # this set makes `nix flake check` fail for anyone without that
+      # experimental feature.  It runs from GitHub Actions instead, see
+      # ci/cardano-config-parity.nix.
+
+      # Fails if any published node config does not validate against the JSON
+      # schema from the cardano-config pin.
+      cardano-config-schema = pkgs.cardanoLib.mkConfigSchema pkgs.cardanoLib.environments;
     };
   };
 }

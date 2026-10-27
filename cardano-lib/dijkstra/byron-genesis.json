@@ -24,13 +24,13 @@
     "updateVoteThd": "1000000000000"
   },
   "bootStakeholders": {
-    "34fcae9871ac51f95d4fa1b0763278543fb9fae591e78ea0e95658e1": 1
+    "fa1b172f287b7744e06c75b1451fe374c9b1df309a00ac79484180f0": 1
   },
   "heavyDelegation": {
-    "34fcae9871ac51f95d4fa1b0763278543fb9fae591e78ea0e95658e1": {
-      "cert": "9f5bf6dd979c9bed43c77c662488366ed7f264b35181f2598559f27533c34a2906ae133ed8e9650a3a3b86362e859795220f15af5fd843065722bab2d2f2c007",
-      "delegatePk": "/nLQgxhWd8O2Io+Zkm6SAgNW1N4n2AwcDOcDw4LQv7vhN4OQDc9JA+eUzvJsc7BG8bbxgs845eIpGyDXkmddgQ==",
-      "issuerPk": "6Q6FgpePDUmvSon6d9qfD1UymLbkSHcYdCTgKodC1/iZZBhZSFPCXcEcsTbsLF8aKxB4eCG+nicr3u85lBO5ew==",
+    "fa1b172f287b7744e06c75b1451fe374c9b1df309a00ac79484180f0": {
+      "cert": "d095f9aec4774b0229e6f22b5aa872c0bd09ae32e9f2f816b8bd095ae698c7d6b905abd9a1cc93d8def2c990fb7387ddcd1f977c9210b16e759ef9fb9ec70e00",
+      "delegatePk": "/jGpM2Q9ECcvhi3z4EK5CK4DozwyVI0krqGgcKeLR80OYX/vX+jyJ4nNQGzH3bRf5eMox3lpn4985+rWSesROQ==",
+      "issuerPk": "tzXrdDBuvKJklb6W0HJrqRlzrr8THmZO1MXbcsKvkz5rgG1LbZIBeo4ugIDs9dwF5aDY7pUCewanH9brzkraDA==",
       "omega": 0
     }
   },
@@ -39,5 +39,5 @@
     "k": 432,
     "protocolMagic": 6
   },
-  "startTime": 1771113600
+  "startTime": 1792281600
 }
