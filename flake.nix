@@ -22,10 +22,11 @@
     # haskell.nix, hackage.nix, CHaP and iohk-nix itself, none of which belong
     # in this lock.
     #
-    # Pinned to the release the node resolves to, so both sides read the same
-    # schemas.  The node takes cardano-config from CHaP bounded `^>= 2.2`, and
-    # its plan freezes `cardano-config ==2.2.2.0`.  Follow the node when bumping
-    # this, and bump the binary in ci/cardano-config-parity.nix with it.
+    # Pinned to a cardano-config whose schemas match the one the node builds
+    # against, so both sides read the same ones.  The version numbers need not
+    # match; bump when the schemas move, and bump the binary in
+    # ci/cardano-config-parity.nix with it.  By tag, not rev: the parity check
+    # derives the expected binary name from the tag.
     cardano-config = { url = "github:IntersectMBO/cardano-config/cardano-config-2.2.2.0"; flake = false; };
   };
 

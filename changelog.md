@@ -3,7 +3,7 @@
 Please read these notes when updating your project's `iohk-nix`
 version. There may have been changes which could break your build.
 
-## 2026-10-22
+## 2026-10-27
   * The ledger snapshot policy is derived from each network's security
     parameter, in the new `cardano-lib/snapshot-policy.nix`, rather than
     restated in every `<env>-config.nix`.
@@ -190,14 +190,12 @@ version. There may have been changes which could break your build.
     exports fetches anything, so the feature is this repository's cost alone.
 
   * New source-only flake input `cardano-config`, pinned to
-    `cardano-config-2.2.2.0`.  That is the release cardano-node resolves to: it
-    takes cardano-config from CHaP bounded `^>= 2.2`, and its build plan freezes
-    `cardano-config ==2.2.2.0`.  Follow the node when bumping it, so both sides
-    read the same schema.
+    `cardano-config-2.2.2.0`.  It supplies the JSON schema the key-to-component
+    mapping is built from.  Follow the node when its schemas move, so both
+    sides read the same ones.
 
-    It supplies the JSON schema the key-to-component mapping is built from.  Its
-    own flake is deliberately not used as an input, as it pulls haskell.nix,
-    hackage.nix, CHaP and iohk-nix itself.
+    Its own flake is deliberately not used as an input, as it pulls
+    haskell.nix, hackage.nix, CHaP and iohk-nix itself.
 
 ## 2026-08-07
   * **Breaking:** legacy tracing (iohk-monitoring) config generation is removed,
