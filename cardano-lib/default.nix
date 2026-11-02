@@ -308,7 +308,7 @@ let
         }
       ];
       edgePort = 3001;
-      networkConfig = import ./leios-config.nix // { MinNodeVersion = "11.2.0.164-prototype-2026w42"; };
+      networkConfig = import ./leios-config.nix // { MinNodeVersion = "11.2.0.164-rc-2026w44"; };
 
       # `LeiosDbConfig` is a prototype key the cardano-config schema does not
       # carry, so cardano-config keeps it outside every section and ignores it.
