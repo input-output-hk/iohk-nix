@@ -9,15 +9,15 @@ version. There may have been changes which could break your build.
     restated in every `<env>-config.nix`.
 
     `MinDelay` and `MaxDelay` are now set rather than left to defaults.  The
-    randomised delay spreads snapshot writes over the first quarter of each
-    interval, `MaxDelay = 10k` in slots converted to seconds, against the
+    randomised delay spreads snapshot writes over up to the first quarter of
+    each interval, `MaxDelay = min(10k, 3600)` slots converted to seconds, against the
     existing `Interval = 40k` slots.  Upstream defaults `MaxDelay` to a flat
     21600s, which is `10k` for mainnet only and exceeds the whole interval on a
     smaller network, so a delayed write could land after the next snapshot was
     due.  Resulting values, all networks running 1s slots:
 
-        mainnet, preprod                 Interval 86400  delay 300..21600
-        preview, sanchonet, dijkstra     Interval 17280  delay 300..4320
+        mainnet, preprod                 Interval 86400  delay 300..3600
+        preview, sanchonet, dijkstra     Interval 17280  delay 300..3600
         leios                            Interval  4320  delay 300..1080
 
     `MinDelay` clamps to `MaxDelay` where that falls below 300s, since the
