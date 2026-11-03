@@ -308,7 +308,7 @@ let
         }
       ];
       edgePort = 3001;
-      networkConfig = import ./leios-config.nix // { MinNodeVersion = "11.2.0.164-prototype-2026w42"; };
+      networkConfig = import ./leios-config.nix // { MinNodeVersion = "11.2.0.164-rc-2026w44"; };
 
       # `LeiosDbConfig` is a prototype key the cardano-config schema does not
       # carry, so cardano-config keeps it outside every section and ignores it.
@@ -476,7 +476,12 @@ let
     # Leios prototype keys, ahead of the cardano-config schema.  Allowed because
     # POM reads them and leios stays on `configFormat = "legacy"` for that
     # reason, not because cardano-config resolves them.
-    leios = ["LeiosDbConfig" "LeiosMinOfferLead"];
+    leios = [
+      "EgressBudgetMbps"
+      "LeiosAdaptiveEndorsements"
+      "LeiosDbConfig"
+      "LeiosMinOfferLead"
+    ];
   };
 
   # Flat node configs to lint.  The testnet template is included because

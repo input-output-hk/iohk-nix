@@ -63,20 +63,6 @@
     Snapshots = import ./snapshot-policy.nix ./leios/shelley-genesis.json;
   };
 
-  # Minimum lead above the immutable tip, in slots, for relaying EB offers.
-  # W42 defaults to 3600, which suppresses fresh offers on this short-horizon
-  # network (k = 108, activeSlotsCoeff = 0.05, one-second slots). Keep a
-  # 20-minute buffer while allowing room for chain-density fluctuations.
-  LeiosMinOfferLead = 1200;
-
-  LeiosDbConfig = {
-    # Can be "InMemory" or "SQLite", with the default being "SQLite".
-    # As of w38a:
-    #   leios.imm.db follows --database-path or --immutable-database-path
-    #   leios.vol.db follows --database-path or --volatile-database-path
-    Backend = "SQLite";
-  };
-
   ##### Update system parameters #####
 
   LastKnownBlockVersion-Major = 3;
@@ -134,6 +120,36 @@
     };
   };
 
-  # Prefer Tx submission logic v2
-  TxSubmissionLogicVersion = "TxSubmissionLogicV1";
+  # Leios network configuration customizations
+  #
+  # Sets the budget shared among all peers, defaulting to 250.
+  # Set it to 0 to turn scheduling off.
+  EgressBudgetMbps = 250;
+
+  # Leios adaptive endorsements -- off by default.
+  # When enabled, block producers scale down the endorser blocks they forge if
+  # recent announcements lose their quorum margin. The margin is the stake that
+  # voted on any recent announcement minus the quorum threshold, so the
+  # controller works the same whether 97% or 80% of the stake votes, with no
+  # target to pick. Each sample is traced as LeiosAdaptiveEb, with the stake
+  # that voted, the stake alive, the margin share and the resulting capacity
+  # scale.
+  LeiosAdaptiveEndorsements.Enabled = true;
+
+  # Minimum lead above the immutable tip, in slots, for relaying EB offers.
+  # W42 defaults to 3600, which suppresses fresh offers on this short-horizon
+  # network (k = 108, activeSlotsCoeff = 0.05, one-second slots). Keep a
+  # 20-minute buffer while allowing room for chain-density fluctuations.
+  LeiosMinOfferLead = 1200;
+
+  LeiosDbConfig = {
+    # Can be "InMemory" or "SQLite", with the default being "SQLite".
+    # As of w38a:
+    #   leios.imm.db follows --database-path or --immutable-database-path
+    #   leios.vol.db follows --database-path or --volatile-database-path
+    Backend = "SQLite";
+  };
+
+  # Prefer Tx submission logic v2 for leios
+  TxSubmissionLogicVersion = "TxSubmissionLogicV2";
 }

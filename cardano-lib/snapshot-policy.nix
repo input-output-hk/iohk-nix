@@ -17,11 +17,10 @@ genesisFile: let
   # Snapshot every 40k slots.
   interval = securityParam * 40;
 
-  # Spread writes over the first quarter of each interval so a fleet does not
-  # snapshot in lockstep.  Upstream defaults this to a flat 21600s, which is
-  # 10k for mainnet only and exceeds the whole interval on a smaller network,
-  # letting a delayed write land after the next snapshot is due.
-  maxDelay = seconds (securityParam * 10);
+  # Spread writes over up to the first quarter of each interval so a fleet
+  # does not snapshot in lockstep.  Cap 10k at 3600 slots before converting
+  # to seconds, giving mainnet a maximum delay of one hour.
+  maxDelay = seconds (if securityParam * 10 < 3600 then securityParam * 10 else 3600);
 
   # POM fails the parse on MinDelay > MaxDelay, so clamp rather than let a
   # small enough network produce an inverted range.
