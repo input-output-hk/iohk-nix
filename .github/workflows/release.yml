@@ -8,11 +8,11 @@ on:
 permissions:
   contents: read
 
+cache-mode: none
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write # required to publish the GitHub release
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
@@ -31,20 +31,46 @@ jobs:
           packages: zip
           script: |
             mkdir __pkgs
-            echo ${{ github.sha }} > __pkgs/COMMIT_SHA
+            printf '%s\n' "$GITHUB_SHA" > __pkgs/COMMIT_SHA
             for sys in msys2 clang64 macos x86_64-macos arm64-macos debian; do
               for lib in libsodium libsodium-vrf libsecp256k1 libblst; do
                 out=$(nix build .#dist.$sys.$lib --no-link --print-out-paths -L)
                 for ext in pkg.tar.zstd pkg deb; do
-                  if [ -f "$out"/*."$ext" ]; then
-                    cp "$out"/*."$ext" __pkgs/"$sys.$lib.$ext"
-                    base=$(basename "$out"/*."$ext")
-                    echo -e "$sys.$lib.$ext\t$base" >> __pkgs/INFO
-                  fi
+                  for pkg in "$out"/*."$ext"; do
+                    [ -f "$pkg" ] || continue
+                    dest="__pkgs/$sys.$lib.$ext"
+                    if [ -e "$dest" ]; then
+                      echo "::error::Multiple packages would overwrite $dest" >&2
+                      exit 1
+                    fi
+                    cp "$pkg" "$dest"
+                    base=$(basename "$pkg")
+                    printf '%s\t%s\n' "$sys.$lib.$ext" "$base" >> __pkgs/INFO
+                  done
                 done
               done
-              (cd __pkgs && zip -9 $sys.zip $sys.*)
+              (cd __pkgs && zip -9 "$sys.zip" "$sys".*)
             done
+      - name: Upload release packages
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
+        with:
+          name: release-packages
+          path: __pkgs/
+          if-no-files-found: error
+          retention-days: 1
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # required to publish the GitHub release
+    steps:
+      # Only consume packages produced by the build job in this tag-push run.
+      - name: Download release packages
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
+        with:
+          name: release-packages
+          path: __pkgs/
       - name: Release
         uses: softprops/action-gh-release@26994186c0ac3ef5cae75ac16aa32e8153525f77 # v1
         with:

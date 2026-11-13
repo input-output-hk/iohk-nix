@@ -20,6 +20,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      with:
+        persist-credentials: false
     - uses: cachix/install-nix-action@ab739621df7a23f52766f9ccc97f38da6b7af14f # v31
     - name: Verify flake.lock narHashes
       run: |
@@ -31,7 +33,8 @@ jobs:
         # 1. We don't pollute or depend on the CI machine's nix cache
         # 2. A poisoned cache can't cause false passes
 
-        export XDG_CACHE_HOME=$(mktemp -d)
+        XDG_CACHE_HOME=$(mktemp -d)
+        export XDG_CACHE_HOME
         trap 'rm -rf "$XDG_CACHE_HOME"' EXIT
 
         locks=$(cat flake.lock)
